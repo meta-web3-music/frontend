@@ -3,10 +3,10 @@ import { FaEthereum } from "react-icons/fa";
 
 function Header() {
   return (
-    <header className="flex flex-row justify-between mx-2 md:mx-10 my-2">
+    <header className="flex flex-row justify-between mx-2 md:mx-10 mt-2 mb-10">
       {/* headline */}
       <div className="">
-        <h1 className="text-2xl font-bold m-3">Web3 Muzik</h1>
+        <h1 className="text-3xl font-bold m-3">Web3 Muzik</h1>
       </div>
       {/* Buttons */}
       <div className="flex flex-row">
