@@ -1,5 +1,6 @@
 import React from "react";
 import MintPreModal from "./MintPreModal";
+import MintModal from "./MintModal";
 
 function HottestSongs() {
   return (
@@ -7,6 +8,9 @@ function HottestSongs() {
       <h2 className="text-2xl font-bold">Hottest Songs</h2>
       <h4>Place your ads under the hottest songs</h4>
       <MintPreModal />
+      <div className="">
+        <MintModal />
+      </div>
     </div>
   );
 }
