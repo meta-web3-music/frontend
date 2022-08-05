@@ -1,15 +1,24 @@
 import React, { useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
-function MintModal() {
+function MintModal({ displayModal, setDisplayModal }) {
   const [file, setFile] = useState();
   const [songName, setSongName] = useState();
   const [artistName, setArtistName] = useState();
   const [price, setPrice] = useState();
 
-  return (
-    <div className="flex flex-col fixed left-1/2 translate-x-[-50%] top-32 overflow-auto align-center bg-white border rounded-lg w-11/12 md:w-1/2 lg:w-4/12 m-auto py-6 px-8">
-      <h3 className="font-bold mb-4">Mint Song NFT</h3>
+  function handleCloseModal() {
+    setDisplayModal("hidden");
+  }
 
+  return (
+    <div
+      className={`${displayModal} flex flex-col fixed left-1/2 translate-x-[-50%] top-32 overflow-auto align-center bg-white border rounded-lg w-11/12 md:w-1/2 lg:w-4/12 m-auto py-6 px-8`}
+    >
+      <div className="flex flex-row justify-between">
+        <h3 className="font-bold mb-4">Mint Song NFT</h3>
+        <AiOutlineClose onClick={handleCloseModal} className="-mx-6 -my-4" />
+      </div>
       <h5 className="font-medium my-4">Upload Song</h5>
 
       <div className="flex border-2 border-dashed py-6 place-content-center text-center text-gray-600">
