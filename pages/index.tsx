@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
 import type { NextPage } from "next";
-import Header from "../public/src/components/header";
-import HottestSongs from "../public/src/components/HottestSongs";
+import Header from "../src/components/header";
+import HottestSongs from "../src/components/HottestSongs";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
+import NftSongList from "../src/components/SongList";
 
 const Home: NextPage = () => {
   const [account, setAccount] = useState<string>();
@@ -47,11 +48,13 @@ const Home: NextPage = () => {
   };
 
   return (
-    <>
+    <div style={{width:'100%',display:'flex',flexDirection:'column'}}>
       <Header connect={connect} disconnect={disconnect} account={account} />
       <HottestSongs />
-    </>
+      <NftSongList/>
+    </div>
   );
 };
 
 export default Home;
+
