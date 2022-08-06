@@ -5,6 +5,7 @@ import HottestSongs from "../src/components/HottestSongs";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
+import NftSongList from "../src/components/SongList";
 
 const Home: NextPage = () => {
   const [web3Modal, setWeb3Modal] = useState({});
@@ -59,11 +60,13 @@ const Home: NextPage = () => {
   };
 
   return (
-    <>
+    <div style={{width:'100%',display:'flex',flexDirection:'column'}}>
       <Header connect={connect} disconnect={disconnect} account={account} />
       <HottestSongs />
-    </>
+      <NftSongList/>
+    </div>
   );
 };
 
 export default Home;
+

@@ -1,7 +1,15 @@
 import React, { useRef } from "react";
 import { FaEthereum, FaCircle } from "react-icons/fa";
+import {useRouter} from 'next/router'
 
 function Header({ connect, account, disconnect }) {
+
+  const router = useRouter();
+
+  const navigateToAdPage = () =>[
+    router.push('/adMarketPlace')
+  ]
+
   return (
     <>
       <header className="flex flex-row justify-between mx-2 md:mx-10 mt-2 mb-10">
@@ -12,7 +20,7 @@ function Header({ connect, account, disconnect }) {
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">
           {/* LINK TO ADVERTISEMENT PAGE */}
-          <button className="inline-block px-11 py-2 border-2 bg-white text-[#FF7E39] font-medium text-base leading-tight uppercase rounded-full mt-4 mb-2">
+          <button onClick={navigateToAdPage} className="inline-block px-11 py-2 border-2 bg-white text-[#FF7E39] font-medium text-base leading-tight uppercase rounded-full mt-4 mb-2">
             Ad Marketplace
           </button>
         </div>

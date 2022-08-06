@@ -16,7 +16,7 @@ const MintModal: React.FC<ModalProps> = ({onHandleModal,onHandleMintForm,isVisib
 
   return (
  <>
-  <Modal title="Mint Song NFT" visible={isVisible} onOk={onHandleModal} footer={null} onCancel={onHandleModal}>
+  <Modal title="Mint Song NFT" width={'450px'} visible={isVisible} onOk={onHandleModal} footer={null} onCancel={onHandleModal}>
     <MintingForm onHandleMintForm={onHandleMintForm}/>
   </Modal>
   </>
@@ -64,9 +64,9 @@ const MintingForm : React.FC<FormProps> = ({onHandleMintForm}:FormProps) =>{
         <InputNumber/>
       </Form.Item>
 
-      <Form.Item >
-        <Button type="primary" htmlType="submit">
-          Submit
+      <Form.Item > 
+        <Button shape ='round' size='large' style={{width:'100%'}} type="primary" htmlType="submit">
+          Mint Song NFT
         </Button>
       </Form.Item>
     </Form>
