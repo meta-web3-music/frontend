@@ -21,7 +21,10 @@ const Home: NextPage = () => {
     walletconnect: {
       package: WalletConnectProvider, // required
       options: {
-        infuraId: process.env.REACT_APP_INFURA_ID, // required
+        rpc: {
+          // infuraId: process.env.REACT_APP_INFURA_ID, // required
+          137: "https://rpc-mumbai.matic.today/",
+        },
       },
     },
   };
@@ -48,13 +51,12 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div style={{width:'100%',display:'flex',flexDirection:'column'}}>
+    <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
       <Header connect={connect} disconnect={disconnect} account={account} />
       <HottestSongs />
-      <NftSongList/>
+      <NftSongList />
     </div>
   );
 };
 
 export default Home;
-
