@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MintPreModal from "./MintPreModal";
 import MintModal from "./MintModal";
+import { FaCaretDown } from "react-icons/fa";
 
 function HottestSongs() {
   const [displayModal, setDisplayModal] = useState("hidden");
@@ -14,6 +15,14 @@ function HottestSongs() {
         displayModal={displayModal}
         setDisplayModal={setDisplayModal}
       />
+      <div className="flex flex-row align-center">
+        <span>Filter by:</span>
+        <form>
+          <select>
+            <option value="1ETH">1ETH and under</option>
+          </select>
+        </form>
+      </div>
     </div>
   );
 }
