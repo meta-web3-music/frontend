@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import type { NextPage } from "next";
-import Header from "../public/src/components/header";
-import HottestSongs from "../public/src/components/HottestSongs";
+import Header from "../src/components/header";
+import HottestSongs from "../src/components/HottestSongs";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
 
   const connect = async () => {
     try {
-      const instance = await web3Modal.connect();
+      const instance = await Web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(instance);
       const signer = provider.getSigner();
       const accounts = await provider.listAccounts();
