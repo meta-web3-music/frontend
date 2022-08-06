@@ -3,33 +3,47 @@ import { AiOutlineClose } from "react-icons/ai";
 import {Modal,Form,Input,Button, InputNumber,Upload} from 'antd'
 import {  UploadOutlined } from '@ant-design/icons';
 
-
-interface ModalProps{
-  onHandleModal: () => void
-  onHandleMintForm: (value:Object)=> void
-  isVisible: boolean
+interface ModalProps {
+  onHandleModal: () => void;
+  onHandleMintForm: (value: Object) => void;
+  isVisible: boolean;
 }
 
-const MintModal: React.FC<ModalProps> = ({onHandleModal,onHandleMintForm,isVisible}) =>{
 
+const MintModal: React.FC<ModalProps> = ({
+  onHandleModal,
+  onHandleMintForm,
+  isVisible,
+}) => {
+  const [songName, setSongName] = useState();
+  const [artistName, setArtistName] = useState();
+  const [adSpacePrice, setAdSpacePrice] = useState();
 
 
   return (
- <>
-  <Modal title="Mint Song NFT" width={'450px'} visible={isVisible} onOk={onHandleModal} footer={null} onCancel={onHandleModal}>
-    <MintingForm onHandleMintForm={onHandleMintForm}/>
-  </Modal>
-  </>
+    <>
+      <Modal
+        title="Mint Song NFT"
+        width={"450px"}
+        visible={isVisible}
+        onOk={onHandleModal}
+        footer={null}
+        onCancel={onHandleModal}
+      >
+        <MintingForm onHandleMintForm={onHandleMintForm} />
+      </Modal>
+    </>
   );
-}
+};
 
 export default MintModal;
 
-
-
-interface FormProps{
-  onHandleMintForm: (value:Object)=>void
+interface FormProps {
+  onHandleMintForm: (value: Object) => void;
 }
+
+const MintingForm: React.FC<FormProps> = ({ onHandleMintForm }: FormProps) => {
+  return (
 
 const MintingForm : React.FC<FormProps> = ({onHandleMintForm}:FormProps) =>{
 
@@ -46,7 +60,7 @@ const MintingForm : React.FC<FormProps> = ({onHandleMintForm}:FormProps) =>{
       initialValues={{ remember: true }}
       onFinish={onHandleMintForm}
       autoComplete="off"
-      layout='vertical'
+      layout="vertical"
     >
      <Form.Item
         name="upload"
@@ -63,32 +77,38 @@ const MintingForm : React.FC<FormProps> = ({onHandleMintForm}:FormProps) =>{
       <Form.Item
         label="Song Name"
         name="songName"
-        rules={[{ required: true, message: 'Please input song name!' }]}
+        rules={[{ required: true, message: "Please input song name!" }]}
       >
         <Input />
-      </Form.Item> 
+      </Form.Item>
 
       <Form.Item
         label="Artist Name"
         name="artistName"
-        rules={[{ required: true, message: 'Please input artist name!' }]}
+        rules={[{ required: true, message: "Please input artist name!" }]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
 
       <Form.Item
         label="Ad space price"
         name="adSpacePrice"
-        rules={[{ required: true, message: 'Please input adspace price!' }]}
+        rules={[{ required: true, message: "Please input adspace price!" }]}
       >
-        <InputNumber/>
+        <InputNumber />
       </Form.Item>
 
-      <Form.Item > 
-        <Button shape ='round' size='large' style={{width:'100%'}} type="primary" htmlType="submit">
+      <Form.Item>
+        <Button
+          shape="round"
+          size="large"
+          style={{ width: "100%" }}
+          type="primary"
+          htmlType="submit"
+        >
           Mint Song NFT
         </Button>
       </Form.Item>
     </Form>
-  )
-}
+  );
+};

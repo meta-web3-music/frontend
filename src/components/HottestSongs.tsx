@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MintPreModal from "./MintPreModal";
 import MintModal from "./MintModal";
 import { FaCaretDown } from "react-icons/fa";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/generated/GetAllMusic";
 import { NFTStorage, File } from "nft.storage";
 
 const client = new NFTStorage({
@@ -10,11 +13,20 @@ const client = new NFTStorage({
 const HottestSongs: React.FC = () => {
   const [displayModal, setDisplayModal] = useState(false);
 
+  const {
+    loading: isLoadingOwnedTokens,
+    data: ownedTokensConnection,
+    error: ownedTokensError,
+  } = useQuery<GetAllMusic>(GET_ALL_MUSIC, { variables: {} });
+
+  console.log(isLoadingOwnedTokens, ownedTokensConnection, ownedTokensError);
+
   // function to handle toggling of minting modal
   const handleModal = () => {
     setDisplayModal(!displayModal);
   };
 
+ 
   const handleMintForm = async (formData: any) => {
     // query IPFS and store music
     // take back returned music CID
