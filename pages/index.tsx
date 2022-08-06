@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import type { NextPage } from "next";
 import Header from "../public/src/components/header";
 import HottestSongs from "../public/src/components/HottestSongs";
@@ -7,9 +7,7 @@ import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 
 const Home: NextPage = () => {
-  const account = useRef<string>();
-  const [userAccount, setUserAccount] = useState<string>();
-
+  const [account, setAccount] = useState<string>();
   const getWeb3Modal = (): Web3Modal => {
     return new Web3Modal({
       network: "rinkeby", // optional
@@ -28,13 +26,12 @@ const Home: NextPage = () => {
   };
 
   const connect = async () => {
-    const web3Modal = getWeb3Modal();
     try {
+      const web3Modal = getWeb3Modal();
       const instance = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(instance);
       const accounts = await provider.listAccounts();
-      account.current = accounts[0];
-      setUserAccount(account.current);
+      setAccount(accounts[0] ?? "");
     } catch (err) {
       console.log(err);
     }
