@@ -1,27 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MintPreModal from "./MintPreModal";
 import MintModal from "./MintModal";
 import { FaCaretDown } from "react-icons/fa";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/generated/GetAllMusic";
 
 const HottestSongs: React.FC = () => {
   const [displayModal, setDisplayModal] = useState(false);
 
-  // function to handle toggling of minting modal
-  const handleModal = () =>{
-    setDisplayModal(!displayModal);
-  }
+  const {
+    loading: isLoadingOwnedTokens,
+    data: ownedTokensConnection,
+    error: ownedTokensError,
+  } = useQuery<GetAllMusic>(GET_ALL_MUSIC, { variables: {} });
 
-  const handleMintForm = (formData:Object) =>{
-    
+  console.log(isLoadingOwnedTokens, ownedTokensConnection, ownedTokensError);
+
+  // function to handle toggling of minting modal
+  const handleModal = () => {
+    setDisplayModal(!displayModal);
+  };
+
+  const handleMintForm = (formData: Object) => {
     // query IPFS and store music
     // take back returned music CID
     // create an object payload, stringify and pass as argument to contract function
     console.log(formData);
 
     // close modal
-    handleModal()
-  }
-  
+    handleModal();
+  };
 
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
@@ -31,7 +40,7 @@ const HottestSongs: React.FC = () => {
       <MintModal
         onHandleModal={handleModal}
         onHandleMintForm={handleMintForm}
-        isVisible = {displayModal}
+        isVisible={displayModal}
       />
       <div className="flex flex-row align-center">
         <span>Filter by:</span>
@@ -43,6 +52,6 @@ const HottestSongs: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default HottestSongs;
