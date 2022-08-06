@@ -10,12 +10,10 @@ function HottestSongs() {
       <h2 className="text-2xl font-bold">Hottest Songs</h2>
       <h4>Place your ads under the hottest songs</h4>
       <MintPreModal setDisplayModal={setDisplayModal} />
-      <div className="">
-        <MintModal
-          displayModal={displayModal}
-          setDisplayModal={setDisplayModal}
-        />
-      </div>
+      <MintModal
+        displayModal={displayModal}
+        setDisplayModal={setDisplayModal}
+      />
     </div>
   );
 }
