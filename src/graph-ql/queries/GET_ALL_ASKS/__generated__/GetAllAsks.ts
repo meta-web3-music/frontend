@@ -50,5 +50,5 @@ export interface GetAllAsks {
 }
 
 export interface GetAllAsksVariables {
-  nftAddr: string;
+  nftContractAddr: string;
 }

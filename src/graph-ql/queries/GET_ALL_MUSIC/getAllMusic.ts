@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_MUSIC = gql`
-  query GetAllMusic($address:String!) {
+  query GetAllMusic {
         musicNFTs{
         id
         creator {
