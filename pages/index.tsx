@@ -9,9 +9,10 @@ import NftSongList from "../src/components/SongList";
 
 const Home: NextPage = () => {
   const [account, setAccount] = useState<string>();
+
   const getWeb3Modal = (): Web3Modal => {
     return new Web3Modal({
-      network: "rinkeby", // optional
+      network: "Mumbai", // optional
       cacheProvider: true, // optional
       providerOptions, // required
     });
@@ -45,6 +46,8 @@ const Home: NextPage = () => {
     const web3Modal = getWeb3Modal();
     try {
       await web3Modal.clearCachedProvider();
+      setAccount();
+      console.log(account);
     } catch (err) {
       console.log(err);
     }
