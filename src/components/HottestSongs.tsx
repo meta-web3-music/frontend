@@ -5,7 +5,11 @@ import { FaCaretDown } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/generated/GetAllMusic";
+import { NFTStorage, File } from "nft.storage";
 
+const client = new NFTStorage({
+  token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
+});
 const HottestSongs: React.FC = () => {
   const [displayModal, setDisplayModal] = useState(false);
 
@@ -22,11 +26,15 @@ const HottestSongs: React.FC = () => {
     setDisplayModal(!displayModal);
   };
 
-  const handleMintForm = (formData: Object) => {
+ 
+  const handleMintForm = async (formData: any) => {
     // query IPFS and store music
     // take back returned music CID
     // create an object payload, stringify and pass as argument to contract function
-    console.log(formData);
+    const artifactHash = await client.storeBlob(
+      formData.upload[0].originFileObj
+    );
+    console.log(artifactHash);
 
     // close modal
     handleModal();

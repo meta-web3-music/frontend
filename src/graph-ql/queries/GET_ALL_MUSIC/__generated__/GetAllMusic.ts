@@ -29,7 +29,3 @@ export interface GetAllMusic_musicNFTs {
 export interface GetAllMusic {
   musicNFTs: GetAllMusic_musicNFTs[];
 }
-
-export interface GetAllMusicVariables {
-  address: string;
-}

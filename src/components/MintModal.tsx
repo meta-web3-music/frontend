@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { Modal, Form, Input, Button, InputNumber } from "antd";
+import {Modal,Form,Input,Button, InputNumber,Upload} from 'antd'
+import {  UploadOutlined } from '@ant-design/icons';
 
 interface ModalProps {
   onHandleModal: () => void;
   onHandleMintForm: (value: Object) => void;
   isVisible: boolean;
 }
+
 
 const MintModal: React.FC<ModalProps> = ({
   onHandleModal,
@@ -16,6 +18,7 @@ const MintModal: React.FC<ModalProps> = ({
   const [songName, setSongName] = useState();
   const [artistName, setArtistName] = useState();
   const [adSpacePrice, setAdSpacePrice] = useState();
+
 
   return (
     <>
@@ -41,6 +44,17 @@ interface FormProps {
 
 const MintingForm: React.FC<FormProps> = ({ onHandleMintForm }: FormProps) => {
   return (
+
+const MintingForm : React.FC<FormProps> = ({onHandleMintForm}:FormProps) =>{
+
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+  
+  return(
     <Form
       name="mintingForm"
       initialValues={{ remember: true }}
@@ -48,6 +62,18 @@ const MintingForm: React.FC<FormProps> = ({ onHandleMintForm }: FormProps) => {
       autoComplete="off"
       layout="vertical"
     >
+     <Form.Item
+        name="upload"
+        label="Upload Song"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        extra="Please provide supported formats (.mp3, .wav)"
+      >
+        <Upload name="logo" action="/" accept=".mp3,.wav" listType="picture">
+          <Button icon={<UploadOutlined />}>Click to upload</Button>
+        </Upload>
+      </Form.Item> 
+
       <Form.Item
         label="Song Name"
         name="songName"
