@@ -2,13 +2,17 @@ import React, { useRef } from "react";
 import { FaEthereum, FaCircle } from "react-icons/fa";
 import {useRouter} from 'next/router'
 
-function Header({ connect, account, disconnect }) {
-
+type Props = {
+  connect: () => void;
+  account: string | undefined;
+  disconnect: () => void;
+};
+function Header({ connect, account, disconnect }: Props) {
   const router = useRouter();
 
-  const navigateToAdPage = () =>[
+  const navigateToAdPage = () =>{
     router.push('/adMarketPlace')
-  ]
+  }
 
   return (
     <>
@@ -31,9 +35,7 @@ function Header({ connect, account, disconnect }) {
             <FaEthereum className="flex align-center w-[16px] h-[16px]" />
             <span className="flex ml-1 text-base">Rinkeby</span>
           </div>
-          {account.current == undefined ||
-          account.current === null ||
-          account.current === "" ? (
+          {account == undefined || account === null || account === "" ? (
             <button
               onClick={connect}
               className="flex flex-row items-center px-4 py-1 border-2 bg-white text-black font-medium text-base leading-tight uppercase rounded-full mt-4 mb-2"
@@ -48,7 +50,7 @@ function Header({ connect, account, disconnect }) {
               <span>0 ETH</span>
               <span className="flex flex-row align-center bg-gray-100 rounded-full p-1 ml-1">
                 <FaCircle className=" text-[#15ae5c] mr-1 w-5 h-5" />
-                {account.current.substr(0, 4)}...{account.current.substr(-4, 4)}
+                {account.substr(0, 4)}...{account.substr(-4, 4)}
               </span>
             </button>
           )}

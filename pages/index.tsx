@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import type { NextPage } from "next";
 import Header from "../src/components/header";
 import HottestSongs from "../src/components/HottestSongs";
@@ -8,21 +8,14 @@ import { ethers } from "ethers";
 import NftSongList from "../src/components/SongList";
 
 const Home: NextPage = () => {
-  const [web3Modal, setWeb3Modal] = useState({});
-  const account = useRef();
-  const [userAccount, setUserAccount] = useState();
-
-  useEffect(() => {
-    if (Web3Modal.cachedProvider) connect();
-    if (typeof window !== "undefined") {
-      const web3modal = new Web3Modal({
-        network: "rinkeby", // optional
-        cacheProvider: true, // optional
-        providerOptions, // required
-      });
-      setWeb3Modal(web3modal);
-    }
-  }, []);
+  const [account, setAccount] = useState<string>();
+  const getWeb3Modal = (): Web3Modal => {
+    return new Web3Modal({
+      network: "rinkeby", // optional
+      cacheProvider: true, // optional
+      providerOptions, // required
+    });
+  };
 
   const providerOptions = {
     walletconnect: {
@@ -35,25 +28,20 @@ const Home: NextPage = () => {
 
   const connect = async () => {
     try {
-      const instance = await Web3Modal.connect();
+      const web3Modal = getWeb3Modal();
+      const instance = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(instance);
-      const signer = provider.getSigner();
       const accounts = await provider.listAccounts();
-      account.current = accounts[0];
-      setUserAccount(account.current);
-      const balance = await provider.getBalance();
-      console.log(balance);
+      setAccount(accounts[0] ?? "");
     } catch (err) {
       console.log(err);
     }
   };
 
   const disconnect = async () => {
+    const web3Modal = getWeb3Modal();
     try {
       await web3Modal.clearCachedProvider();
-      account.current = null;
-      console.log(account);
-      setUserAccount(() => null);
     } catch (err) {
       console.log(err);
     }
