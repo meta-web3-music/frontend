@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import type { NextPage } from "next";
 import Header from "../src/components/header";
 import HottestSongs from "../src/components/HottestSongs";
@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 
 const Home: NextPage = () => {
   const [account, setAccount] = useState<string>();
-  const [signer, setSigner] = useState<any>()
+  const [signer, setSigner] = useState<any>();
 
   const getWeb3Modal = (): Web3Modal => {
     return new Web3Modal({
@@ -35,10 +35,10 @@ const Home: NextPage = () => {
       const web3Modal = getWeb3Modal();
       const instance = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(instance);
-      const signer  = provider.getSigner()
+      const signer = provider.getSigner();
       const accounts = await provider.listAccounts();
       setAccount(accounts[0] ?? "");
-      setSigner(signer)
+      setSigner(signer);
     } catch (err) {
       console.log(err);
     }
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
       <Header connect={connect} disconnect={disconnect} account={account} />
-      <HottestSongs signer={signer}  />
+      <HottestSongs signer={signer} />
     </div>
   );
 };
