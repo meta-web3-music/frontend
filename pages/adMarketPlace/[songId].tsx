@@ -1,4 +1,4 @@
-import {useEffect,useState} from 'react'
+import {useContext, useEffect,useState} from 'react'
 import { useRouter } from "next/router"
 import { Typography,Button } from 'antd'
 import AdModal from '../../src/components/AdModal'
@@ -16,6 +16,7 @@ import {
     ZoraModuleManagerAddr,
   } from "../../src/env";
 import { NextPage } from 'next';
+import { WalletContext } from '../../src/contexts/WalletContext';
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -25,7 +26,8 @@ const client = new NFTStorage({
 
 const {Title, Text} = Typography;
 
-const SongAdPage: NextPage = () =>{
+const SongAdPage = () =>{
+  const walletContext = useContext(WalletContext)
     const router = useRouter()
     
     const [selectedSong,setSelectedSong] =useState<object>()
@@ -51,7 +53,7 @@ const SongAdPage: NextPage = () =>{
         router.push('/adMarketPlace')
     }
 
-    const handleAdForm = async(formData:Object) =>{
+    const handleAdForm = async(formData:any) =>{
     
     try{
     // start creating add
@@ -71,7 +73,7 @@ const SongAdPage: NextPage = () =>{
       };
 
     console.log(adImageHash)
-   
+   const signer = (await walletContext.getWeb3Provider()).getSigner()
 
     // connect to music nft smart-contract
     const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
