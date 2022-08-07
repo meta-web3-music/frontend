@@ -1,6 +1,10 @@
 import Header from "../../src/components/header";
 import { Typography, List, Button } from "antd";
 import { useRouter } from "next/router";
+import { GetAllAsks } from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
+import { GET_ALL_ASKS } from "../../src/graph-ql/queries/GET_ALL_ASKS/getAllAsks";
+import { useQuery } from "@apollo/client";
+import { AdvNFTAddr } from "../../src/env";
 
 const { Title, Text } = Typography;
 
@@ -61,8 +65,19 @@ interface AdlistProp {
 }
 
 const Adlist: React.FC<AdlistProp> = ({ onNavigateToSongPage }) => {
+  const {
+    loading: isLoadingAllAsks,
+    data: allAsksConnection,
+    error: allAskError,
+  } = useQuery<GetAllAsks>(GET_ALL_ASKS, {
+    variables: {
+      nftContractAddr: AdvNFTAddr.toLowerCase(),
+    },
+  });
+
   return (
     <List
+      loading={isLoadingAllAsks}
       style={{
         width: "700px",
         alignSelf: "center",
@@ -71,11 +86,13 @@ const Adlist: React.FC<AdlistProp> = ({ onNavigateToSongPage }) => {
         padding: "1em",
       }}
       itemLayout="horizontal"
-      dataSource={listData}
+      dataSource={allAsksConnection?.asks}
       renderItem={(item) => (
         <List.Item
           extra={
-            <Button onClick={() => onNavigateToSongPage(item.id)}>
+            <Button
+              onClick={() => onNavigateToSongPage(parseInt(item.token.id))}
+            >
               Rent Space
             </Button>
           }
@@ -83,9 +100,12 @@ const Adlist: React.FC<AdlistProp> = ({ onNavigateToSongPage }) => {
           <List.Item.Meta
             // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
             title={
-              <TitleNode name={item.name} ownerAddress={item.ownerAddress} />
+              <TitleNode
+                name="TODO: fetch song name from ipfs"
+                ownerAddress={item.token.owner.id}
+              />
             }
-            description={`${item.artist} · ${item.noOfViews} Plays`}
+            description="TODO: fetch desc from ipfs"
           />
         </List.Item>
       )}

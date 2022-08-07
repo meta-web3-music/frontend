@@ -5,6 +5,7 @@ export const GET_ALL_ASKS = gql`
   query GetAllAsks($nftContractAddr:String!) {
     asks(where:{tokenContract:$nftContractAddr,fullfilled:false,cancelled:false}){
     token{
+      id
       musicNFT{
         id
         creator {
