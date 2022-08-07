@@ -5,7 +5,7 @@ import HottestSongs from "../src/components/HottestSongs";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import NftSongList from "../src/components/SongList";
+// import NftSongList from "../src/components/SongList";
 
 const Home: NextPage = () => {
   const [account, setAccount] = useState<string>();
@@ -46,8 +46,7 @@ const Home: NextPage = () => {
     const web3Modal = getWeb3Modal();
     try {
       await web3Modal.clearCachedProvider();
-      setAccount();
-      console.log(account);
+      setAccount("");
     } catch (err) {
       console.log(err);
     }
@@ -57,7 +56,7 @@ const Home: NextPage = () => {
     <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
       <Header connect={connect} disconnect={disconnect} account={account} />
       <HottestSongs />
-      <NftSongList />
+      {/* <NftSongList /> */}
     </div>
   );
 };
