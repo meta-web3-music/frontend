@@ -1,10 +1,15 @@
 import Header from "../../src/components/header";
 import { Typography, List, Button } from "antd";
 import { useRouter } from "next/router";
-import { GetAllAsks } from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
+import {
+  GetAllAsks,
+  GetAllAsks_asks,
+} from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
 import { GET_ALL_ASKS } from "../../src/graph-ql/queries/GET_ALL_ASKS/getAllAsks";
 import { useQuery } from "@apollo/client";
 import { AdvNFTAddr } from "../../src/env";
+import { useEffect, useState } from "react";
+import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 
 const { Title, Text } = Typography;
 
@@ -87,42 +92,51 @@ const Adlist: React.FC<AdlistProp> = ({ onNavigateToSongPage }) => {
       }}
       itemLayout="horizontal"
       dataSource={allAsksConnection?.asks}
-      renderItem={(item) => (
-        <List.Item
-          extra={
-            <Button
-              onClick={() => onNavigateToSongPage(parseInt(item.token.id))}
-            >
-              Rent Space
-            </Button>
-          }
-        >
-          <List.Item.Meta
-            // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-            title={
-              <TitleNode
-                name="TODO: fetch song name from ipfs"
-                ownerAddress={item.token.owner.id}
-              />
+      renderItem={(item) => {
+        return (
+          <List.Item
+            extra={
+              <Button
+                onClick={() => onNavigateToSongPage(parseInt(item.token.id))}
+              >
+                Rent Space
+              </Button>
             }
-            description="TODO: fetch desc from ipfs"
-          />
-        </List.Item>
-      )}
+          >
+            <List.Item.Meta
+              // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+              title={<TitleNode item={item} />}
+              description="TODO: fetch desc from ipfs"
+            />
+          </List.Item>
+        );
+      }}
     />
   );
 };
 
 interface TitleProps {
-  name: string;
-  ownerAddress: string;
+  item: GetAllAsks_asks;
 }
 
-const TitleNode: React.FC<TitleProps> = ({ name, ownerAddress }) => {
+const TitleNode: React.FC<TitleProps> = ({ item }) => {
+  const [metaData, setMetaData] = useState<AdvNftMetaData>();
+
+  const fetchMetaData = async () => {
+    const metaDataHash = item.token.metaDataHash;
+    const ipfsPrefix = "https://ipfs.io/ipfs/";
+    const url = ipfsPrefix + metaDataHash.replace("ipfs://", "");
+    const fetchRes = await fetch(url);
+    const fetchJson = await fetchRes.json();
+    setMetaData(fetchJson as AdvNftMetaData);
+  };
+  useEffect(() => {
+    fetchMetaData();
+  }, [item]);
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Title style={{ marginRight: "5px", marginBottom: "0px" }} level={5}>
-        {name}
+        {metaData?.name}
       </Title>
       <span
         style={{
@@ -131,7 +145,7 @@ const TitleNode: React.FC<TitleProps> = ({ name, ownerAddress }) => {
           borderRadius: "20px",
         }}
       >
-        {ownerAddress}
+        {item.token.id}
       </span>
     </div>
   );
