@@ -35,7 +35,7 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
         >
           <List.Item.Meta
             // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-            title={<TitleNode metadataUri={item.metaDataUri} name={'someone'} ownerAddress={item.owner.id} />}
+            title={<TitleNode  metadataUri={item.metaDataUri} name={'someone'} ownerAddress={item.owner.id} />}
             description={`Burna Boy`}
             />
             <SongNode assetUri={item.assetUri} playSong={playSong}/>
@@ -65,21 +65,6 @@ interface TitleProps {
 const TitleNode: React.FC<TitleProps> = ({ metadataUri, name, ownerAddress }) => {
 
   const [metadata, setMetaData] = useState({})
-
-  const fetchMetaData = async() =>{
-    const metadataUrl = transformIpfsUri(metadataUri);
-    let result;
-    fetch(metadataUrl,{
-      method:'GET'
-    }).then(res=>{
-      res.json().then(data=>{
-        return data.body;
-      })
-    }).catch(err=>{
-      console.log(err)
-    })
-
-  }
   
 
   useEffect(() => {
