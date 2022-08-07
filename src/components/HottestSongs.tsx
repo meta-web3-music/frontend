@@ -19,20 +19,37 @@ import {
 } from "../env";
 import { AdvNftMetaData } from "../types/AdvNFTData";
 import { BigNumber } from "ethers";
+
+import { Typography } from "antd";
+import AdBanner from "./AdBanner";
+
+const {Text,Title} = Typography;
 import SongList from "./SongList";
-import Web3Modal from "web3modal";
-import { providers } from "ethers";
 import { WalletContext } from "../contexts/WalletContext";
+
 
 // create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
 
+
+interface HottestSongsProps{
+  signer: any
+}
+
+type songShape={
+  name:string,
+  artist:string,
+  url:string
+}
+  
 const HottestSongs: React.FC = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const walletContext = useContext(WalletContext);
+  const [selectedSong,setSelectedSong] = useState({name:'Unknown',artist:'Unknown',url:''});
+  const [isFetchingBanner, setIsFetchingBanner] = useState(false);
   // const {
   //   loading: isLoadingAllMusic,
   //   data: allMusicConnection,
@@ -153,22 +170,59 @@ const HottestSongs: React.FC = () => {
     // close modal
   };
 
-  const playSong = () => {};
+  const handlePlaySong = async(songId:string) =>{
+    console.log(songId)
+    try{
+      setIsFetchingBanner(true);
+      //set local state
+      setSelectedSong({
+        name:'Last last',
+        artist: 'Burna Boy',
+        url: songId
+      })
+    }catch(err){
+      setIsFetchingBanner(false);
+    }
+      // set selected Song state
+      // set banner place holder to start loading while fetching image from ipfs
+
+  }
 
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
-      <h2 className="text-2xl font-bold">Hottest Songs</h2>
-      <h4>Place your ads under the hottest songs</h4>
-      <MintPreModal setDisplayModal={setDisplayModal} />
+      <Title level={3}>Hottest Songs</Title>
+      <Text>Place your ads under the hottest songs</Text>
+      <MintPreModal setDisplayModal={handleModal} />
       <MintModal
         onHandleModal={handleModal}
         onHandleMintForm={handleMintForm}
         isVisible={displayModal}
         isMinting={isMinting}
       />
-      <SongList />
+      <AdBanner/>
+      <SongList playSong={handlePlaySong}/>
+      <StickyPlayer selectedSong={selectedSong}/>
     </div>
   );
 };
 
 export default HottestSongs;
+
+
+interface StickyPlayerProps{
+  selectedSong:songShape
+}
+
+const StickyPlayer: React.FC<StickyPlayerProps> = ({selectedSong}) =>{
+  console.log(selectedSong)
+  return(
+    <div style={{background:'#ffffff',boxShadow:'1px 0px 12px 1px rgba(0,0,0,0.35)',zIndex:'2',position:'fixed',bottom:'1em',left:'1em',display:'flex',maxWidth:'500px',flexDirection:'column',padding:'.7em 1em'}}>
+     <div style={{display:'flex',flexDirection:'column'}}>
+      <Title style={{margin:'0'}} level={5}>{selectedSong?.name}</Title>
+      <Text type="secondary">{selectedSong?.artist}</Text>
+      </div> 
+      <audio autoPlay loop controls src={`${selectedSong?.url}`}>
+      </audio>
+    </div>
+  )
+}

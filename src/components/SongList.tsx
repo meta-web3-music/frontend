@@ -1,45 +1,18 @@
+import {useState,useEffect} from 'react'
 import { useQuery } from "@apollo/client";
-import { List, Typography } from "antd";
 import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Space, Radio } from "antd";
+import { Button, Dropdown, Menu, Space, Radio, Typography,List } from "antd";
 import type { RadioChangeEvent } from "antd";
-import React, { useState } from "react";
 
 const { Title } = Typography;
 
-// const listData = [
-//   {
-//     name: "Call me by name",
-//     ownerAddress: "0x34...7463",
-//     artist: "Mujahid",
-//     adSpacePrice: "0.2",
-//     music: "ipfs url string to be ste to source",
-//     thumbnail: "music thumbnail string if it exists",
-//     noOfViews: "3M",
-//   },
-//   {
-//     name: "Last Last",
-//     ownerAddress: "0x34...7463",
-//     artist: "Burna Boy",
-//     adSpacePrice: "0.2",
-//     music: "ipfs url string to be ste to source",
-//     thumbnail: "music thumbnail string if it exists",
-//     noOfViews: "360K",
-//   },
-//   {
-//     name: "Girls like us",
-//     ownerAddress: "0x34...7463",
-//     artist: "Zoe wooes",
-//     adSpacePrice: "0.2",
-//     music: "ipfs url string to be ste to source",
-//     thumbnail: "music thumbnail string if it exists",
-//     noOfViews: "430K",
-//   },
-// ];
 
-const NftSongList: React.FC = () => {
+interface Props{
+  playSong:(uri:string)=>void
+}
+const NftSongList: React.FC<Props> = ({playSong}) => {
   const {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
@@ -145,11 +118,11 @@ const NftSongList: React.FC = () => {
             <List.Item.Meta
               // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
               title={
-                <TitleNode name={"someone"} ownerAddress={item.owner.id} />
+                <TitleNode metadataUri={item.metaDataUri} name={"someone"} ownerAddress={item.owner.id} />
               }
               description={`Burna Boy`}
             />
-            <SongNode assetUri={item.assetUri} />
+            <SongNode assetUri={item.assetUri} playSong={playSong}  />
           </List.Item>
         )}
       />
@@ -159,10 +132,6 @@ const NftSongList: React.FC = () => {
 
 export default NftSongList;
 
-interface TitleProps {
-  name: string;
-  ownerAddress: string;
-}
 
 // helper function to transform uri with this format: ipfs://
 const transformIpfsUri = (uri: string) => {
@@ -172,7 +141,39 @@ const transformIpfsUri = (uri: string) => {
   return correctIpfsUri;
 };
 
-const TitleNode: React.FC<TitleProps> = ({ name, ownerAddress }) => {
+interface TitleProps {
+  name: string;
+  ownerAddress: string;
+  metadataUri: string
+}
+
+const TitleNode: React.FC<TitleProps> = ({ metadataUri, name, ownerAddress }) => {
+
+  const [metadata, setMetaData] = useState({})
+  
+
+  useEffect(() => {
+
+    const fetchMetaData = async() =>{
+      const metadataUrl = transformIpfsUri(metadataUri);
+      const data = await fetch(metadataUrl)
+      const json = await data.json();
+       console.log(json.body)
+      // fetch(metadataUrl,{
+      //   method:'GET'
+      // }).then(res=>{
+      //   res.json().then(data=>{
+      //     return data.body;
+      //   })
+      // }).catch(err=>{
+      //   console.log(err)
+      // })
+    }
+
+    fetchMetaData()
+    
+  }, [])
+
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Title style={{ marginRight: "5px" }} level={5}>
@@ -193,15 +194,14 @@ const TitleNode: React.FC<TitleProps> = ({ name, ownerAddress }) => {
   );
 };
 
-interface SongNodeProps {
-  assetUri: string;
+interface SongNodeProps{
+  assetUri: string,
+  playSong: (uri:string)=>void
 }
 
-const SongNode: React.FC<SongNodeProps> = ({ assetUri }) => {
+const SongNode: React.FC<SongNodeProps> = ({assetUri,playSong}) =>{
   const correctAssetUri = transformIpfsUri(assetUri);
-  return (
-    <audio controls>
-      <source src={correctAssetUri && correctAssetUri} type="audio/mpeg" />
-    </audio>
-  );
-};
+  return(
+    <Button onClick={()=>playSong(correctAssetUri)} type='primary'>Play song</Button>
+  )
+}
