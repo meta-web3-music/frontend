@@ -14,9 +14,15 @@ function Header({ connect, account, disconnect }: Props) {
     router.push("/adMarketPlace");
   };
 
+  const navigateToHottestSongPage = () => {
+    router.push("/");
+  };
+
+  console.log(useRouter());
+
   return (
     <>
-      <header className="flex flex-row items-center justify-between mx-2 md:mx-10 mt-2 mb-10 border">
+      <header className="flex flex-row items-center justify-between mx-2 md:mx-10 mt-2 mb-10 ">
         {/* headline */}
         <div className="">
           <h1 className="text-3xl font-bold m-3">Web3 Muzik</h1>
@@ -24,12 +30,21 @@ function Header({ connect, account, disconnect }: Props) {
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">
           {/* LINK TO ADVERTISEMENT PAGE */}
-          <button
-            onClick={navigateToAdPage}
-            className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
-          >
-            Ad Marketplace
-          </button>
+          {!useRouter().pathname.includes("adMarketPlace") ? (
+            <button
+              onClick={navigateToAdPage}
+              className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
+            >
+              Ad Marketplace
+            </button>
+          ) : (
+            <button
+              onClick={navigateToHottestSongPage}
+              className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
+            >
+              Listen to Music
+            </button>
+          )}
         </div>
         {/* ETH Buttons */}
         <div className="flex flex-row">
