@@ -23,6 +23,10 @@ import SongList from './SongList'
 import Web3Modal from "web3modal";
 import { providers } from "ethers";
 
+import { Typography } from "antd";
+
+const {Text,Title} = Typography;
+
 // create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
@@ -32,15 +36,18 @@ interface HottestSongsProps{
   signer: any
 }
 
+type songShape={
+  name:string,
+  artist:string,
+  url:string
+}
+
 const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
+
   const [displayModal, setDisplayModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-
-  // const {
-  //   loading: isLoadingAllMusic,
-  //   data: allMusicConnection,
-  //   error: allMusicError,
-  // } = useQuery<GetAllMusic>(GET_ALL_MUSIC, { variables: {} });
+  const [selectedSong,setSelectedSong] = useState({name:'Unknown',artist:'Unknown',url:''});
+  const [isFetchingBanner, setIsFetchingBanner] = useState(false);
 
   // function to handle toggling of minting modal
   const handleModal = () => {
@@ -151,8 +158,21 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
     handleModal();
   };
 
-  const playSong = () =>{
-    
+  const handlePlaySong = async(song:songShape) =>{
+    try{
+      setIsFetchingBanner(true);
+      //set local state
+      setSelectedSong({
+        name:song.name,
+        artist: song.artist,
+        url: song.url
+      })
+    }catch(err){
+      setIsFetchingBanner(false);
+    }
+      // set selected Song state
+      // set banner place holder to start loading while fetching image from ipfs
+
   }
 
   return (
@@ -167,8 +187,28 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
         isMinting={isMinting}
       />
       <SongList/>
+      <StickyPlayer selectedSong={selectedSong}/>
     </div>
   );
 };
 
 export default HottestSongs;
+
+
+interface StickyPlayerProps{
+  selectedSong:songShape
+}
+
+const StickyPlayer: React.FC<StickyPlayerProps> = ({selectedSong}) =>{
+  return(
+    <div style={{background:'#ffffff',boxShadow:'1px 0px 12px 1px rgba(0,0,0,0.35)',zIndex:'2',position:'absolute',bottom:'1em',left:'1em',display:'flex',maxWidth:'500px',flexDirection:'column',padding:'.7em 1em'}}>
+     <div style={{display:'flex',flexDirection:'column'}}>
+      <Title style={{margin:'0'}} level={5}>{selectedSong?.name}</Title>
+      <Text type="secondary">{selectedSong?.artist}</Text>
+      </div> 
+      <audio controls>
+        <source src={selectedSong?.url} />
+      </audio>
+    </div>
+  )
+}
