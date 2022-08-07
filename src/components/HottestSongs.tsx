@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MintPreModal from "./MintPreModal";
 import MintModal from "./MintModal";
-import { FaCaretDown } from "react-icons/fa";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
@@ -21,14 +20,19 @@ import {
 import { AdvNftMetaData } from "../types/AdvNFTData";
 import { BigNumber } from "ethers";
 import SongList from './SongList'
+import Web3Modal from "web3modal";
+import { providers } from "ethers";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
 
+interface HottestSongsProps{
+  signer: any
+}
 
-const HottestSongs: React.FC = () => {
+const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
   const [displayModal, setDisplayModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const [allSongs, setAllSongs] = useState([])
@@ -45,13 +49,17 @@ const HottestSongs: React.FC = () => {
   };
 
   const handleMintForm = async (formData: any) => {
-    // query IPFS and store music
-    // take back returned music CID
-    // create an object payload, stringify and pass as argument to contract function
+
+    try{
+    // start minting
+    setIsMinting(true);
+
+    // store metadata of music on nft.storage
     const musicAssetHash = await client.storeBlob(
       formData.upload[0].originFileObj
     );
-    console.log(musicAssetHash);
+    
+    // create metadata object for music nft
     const metaDataObj: MusicNftMetaData = {
       body: {
         artist: "Artist",
@@ -74,22 +82,29 @@ const HottestSongs: React.FC = () => {
       },
     };
 
+    // store music nft metadata on nft.storage
     const musicMetadataHash = await client.storeBlob(
       new Blob([JSON.stringify(metaDataObj)])
     );
 
+    // create metadata object for advertisement nft
     const advNftDataObj: AdvNftMetaData = {
-      description: "Adv nft for music xyz",
+      description: `Adv nft for ${formData.songName} NFT`,
       mimeType: "image/jpeg",
-      name: "ADV NFT",
+      name: `${formData.songName}ADV NFT`,
       version: "",
     };
 
+    // store advertisement nft metadata on nft.storage
     const advNftMetaDataHash = await client.storeBlob(
       new Blob([JSON.stringify(advNftDataObj)])
     );
 
+
+    // connect to music nft smart-contract
     const musicNft = MusicNFT__factory.connect(MusicNFTAddr, signer);
+
+    // invoke contract func and mint song nft with ad nft
     const resCreateMusicWithAdv = await musicNft
       .createMusicWithAdv(
         musicMetadataHash,
@@ -97,7 +112,7 @@ const HottestSongs: React.FC = () => {
         advNftMetaDataHash,
         // TODO: generate this, maybe not important for mvp
         "advAssetHash",
-        1000
+        300000
       )
       .then((e) => e.wait());
     const advNftID = resCreateMusicWithAdv.events?.[3].args
@@ -124,6 +139,13 @@ const HottestSongs: React.FC = () => {
       "todo: user addr",
       ""
     );
+    // end minting
+    setIsMinting(false);
+  }catch(err){
+    setIsMinting(false);
+    console.log(err)
+    handleModal()
+  }
 
     // close modal
     handleModal();
