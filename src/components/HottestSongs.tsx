@@ -158,14 +158,15 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
     handleModal();
   };
 
-  const handlePlaySong = async(song:songShape) =>{
+  const handlePlaySong = async(songId:string) =>{
+    console.log(songId)
     try{
       setIsFetchingBanner(true);
       //set local state
       setSelectedSong({
-        name:song.name,
-        artist: song.artist,
-        url: song.url
+        name:'Last last',
+        artist: 'Burna Boy',
+        url: songId
       })
     }catch(err){
       setIsFetchingBanner(false);
@@ -187,7 +188,7 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
         isMinting={isMinting}
       />
       <AdBanner/>
-      <SongList/>
+      <SongList playSong={handlePlaySong}/>
       <StickyPlayer selectedSong={selectedSong}/>
     </div>
   );
@@ -201,14 +202,14 @@ interface StickyPlayerProps{
 }
 
 const StickyPlayer: React.FC<StickyPlayerProps> = ({selectedSong}) =>{
+  console.log(selectedSong)
   return(
     <div style={{background:'#ffffff',boxShadow:'1px 0px 12px 1px rgba(0,0,0,0.35)',zIndex:'2',position:'fixed',bottom:'1em',left:'1em',display:'flex',maxWidth:'500px',flexDirection:'column',padding:'.7em 1em'}}>
      <div style={{display:'flex',flexDirection:'column'}}>
       <Title style={{margin:'0'}} level={5}>{selectedSong?.name}</Title>
       <Text type="secondary">{selectedSong?.artist}</Text>
       </div> 
-      <audio controls>
-        <source src={selectedSong?.url} />
+      <audio autoPlay loop controls src={`${selectedSong?.url}`}>
       </audio>
     </div>
   )
