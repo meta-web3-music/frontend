@@ -7,17 +7,18 @@ import {  UploadOutlined } from '@ant-design/icons';
 interface ModalProps{
   onHandleModal: () => void
   onHandleAdForm: (value:Object)=> void
-  isVisible: boolean
+  isVisible: boolean;
+  isCreatingAd: boolean;
 }
 
-const AdModal: React.FC<ModalProps> = ({onHandleModal,onHandleAdForm,isVisible}) =>{
+const AdModal: React.FC<ModalProps> = ({onHandleModal,onHandleAdForm,isVisible,isCreatingAd}) =>{
 
 
 
   return (
  <>
   <Modal title="Rent Ad space" width={'450px'} visible={isVisible} onOk={onHandleModal} footer={null} onCancel={onHandleModal}>
-    <CreateAdForm onHandleAdForm={onHandleAdForm}/>
+    <CreateAdForm isCreatingAd={isCreatingAd} onHandleAdForm={onHandleAdForm}/>
   </Modal>
   </>
   );
@@ -28,10 +29,11 @@ export default AdModal;
 
 
 interface FormProps{
-  onHandleAdForm: (value:Object)=>void
+  onHandleAdForm: (value:Object)=>void;
+  isCreatingAd: boolean;
 }
 
-const CreateAdForm : React.FC<FormProps> = ({onHandleAdForm}:FormProps) =>{
+const CreateAdForm : React.FC<FormProps> = ({onHandleAdForm, isCreatingAd}) =>{
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -66,14 +68,14 @@ const CreateAdForm : React.FC<FormProps> = ({onHandleAdForm}:FormProps) =>{
         rules={[{ required: true, message: 'Please pick an item!' }]}
       >
         <Radio.Group>
-          <Radio.Button value="30">30 Days</Radio.Button>
-          <Radio.Button value="10">10 Days</Radio.Button>
-          <Radio.Button value="3">3 Days</Radio.Button>
+          <Radio.Button value="3000000">30 Days</Radio.Button>
+          <Radio.Button value="1000000">10 Days</Radio.Button>
+          <Radio.Button value="300000">3 Days</Radio.Button>
         </Radio.Group>
       </Form.Item>
 
       <Form.Item > 
-        <Button shape ='round' size='large' style={{width:'100%'}} type="primary" htmlType="submit">
+        <Button loading={isCreatingAd} shape ='round' size='large' style={{width:'100%'}} type="primary" htmlType="submit">
           Rent Ad Space
         </Button>
       </Form.Item>

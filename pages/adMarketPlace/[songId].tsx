@@ -2,14 +2,35 @@ import {useEffect,useState} from 'react'
 import { useRouter } from "next/router"
 import { Typography,Button } from 'antd'
 import AdModal from '../../src/components/AdModal'
+import { NFTStorage, File } from "nft.storage";
+import { AdvNftMetaData } from "../../src/types/AdvNFTData";
+import { BigNumber } from "ethers";
+import {
+    AdvNFT__factory,
+    ZoraAsk__factory,
+    ZoraModuleManager__factory,
+  } from "../../src/contracts";
+  import {
+    AdvNFTAddr,
+    ZoraAskAddr,
+    ZoraModuleManagerAddr,
+  } from "../../src/env";
+import { NextPage } from 'next';
+
+// create client instance for nft.storage
+const client = new NFTStorage({
+    token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
+  });
+
 
 const {Title, Text} = Typography;
 
-const SongAdPage: React.FC = () =>{
+const SongAdPage: NextPage = () =>{
     const router = useRouter()
     
     const [selectedSong,setSelectedSong] =useState<object>()
     const [showModal, setShowModal] = useState<boolean>(false)
+    const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false)
 
     useEffect(() => {
       const {songId} = router.query;
@@ -30,15 +51,50 @@ const SongAdPage: React.FC = () =>{
         router.push('/adMarketPlace')
     }
 
-    const handleAdForm = (formData:Object) =>{
+    const handleAdForm = async(formData:Object) =>{
     
-        // query IPFS and store music
-        // take back returned music CID
-        // create an object payload, stringify and pass as argument to contract function
-        console.log(formData);
-    
+    try{
+    // start creating add
+    setIsCreatingAd(true);
+
+    // store metadata of ad image on nft.storage
+    const adImageHash = await client.storeBlob(
+      formData.adFile[0].originFileObj
+    );
+
+    // create metadata object for advertisement nft
+    const advNftDataObj: AdvNftMetaData = {
+        description: `Adv nft for NFT`,
+        mimeType: "image/jpeg",
+        name: `${formData.rentDuration}ADV NFT`,
+        version: "",
+      };
+
+    console.log(adImageHash)
+   
+
+    // connect to music nft smart-contract
+    const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
+
+
+    // invoke contract func and mint song nft with ad nft
+    const resAdvImageCreation = await adNft.updateHash(
+            formData.rentDuration
+      )
+      .then((e) => e.wait());
+    // const advNftID = resCreateMusicWithAdv.events?.[3].args
+      ?.tokenId as BigNumber;
+
+      setIsCreatingAd(false)
+    }catch(err){
+        setIsCreatingAd(false)
         // close modal
         handleAdModal()
+    }
+    
+    // close modal
+    handleAdModal()
+
       }
 
     return(
@@ -56,7 +112,7 @@ const SongAdPage: React.FC = () =>{
                     Mint
                 </Button>
 
-                <AdModal onHandleAdForm={handleAdForm} onHandleModal={handleAdModal} isVisible={showModal}/>
+                <AdModal isCreatingAd={isCreatingAd} onHandleAdForm={handleAdForm} onHandleModal={handleAdModal} isVisible={showModal}/>
 
              </div>
         </div>
