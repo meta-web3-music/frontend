@@ -35,13 +35,12 @@ interface HottestSongsProps{
 const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
   const [displayModal, setDisplayModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-  const [allSongs, setAllSongs] = useState([])
 
-  const {
-    loading: isLoadingAllMusic,
-    data: allMusicConnection,
-    error: allMusicError,
-  } = useQuery<GetAllMusic>(GET_ALL_MUSIC, { variables: {} });
+  // const {
+  //   loading: isLoadingAllMusic,
+  //   data: allMusicConnection,
+  //   error: allMusicError,
+  // } = useQuery<GetAllMusic>(GET_ALL_MUSIC, { variables: {} });
 
   // function to handle toggling of minting modal
   const handleModal = () => {
@@ -100,8 +99,6 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
       new Blob([JSON.stringify(advNftDataObj)])
     );
 
-    console.log(musicMetadataHash)
-    console.log(advNftMetaDataHash)
 
 
     // connect to music nft smart-contract
@@ -154,6 +151,10 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
     handleModal();
   };
 
+  const playSong = () =>{
+    
+  }
+
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
       <h2 className="text-2xl font-bold">Hottest Songs</h2>
@@ -165,7 +166,7 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
         isVisible={displayModal}
         isMinting={isMinting}
       />
-      <SongList songList={allSongs}/>
+      <SongList/>
     </div>
   );
 };

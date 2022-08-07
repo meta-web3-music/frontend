@@ -1,10 +1,11 @@
 import Header from "../../src/components/header"
 import { Typography,List, Button } from "antd"
 import { useRouter } from "next/router";
+import { NextPage } from "next";
 
 const {Title,Text} = Typography;
 
-const AdMarketPlace: React.FC = () =>{
+const AdMarketPlace: NextPage = () =>{
 
     const router = useRouter();
 

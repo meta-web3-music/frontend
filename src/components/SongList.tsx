@@ -5,35 +5,35 @@ import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/Get
 
 const { Title } = Typography;
 
-const listData = [
-  {
-    name: "Call me by name",
-    ownerAddress: "0x34...7463",
-    artist: "Mujahid",
-    adSpacePrice: "0.2",
-    music: "ipfs url string to be ste to source",
-    thumbnail: "music thumbnail string if it exists",
-    noOfViews: "3M",
-  },
-  {
-    name: "Last Last",
-    ownerAddress: "0x34...7463",
-    artist: "Burna Boy",
-    adSpacePrice: "0.2",
-    music: "ipfs url string to be ste to source",
-    thumbnail: "music thumbnail string if it exists",
-    noOfViews: "360K",
-  },
-  {
-    name: "Girls like us",
-    ownerAddress: "0x34...7463",
-    artist: "Zoe wooes",
-    adSpacePrice: "0.2",
-    music: "ipfs url string to be ste to source",
-    thumbnail: "music thumbnail string if it exists",
-    noOfViews: "430K",
-  },
-];
+// const listData = [
+//   {
+//     name: "Call me by name",
+//     ownerAddress: "0x34...7463",
+//     artist: "Mujahid",
+//     adSpacePrice: "0.2",
+//     music: "ipfs url string to be ste to source",
+//     thumbnail: "music thumbnail string if it exists",
+//     noOfViews: "3M",
+//   },
+//   {
+//     name: "Last Last",
+//     ownerAddress: "0x34...7463",
+//     artist: "Burna Boy",
+//     adSpacePrice: "0.2",
+//     music: "ipfs url string to be ste to source",
+//     thumbnail: "music thumbnail string if it exists",
+//     noOfViews: "360K",
+//   },
+//   {
+//     name: "Girls like us",
+//     ownerAddress: "0x34...7463",
+//     artist: "Zoe wooes",
+//     adSpacePrice: "0.2",
+//     music: "ipfs url string to be ste to source",
+//     thumbnail: "music thumbnail string if it exists",
+//     noOfViews: "430K",
+//   },
+// ];
 
 const NftSongList: React.FC = () => {
   const {
@@ -41,10 +41,7 @@ const NftSongList: React.FC = () => {
     data: allMusicConnection,
     error: allMusicError,
   } = useQuery<GetAllMusic>(GET_ALL_MUSIC);
-const ipfsPrefix = 'https://ipfs.io/ipfs/'
-const metaData = allMusicConnection?.musicNFTs[0]
-  console.log(metaData)
-  // console.log(metaData && ipfsPrefix.concat(metaData?.substring(7)))
+
   return (
     <List
     loading={isLoadingAllMusic}
@@ -62,7 +59,7 @@ const metaData = allMusicConnection?.musicNFTs[0]
         >
           <List.Item.Meta
             // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-            title={<TitleNode name="Anonymous" ownerAddress={item.owner.id} />}
+            title={<TitleNode name={'someone'} ownerAddress={item.owner.id} />}
             description={`Burna Boy`}
             />
             <SongNode assetUri={item.assetUri} />
