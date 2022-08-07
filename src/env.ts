@@ -3,3 +3,4 @@ export const MusicNFTAddr = "0xC715aEeD45eE6fE9e712F149aCc010b7A7EC4FBd";
 export const ZoraAskAddr = "0xCe6cEf2A9028e1C3B21647ae3B4251038109f42a";
 export const ZoraModuleManagerAddr = "0x850A7c6fE2CF48eea1393554C8A3bA23f20CC401";
 export const GraphQLEndpoint = "https://api.thegraph.com/subgraphs/name/thisisommore/muzik"
+export const Chain = "mumbai"

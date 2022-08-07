@@ -33,6 +33,7 @@ export interface GetAllAsks_asks_token_owner {
 
 export interface GetAllAsks_asks_token {
   __typename: "AdvNFT";
+  id: string;
   musicNFT: GetAllAsks_asks_token_musicNFT;
   metaDataHash: string;
   assetHash: string;
