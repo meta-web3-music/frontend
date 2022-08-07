@@ -44,7 +44,11 @@ const NftSongList: React.FC = () => {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
     error: allMusicError,
-  } = useQuery<GetAllMusic>(GET_ALL_MUSIC);
+  } = useQuery<GetAllMusic>(GET_ALL_MUSIC, {
+    variables: {
+      currentTime: Math.floor(Date.now() / 1000).toString(),
+    },
+  });
 
   // add useState hooks here
   const [price, setPrice] = useState("100MATIC");
@@ -150,7 +154,6 @@ const NftSongList: React.FC = () => {
         )}
       />
     </>
-
   );
 };
 
