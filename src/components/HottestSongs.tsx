@@ -20,10 +20,10 @@ import {
 import { AdvNftMetaData } from "../types/AdvNFTData";
 import { BigNumber } from "ethers";
 import SongList from './SongList'
-import Web3Modal from "web3modal";
-import { providers } from "ethers";
+
 
 import { Typography } from "antd";
+import AdBanner from "./AdBanner";
 
 const {Text,Title} = Typography;
 
@@ -177,15 +177,16 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
 
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
-      <h2 className="text-2xl font-bold">Hottest Songs</h2>
-      <h4>Place your ads under the hottest songs</h4>
-      <MintPreModal setDisplayModal={setDisplayModal} />
+      <Title level={3}>Hottest Songs</Title>
+      <Text>Place your ads under the hottest songs</Text>
+      <MintPreModal setDisplayModal={handleModal} />
       <MintModal
         onHandleModal={handleModal}
         onHandleMintForm={handleMintForm}
         isVisible={displayModal}
         isMinting={isMinting}
       />
+      <AdBanner/>
       <SongList/>
       <StickyPlayer selectedSong={selectedSong}/>
     </div>
@@ -201,7 +202,7 @@ interface StickyPlayerProps{
 
 const StickyPlayer: React.FC<StickyPlayerProps> = ({selectedSong}) =>{
   return(
-    <div style={{background:'#ffffff',boxShadow:'1px 0px 12px 1px rgba(0,0,0,0.35)',zIndex:'2',position:'absolute',bottom:'1em',left:'1em',display:'flex',maxWidth:'500px',flexDirection:'column',padding:'.7em 1em'}}>
+    <div style={{background:'#ffffff',boxShadow:'1px 0px 12px 1px rgba(0,0,0,0.35)',zIndex:'2',position:'fixed',bottom:'1em',left:'1em',display:'flex',maxWidth:'500px',flexDirection:'column',padding:'.7em 1em'}}>
      <div style={{display:'flex',flexDirection:'column'}}>
       <Title style={{margin:'0'}} level={5}>{selectedSong?.name}</Title>
       <Text type="secondary">{selectedSong?.artist}</Text>

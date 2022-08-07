@@ -51,6 +51,7 @@ const NftSongList: React.FC = () => {
         border: "1px solid #e5e5e5",
         borderRadius: "20px",
         padding: "1em",
+        margin: '2em'
       }}
       itemLayout="horizontal"
       dataSource={allMusicConnection?.musicNFTs}
