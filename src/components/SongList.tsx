@@ -33,8 +33,11 @@ const listData = [
     },
   
   ]
+  interface SongListProps{
+    songList:any
+  }
   
-  const NftSongList: React.FC =()=>{
+  const NftSongList: React.FC<SongListProps> =({songList})=>{
     return(
       <List
       style={{width:'700px',alignSelf:'center',border:'1px solid #e5e5e5',borderRadius:'20px',padding:'1em'}}
