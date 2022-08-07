@@ -1,13 +1,10 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { FaEthereum, FaCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { WalletContext } from "../contexts/WalletContext";
 
-type Props = {
-  connect: () => void;
-  account: string | undefined;
-  disconnect: () => void;
-};
-function Header({ connect, account, disconnect }: Props) {
+function Header() {
+  const walletContext = useContext(WalletContext);
   const router = useRouter();
 
   const navigateToAdPage = () => {
@@ -56,22 +53,23 @@ function Header({ connect, account, disconnect }: Props) {
             />
             <span className="flex ml-1 text-base">Mumbai</span>
           </div>
-          {account == undefined || account === null || account === "" ? (
+          {!walletContext.walletAddress ? (
             <button
-              onClick={connect}
+              onClick={walletContext.getWeb3Provider}
               className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3 mr-4"
             >
               Connect
             </button>
           ) : (
             <button
-              onClick={disconnect}
+              onClick={walletContext.clearWallet}
               className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3"
             >
               <span>0 MATIC</span>
               <span className="flex flex-row align-center bg-gray-100 rounded-full p-1 ml-1">
                 <FaCircle className=" text-[#15ae5c] mr-1 w-5 h-5" />
-                {account.substr(0, 4)}...{account.substr(-4, 4)}
+                {walletContext.walletAddress.substr(0, 4)}...
+                {walletContext.walletAddress.substr(-4, 4)}
               </span>
             </button>
           )}
