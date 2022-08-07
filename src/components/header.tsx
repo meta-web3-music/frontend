@@ -16,7 +16,7 @@ function Header({ connect, account, disconnect }: Props) {
 
   return (
     <>
-      <header className="flex flex-row items-center justify-between mx-2 md:mx-10 mt-2 mb-10 border">
+      <header className="flex flex-row items-center justify-between mx-2 md:mx-10 mt-2 mb-10">
         {/* headline */}
         <div className="">
           <h1 className="text-3xl font-bold m-3">Web3 Muzik</h1>

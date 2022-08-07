@@ -24,11 +24,11 @@ const HottestSongs: React.FC = () => {
 
   const allMusic = { data: allMusicConnection?.musicNFTs };
   console.log(allMusic);
-  // console.log(allMusic.data?.musicNFTs);
-  // const renderAllMusic = allMusic.data?.musicNFTs.map((nft) => {
-  //   console.log(nft);
-  //   return <div></div>;
-  // });
+  console.log(allMusic.data?.musicNFTs);
+  const renderAllMusic = allMusic.data?.musicNFTs?.map((nft) => {
+    console.log(nft);
+    return null;
+  });
 
   // function to handle toggling of minting modal
   const handleModal = () => {
@@ -68,7 +68,7 @@ const HottestSongs: React.FC = () => {
       </div>
 
       {/* use code below in mapping method */}
-      <div className="flex flex-row w-full justify-between p-4 my-4 border rounded-lg text-base">
+      {/* <div className="flex flex-row w-full justify-between p-4 my-4 border rounded-lg text-base">
         <div className="flex flex-col space-around">
           <div className="flex flex-row font-bold items-center">
             <span>Song Title</span>
@@ -88,7 +88,7 @@ const HottestSongs: React.FC = () => {
             Rent
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* {renderAllMusic ? renderAllMusic : null} */}
       {/* <NftSongList hottestSongsList={renderAllMusic} /> */}
