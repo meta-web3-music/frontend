@@ -7,7 +7,7 @@ OCTAV3 is a decentralized music streaming platform that connects artists, listen
 
 # How it’s made
 
-Built with Zora, Polygon and nft.storage (IPFS):
+- Built with Zora, Polygon and nft.storage (IPFS):
 
 **Front-end:**
 
