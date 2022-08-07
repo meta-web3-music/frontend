@@ -7,17 +7,16 @@ interface ModalProps {
   onHandleModal: () => void;
   onHandleMintForm: (value: Object) => void;
   isVisible: boolean;
+  isMinting: boolean;
 }
 
 const MintModal: React.FC<ModalProps> = ({
   onHandleModal,
   onHandleMintForm,
   isVisible,
+  isMinting
 }) => {
-  const [songName, setSongName] = useState();
-  const [artistName, setArtistName] = useState();
-  const [adSpacePrice, setAdSpacePrice] = useState();
-
+  
   return (
     <>
       <Modal
@@ -28,7 +27,7 @@ const MintModal: React.FC<ModalProps> = ({
         footer={null}
         onCancel={onHandleModal}
       >
-        <MintingForm onHandleMintForm={onHandleMintForm} />
+        <MintingForm isMinting={isMinting} onHandleMintForm={onHandleMintForm} />
       </Modal>
     </>
   );
@@ -38,9 +37,10 @@ export default MintModal;
 
 interface FormProps {
   onHandleMintForm: (value: Object) => void;
+  isMinting: boolean;
 }
 
-const MintingForm: React.FC<FormProps> = ({ onHandleMintForm }: FormProps) => {
+const MintingForm: React.FC<FormProps> = ({ onHandleMintForm,isMinting }: FormProps) => {
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
@@ -94,6 +94,7 @@ const MintingForm: React.FC<FormProps> = ({ onHandleMintForm }: FormProps) => {
 
       <Form.Item>
         <Button
+          loading={isMinting}
           shape="round"
           size="large"
           style={{ width: "100%" }}

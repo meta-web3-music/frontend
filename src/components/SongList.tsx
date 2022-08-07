@@ -42,9 +42,9 @@ const NftSongList: React.FC = () => {
     error: allMusicError,
   } = useQuery<GetAllMusic>(GET_ALL_MUSIC);
 
-  if (isLoadingAllMusic) return <h3>Loading</h3>;
   return (
     <List
+    loading={isLoadingAllMusic}
       style={{
         width: "700px",
         alignSelf: "center",

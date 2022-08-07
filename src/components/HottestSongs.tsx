@@ -20,17 +20,25 @@ import {
 } from "../env";
 import { AdvNftMetaData } from "../types/AdvNFTData";
 import { BigNumber } from "ethers";
+import SongList from './SongList'
+
+// create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
+
+
 const HottestSongs: React.FC = () => {
   const [displayModal, setDisplayModal] = useState(false);
+  const [isMinting, setIsMinting] = useState(false);
+  const [allSongs, setAllSongs] = useState([])
 
   const {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
     error: allMusicError,
   } = useQuery<GetAllMusic>(GET_ALL_MUSIC, { variables: {} });
+
   // function to handle toggling of minting modal
   const handleModal = () => {
     setDisplayModal(!displayModal);
@@ -130,15 +138,9 @@ const HottestSongs: React.FC = () => {
         onHandleModal={handleModal}
         onHandleMintForm={handleMintForm}
         isVisible={displayModal}
+        isMinting={isMinting}
       />
-      <div className="flex flex-row align-center">
-        <span>Filter by:</span>
-        <form>
-          <select>
-            <option value="1ETH">1ETH and under</option>
-          </select>
-        </form>
-      </div>
+      <SongList songList={allSongs}/>
     </div>
   );
 };
