@@ -62,7 +62,7 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
     // create metadata object for music nft
     const metaDataObj: MusicNftMetaData = {
       body: {
-        artist: "Artist",
+        artist: formData.songArtist,
         artwork: {
           info: {
             mimeType: "image/jpeg",
@@ -73,9 +73,9 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
         },
         duration: 100,
         mimeType: "audio/mp3",
-        notes: "",
+        notes: formData.adSpacePrice,
         project: null,
-        title: "song title",
+        title: formData.songName,
         trackNumber: "",
         version: "",
         visualizer: "",
@@ -99,6 +99,9 @@ const HottestSongs: React.FC<HottestSongsProps> = ({signer}) => {
     const advNftMetaDataHash = await client.storeBlob(
       new Blob([JSON.stringify(advNftDataObj)])
     );
+
+    console.log(musicMetadataHash)
+    console.log(advNftMetaDataHash)
 
 
     // connect to music nft smart-contract

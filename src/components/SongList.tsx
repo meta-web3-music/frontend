@@ -41,7 +41,10 @@ const NftSongList: React.FC = () => {
     data: allMusicConnection,
     error: allMusicError,
   } = useQuery<GetAllMusic>(GET_ALL_MUSIC);
-
+const ipfsPrefix = 'https://ipfs.io/ipfs/'
+const metaData = allMusicConnection?.musicNFTs[0]
+  console.log(metaData)
+  // console.log(metaData && ipfsPrefix.concat(metaData?.substring(7)))
   return (
     <List
     loading={isLoadingAllMusic}
@@ -55,12 +58,14 @@ const NftSongList: React.FC = () => {
       itemLayout="horizontal"
       dataSource={allMusicConnection?.musicNFTs}
       renderItem={(item) => (
-        <List.Item>
+        <List.Item
+        >
           <List.Item.Meta
             // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
             title={<TitleNode name="Anonymous" ownerAddress={item.owner.id} />}
             description={`Burna Boy`}
-          />
+            />
+            <SongNode assetUri={item.assetUri} />
         </List.Item>
       )}
     />
@@ -74,7 +79,17 @@ interface TitleProps {
   ownerAddress: string;
 }
 
+// helper function to transform uri with this format: ipfs://
+const transformIpfsUri = (uri:string) =>{
+  const ipfsPrefix = 'https://ipfs.io/ipfs/';
+  const uriWithRemovedIpfsPrefix = uri.substring(7);
+  const correctIpfsUri = ipfsPrefix.concat(uriWithRemovedIpfsPrefix);
+  return correctIpfsUri
+}
+
 const TitleNode: React.FC<TitleProps> = ({ name, ownerAddress }) => {
+
+
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Title style={{ marginRight: "5px" }} level={5}>
@@ -87,8 +102,21 @@ const TitleNode: React.FC<TitleProps> = ({ name, ownerAddress }) => {
           borderRadius: "20px",
         }}
       >
-        {ownerAddress}
+        {`${ownerAddress.substring(0,4)}...${ownerAddress.substring(ownerAddress.length - 4)}`}
       </span>
     </div>
   );
 };
+
+interface SongNodeProps{
+  assetUri: string
+}
+
+const SongNode: React.FC<SongNodeProps> = ({assetUri}) =>{
+  const correctAssetUri = transformIpfsUri(assetUri);
+  return(
+    <audio controls >
+      <source src={correctAssetUri&&correctAssetUri} type="audio/mpeg" />
+    </audio>
+  )
+}
