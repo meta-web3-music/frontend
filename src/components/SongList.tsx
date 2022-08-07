@@ -46,7 +46,7 @@ const NftSongList: React.FC = () => {
     error: allMusicError,
   } = useQuery<GetAllMusic>(GET_ALL_MUSIC, {
     variables: {
-      currentTime: Math.floor(Date.now() / 1000),
+      currentTime: Math.floor(Date.now() / 1000).toString(),
     },
   });
 
