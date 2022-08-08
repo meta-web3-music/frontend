@@ -199,7 +199,7 @@ const HottestSongs: React.FC = () => {
         isVisible={displayModal}
         isMinting={isMinting}
       />
-      <AdBanner/>
+      <AdBanner imageUrl="" />
       <SongList playSong={handlePlaySong}/>
       <StickyPlayer selectedSong={selectedSong}/>
     </div>

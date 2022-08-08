@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_MUSIC = gql`
-  query GetAllMusic($currentTime:String!) {
+  query GetAllMusic($currentTime:BigInt) {
     musicNFTs{
             advNfts(where:{expirationTime_gt:$currentTime}){
               assetHash

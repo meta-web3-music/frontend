@@ -114,7 +114,6 @@ const AdMarketPlace: React.FC = () => {
   );
 };
 
-export default AdMarketPlace;
 
 const listData = [
   {
@@ -163,62 +162,62 @@ const Adlist: React.FC<AdlistProp> = ({onHandleModal }) => {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
   });
-
+  
   return (
     <List
-      loading={isLoadingAllAsks}
-      style={{
-        width: "700px",
-        alignSelf: "center",
-        border: "1px solid #e5e5e5",
-        borderRadius: "20px",
-        padding: "1em",
-      }}
-      itemLayout="horizontal"
-      dataSource={allAsksConnection?.asks}
-      renderItem={(item) => {
-        return (
-          <List.Item
-            extra={
-              <Button
-                onClick={onHandleModal}
-              >
+    loading={isLoadingAllAsks}
+    style={{
+      width: "700px",
+      alignSelf: "center",
+      border: "1px solid #e5e5e5",
+      borderRadius: "20px",
+      padding: "1em",
+    }}
+    itemLayout="horizontal"
+    dataSource={allAsksConnection?.asks}
+    renderItem={(item) => {
+      return (
+        <List.Item
+        extra={
+          <Button
+          onClick={onHandleModal}
+          >
                 Rent Space
               </Button>
             }
-          >
+            >
             <List.Item.Meta
               // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
               title={<TitleNode item={item} />}
               description="TODO: fetch desc from ipfs"
-            />
+              />
           </List.Item>
         );
       }}
-    />
-  );
-};
-
-interface TitleProps {
-  item: GetAllAsks_asks;
-}
-
-const TitleNode: React.FC<TitleProps> = ({ item }) => {
-  const [metaData, setMetaData] = useState<AdvNftMetaData>();
-
-  const fetchMetaData = async () => {
-    const metaDataHash = item.token.metaDataHash;
-    const ipfsPrefix = "https://ipfs.io/ipfs/";
-    const url = ipfsPrefix + metaDataHash.replace("ipfs://", "");
-    const fetchRes = await fetch(url);
-    const fetchJson = await fetchRes.json();
-    setMetaData(fetchJson as AdvNftMetaData);
-  };
-  useEffect(() => {
-    fetchMetaData();
-  }, [item]);
-  return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+      />
+      );
+    };
+    
+    interface TitleProps {
+      item: GetAllAsks_asks;
+    }
+    
+    const TitleNode: React.FC<TitleProps> = ({ item }) => {
+      const [metaData, setMetaData] = useState<AdvNftMetaData>();
+      
+      const fetchMetaData = async () => {
+        const metaDataHash = item.token.metaDataHash;
+        const ipfsPrefix = "https://ipfs.io/ipfs/";
+        const url = ipfsPrefix + metaDataHash.replace("ipfs://", "");
+        const fetchRes = await fetch(url);
+        const fetchJson = await fetchRes.json();
+        setMetaData(fetchJson as AdvNftMetaData);
+      };
+      useEffect(() => {
+        fetchMetaData();
+      }, [item]);
+      return (
+        <div style={{ display: "flex", alignItems: "center" }}>
       <Title style={{ marginRight: "5px", marginBottom: "0px" }} level={5}>
         {metaData?.name}
       </Title>
@@ -228,9 +227,11 @@ const TitleNode: React.FC<TitleProps> = ({ item }) => {
           padding: "2px 6px",
           borderRadius: "20px",
         }}
-      >
+        >
         {item.token.id}
       </span>
     </div>
   );
 };
+
+export default AdMarketPlace;

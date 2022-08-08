@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import { AdvNFTAddr } from "../../../env";
 
 export const GET_ALL_ASKS = gql`
-  query GetAllAsks($nftContractAddr:String!) {
+  query GetAllAsks($nftContractAddr:Bytes) {
     asks(where:{tokenContract:$nftContractAddr,fullfilled:false,cancelled:false}){
     token{
       id

@@ -42,7 +42,7 @@ const Home: NextPage = () => {
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
       <Header />
-      <HottestSongs signer={signer} />
+      <HottestSongs />
     </div>
   );
 };
