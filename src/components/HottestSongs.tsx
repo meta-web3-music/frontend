@@ -23,32 +23,34 @@ import { BigNumber } from "ethers";
 import { Typography } from "antd";
 import AdBanner from "./AdBanner";
 
-const {Text,Title} = Typography;
+const { Text, Title } = Typography;
 import SongList from "./SongList";
-import { WalletContext } from "../contexts/WalletContext";
-
+import { AddressContext } from "../contexts/AddressContext";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
 
-
-interface HottestSongsProps{
-  signer: any
+interface HottestSongsProps {
+  signer: any;
 }
 
-type songShape={
-  name:string,
-  artist:string,
-  url:string
-}
-  
+type songShape = {
+  name: string;
+  artist: string;
+  url: string;
+};
+
 const HottestSongs: React.FC = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-  const walletContext = useContext(WalletContext);
-  const [selectedSong,setSelectedSong] = useState({name:'Unknown',artist:'Unknown',url:''});
+  const addressContext = useContext(AddressContext);
+  const [selectedSong, setSelectedSong] = useState({
+    name: "Unknown",
+    artist: "Unknown",
+    url: "",
+  });
   const [isFetchingBanner, setIsFetchingBanner] = useState(false);
   // const {
   //   loading: isLoadingAllMusic,
@@ -63,7 +65,7 @@ const HottestSongs: React.FC = () => {
 
   const handleMintForm = async (formData: any) => {
     try {
-      const signer = (await walletContext.getWeb3Provider()).getSigner();
+      const signer = (await addressContext.getWeb3Provider()).getSigner();
       setIsMinting(true);
 
       // store metadata of music on nft.storage
@@ -137,7 +139,7 @@ const HottestSongs: React.FC = () => {
       );
 
       const isModuleApproved = await zoraModuleManager.isModuleApproved(
-        walletContext.walletAddress,
+        addressContext.walletAddress,
         ZoraAskAddr
       );
       if (!isModuleApproved) {
@@ -155,7 +157,7 @@ const HottestSongs: React.FC = () => {
         advNftID.toNumber(),
         123,
         "0x0000000000000000000000000000000000000000",
-        walletContext.walletAddress,
+        addressContext.walletAddress,
         0
       );
       // end minting
@@ -170,23 +172,22 @@ const HottestSongs: React.FC = () => {
     // close modal
   };
 
-  const handlePlaySong = async(songId:string) =>{
-    console.log(songId)
-    try{
+  const handlePlaySong = async (songId: string) => {
+    console.log(songId);
+    try {
       setIsFetchingBanner(true);
       //set local state
       setSelectedSong({
-        name:'Last last',
-        artist: 'Burna Boy',
-        url: songId
-      })
-    }catch(err){
+        name: "Last last",
+        artist: "Burna Boy",
+        url: songId,
+      });
+    } catch (err) {
       setIsFetchingBanner(false);
     }
-      // set selected Song state
-      // set banner place holder to start loading while fetching image from ipfs
-
-  }
+    // set selected Song state
+    // set banner place holder to start loading while fetching image from ipfs
+  };
 
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
@@ -200,29 +201,42 @@ const HottestSongs: React.FC = () => {
         isMinting={isMinting}
       />
       <AdBanner imageUrl="" />
-      <SongList playSong={handlePlaySong}/>
-      <StickyPlayer selectedSong={selectedSong}/>
+      <SongList playSong={handlePlaySong} />
+      <StickyPlayer selectedSong={selectedSong} />
     </div>
   );
 };
 
 export default HottestSongs;
 
-
-interface StickyPlayerProps{
-  selectedSong:songShape
+interface StickyPlayerProps {
+  selectedSong: songShape;
 }
 
-const StickyPlayer: React.FC<StickyPlayerProps> = ({selectedSong}) =>{
-  console.log(selectedSong)
-  return(
-    <div style={{background:'#ffffff',boxShadow:'1px 0px 12px 1px rgba(0,0,0,0.35)',zIndex:'2',position:'fixed',bottom:'1em',left:'1em',display:'flex',maxWidth:'500px',flexDirection:'column',padding:'.7em 1em'}}>
-     <div style={{display:'flex',flexDirection:'column'}}>
-      <Title style={{margin:'0'}} level={5}>{selectedSong?.name}</Title>
-      <Text type="secondary">{selectedSong?.artist}</Text>
-      </div> 
-      <audio autoPlay loop controls src={`${selectedSong?.url}`}>
-      </audio>
+const StickyPlayer: React.FC<StickyPlayerProps> = ({ selectedSong }) => {
+  console.log(selectedSong);
+  return (
+    <div
+      style={{
+        background: "#ffffff",
+        boxShadow: "1px 0px 12px 1px rgba(0,0,0,0.35)",
+        zIndex: "2",
+        position: "fixed",
+        bottom: "1em",
+        left: "1em",
+        display: "flex",
+        maxWidth: "500px",
+        flexDirection: "column",
+        padding: ".7em 1em",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Title style={{ margin: "0" }} level={5}>
+          {selectedSong?.name}
+        </Title>
+        <Text type="secondary">{selectedSong?.artist}</Text>
+      </div>
+      <audio autoPlay loop controls src={`${selectedSong?.url}`}></audio>
     </div>
-  )
-}
+  );
+};
