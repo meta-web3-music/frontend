@@ -37,5 +37,5 @@ export interface GetAllMusic {
 }
 
 export interface GetAllMusicVariables {
-  currentTime?: any | null;
+  currentTime: string;
 }

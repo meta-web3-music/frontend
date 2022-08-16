@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 import AdModal from "../../src/components/AdModal";
 import { NFTStorage, File } from "nft.storage";
-import { WalletContext } from '../../src/contexts/AddressContext';
+import { WalletContext } from '../../src/contexts/WalletContext';
 import {
   AdvNFT__factory,
   ZoraAsk__factory,
