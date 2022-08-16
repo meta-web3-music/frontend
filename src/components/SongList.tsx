@@ -1,18 +1,17 @@
-import {useState,useEffect} from 'react'
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Space, Radio, Typography,List } from "antd";
+import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
 import type { RadioChangeEvent } from "antd";
 
 const { Title } = Typography;
 
-
-interface Props{
-  playSong:(uri:string)=>void
+interface Props {
+  playSong: (uri: string) => void;
 }
-const NftSongList: React.FC<Props> = ({playSong}) => {
+const NftSongList: React.FC<Props> = ({ playSong }) => {
   const {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
@@ -118,11 +117,15 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
             <List.Item.Meta
               // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
               title={
-                <TitleNode metadataUri={item.metaDataUri} name={"someone"} ownerAddress={item.owner.id} />
+                <TitleNode
+                  metadataUri={item.metaDataUri}
+                  name={"someone"}
+                  ownerAddress={item.owner.id}
+                />
               }
               description={`Burna Boy`}
             />
-            <SongNode assetUri={item.assetUri} playSong={playSong}  />
+            <SongNode assetUri={item.assetUri} playSong={playSong} />
           </List.Item>
         )}
       />
@@ -131,7 +134,6 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
 };
 
 export default NftSongList;
-
 
 // helper function to transform uri with this format: ipfs://
 const transformIpfsUri = (uri: string) => {
@@ -144,35 +146,25 @@ const transformIpfsUri = (uri: string) => {
 interface TitleProps {
   name: string;
   ownerAddress: string;
-  metadataUri: string
+  metadataUri: string;
 }
 
-const TitleNode: React.FC<TitleProps> = ({ metadataUri, name, ownerAddress }) => {
-
-  const [metadata, setMetaData] = useState({})
-  
+const TitleNode: React.FC<TitleProps> = ({
+  metadataUri,
+  name,
+  ownerAddress,
+}) => {
+  const [metadata, setMetaData] = useState({});
 
   useEffect(() => {
-
-    const fetchMetaData = async() =>{
+    const fetchMetaData = async () => {
       const metadataUrl = transformIpfsUri(metadataUri);
-      const data = await fetch(metadataUrl)
+      const data = await fetch(metadataUrl);
       const json = await data.json();
-       console.log(json.body)
-      // fetch(metadataUrl,{
-      //   method:'GET'
-      // }).then(res=>{
-      //   res.json().then(data=>{
-      //     return data.body;
-      //   })
-      // }).catch(err=>{
-      //   console.log(err)
-      // })
-    }
+    };
 
-    fetchMetaData()
-    
-  }, [])
+    fetchMetaData();
+  }, []);
 
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
@@ -194,14 +186,16 @@ const TitleNode: React.FC<TitleProps> = ({ metadataUri, name, ownerAddress }) =>
   );
 };
 
-interface SongNodeProps{
-  assetUri: string,
-  playSong: (uri:string)=>void
+interface SongNodeProps {
+  assetUri: string;
+  playSong: (uri: string) => void;
 }
 
-const SongNode: React.FC<SongNodeProps> = ({assetUri,playSong}) =>{
+const SongNode: React.FC<SongNodeProps> = ({ assetUri, playSong }) => {
   const correctAssetUri = transformIpfsUri(assetUri);
-  return(
-    <Button onClick={()=>playSong(correctAssetUri)} type='primary'>Play song</Button>
-  )
-}
+  return (
+    <Button onClick={() => playSong(correctAssetUri)} type="primary">
+      Play song
+    </Button>
+  );
+};

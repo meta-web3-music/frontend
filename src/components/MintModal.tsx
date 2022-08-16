@@ -14,9 +14,8 @@ const MintModal: React.FC<ModalProps> = ({
   onHandleModal,
   onHandleMintForm,
   isVisible,
-  isMinting
+  isMinting,
 }) => {
-  
   return (
     <>
       <Modal
@@ -27,7 +26,10 @@ const MintModal: React.FC<ModalProps> = ({
         footer={null}
         onCancel={onHandleModal}
       >
-        <MintingForm isMinting={isMinting} onHandleMintForm={onHandleMintForm} />
+        <MintingForm
+          isMinting={isMinting}
+          onHandleMintForm={onHandleMintForm}
+        />
       </Modal>
     </>
   );
@@ -40,7 +42,10 @@ interface FormProps {
   isMinting: boolean;
 }
 
-const MintingForm: React.FC<FormProps> = ({ onHandleMintForm,isMinting }: FormProps) => {
+const MintingForm: React.FC<FormProps> = ({
+  onHandleMintForm,
+  isMinting,
+}: FormProps) => {
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
@@ -71,6 +76,7 @@ const MintingForm: React.FC<FormProps> = ({ onHandleMintForm,isMinting }: FormPr
       <Form.Item
         label="Song Name"
         name="songName"
+        initialValue={"max song"}
         rules={[{ required: true, message: "Please input song name!" }]}
       >
         <Input />
@@ -79,6 +85,7 @@ const MintingForm: React.FC<FormProps> = ({ onHandleMintForm,isMinting }: FormPr
       <Form.Item
         label="Artist Name"
         name="artistName"
+        initialValue={"max artist"}
         rules={[{ required: true, message: "Please input artist name!" }]}
       >
         <Input />
@@ -87,6 +94,7 @@ const MintingForm: React.FC<FormProps> = ({ onHandleMintForm,isMinting }: FormPr
       <Form.Item
         label="Ad space price"
         name="adSpacePrice"
+        initialValue={1}
         rules={[{ required: true, message: "Please input adspace price!" }]}
       >
         <InputNumber />

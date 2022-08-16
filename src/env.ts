@@ -1,6 +1,9 @@
-export const AdvNFTAddr = "0xEDeb296201255F4CD25cad06bede20D1902921fB";
-export const MusicNFTAddr = "0xC715aEeD45eE6fE9e712F149aCc010b7A7EC4FBd";
-export const ZoraAskAddr = "0xCe6cEf2A9028e1C3B21647ae3B4251038109f42a";
-export const ZoraModuleManagerAddr = "0x850A7c6fE2CF48eea1393554C8A3bA23f20CC401";
+import { web3 } from "@project-serum/anchor";
+
+export const AdvProgramId = "3yvqsncdr3Ua1kiXEWZ9iwFqRjnAEe3DdDiZvpzabJ9D";
+export const MusicProgramId = "5EiC52YiZEUpxh678MVyi36QBj8GFqfuqLGHsxSdGvaN";
 export const GraphQLEndpoint = "https://api.thegraph.com/subgraphs/name/thisisommore/muzik"
-export const Chain = "mumbai"
+export const TOKEN_METADATA_PROGRAM_ID = new web3.PublicKey(
+    "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+);
+export const Chain = "devnet"

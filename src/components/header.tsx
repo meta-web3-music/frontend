@@ -15,7 +15,7 @@ function Header() {
     router.push("/");
   };
 
-  console.log(useRouter());
+  useRouter();
 
   return (
     <>
@@ -53,9 +53,9 @@ function Header() {
               src="./polygon.svg"
               className="flex align-center w-[16px] h-[16px]"
             />
-            <span className="flex ml-1 text-base">Mumbai</span>
+            <span className="flex ml-1 text-base">Devnet</span>
           </div>
-          {!walletContext.walletAddress ? (
+          {!walletContext.walletPubKey ? (
             <button
               onClick={walletContext.getWeb3Provider}
               className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3 mr-4"
@@ -67,11 +67,11 @@ function Header() {
               onClick={walletContext.clearWallet}
               className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3"
             >
-              <span>0 MATIC</span>
+              <span>0 SOL</span>
               <span className="flex flex-row align-center bg-gray-100 rounded-full p-1 ml-1">
                 <FaCircle className=" text-[#15ae5c] mr-1 w-5 h-5" />
-                {walletContext.walletAddress.substr(0, 4)}...
-                {walletContext.walletAddress.substr(-4, 4)}
+                {walletContext.walletPubKey.toString().substr(0, 4)}...
+                {walletContext.walletPubKey.toString().substr(-4, 4)}
               </span>
             </button>
           )}
