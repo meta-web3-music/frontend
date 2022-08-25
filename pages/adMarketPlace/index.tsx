@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Header from "../../src/components/header";
+import Header from "../../src/components/Header/header";
 import { Typography, List, Button } from "antd";
 import { useRouter } from "next/router";
 import {
@@ -11,7 +11,9 @@ import { useQuery } from "@apollo/client";
 import { AdvNFTAddr, ZoraAskAddr } from "../../src/env";
 import { useEffect, useState } from "react";
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
-import AdModal from "../../src/components/AdModal";
+// custom-component imports
+import AdModal from "../../src/components/AdModal/AdModal";
+
 import { NFTStorage, File } from "nft.storage";
 import { WalletContext } from "../../src/contexts/WalletContext";
 import {
