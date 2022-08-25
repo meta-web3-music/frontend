@@ -181,6 +181,7 @@ const HottestSongs: React.FC = () => {
 
   const handlePlaySong = async(songId:string) =>{
     console.log(songId)
+    setIsPlaying(true);
     try{
       setIsFetchingBanner(true);
       //set local state
@@ -208,9 +209,9 @@ const HottestSongs: React.FC = () => {
         isVisible={displayModal}
         isMinting={isMinting}
       /> 
-      <AdBanner imageUrl="" />
+      {isPlaying && <AdBanner imageUrl="" />}
       <SongList playSong={handlePlaySong}/>
-      <StickyPlayer selectedSong={selectedSong}/>
+      {isPlaying && <StickyPlayer selectedSong={selectedSong}/>}
 
     </div>
   );
