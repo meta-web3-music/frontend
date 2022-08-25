@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_MUSIC } from "../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
-import { GetAllMusic } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GET_ALL_MUSIC } from "../../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+import { GetAllMusic } from "../../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+
+// antd imports
 
 // antd imports
 
@@ -14,6 +16,8 @@ import { fetchIpfs } from "../../ipfs/fetchIpfs";
 // antd component extracts
 const { Title } = Typography;
 
+// types
+import { SongListProps } from "./SongList.types";
 // types
 import { SongListProps } from "./SongList.types";
 
