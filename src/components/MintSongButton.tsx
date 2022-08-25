@@ -7,7 +7,7 @@ interface PropShape{
   setDisplayModal: () =>void
 }
 
-const MintPreModal: React.FC<PropShape> = ({ setDisplayModal }) => {
+const MintSongButton: React.FC<PropShape> = ({ setDisplayModal }) => {
   
 
   return (
@@ -29,4 +29,4 @@ const MintPreModal: React.FC<PropShape> = ({ setDisplayModal }) => {
   );
 }
 
-export default MintPreModal;
+export default MintSongButton;
