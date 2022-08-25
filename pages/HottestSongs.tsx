@@ -3,17 +3,17 @@ import React, { useState, useEffect, useContext } from "react";
 
 // graphql imports
 import { useQuery } from "@apollo/client";
-import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
-import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GET_ALL_MUSIC } from "../src/graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+import { GetAllMusic } from "../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 import { NFTStorage, File } from "nft.storage";
-import { MusicNftMetaData } from "../types/MusicNFTData";
+import { MusicNftMetaData } from "../src/types/MusicNFTData";
 
 // web3 imports
 import {
   MusicNFT__factory,
   ZoraAsk__factory,
   ZoraModuleManager__factory,
-} from "../contracts";
+} from "../src/contracts";
 import { BigNumber } from "ethers";
 
 import {
@@ -21,8 +21,8 @@ import {
   MusicNFTAddr,
   ZoraAskAddr,
   ZoraModuleManagerAddr,
-} from "../env";
-import { AdvNftMetaData } from "../types/AdvNFTData";
+} from "../src/env";
+import { AdvNftMetaData } from "../src/types/AdvNFTData";
 
 // antd imports
 import { Typography } from "antd";
@@ -30,14 +30,14 @@ const {Text,Title} = Typography;
 
 
 // context imports
-import { WalletContext } from "../contexts/WalletContext";
+import { WalletContext } from "../src/contexts/WalletContext";
 
 // custom-components imports
-import MintSongButton from "./MintSongButton/MintSongButton";
-import MintModal from "./MintModal/MintModal"; 
-import SongList from "./SongList/SongList";
-import AdBanner from "./AdBanner/AdBanner";
-import StickyPlayer from './StickyPlayer/StickyPlayer';
+import MintSongButton from "../src/components/MintSongButton/MintSongButton";
+import MintModal from "../src/components/MintModal/MintModal"; 
+import SongList from "../src/components/SongList/SongList";
+import AdBanner from "../src/components/AdBanner/AdBanner";
+import StickyPlayer from '../src/components/StickyPlayer/StickyPlayer';
 
 // create client instance for nft.storage
 const client = new NFTStorage({
