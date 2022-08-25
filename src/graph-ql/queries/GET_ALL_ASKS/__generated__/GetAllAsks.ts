@@ -43,6 +43,7 @@ export interface GetAllAsks_asks_token {
 
 export interface GetAllAsks_asks {
   __typename: "Ask";
+  ask_askPrice: any;
   token: GetAllAsks_asks_token;
 }
 
@@ -51,5 +52,5 @@ export interface GetAllAsks {
 }
 
 export interface GetAllAsksVariables {
-  nftContractAddr: string;
+  nftContractAddr?: any | null;
 }

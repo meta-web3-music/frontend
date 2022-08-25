@@ -14,8 +14,7 @@ function Header() {
   const navigateToHottestSongPage = () => {
     router.push("/");
   };
-
-  console.log(useRouter());
+  useRouter();
 
   return (
     <>
