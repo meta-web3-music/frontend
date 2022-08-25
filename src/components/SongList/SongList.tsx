@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
-import {
-  GetAllMusic,
-  GetAllMusic_musicNFTs,
-} from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GET_ALL_MUSIC } from "../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+import { GetAllMusic } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+
+// antd imports
 import { DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
 import type { RadioChangeEvent } from "antd";
-import { MusicNftMetaData } from "../types/MusicNFTData";
-import { fetchIpfs } from "../ipfs/fetchIpfs";
-
+import { MusicNftMetaData } from "../../types/MusicNFTData";
+import { fetchIpfs } from "../../ipfs/fetchIpfs";
+// antd component extracts
 const { Title } = Typography;
 
-interface Props {
-  playSong: (musicNft: GetAllMusic_musicNFTs) => void;
-}
-const NftSongList: React.FC<Props> = ({ playSong }) => {
+// types
+import { SongListProps } from "./SongList.types";
+
+// custom-component imports
+import { TitleNode, SongNode } from "./ListItemNodes";
+
+const SongList: React.FC<SongListProps> = ({ playSong }) => {
   const {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
@@ -36,8 +38,8 @@ const NftSongList: React.FC<Props> = ({ playSong }) => {
     setPrice(e.target.value);
   };
 
-  // dropdown menu price code
-  const menuPrice = (
+  //  menu items for price dropdown filter
+  const priceFilterMenu = (
     <Menu
       items={[
         {
@@ -61,8 +63,8 @@ const NftSongList: React.FC<Props> = ({ playSong }) => {
     setViews(e.target.value);
   };
 
-  // dropdown menu code
-  const menuViews = (
+  // menu items for number of view dropdown filter
+  const viewsFilterMenu = (
     <Menu
       items={[
         {
@@ -88,7 +90,7 @@ const NftSongList: React.FC<Props> = ({ playSong }) => {
       {/* start dropdowns */}
       <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
-        <Dropdown overlay={menuPrice} trigger={["click"]}>
+        <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
             <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Price
@@ -96,7 +98,7 @@ const NftSongList: React.FC<Props> = ({ playSong }) => {
             </Space>
           </a>
         </Dropdown>
-        <Dropdown overlay={menuViews} trigger={["click"]}>
+        <Dropdown overlay={viewsFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
             <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Views
@@ -106,6 +108,8 @@ const NftSongList: React.FC<Props> = ({ playSong }) => {
         </Dropdown>
       </div>
       {/* end dropdowns */}
+
+      {/* songlist */}
       <List
         loading={isLoadingAllMusic}
         style={{
@@ -131,55 +135,4 @@ const NftSongList: React.FC<Props> = ({ playSong }) => {
   );
 };
 
-export default NftSongList;
-
-interface TitleProps {
-  musicItem: GetAllMusic_musicNFTs;
-}
-
-const TitleNode: React.FC<TitleProps> = ({ musicItem }) => {
-  const [metadata, setMetaData] = useState<MusicNftMetaData>();
-
-  const fetchMetaData = async () => {
-    const musicMetaData = await fetchIpfs<MusicNftMetaData>(
-      musicItem.metaDataUri
-    );
-    setMetaData(musicMetaData);
-  };
-  useEffect(() => {
-    fetchMetaData();
-  }, []);
-
-  return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <Title style={{ marginRight: "5px" }} level={5}>
-        {metadata?.body.title}
-      </Title>
-      <span
-        style={{
-          background: "#f4f4f4",
-          padding: "2px 6px",
-          borderRadius: "20px",
-        }}
-      >
-        {`${musicItem.owner.id.substring(
-          0,
-          4
-        )}...${musicItem.owner.id.substring(musicItem.owner.id.length - 4)}`}
-      </span>
-    </div>
-  );
-};
-
-interface SongNodeProps {
-  playSong: (musicNft: GetAllMusic_musicNFTs) => void;
-  musicItem: GetAllMusic_musicNFTs;
-}
-
-const SongNode: React.FC<SongNodeProps> = ({ musicItem, playSong }) => {
-  return (
-    <Button onClick={() => playSong(musicItem)} type="primary">
-      Play song
-    </Button>
-  );
-};
+export default SongList;

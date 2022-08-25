@@ -3,13 +3,11 @@ import {Typography,Button} from 'antd'
 
 const {Title, Text} = Typography;
 
-interface PropShape{
-  setDisplayModal: () =>void
-}
+// types imports
+import { MintSongButtonProps } from "./MintSongbutton.types";
 
-const MintPreModal: React.FC<PropShape> = ({ setDisplayModal }) => {
+const MintSongButton: React.FC<MintSongButtonProps> = ({ setDisplayModal }) => {
   
-
   return (
     <div style = {{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 15px', margin:'1em',borderRadius:'10px',border:'1px solid #e5e5e5e5'}}>
       <div style={{display:'flex',flexDirection:'column'}}>
@@ -29,4 +27,4 @@ const MintPreModal: React.FC<PropShape> = ({ setDisplayModal }) => {
   );
 }
 
-export default MintPreModal;
+export default MintSongButton;

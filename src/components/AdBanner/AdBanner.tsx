@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Image } from "antd";
 
-interface BannerShape {
-  imageUrl: string;
-}
+// types imports
+import { AdBannerProps } from "./AdBanner.types";
 
-const AdBanner: React.FC<BannerShape> = ({ imageUrl }) => {
+const AdBanner: React.FC<AdBannerProps> = ({ imageUrl }) => {
   return (
     <Image width={800} height={150} style={{ margin: "1em" }} src={imageUrl} />
   );
