@@ -1,18 +1,22 @@
-import {useState,useEffect} from 'react'
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
-import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import {
+  GetAllMusic,
+  GetAllMusic_musicNFTs,
+} from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Space, Radio, Typography,List } from "antd";
+import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
 import type { RadioChangeEvent } from "antd";
+import { MusicNftMetaData } from "../types/MusicNFTData";
+import { fetchIpfs } from "../ipfs/fetchIpfs";
 
 const { Title } = Typography;
 
-
-interface Props{
-  playSong:(uri:string)=>void
+interface Props {
+  playSong: (musicNft: GetAllMusic_musicNFTs) => void;
 }
-const NftSongList: React.FC<Props> = ({playSong}) => {
+const NftSongList: React.FC<Props> = ({ playSong }) => {
   const {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
@@ -116,13 +120,10 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
-              // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-              title={
-                <TitleNode metadataUri={item.metaDataUri} name={"someone"} ownerAddress={item.owner.id} />
-              }
+              title={<TitleNode musicItem={item} />}
               description={`Burna Boy`}
             />
-            <SongNode assetUri={item.assetUri} playSong={playSong}  />
+            <SongNode musicItem={item} playSong={playSong} />
           </List.Item>
         )}
       />
@@ -132,52 +133,27 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
 
 export default NftSongList;
 
-
-// helper function to transform uri with this format: ipfs://
-const transformIpfsUri = (uri: string) => {
-  const ipfsPrefix = "https://ipfs.io/ipfs/";
-  const uriWithRemovedIpfsPrefix = uri.substring(7);
-  const correctIpfsUri = ipfsPrefix.concat(uriWithRemovedIpfsPrefix);
-  return correctIpfsUri;
-};
-
 interface TitleProps {
-  name: string;
-  ownerAddress: string;
-  metadataUri: string
+  musicItem: GetAllMusic_musicNFTs;
 }
 
-const TitleNode: React.FC<TitleProps> = ({ metadataUri, name, ownerAddress }) => {
+const TitleNode: React.FC<TitleProps> = ({ musicItem }) => {
+  const [metadata, setMetaData] = useState<MusicNftMetaData>();
 
-  const [metadata, setMetaData] = useState({})
-  
-
+  const fetchMetaData = async () => {
+    const musicMetaData = await fetchIpfs<MusicNftMetaData>(
+      musicItem.metaDataUri
+    );
+    setMetaData(musicMetaData);
+  };
   useEffect(() => {
-
-    const fetchMetaData = async() =>{
-      const metadataUrl = transformIpfsUri(metadataUri);
-      const data = await fetch(metadataUrl)
-      const json = await data.json();
-       console.log(json.body)
-      // fetch(metadataUrl,{
-      //   method:'GET'
-      // }).then(res=>{
-      //   res.json().then(data=>{
-      //     return data.body;
-      //   })
-      // }).catch(err=>{
-      //   console.log(err)
-      // })
-    }
-
-    fetchMetaData()
-    
-  }, [])
+    fetchMetaData();
+  }, []);
 
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Title style={{ marginRight: "5px" }} level={5}>
-        {name}
+        {metadata?.body.title}
       </Title>
       <span
         style={{
@@ -186,22 +162,24 @@ const TitleNode: React.FC<TitleProps> = ({ metadataUri, name, ownerAddress }) =>
           borderRadius: "20px",
         }}
       >
-        {`${ownerAddress.substring(0, 4)}...${ownerAddress.substring(
-          ownerAddress.length - 4
-        )}`}
+        {`${musicItem.owner.id.substring(
+          0,
+          4
+        )}...${musicItem.owner.id.substring(musicItem.owner.id.length - 4)}`}
       </span>
     </div>
   );
 };
 
-interface SongNodeProps{
-  assetUri: string,
-  playSong: (uri:string)=>void
+interface SongNodeProps {
+  playSong: (musicNft: GetAllMusic_musicNFTs) => void;
+  musicItem: GetAllMusic_musicNFTs;
 }
 
-const SongNode: React.FC<SongNodeProps> = ({assetUri,playSong}) =>{
-  const correctAssetUri = transformIpfsUri(assetUri);
-  return(
-    <Button onClick={()=>playSong(correctAssetUri)} type='primary'>Play song</Button>
-  )
-}
+const SongNode: React.FC<SongNodeProps> = ({ musicItem, playSong }) => {
+  return (
+    <Button onClick={() => playSong(musicItem)} type="primary">
+      Play song
+    </Button>
+  );
+};

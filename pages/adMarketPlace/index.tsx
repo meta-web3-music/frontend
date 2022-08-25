@@ -19,6 +19,7 @@ import {
   ZoraAsk__factory,
   ZoraModuleManager__factory,
 } from "../../src/contracts";
+import { fetchIpfs } from "../../src/ipfs/fetchIpfs";
 
 const { Title, Text } = Typography;
 
@@ -125,39 +126,6 @@ const AdMarketPlace: React.FC = () => {
   );
 };
 
-const listData = [
-  {
-    id: 1,
-    name: "Call me by name",
-    ownerAddress: "0x34...7463",
-    artist: "Mujahid",
-    adSpacePrice: "0.2",
-    music: "ipfs url string to be ste to source",
-    thumbnail: "music thumbnail string if it exists",
-    noOfViews: "3M",
-  },
-  {
-    id: 2,
-    name: "Last Last",
-    ownerAddress: "0x34...7463",
-    artist: "Burna Boy",
-    adSpacePrice: "0.2",
-    music: "ipfs url string to be ste to source",
-    thumbnail: "music thumbnail string if it exists",
-    noOfViews: "360K",
-  },
-  {
-    id: 3,
-    name: "Girls like us",
-    ownerAddress: "0x34...7463",
-    artist: "Zoe wooes",
-    adSpacePrice: "0.2",
-    music: "ipfs url string to be ste to source",
-    thumbnail: "music thumbnail string if it exists",
-    noOfViews: "430K",
-  },
-];
-
 interface AdlistProp {
   onHandleModal: () => void;
   onRentClick: (advNft: GetAllAsks_asks) => void;
@@ -213,12 +181,10 @@ const TitleNode: React.FC<TitleProps> = ({ item }) => {
   const [metaData, setMetaData] = useState<AdvNftMetaData>();
 
   const fetchMetaData = async () => {
-    const metaDataHash = item.token.metaDataHash;
-    const ipfsPrefix = "https://ipfs.io/ipfs/";
-    const url = ipfsPrefix + metaDataHash.replace("ipfs://", "");
-    const fetchRes = await fetch(url);
-    const fetchJson = await fetchRes.json();
-    setMetaData(fetchJson as AdvNftMetaData);
+    const advMetaData = await fetchIpfs<AdvNftMetaData>(
+      item.token.metaDataHash
+    );
+    setMetaData(advMetaData);
   };
   useEffect(() => {
     fetchMetaData();
