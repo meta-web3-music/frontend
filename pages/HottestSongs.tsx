@@ -58,12 +58,17 @@ const HottestSongs: React.FC = () => {
   const [isFetchingBanner, setIsFetchingBanner] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   
-  // const {
-    //   loading: isLoadingAllMusic,
-    //   data: allMusicConnection,
-  //   error: allMusicError,
-  // } = useQuery<GetAllMusic>(GET_ALL_MUSIC, { variables: {} });
-  
+  const {
+    loading: isLoadingAllMusic,
+    data: allMusicConnection,
+    error: allMusicError,
+  } = useQuery<GetAllMusic>(GET_ALL_MUSIC, {
+    variables: {
+      currentTime: Math.floor(Date.now() / 1000).toString(),
+    },
+  });
+
+   
   // function to handle toggling of minting modal
   const handleModal = () => {
     setDisplayModal(!displayModal);
@@ -210,7 +215,7 @@ const HottestSongs: React.FC = () => {
         isMinting={isMinting}
       /> 
       {isPlaying && <AdBanner imageUrl="" />}
-      <SongList playSong={handlePlaySong}/>
+      <SongList isLoadingMusic={isLoadingAllMusic} dataSource={allMusicConnection?.musicNFTs||[]} playSong={handlePlaySong}/>
       {isPlaying && <StickyPlayer selectedSong={selectedSong}/>}
 
     </div>

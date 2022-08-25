@@ -19,77 +19,68 @@ import {SongListProps} from './SongList.types'
 import { TitleNode,SongNode } from './ListItemNodes';
 
 
-const SongList: React.FC<SongListProps> = ({playSong}) => {
-  const {
-    loading: isLoadingAllMusic,
-    data: allMusicConnection,
-    error: allMusicError,
-  } = useQuery<GetAllMusic>(GET_ALL_MUSIC, {
-    variables: {
-      currentTime: Math.floor(Date.now() / 1000).toString(),
-    },
-  });
+const SongList: React.FC<SongListProps> = ({playSong,dataSource,isLoadingMusic}) => {
 
-  // add useState hooks here
-  const [price, setPrice] = useState("100MATIC");
-  const [views, setViews] = useState("100kViews");
+//   // add useState hooks here
+//   const [price, setPrice] = useState("100MATIC");
+//   const [views, setViews] = useState("100kViews");
 
-  const onChangePrice = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setPrice(e.target.value);
-  };
+//   const onChangePrice = (e: RadioChangeEvent) => {
+//     console.log("radio checked", e.target.value);
+//     setPrice(e.target.value);
+//   };
 
-  //  menu items for price dropdown filter
-  const priceFilterMenu = (
-    <Menu
-      items={[
-        {
-          label: (
-            <Radio.Group onChange={onChangePrice} value={price}>
-              <Space direction="vertical">
-                <Radio value={"100MATIC"}>100 MATIC and under</Radio>
-                <Radio value={"200MATIC"}>200 MATIC and under</Radio>
-                <Radio value={"300MATIC"}>500 MATIC and under</Radio>
-              </Space>
-            </Radio.Group>
-          ),
-          key: "1",
-        },
-      ]}
-    />
-  );
+//   //  menu items for price dropdown filter
+//   const priceFilterMenu = (
+//     <Menu
+//       items={[
+//         {
+//           label: (
+//             <Radio.Group onChange={onChangePrice} value={price}>
+//               <Space direction="vertical">
+//                 <Radio value={"100MATIC"}>100 MATIC and under</Radio>
+//                 <Radio value={"200MATIC"}>200 MATIC and under</Radio>
+//                 <Radio value={"300MATIC"}>500 MATIC and under</Radio>
+//               </Space>
+//             </Radio.Group>
+//           ),
+//           key: "1",
+//         },
+//       ]}
+//     />
+//   );
 
-  const onChangeViews = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setViews(e.target.value);
-  };
+//   const onChangeViews = (e: RadioChangeEvent) => {
+//     console.log("radio checked", e.target.value);
+//     setViews(e.target.value);
+//   };
 
-  // menu items for number of view dropdown filter
-  const viewsFilterMenu = (
-    <Menu
-      items={[
-        {
-          label: (
-            <Radio.Group onChange={onChangeViews} value={views}>
-              <Space direction="vertical">
-                <Radio value={"1000Views"}>1000 views and under</Radio>
-                <Radio value={"10kViews"}>10K views and under</Radio>
-                <Radio value={"50kViews"}>50K views and under</Radio>
-                <Radio value={"100kViews"}>100K views and under</Radio>
-                <Radio value={"1MViews"}>1 million+ views</Radio>
-              </Space>
-            </Radio.Group>
-          ),
-          key: "1",
-        },
-      ]}
-    />
-  );
+//   // menu items for number of view dropdown filter
+//   const viewsFilterMenu = (
+//     <Menu
+//       items={[
+//         {
+//           label: (
+//             <Radio.Group onChange={onChangeViews} value={views}>
+//               <Space direction="vertical">
+//                 <Radio value={"1000Views"}>1000 views and under</Radio>
+//                 <Radio value={"10kViews"}>10K views and under</Radio>
+//                 <Radio value={"50kViews"}>50K views and under</Radio>
+//                 <Radio value={"100kViews"}>100K views and under</Radio>
+//                 <Radio value={"1MViews"}>1 million+ views</Radio>
+//               </Space>
+//             </Radio.Group>
+//           ),
+//           key: "1",
+//         },
+//       ]}
+//     />
+//   );
 
   return (
     <>
       {/* start dropdowns */}
-      <div className="flex flex-row items-center mb-3">
+      {/* <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
         <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
@@ -106,22 +97,22 @@ const SongList: React.FC<SongListProps> = ({playSong}) => {
               <DownOutlined />
             </Space>
           </a>
-        </Dropdown>
-      </div>
+        </Dropdown> 
+      </div> */}
       {/* end dropdowns */}
 
       {/* songlist */}
     <List
-       loading={isLoadingAllMusic}
+       loading={isLoadingMusic}
        style={{
-          width: "700px",
+          width: "100%",
           alignSelf: "center",
           border: "1px solid #e5e5e5",
           borderRadius: "20px",
           padding: "1em",
         }}
        itemLayout="horizontal"
-       dataSource={allMusicConnection?.musicNFTs}
+       dataSource={dataSource}
        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
