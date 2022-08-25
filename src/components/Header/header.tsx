@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import { FaEthereum, FaCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { WalletContext } from "../contexts/WalletContext";
+import { WalletContext } from "../../contexts/WalletContext";
 
 function Header() {
   const walletContext = useContext(WalletContext);
@@ -69,8 +69,8 @@ function Header() {
               <span>0 MATIC</span>
               <span className="flex flex-row align-center bg-gray-100 rounded-full p-1 ml-1">
                 <FaCircle className=" text-[#15ae5c] mr-1 w-5 h-5" />
-                {walletContext.walletAddress.substr(0, 4)}...
-                {walletContext.walletAddress.substr(-4, 4)}
+                {walletContext.walletAddress.substring(0, 4)}...
+                {walletContext.walletAddress.substring(-4, 4)}
               </span>
             </button>
           )}

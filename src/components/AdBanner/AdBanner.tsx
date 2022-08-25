@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {Image} from 'antd'
 
-interface BannerShape{
-    imageUrl: string;
-}
+// types imports
+import { AdBannerProps } from "./AdBanner.types";
 
-const AdBanner: React.FC<BannerShape> = ({ imageUrl=''}) => {
+
+const AdBanner: React.FC<AdBannerProps> = ({ imageUrl=''}) => {
  
 
   return (

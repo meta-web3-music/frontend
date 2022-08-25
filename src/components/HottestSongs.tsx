@@ -33,10 +33,10 @@ const {Text,Title} = Typography;
 import { WalletContext } from "../contexts/WalletContext";
 
 // custom-components imports
-import MintSongButton from "./MintSongButton";
+import MintSongButton from "./MintSongButton/MintSongButton";
 import MintModal from "./MintModal/MintModal"; 
 import SongList from "./SongList/SongList";
-import AdBanner from "./AdBanner";
+import AdBanner from "./AdBanner/AdBanner";
 import StickyPlayer from './StickyPlayer/StickyPlayer';
 
 // create client instance for nft.storage

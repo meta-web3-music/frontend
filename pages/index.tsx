@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import type { NextPage } from "next";
-import Header from "../src/components/header";
+import Header from "../src/components/Header/header";
 import HottestSongs from "../src/components/HottestSongs";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
