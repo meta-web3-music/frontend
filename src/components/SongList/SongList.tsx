@@ -1,18 +1,25 @@
 import {useState,useEffect} from 'react'
+
+// graphql imports
 import { useQuery } from "@apollo/client";
-import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
-import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GET_ALL_MUSIC } from "../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+import { GetAllMusic } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+
+// antd imports
 import { DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Space, Radio, Typography,List } from "antd";
 import type { RadioChangeEvent } from "antd";
+ // antd component extracts
+ const { Title } = Typography;
 
-const { Title } = Typography;
+// types
+import {SongListProps} from './SongList.types'
+
+// custom-component imports
+import { TitleNode,SongNode } from './ListItemNodes';
 
 
-interface Props{
-  playSong:(uri:string)=>void
-}
-const NftSongList: React.FC<Props> = ({playSong}) => {
+const SongList: React.FC<SongListProps> = ({playSong}) => {
   const {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
@@ -32,8 +39,8 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
     setPrice(e.target.value);
   };
 
-  // dropdown menu price code
-  const menuPrice = (
+  //  menu items for price dropdown filter
+  const priceFilterMenu = (
     <Menu
       items={[
         {
@@ -57,8 +64,8 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
     setViews(e.target.value);
   };
 
-  // dropdown menu code
-  const menuViews = (
+  // menu items for number of view dropdown filter
+  const viewsFilterMenu = (
     <Menu
       items={[
         {
@@ -84,7 +91,7 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
       {/* start dropdowns */}
       <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
-        <Dropdown overlay={menuPrice} trigger={["click"]}>
+        <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
             <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Price
@@ -92,7 +99,7 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
             </Space>
           </a>
         </Dropdown>
-        <Dropdown overlay={menuViews} trigger={["click"]}>
+        <Dropdown overlay={viewsFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
             <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Views
@@ -102,21 +109,22 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
         </Dropdown>
       </div>
       {/* end dropdowns */}
-      <List
-        loading={isLoadingAllMusic}
-        style={{
+
+      {/* songlist */}
+    <List
+       loading={isLoadingAllMusic}
+       style={{
           width: "700px",
           alignSelf: "center",
           border: "1px solid #e5e5e5",
           borderRadius: "20px",
           padding: "1em",
         }}
-        itemLayout="horizontal"
-        dataSource={allMusicConnection?.musicNFTs}
-        renderItem={(item) => (
+       itemLayout="horizontal"
+       dataSource={allMusicConnection?.musicNFTs}
+       renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
-              // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
               title={
                 <TitleNode metadataUri={item.metaDataUri} name={"someone"} ownerAddress={item.owner.id} />
               }
@@ -124,84 +132,11 @@ const NftSongList: React.FC<Props> = ({playSong}) => {
             />
             <SongNode assetUri={item.assetUri} playSong={playSong}  />
           </List.Item>
-        )}
-      />
+        )}/>
     </>
   );
 };
 
-export default NftSongList;
+export default SongList;
 
 
-// helper function to transform uri with this format: ipfs://
-const transformIpfsUri = (uri: string) => {
-  const ipfsPrefix = "https://ipfs.io/ipfs/";
-  const uriWithRemovedIpfsPrefix = uri.substring(7);
-  const correctIpfsUri = ipfsPrefix.concat(uriWithRemovedIpfsPrefix);
-  return correctIpfsUri;
-};
-
-interface TitleProps {
-  name: string;
-  ownerAddress: string;
-  metadataUri: string
-}
-
-const TitleNode: React.FC<TitleProps> = ({ metadataUri, name, ownerAddress }) => {
-
-  const [metadata, setMetaData] = useState({})
-  
-
-  useEffect(() => {
-
-    const fetchMetaData = async() =>{
-      const metadataUrl = transformIpfsUri(metadataUri);
-      const data = await fetch(metadataUrl)
-      const json = await data.json();
-       console.log(json.body)
-      // fetch(metadataUrl,{
-      //   method:'GET'
-      // }).then(res=>{
-      //   res.json().then(data=>{
-      //     return data.body;
-      //   })
-      // }).catch(err=>{
-      //   console.log(err)
-      // })
-    }
-
-    fetchMetaData()
-    
-  }, [])
-
-  return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <Title style={{ marginRight: "5px" }} level={5}>
-        {name}
-      </Title>
-      <span
-        style={{
-          background: "#f4f4f4",
-          padding: "2px 6px",
-          borderRadius: "20px",
-        }}
-      >
-        {`${ownerAddress.substring(0, 4)}...${ownerAddress.substring(
-          ownerAddress.length - 4
-        )}`}
-      </span>
-    </div>
-  );
-};
-
-interface SongNodeProps{
-  assetUri: string,
-  playSong: (uri:string)=>void
-}
-
-const SongNode: React.FC<SongNodeProps> = ({assetUri,playSong}) =>{
-  const correctAssetUri = transformIpfsUri(assetUri);
-  return(
-    <Button onClick={()=>playSong(correctAssetUri)} type='primary'>Play song</Button>
-  )
-}

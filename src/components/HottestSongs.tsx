@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
-import MintPreModal from "./MintPreModal";
-import MintModal from "./MintModal";
+
+
+// graphql imports
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 import { NFTStorage, File } from "nft.storage";
 import { MusicNftMetaData } from "../types/MusicNFTData";
+
+// web3 imports
 import {
   MusicNFT__factory,
   ZoraAsk__factory,
   ZoraModuleManager__factory,
 } from "../contracts";
+import { BigNumber } from "ethers";
+
 import {
   AdvNFTAddr,
   MusicNFTAddr,
@@ -18,15 +23,20 @@ import {
   ZoraModuleManagerAddr,
 } from "../env";
 import { AdvNftMetaData } from "../types/AdvNFTData";
-import { BigNumber } from "ethers";
 
+// antd imports
 import { Typography } from "antd";
-import AdBanner from "./AdBanner";
-
 const {Text,Title} = Typography;
-import SongList from "./SongList";
+
+
+// context imports
 import { WalletContext } from "../contexts/WalletContext";
 
+// custom-components imports
+import MintPreModal from "./MintPreModal";
+import MintModal from "./MintModal/MintModal"; 
+import SongList from "./SongList/SongList";
+import AdBanner from "./AdBanner";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -198,7 +208,7 @@ const HottestSongs: React.FC = () => {
         onHandleMintForm={handleMintForm}
         isVisible={displayModal}
         isMinting={isMinting}
-      />
+      /> 
       <AdBanner imageUrl="" />
       <SongList playSong={handlePlaySong}/>
       <StickyPlayer selectedSong={selectedSong}/>

@@ -22,8 +22,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/components/Mintmodal/index.js"  ],
+    "**/*.tsx" ],
   "exclude": [
     "node_modules"
   ]
