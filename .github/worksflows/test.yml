@@ -22,9 +22,10 @@ jobs:
      NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
 
     steps:
-      - name: Check out code
+      - name: Check out code and lint
         uses: actions/checkout@v2
+      - name: Install package
         run: |
-          yarn
+          yarn install --frozen-lockfile
           rm -rf __generated__
-          yarn lint
+          yarn lint --max-warnings=0
