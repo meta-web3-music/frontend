@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Build
         run: |
           yarn
           rm -rf __generated__
