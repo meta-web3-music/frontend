@@ -1,0 +1,30 @@
+name: "Lint and build"
+on: push
+
+jobs:
+  build:
+    name: Build next app
+    runs-on: ubuntu-latest
+    env:
+     NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        run: |
+          yarn
+          rm -rf __generated__
+          yarn build
+  lint:
+    name: Lint next app
+    runs-on: ubuntu-latest
+    env:
+     NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        run: |
+          yarn
+          rm -rf __generated__
+          yarn lint
