@@ -1,12 +1,5 @@
+import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 
-type songShape={
-    name:string,
-    artist:string,
-    url:string
-  }
-  
-  interface StickyPlayerProps{
-    selectedSong:songShape
-  }
-
-  export type {songShape,StickyPlayerProps}
+export interface StickyPlayerProps {
+  musicNft: GetAllMusic_musicNFTs;
+}

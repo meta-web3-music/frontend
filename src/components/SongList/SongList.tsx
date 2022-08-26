@@ -1,25 +1,20 @@
-import {useState,useEffect} from 'react'
-
-// graphql imports
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 
 // antd imports
 import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Space, Radio, Typography,List } from "antd";
+import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
 import type { RadioChangeEvent } from "antd";
- // antd component extracts
- const { Title } = Typography;
 
 // types
-import {SongListProps} from './SongList.types'
+import { SongListProps } from "./SongList.types";
 
 // custom-component imports
-import { TitleNode,SongNode } from './ListItemNodes';
+import { TitleNode, SongNode } from "./ListItemNodes";
 
-
-const SongList: React.FC<SongListProps> = ({playSong}) => {
+const SongList: React.FC<SongListProps> = ({ playSong }) => {
   const {
     loading: isLoadingAllMusic,
     data: allMusicConnection,
@@ -111,32 +106,29 @@ const SongList: React.FC<SongListProps> = ({playSong}) => {
       {/* end dropdowns */}
 
       {/* songlist */}
-    <List
-       loading={isLoadingAllMusic}
-       style={{
+      <List
+        loading={isLoadingAllMusic}
+        style={{
           width: "700px",
           alignSelf: "center",
           border: "1px solid #e5e5e5",
           borderRadius: "20px",
           padding: "1em",
         }}
-       itemLayout="horizontal"
-       dataSource={allMusicConnection?.musicNFTs}
-       renderItem={(item) => (
+        itemLayout="horizontal"
+        dataSource={allMusicConnection?.musicNFTs}
+        renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
-              title={
-                <TitleNode metadataUri={item.metaDataUri} name={"someone"} ownerAddress={item.owner.id} />
-              }
+              title={<TitleNode musicItem={item} />}
               description={`Burna Boy`}
             />
-            <SongNode assetUri={item.assetUri} playSong={playSong}  />
+            <SongNode musicItem={item} playSong={playSong} />
           </List.Item>
-        )}/>
+        )}
+      />
     </>
   );
 };
 
 export default SongList;
-
-

@@ -1,5 +1,7 @@
-interface SongListProps{
-    playSong:(uri:string)=>void
-  }
+import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 
-  export type {SongListProps}
+interface SongListProps {
+  playSong: (musicNft: GetAllMusic_musicNFTs) => void;
+}
+
+export type { SongListProps }
