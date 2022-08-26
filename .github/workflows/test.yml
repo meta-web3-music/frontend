@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Build
+      - name: Build next app
         run: |
           yarn install --frozen-lockfile
           rm -rf __generated__
@@ -23,9 +23,9 @@ jobs:
      NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
 
     steps:
-      - name: Check out code and lint
+      - name: Check out code
         uses: actions/checkout@v2
-      - name: Install package
+      - name: Lint code
         run: |
           yarn install --frozen-lockfile
           rm -rf __generated__
