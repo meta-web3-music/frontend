@@ -1,0 +1,17 @@
+extends:
+  - next/core-web-vitals
+  - eslint:recommended
+  - plugin:react/recommended
+plugins:
+  - react
+rules:
+  linebreak-style:
+    - error
+    - unix
+overrides:
+  - files: 
+    - "*.js"
+    - "*.jsx"
+    rules:
+      "@typescript-eslint/...": "off"
+      "react-hooks/exhaustive-deps": "off"
