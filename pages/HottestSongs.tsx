@@ -1,16 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 
 // graphql imports
-import { useQuery } from "@apollo/client";
-import { GET_ALL_MUSIC } from "../src/graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
-import {
-  GetAllMusic,
-  GetAllMusic_musicNFTs,
-} from "../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GetAllMusic_musicNFTs } from "../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 import { NFTStorage, File } from "nft.storage";
 import { MusicNftMetaData } from "../src/types/MusicNFTData";
-
-// web3 imports
 
 // web3 imports
 import {
@@ -43,7 +36,7 @@ import MintModal from "../src/components/Mintmodal/MintModal";
 import SongList from "../src/components/SongList/SongList";
 import AdBanner from "../src/components/AdBanner/AdBanner";
 import StickyPlayer from "../src/components/StickyPlayer/StickyPlayer";
-import { ipfsToHttps } from "../src/ipfs/fetchIpfs";
+import { ipfsToHttps } from "../src/services/ipfs/fetchIpfs";
 
 // create client instance for nft.storage
 const client = new NFTStorage({

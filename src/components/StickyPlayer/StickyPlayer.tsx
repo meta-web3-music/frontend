@@ -1,7 +1,7 @@
 // antd imports
 import { Typography } from "antd";
 import { useEffect, useState } from "react";
-import { fetchIpfs, ipfsToHttps } from "../../ipfs/fetchIpfs";
+import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 const { Text, Title } = Typography;
 

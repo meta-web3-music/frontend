@@ -1,3 +1,4 @@
+// helper function to transform uri with this format: ipfs://
 export async function fetchIpfs<T>(ipfsUrl: string): Promise<T> {
     const url = ipfsToHttps(ipfsUrl)
     const fetchRes = await fetch(url);

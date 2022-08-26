@@ -4,9 +4,8 @@ import { Typography, Button } from "antd";
 const { Title } = Typography;
 
 //utils
-import { transformIpfsUri } from "./SongList.utils";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
-import { fetchIpfs } from "../../ipfs/fetchIpfs";
+import { fetchIpfs } from "../../services/ipfs/fetchIpfs";
 import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 interface TitleProps {
   musicItem: GetAllMusic_musicNFTs;
