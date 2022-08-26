@@ -21,7 +21,7 @@ import {
   ZoraAsk__factory,
   ZoraModuleManager__factory,
 } from "../../src/contracts";
-import { fetchIpfs } from "../../src/ipfs/fetchIpfs";
+import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
 
 const { Title, Text } = Typography;
 
