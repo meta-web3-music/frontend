@@ -31,6 +31,7 @@ const {Text,Title} = Typography;
 
 // context imports
 import { WalletContext } from "../src/contexts/WalletContext";
+import {SelectedSongProvider} from '../src/contexts/selectedSong'
 
 // custom-components imports
 import MintSongButton from "../src/components/MintSongButton/MintSongButton";
@@ -214,9 +215,12 @@ const HottestSongs: React.FC = () => {
         isVisible={displayModal}
         isMinting={isMinting}
       /> 
+      <SelectedSongProvider>
       {isPlaying && <AdBanner imageUrl="" />}
-      <SongList isLoadingMusic={isLoadingAllMusic} dataSource={allMusicConnection?.musicNFTs||[]} playSong={handlePlaySong}/>
-      {isPlaying && <StickyPlayer selectedSong={selectedSong}/>}
+      <SongList isLoadingMusic={isLoadingAllMusic} dataSource={allMusicConnection?.musicNFTs||[]} />
+      {/* {isPlaying && <StickyPlayer selectedSong={selectedSong}/>} */}
+      <StickyPlayer selectedSong={selectedSong}/>
+      </SelectedSongProvider>
 
     </div>
   );

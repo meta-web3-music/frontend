@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 // types
 import {ModalProps} from './MintModal.types'
 // custom-components
-import {MintForm} from './MintForm'
+import MintForm from './MintForm/MintForm'
 
 
 const MintModal: React.FC<ModalProps> = ({

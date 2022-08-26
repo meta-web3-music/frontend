@@ -1,4 +1,4 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useContext} from 'react'
 
 // graphql imports
 import { useQuery } from "@apollo/client";
@@ -18,8 +18,12 @@ import {SongListProps} from './SongList.types'
 // custom-component imports
 import { TitleNode,SongNode } from './ListItemNodes';
 
+// context imports
+import {SelectedSongContext} from '../../contexts/selectedSong'
 
-const SongList: React.FC<SongListProps> = ({playSong,dataSource,isLoadingMusic}) => {
+const SongList: React.FC<SongListProps> = ({dataSource,isLoadingMusic}) => {
+
+  const targetSong = useContext(SelectedSongContext)
 
 //   // add useState hooks here
 //   const [price, setPrice] = useState("100MATIC");
@@ -121,7 +125,7 @@ const SongList: React.FC<SongListProps> = ({playSong,dataSource,isLoadingMusic})
               }
               description={`Burna Boy`}
             />
-            <SongNode assetUri={item.assetUri} playSong={playSong}  />
+            <SongNode assetUri={item.assetUri} playSong={targetSong.playSong}  />
           </List.Item>
         )}/>
     </>
