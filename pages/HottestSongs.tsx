@@ -192,7 +192,6 @@ const HottestSongs: React.FC = () => {
           imageUrl={ipfsToHttps(selectedSong.advNfts[0]?.assetHash ?? "")}
         />
       )}
-      {/* <SongList playSong={handlePlaySong} /> */}
       {memoizedSongList}
       {selectedSong && <StickyPlayer musicNft={selectedSong} />}
     </div>
