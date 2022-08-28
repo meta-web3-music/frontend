@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
+import React from 'react'
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 
 // antd imports
-import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
-import type { RadioChangeEvent } from "antd";
+import {  List } from "antd";
 
 // types
 import { SongListProps } from "./SongList.types";
@@ -25,11 +23,11 @@ const SongList: React.FC<SongListProps> = ({ playSong }) => {
     },
   });
 
-  
 
   return (
     <>
-     
+
+  
 
       {/* songlist */}
       <List
