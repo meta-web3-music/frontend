@@ -84,7 +84,7 @@ const SongList: React.FC<SongListProps> = ({ playSong }) => {
   return (
     <>
       {/* start dropdowns */}
-      <div className="flex flex-row items-center mb-3">
+      {/* <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
         <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
@@ -102,7 +102,7 @@ const SongList: React.FC<SongListProps> = ({ playSong }) => {
             </Space>
           </a>
         </Dropdown>
-      </div>
+      </div> */}
       {/* end dropdowns */}
 
       {/* songlist */}
