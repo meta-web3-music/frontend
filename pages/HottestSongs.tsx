@@ -22,7 +22,6 @@ import {
 } from "../src/env";
 import { AdvNftMetaData } from "../src/types/AdvNFTData";
 
-
 // antd imports
 import { Typography } from "antd";
 const { Text, Title } = Typography;
@@ -32,10 +31,9 @@ import { WalletContext } from "../src/contexts/WalletContext";
 
 // custom-components imports
 import MintSongButton from "../src/components/MintSongButton/MintSongButton";
-// import MintModal from "@/MintModal/MintModal"; 
-import MintModal from "../src/components/MintModal/MintModal";
+import MintModal from "@/MintModal/MintModal";
 import SongList from "../src/components/SongList/SongList";
-import AdBanner from "../src/components/AdBanner/AdBanner"; 
+import AdBanner from "../src/components/AdBanner/AdBanner";
 import StickyPlayer from "../src/components/StickyPlayer/StickyPlayer";
 import { ipfsToHttps } from "../src/services/ipfs/fetchIpfs";
 
