@@ -1,5 +1,5 @@
 // antd component lib
-import { Form, Upload, Button, InputNumber, Input } from "antd";
+import { Form, Upload, Button, InputNumber, Input,Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 // types
 import { FormProps } from "./MintForm.types";
@@ -23,20 +23,9 @@ const MintForm: React.FC<FormProps> = ({
       autoComplete="off"
       layout="vertical"
     >
-      <Form.Item
-        name="upload"
-        label="Upload Song"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
-        extra="Please provide supported formats (.mp3, .wav)"
-      >
-        <Upload name="logo" action="/" accept=".mp3,.wav" listType="picture">
-          <Button icon={<UploadOutlined />}>Click to upload</Button>
-        </Upload>
-      </Form.Item>
 
       <Form.Item
-        label="Song Name"
+        label="Song name"
         name="songName"
         rules={[{ required: true, message: "Please input song name!" }]}
       >
@@ -44,11 +33,26 @@ const MintForm: React.FC<FormProps> = ({
       </Form.Item>
 
       <Form.Item
-        label="Artist Name"
+        label="Artist name"
         name="artistName"
         rules={[{ required: true, message: "Please input artist name!" }]}
       >
         <Input />
+      </Form.Item>
+
+
+      <Form.Item
+        label="Ad duration"
+        name="adDuration"
+        rules={[{ required: true, message: "Please pick a duration!" }]}
+      >
+      <Radio.Group defaultValue="2592000" buttonStyle="solid">
+      <Radio.Button value="2592000">30 Days</Radio.Button>
+      <Radio.Button value="1728000">20 Days</Radio.Button>
+      <Radio.Button value="864000">10 Days</Radio.Button>
+      <Radio.Button value="259200">3 Days</Radio.Button>
+    </Radio.Group>
+
       </Form.Item>
 
       <Form.Item
@@ -57,6 +61,19 @@ const MintForm: React.FC<FormProps> = ({
         rules={[{ required: true, message: "Please input adspace price!" }]}
       >
         <InputNumber />
+      </Form.Item>
+
+      <Form.Item
+        name="upload"
+        label="Upload Song"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        rules={[{ required: true, message: "Please input artist name!" }]}
+        extra="Please provide supported formats (.mp3, .wav)"
+      >
+        <Upload name="logo" action="/" accept=".mp3,.wav" listType="picture">
+          <Button icon={<UploadOutlined />}>Click to upload</Button>
+        </Upload>
       </Form.Item>
 
       <Form.Item>
