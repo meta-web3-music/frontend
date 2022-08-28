@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 
 // graphql imports
 import { GetAllMusic_musicNFTs } from "../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
@@ -32,7 +32,7 @@ import { WalletContext } from "../src/contexts/WalletContext";
 
 // custom-components imports
 import MintSongButton from "../src/components/MintSongButton/MintSongButton";
-import MintModal from "../src/components/Mintmodal/MintModal";
+import MintModal from "../src/components/MintModal/MintModal";
 import SongList from "../src/components/SongList/SongList";
 import AdBanner from "../src/components/AdBanner/AdBanner";
 import StickyPlayer from "../src/components/StickyPlayer/StickyPlayer";
@@ -174,6 +174,11 @@ const HottestSongs: React.FC = () => {
     // set banner place holder to start loading while fetching image from ipfs
   };
 
+  const memoizedSongList = useMemo(
+    () => <SongList playSong={handlePlaySong} />,
+    []
+  );
+
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
       <Title level={3}>Hottest Songs</Title>
@@ -190,7 +195,7 @@ const HottestSongs: React.FC = () => {
           imageUrl={ipfsToHttps(selectedSong.advNfts[0]?.assetHash ?? "")}
         />
       )}
-      <SongList playSong={handlePlaySong} />
+      {memoizedSongList}
       {selectedSong && <StickyPlayer musicNft={selectedSong} />}
     </div>
   );
