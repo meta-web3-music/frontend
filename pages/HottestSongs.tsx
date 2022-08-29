@@ -174,6 +174,10 @@ const HottestSongs: React.FC = () => {
     // set banner place holder to start loading while fetching image from ipfs
   };
 
+  const handleCloseStickyPlayer = () =>{
+    setSelectedSong(undefined);
+  }
+
   const memoizedSongList = useMemo(
     () => <SongList playSong={handlePlaySong} />,
     []
@@ -196,7 +200,7 @@ const HottestSongs: React.FC = () => {
         />
       )}
       {memoizedSongList}
-      {selectedSong && <StickyPlayer musicNft={selectedSong} />}
+      {selectedSong && <StickyPlayer onClosePlayer={handleCloseStickyPlayer} musicNft={selectedSong} />}
     </div>
   );
 };
