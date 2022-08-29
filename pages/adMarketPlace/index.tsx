@@ -153,6 +153,8 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
   const [price, setPrice] = useState("100MATIC");
   const [views, setViews] = useState("100kViews");
 
+  const {getWeb3Provider,web3Provider} = useContext(WalletContext)
+
   const onChangePrice = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
     setPrice(e.target.value);
@@ -244,7 +246,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
         return (
           <List.Item
           extra={
-            <Button onClick={() => onRentClick(item)}>Rent Space</Button>
+            <Button onClick={web3Provider === undefined ? getWeb3Provider : () => onRentClick(item)}>Rent Ad Space</Button>
           }
           >
             <List.Item.Meta
