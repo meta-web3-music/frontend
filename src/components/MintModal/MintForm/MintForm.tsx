@@ -1,19 +1,25 @@
 // antd component lib
 import { Form, Upload, Button, InputNumber, Input,Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { Slider } from 'antd';
+import type { SliderMarks } from 'antd/es/slider';
+
 // types
 import { FormProps } from "./MintForm.types";
 
 const MintForm: React.FC<FormProps> = ({
   onHandleMintForm,
   isMinting,
-}: FormProps) => {
+}) => {
+
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e?.fileList;
   };
+
+  
 
   return (
     <Form
@@ -46,13 +52,7 @@ const MintForm: React.FC<FormProps> = ({
         name="adDuration"
         rules={[{ required: true, message: "Please pick a duration!" }]}
       >
-      <Radio.Group defaultValue="2592000" buttonStyle="solid">
-      <Radio.Button value="2592000">30 Days</Radio.Button>
-      <Radio.Button value="1728000">20 Days</Radio.Button>
-      <Radio.Button value="864000">10 Days</Radio.Button>
-      <Radio.Button value="259200">3 Days</Radio.Button>
-    </Radio.Group>
-
+      <Slider  min={3} max={30} marks={marks} defaultValue={3} />
       </Form.Item>
 
       <Form.Item
@@ -93,3 +93,11 @@ const MintForm: React.FC<FormProps> = ({
 };
 
 export default MintForm;
+
+
+const marks: SliderMarks = {
+  3: '3',
+  10: '10 Days',
+  20: '20 Days',
+  30: '30'
+};
