@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaEthereum, FaCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
 
@@ -12,6 +12,12 @@ function Header() {
   const {walletAddress, getWeb3Provider, clearWallet, web3Provider} = useContext(WalletContext);
   const router = useRouter();
 
+  useEffect(() => {
+    getWalletBalance()
+  }, [])
+
+  const [balance,setBalance] = useState('0');
+
   const navigateToAdPage = () => {
     router.push("/adMarketPlace");
   };
@@ -19,12 +25,13 @@ function Header() {
   const navigateToHottestSongPage = () => {
     router.push("/");
   };
-  // useRouter();
 
-  const walletBalance = async()=>{
-    const response = await web3Provider?.getSigner().getBalance();
-    const balance = utils.formatEther(response) 
-    return balance
+  const getWalletBalance = async()=>{
+    const response = await web3Provider?.getSigner().getBalance() || 0;
+    const balance = utils.formatEther(response)
+    const formatedBalance = Number(balance).toFixed(4)
+    setBalance(String(formatedBalance))
+
   }
 
   return (
@@ -77,7 +84,7 @@ function Header() {
               onClick={clearWallet}
               className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3"
             >
-              <span>0 MATIC</span>
+              <span>{`${balance} MATIC`}</span>
               <span className="flex flex-row align-center bg-gray-100 rounded-full p-1 ml-1">
                 <FaCircle className=" text-[#15ae5c] mr-1 w-5 h-5" />
                 {walletAddress.substring(0, 4)}...
