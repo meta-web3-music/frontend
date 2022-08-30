@@ -120,7 +120,7 @@ const HottestSongs: React.FC = () => {
           // TODO: generate this, maybe not important for mvp
           "advAssetHash",
           // formData.adDuration returns number of days
-          formData.adDuration * 86400 // 1 Day == 86400 seconds
+          formData.adDurationDays * 86400 // 1 Day == 86400 seconds
         )
         .then((e) => e.wait());
       console.log("events");
