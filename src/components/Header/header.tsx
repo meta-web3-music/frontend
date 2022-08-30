@@ -60,7 +60,8 @@ function Header() {
             />
             <span className="flex ml-1 text-base">Mumbai</span>
           </div>
-          {!walletAddress ? (
+
+          {!web3Provider ? (
             <button
               onClick={getWeb3Provider}
               className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3 mr-4"
