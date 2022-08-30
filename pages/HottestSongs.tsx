@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo } from "react";
 
 // graphql imports
 import { GetAllMusic_musicNFTs } from "../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
-import { NFTStorage, File } from "nft.storage";
+import { NFTStorage } from "nft.storage";
 import { MusicNftMetaData } from "../src/types/MusicNFTData";
 
 // web3 imports
@@ -119,7 +119,8 @@ const HottestSongs: React.FC = () => {
           advNftMetaDataHash,
           // TODO: generate this, maybe not important for mvp
           "advAssetHash",
-          300000
+          // formData.adDuration returns number of days
+          formData.adDurationDays * 86400 // 1 Day == 86400 seconds
         )
         .then((e) => e.wait());
       console.log("events");
