@@ -17,7 +17,7 @@ const providerOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: {
-        137: "https://rpc-mumbai.matic.today/",
+        9000: "https://eth.bd.evmos.dev:8545/",
       },
     },
   },

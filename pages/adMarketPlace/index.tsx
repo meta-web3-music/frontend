@@ -13,7 +13,7 @@ import {
 } from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
 import { GET_ALL_ASKS } from "../../src/graph-ql/queries/GET_ALL_ASKS/getAllAsks";
 import { useQuery } from "@apollo/client";
-import { AdvNFTAddr, ZoraAskAddr } from "../../src/env";
+import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
 import { useEffect, useState } from "react";
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 // custom-component imports
@@ -21,11 +21,7 @@ import AdModal from "../../src/components/AdModal/AdModal";
 
 import { NFTStorage, File } from "nft.storage";
 import { WalletContext } from "../../src/contexts/WalletContext";
-import {
-  AdvNFT__factory,
-  ZoraAsk__factory,
-  ZoraModuleManager__factory,
-} from "../../src/contracts";
+import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
 
 const { Title, Text } = Typography;
@@ -70,7 +66,8 @@ const AdMarketPlace: React.FC = () => {
       );
       const signer = (await walletContext.getWeb3Provider()).getSigner();
       const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
-      const zoraAsks = ZoraAsk__factory.connect(ZoraAskAddr, signer);
+      const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
+
       const zeroAddr = "0x0000000000000000000000000000000000000000";
       console.log(selectedAdv);
       if (!selectedAdv?.token.id) {
@@ -79,17 +76,10 @@ const AdMarketPlace: React.FC = () => {
       }
       console.log("handleAdForm: Filling Zora Asks");
 
-      await zoraAsks
-        .fillAsk(
-          AdvNFTAddr,
-          selectedAdv?.token.id,
-          zeroAddr,
-          selectedAdv?.ask_askPrice,
-          zeroAddr,
-          {
-            value: selectedAdv?.ask_askPrice,
-          }
-        )
+      await marketPlace
+        .createMarketSale(AdvNFTAddr, selectedAdv?.token.id, {
+          value: selectedAdv?.ask_askPrice,
+        })
         .then((e) => e.wait);
       // invoke contract func and mint song nft with ad nft
 
@@ -207,8 +197,8 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
 
   return (
     <>
-     {/* start dropdowns */}
-     <div className="flex flex-row items-center mb-3">
+      {/* start dropdowns */}
+      <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
         <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
@@ -229,34 +219,34 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
       </div>
       {/* end dropdowns */}
 
-    <List
-      loading={isLoadingAllAsks}
-      style={{
-        width: "700px",
-        alignSelf: "center",
-        border: "1px solid #e5e5e5",
-        borderRadius: "20px",
-        padding: "1em",
-      }}
-      itemLayout="horizontal"
-      dataSource={allAsksConnection?.asks}
-      renderItem={(item) => {
-        return (
-          <List.Item
-          extra={
-            <Button onClick={() => onRentClick(item)}>Rent Space</Button>
-          }
-          >
-            <List.Item.Meta
-              // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-              title={<TitleNode item={item} />}
-              description="TODO: fetch desc from ipfs"
-            />
-          </List.Item>
-        );
-      }}
-    />
-      </>
+      <List
+        loading={isLoadingAllAsks}
+        style={{
+          width: "700px",
+          alignSelf: "center",
+          border: "1px solid #e5e5e5",
+          borderRadius: "20px",
+          padding: "1em",
+        }}
+        itemLayout="horizontal"
+        dataSource={allAsksConnection?.asks}
+        renderItem={(item) => {
+          return (
+            <List.Item
+              extra={
+                <Button onClick={() => onRentClick(item)}>Rent Space</Button>
+              }
+            >
+              <List.Item.Meta
+                // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                title={<TitleNode item={item} />}
+                description="TODO: fetch desc from ipfs"
+              />
+            </List.Item>
+          );
+        }}
+      />
+    </>
   );
 };
 

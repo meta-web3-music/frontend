@@ -6,20 +6,11 @@ import { NFTStorage } from "nft.storage";
 import { MusicNftMetaData } from "../src/types/MusicNFTData";
 
 // web3 imports
-import {
-  MusicNFT__factory,
-  ZoraAsk__factory,
-  ZoraModuleManager__factory,
-} from "../src/contracts";
+import { MarketPlace__factory, MusicNFT__factory } from "../src/contracts";
 
 import { BigNumber } from "ethers";
 
-import {
-  AdvNFTAddr,
-  MusicNFTAddr,
-  ZoraAskAddr,
-  ZoraModuleManagerAddr,
-} from "../src/env";
+import { AdvNFTAddr, MarketPlaceAddr, MusicNFTAddr } from "../src/env";
 import { AdvNftMetaData } from "../src/types/AdvNFTData";
 
 // antd imports
@@ -123,38 +114,13 @@ const HottestSongs: React.FC = () => {
           formData.adDurationDays * 86400 // 1 Day == 86400 seconds
         )
         .then((e) => e.wait());
-      console.log("events");
       console.log(resCreateMusicWithAdv);
       const advNftID = resCreateMusicWithAdv.events?.[2].args
         ?.tokenId as BigNumber;
 
-      const zoraModuleManager = ZoraModuleManager__factory.connect(
-        ZoraModuleManagerAddr,
-        signer
-      );
-
-      const isModuleApproved = await zoraModuleManager.isModuleApproved(
-        walletContext.walletAddress,
-        ZoraAskAddr
-      );
-      if (!isModuleApproved) {
-        console.log("Setting module approval");
-
-        await zoraModuleManager.setApprovalForModule(ZoraAskAddr, true);
-      }
-
-      console.log("Creating ask");
-      console.log("adv id is", advNftID);
-
-      const zoraNft = ZoraAsk__factory.connect(ZoraAskAddr, signer);
-      await zoraNft.createAsk(
-        AdvNFTAddr,
-        advNftID.toNumber(),
-        123,
-        "0x0000000000000000000000000000000000000000",
-        walletContext.walletAddress,
-        0
-      );
+      console.log("Creating marketItem");
+      const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
+      await marketPlace.createMarketItem(AdvNFTAddr, advNftID.toNumber(), 123);
       // end minting
       setIsMinting(false);
       handleModal();
@@ -175,9 +141,9 @@ const HottestSongs: React.FC = () => {
     // set banner place holder to start loading while fetching image from ipfs
   };
 
-  const handleCloseStickyPlayer = () =>{
+  const handleCloseStickyPlayer = () => {
     setSelectedSong(undefined);
-  }
+  };
 
   const memoizedSongList = useMemo(
     () => <SongList playSong={handlePlaySong} />,
@@ -201,7 +167,12 @@ const HottestSongs: React.FC = () => {
         />
       )}
       {memoizedSongList}
-      {selectedSong && <StickyPlayer onClosePlayer={handleCloseStickyPlayer} musicNft={selectedSong} />}
+      {selectedSong && (
+        <StickyPlayer
+          onClosePlayer={handleCloseStickyPlayer}
+          musicNft={selectedSong}
+        />
+      )}
     </div>
   );
 };

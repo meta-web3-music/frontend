@@ -52,7 +52,7 @@ function Header() {
               src="./polygon.svg"
               className="flex align-center w-[16px] h-[16px]"
             />
-            <span className="flex ml-1 text-base">Mumbai</span>
+            <span className="flex ml-1 text-base">Evmos</span>
           </div>
           {!walletContext.walletAddress ? (
             <button
