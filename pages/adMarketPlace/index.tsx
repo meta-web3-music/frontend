@@ -7,11 +7,7 @@ import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
 import type { RadioChangeEvent } from "antd";
 
 import { useRouter } from "next/router";
-import {
-  GetAllAsks,
-  GetAllAsks_asks,
-} from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
-import { GET_ALL_ASKS } from "../../src/graph-ql/queries/GET_ALL_ASKS/getAllAsks";
+
 import { useQuery } from "@apollo/client";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
 import { useEffect, useState } from "react";
@@ -23,6 +19,11 @@ import { NFTStorage, File } from "nft.storage";
 import { WalletContext } from "../../src/contexts/WalletContext";
 import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
+import {
+  GetUnsold,
+  GetUnsold_marketItems,
+} from "../../src/graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
+import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
 
 const { Title, Text } = Typography;
 
@@ -34,7 +35,7 @@ const client = new NFTStorage({
 const AdMarketPlace: React.FC = () => {
   const walletContext = useContext(WalletContext);
   const router = useRouter();
-  const [selectedAdv, setSelectedAdv] = useState<GetAllAsks_asks>();
+  const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
 
@@ -68,19 +69,17 @@ const AdMarketPlace: React.FC = () => {
       const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
 
-      const zeroAddr = "0x0000000000000000000000000000000000000000";
-      console.log(selectedAdv);
       if (!selectedAdv?.token.id) {
         throw new Error("Failed to get selected adv id");
         return;
       }
-      console.log("handleAdForm: Filling Zora Asks");
+      console.log("handleAdForm: Creating Market Sale");
 
       await marketPlace
         .createMarketSale(AdvNFTAddr, selectedAdv?.token.id, {
-          value: selectedAdv?.ask_askPrice,
+          value: selectedAdv?.price,
         })
-        .then((e) => e.wait);
+        .then((e) => e.wait());
       // invoke contract func and mint song nft with ad nft
 
       console.log("handleAdForm: Updating adv banner");
@@ -98,7 +97,7 @@ const AdMarketPlace: React.FC = () => {
     handleAdModal();
   };
 
-  const handleRentClick = (advNft: GetAllAsks_asks) => {
+  const handleRentClick = (advNft: GetUnsold_marketItems) => {
     console.log(selectedAdv);
 
     setSelectedAdv(advNft);
@@ -125,7 +124,7 @@ const AdMarketPlace: React.FC = () => {
 
 interface AdlistProp {
   onHandleModal: () => void;
-  onRentClick: (advNft: GetAllAsks_asks) => void;
+  onRentClick: (advNft: GetUnsold_marketItems) => void;
 }
 
 const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
@@ -133,7 +132,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
     loading: isLoadingAllAsks,
     data: allAsksConnection,
     error: allAskError,
-  } = useQuery<GetAllAsks>(GET_ALL_ASKS, {
+  } = useQuery<GetUnsold>(GET_UNSOLD, {
     variables: {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
@@ -229,7 +228,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
           padding: "1em",
         }}
         itemLayout="horizontal"
-        dataSource={allAsksConnection?.asks}
+        dataSource={allAsksConnection?.marketItems}
         renderItem={(item) => {
           return (
             <List.Item
@@ -251,7 +250,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
 };
 
 interface TitleProps {
-  item: GetAllAsks_asks;
+  item: GetUnsold_marketItems;
 }
 
 const TitleNode: React.FC<TitleProps> = ({ item }) => {
