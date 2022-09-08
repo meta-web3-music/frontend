@@ -34,6 +34,8 @@ if (typeof window !== "undefined") {
 export function WalletProvider(props: React.PropsWithChildren) {
   const [provider, setProvider] = useState<providers.Web3Provider>();
   const [walletAddress, setWalletAddress] = useState("");
+
+  // func to open modal and prompt user to connect
   const getWeb3Provider = useCallback(async () => {
     const wallet = await web3Modal.connect();
     const provider = new providers.Web3Provider(wallet);
@@ -51,6 +53,7 @@ export function WalletProvider(props: React.PropsWithChildren) {
   const clearWallet = useCallback(() => {
     try {
       web3Modal.clearCachedProvider();
+      //update state of walletAddress as well.
       setProvider(undefined);
     } catch (error) {
       console.log({ error });
