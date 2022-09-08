@@ -57,7 +57,7 @@ export function WalletProvider(props: React.PropsWithChildren) {
   const formatBalance = (balance:BigNumber)=>{
     const etherFormat = utils.formatEther(balance)
     const formatedBalance = Number(etherFormat).toFixed(4)
-    return String(formatedBalance);
+    return formatedBalance;
   }
 
   useEffect(() => {
