@@ -3,12 +3,14 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { Chain } from "../env";
+import {utils,BigNumber} from 'ethers'
 
 type WalletContextType = {
   web3Provider: providers.Web3Provider | undefined;
   getWeb3Provider: () => Promise<providers.Web3Provider>;
   clearWallet: () => void;
   walletAddress: string;
+  walletBalance: string;
 };
 export let WalletContext: React.Context<WalletContextType>;
 
@@ -32,17 +34,31 @@ if (typeof window !== "undefined") {
 }
 
 export function WalletProvider(props: React.PropsWithChildren) {
+
   const [provider, setProvider] = useState<providers.Web3Provider>();
   const [walletAddress, setWalletAddress] = useState("");
 
-  // func to open modal and prompt user to connect
+  const [walletBalance, setWalletBalance] = useState("");
+
   const getWeb3Provider = useCallback(async () => {
     const wallet = await web3Modal.connect();
     const provider = new providers.Web3Provider(wallet);
-    setWalletAddress(await provider.getSigner().getAddress());
+
+    const signer = provider.getSigner();
+    const walletAddress = await signer.getAddress()
+    const walletBalance =  await signer.getBalance() || 0
+    const formattedBalance = formatBalance(walletBalance)
+    setWalletAddress(walletAddress);
+    setWalletBalance(formattedBalance);
     setProvider(provider);
     return provider;
-  }, []);
+  }, []); 
+
+  const formatBalance = (balance:BigNumber)=>{
+    const etherFormat = utils.formatEther(balance)
+    const formatedBalance = Number(etherFormat).toFixed(4)
+    return formatedBalance;
+  }
 
   useEffect(() => {
     if (web3Modal.cachedProvider) {
@@ -66,8 +82,9 @@ export function WalletProvider(props: React.PropsWithChildren) {
       clearWallet,
       getWeb3Provider,
       walletAddress,
+      walletBalance
     }),
-    [provider, clearWallet, getWeb3Provider, walletAddress]
+    [provider, clearWallet, getWeb3Provider, walletBalance, walletAddress]
   );
 
   WalletContext = React.createContext(value);
