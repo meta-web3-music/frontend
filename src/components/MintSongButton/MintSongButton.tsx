@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import {Typography,Button} from 'antd'
 
 const {Title, Text} = Typography;
@@ -6,8 +6,15 @@ const {Title, Text} = Typography;
 // types imports
 import { MintSongButtonProps } from "./MintSongbutton.types";
 
+// context imports
+import {WalletContext} from  '../../contexts/WalletContext'
+
+
+// COMPONENT
 const MintSongButton: React.FC<MintSongButtonProps> = ({ setDisplayModal }) => {
-  
+
+  const {getWeb3Provider,web3Provider} = useContext(WalletContext)
+  console.log(web3Provider)
   return (
     <div style = {{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 15px', margin:'1em',borderRadius:'10px',border:'1px solid #e5e5e5e5'}}>
       <div style={{display:'flex',flexDirection:'column'}}>
@@ -19,7 +26,7 @@ const MintSongButton: React.FC<MintSongButtonProps> = ({ setDisplayModal }) => {
       <Button
        type="primary"
         shape='round'
-        onClick={setDisplayModal}
+        onClick={web3Provider === undefined ? getWeb3Provider:setDisplayModal}
       >
         Mint Song NFT
       </Button>

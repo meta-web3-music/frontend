@@ -37,6 +37,7 @@ export function WalletProvider(props: React.PropsWithChildren) {
 
   const [provider, setProvider] = useState<providers.Web3Provider>();
   const [walletAddress, setWalletAddress] = useState("");
+
   const [walletBalance, setWalletBalance] = useState("");
 
   const getWeb3Provider = useCallback(async () => {
@@ -68,6 +69,7 @@ export function WalletProvider(props: React.PropsWithChildren) {
   const clearWallet = useCallback(() => {
     try {
       web3Modal.clearCachedProvider();
+      //update state of walletAddress as well.
       setProvider(undefined);
     } catch (error) {
       console.log({ error });
