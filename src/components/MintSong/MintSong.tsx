@@ -46,11 +46,12 @@ const MintSong: React.FC = () =>{
         setShowModal(!showModal)
     }
 
+
     const handleMintForm = async (formData: any) => {
+        setIsMinting(true)
         try {
           const signer = (await walletContext.getWeb3Provider()).getSigner();
-          // setIsMinting(true);
-    
+ 
           // store metadata of music on nft.storage
           const musicAssetHash = await client.storeBlob(
             formData.upload[0].originFileObj
@@ -83,8 +84,12 @@ const MintSong: React.FC = () =>{
           const musicMetadataHash = await client.storeBlob(
             new Blob([JSON.stringify(metaDataObj)])
           );
+
+        //   === finish hashing music here ====
+
+        //   ==== start creating NFT for adspace =====
     
-          // create metadata object for advertisement nft
+        //   create metadata object for advertisement nft
           const advNftDataObj: AdvNftMetaData = {
             description: `Adv nft for ${formData.songName} NFT`,
             mimeType: "image/jpeg",
@@ -117,6 +122,9 @@ const MintSong: React.FC = () =>{
           const advNftID = resCreateMusicWithAdv.events?.[2].args
             ?.tokenId as BigNumber;
     
+
+            // ==== listing Music NFT on zora =====
+
           const zoraModuleManager = ZoraModuleManager__factory.connect(
             ZoraModuleManagerAddr,
             signer
@@ -144,17 +152,17 @@ const MintSong: React.FC = () =>{
             walletContext.walletAddress,
             0
           );
-          // end minting
-        //   setIsMinting(false);
+        //   end minting
+          setIsMinting(false);
           toggleModal();
         } catch (err: any) {
-        //   setIsMinting(false);
+          setIsMinting(false);
           console.log(err);
           console.log(err.stack);
-        }
+        } 
     
-        // close modal
       };
+     
 
     return(
 
@@ -168,7 +176,7 @@ const MintSong: React.FC = () =>{
         />
 
      </>
-     
+
     )
 }
 

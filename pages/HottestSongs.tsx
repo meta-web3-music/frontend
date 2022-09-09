@@ -14,9 +14,9 @@ const { Text, Title } = Typography;
 import SongList from "../src/components/SongList/SongList";
 import AdBanner from "../src/components/AdBanner/AdBanner";
 import StickyPlayer from "../src/components/StickyPlayer/StickyPlayer";
-import { ipfsToHttps } from "../src/services/ipfs/fetchIpfs";
 import MintSong from "../src/components/MintSong/MintSong";
 
+import { ipfsToHttps } from "../src/services/ipfs/fetchIpfs";
 
 
 const HottestSongs: React.FC = () => {
