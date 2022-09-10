@@ -129,7 +129,7 @@ const HottestSongs: React.FC = () => {
       const advNftID = resCreateMusicWithAdv.events?.[2].args
         ?.tokenId as BigNumber;
 
-      const zoraModuleManager = ZoraModuleManager__factory.connect(
+      const zoraModuleManager = ZoraModuleManager__factory.connect( 
         ZoraModuleManagerAddr,
         signer
       );
