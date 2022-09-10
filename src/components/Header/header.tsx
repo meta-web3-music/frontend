@@ -1,15 +1,22 @@
 import React from "react";
 import { useRouter } from "next/router";
 
+// rainbowkit imports
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useNetwork, useSwitchNetwork, useAccount } from 'wagmi'
 
+// antd imports
+import {Button} from 'antd'
 
-// ethers imports
 
 
 function Header() {
 
   const router = useRouter();
+  const { chain } = useNetwork()
+  const {switchNetwork} = useSwitchNetwork()
+  const {isConnected} = useAccount()
+
 
   const navigateToAdPage = () => {
     router.push("/adMarketPlace");
@@ -19,6 +26,15 @@ function Header() {
     router.push("/");
   };
 
+  let correctNetwork;
+
+  if(chain?.network === 'maticmum' || !isConnected){ 
+    correctNetwork = <ConnectButton/>
+  }else(
+    correctNetwork = (
+      <Button onClick={()=>switchNetwork?.(80001)}>Click to switch to Mumbai network</Button>
+    ) 
+  ) 
 
   return (
     <>
@@ -48,7 +64,7 @@ function Header() {
             </button>
           )}
         </div>
-        <ConnectButton />
+        {correctNetwork}
              </header>
     </>
   );
