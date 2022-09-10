@@ -1,0 +1,184 @@
+import {useState,useContext} from 'react';
+
+import { NFTStorage } from "nft.storage";
+import { MusicNftMetaData } from "../../types/MusicNFTData";
+
+// web3 imports
+import {
+  MusicNFT__factory,
+  ZoraAsk__factory,
+  ZoraModuleManager__factory,
+} from "../../contracts";
+
+import { BigNumber } from "ethers";
+
+import {
+  AdvNFTAddr,
+  MusicNFTAddr,
+  ZoraAskAddr,
+  ZoraModuleManagerAddr,
+} from "../../env";
+
+import { AdvNftMetaData } from "../../types/AdvNFTData";
+
+// custom-component imports
+import MintSongButton from './MintSongButton/MintSongButton';
+import MintSongModal from './MintSongModal/MintSongModal';
+
+
+// context imports
+import { WalletContext } from "../../contexts/WalletContext";
+
+// create client instance for nft.storage
+const client = new NFTStorage({
+    token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
+  });
+
+
+const MintSong: React.FC = () =>{ 
+
+    const walletContext = useContext(WalletContext);
+
+    const [showModal, setShowModal] = useState(false);
+    const [isMinting, setIsMinting] = useState(false)
+
+    const toggleModal = () =>{
+        setShowModal(!showModal)
+    }
+
+
+    const handleMintForm = async (formData: any) => {
+        setIsMinting(true)
+        try {
+          const signer = (await walletContext.getWeb3Provider()).getSigner();
+ 
+          // store metadata of music on nft.storage
+          const musicAssetHash = await client.storeBlob(
+            formData.upload[0].originFileObj
+          );
+    
+          // create metadata object for music nft
+          const metaDataObj: MusicNftMetaData = {
+            body: {
+              artist: formData.songArtist,
+              artwork: {
+                info: {
+                  mimeType: "image/jpeg",
+                  uri: "cover image uri",
+                },
+                isNft: false,
+                nft: null,
+              },
+              duration: 100,
+              mimeType: "audio/mp3",
+              notes: formData.adSpacePrice,
+              project: null,
+              title: formData.songName,
+              trackNumber: "",
+              version: "",
+              visualizer: "",
+            },
+          };
+    
+          // store music nft metadata on nft.storage
+          const musicMetadataHash = await client.storeBlob(
+            new Blob([JSON.stringify(metaDataObj)])
+          );
+
+        //   === finish hashing music here ====
+
+        //   ==== start creating NFT for adspace =====
+    
+        //   create metadata object for advertisement nft
+          const advNftDataObj: AdvNftMetaData = {
+            description: `Adv nft for ${formData.songName} NFT`,
+            mimeType: "image/jpeg",
+            name: `${formData.songName}ADV NFT`,
+            version: "",
+          };
+    
+          // store advertisement nft metadata on nft.storage
+          const advNftMetaDataHash = await client.storeBlob(
+            new Blob([JSON.stringify(advNftDataObj)])
+          );
+    
+          // connect to music nft smart-contract
+          const musicNft = MusicNFT__factory.connect(MusicNFTAddr, signer);
+    
+          // invoke contract func and mint song nft with ad nft
+          const resCreateMusicWithAdv = await musicNft
+            .createMusicWithAdv(
+              musicMetadataHash,
+              musicAssetHash,
+              advNftMetaDataHash,
+              // TODO: generate this, maybe not important for mvp
+              "advAssetHash",
+              // formData.adDuration returns number of days
+              formData.adDurationDays * 86400 // 1 Day == 86400 seconds
+            )
+            .then((e) => e.wait());
+          console.log("events");
+          console.log(resCreateMusicWithAdv);
+          const advNftID = resCreateMusicWithAdv.events?.[2].args
+            ?.tokenId as BigNumber;
+    
+
+            // ==== listing Music NFT on zora =====
+
+          const zoraModuleManager = ZoraModuleManager__factory.connect(
+            ZoraModuleManagerAddr,
+            signer
+          );
+    
+          const isModuleApproved = await zoraModuleManager.isModuleApproved(
+            walletContext.walletAddress,
+            ZoraAskAddr
+          );
+          if (!isModuleApproved) {
+            console.log("Setting module approval");
+    
+            await zoraModuleManager.setApprovalForModule(ZoraAskAddr, true);
+          }
+    
+          console.log("Creating ask");
+          console.log("adv id is", advNftID);
+    
+          const zoraNft = ZoraAsk__factory.connect(ZoraAskAddr, signer);
+          await zoraNft.createAsk(
+            AdvNFTAddr,
+            advNftID.toNumber(),
+            123,
+            "0x0000000000000000000000000000000000000000",
+            walletContext.walletAddress,
+            0
+          );
+        //   end minting
+          setIsMinting(false);
+          toggleModal();
+        } catch (err: any) {
+          setIsMinting(false);
+          console.log(err);
+          console.log(err.stack);
+        } 
+    
+      };
+     
+
+    return(
+
+     <>
+        <MintSongButton onToggleModal={toggleModal}/>
+        <MintSongModal 
+          isMinting={isMinting} 
+          isVisible={showModal}  
+          onHandleModal={toggleModal}
+          onHandleMintForm={handleMintForm}
+        />
+
+     </>
+
+    )
+}
+
+
+export default MintSong

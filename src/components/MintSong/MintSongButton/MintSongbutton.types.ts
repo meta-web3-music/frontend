@@ -1,5 +1,5 @@
 interface MintSongButtonProps{
-    setDisplayModal: () =>void
+    onToggleModal: () =>void
   }
 
   export type {MintSongButtonProps}
