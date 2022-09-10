@@ -6,15 +6,17 @@ const {Title, Text} = Typography;
 // types imports
 import { MintSongButtonProps } from "./MintSongbutton.types";
 
-// context imports
-import {WalletContext} from  '../../contexts/WalletContext'
-
+// rainbowkit imports
+import {useConnectModal} from '@rainbow-me/rainbowkit';
+import {useAccount} from 'wagmi'
 
 // COMPONENT
 const MintSongButton: React.FC<MintSongButtonProps> = ({ setDisplayModal }) => {
 
-  const {getWeb3Provider,web3Provider} = useContext(WalletContext)
-  console.log(web3Provider)
+
+  const { openConnectModal } = useConnectModal();
+  const {  isConnected } = useAccount()
+
   return (
     <div style = {{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 15px', margin:'1em',borderRadius:'10px',border:'1px solid #e5e5e5e5'}}>
       <div style={{display:'flex',flexDirection:'column'}}>
@@ -24,9 +26,9 @@ const MintSongButton: React.FC<MintSongButtonProps> = ({ setDisplayModal }) => {
         </Text>
       </div>
       <Button
-       type="primary"
+       type="primary" 
         shape='round'
-        onClick={web3Provider === undefined ? getWeb3Provider:setDisplayModal}
+        onClick={isConnected ? setDisplayModal: openConnectModal}
       >
         Mint Song NFT
       </Button>

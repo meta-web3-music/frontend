@@ -27,8 +27,8 @@ import { AdvNftMetaData } from "../src/types/AdvNFTData";
 import { Typography } from "antd";
 const { Text, Title } = Typography;
 
-// context imports
-import { WalletContext } from "../src/contexts/WalletContext";
+// wagmi imports
+import { useSigner, useAccount } from 'wagmi'
 
 // custom-components imports
 import MintSongButton from "../src/components/MintSongButton/MintSongButton";
@@ -50,16 +50,17 @@ interface HottestSongsProps {
 const HottestSongs: React.FC = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-  const walletContext = useContext(WalletContext);
+  const { data: signer, isError, isLoading } = useSigner()
+  const {address} = useAccount()
   const [selectedSong, setSelectedSong] = useState<GetAllMusic_musicNFTs>();
+
   // function to handle toggling of minting modal
   const handleModal = () => {
     setDisplayModal(!displayModal);
   };
 
   const handleMintForm = async (formData: any) => {
-    try {
-      const signer = (await walletContext.getWeb3Provider()).getSigner();
+    try { 
       setIsMinting(true);
 
       // store metadata of music on nft.storage
@@ -134,7 +135,7 @@ const HottestSongs: React.FC = () => {
       );
 
       const isModuleApproved = await zoraModuleManager.isModuleApproved(
-        walletContext.walletAddress,
+        address,
         ZoraAskAddr
       );
       if (!isModuleApproved) {
@@ -152,7 +153,7 @@ const HottestSongs: React.FC = () => {
         advNftID.toNumber(),
         123,
         "0x0000000000000000000000000000000000000000",
-        walletContext.walletAddress,
+        address,
         0
       );
       // end minting
@@ -166,6 +167,8 @@ const HottestSongs: React.FC = () => {
 
     // close modal
   };
+
+  
 
   const handlePlaySong = async (musicNft: GetAllMusic_musicNFTs) => {
     //set local state
