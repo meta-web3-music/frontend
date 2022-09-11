@@ -160,8 +160,7 @@ const MintSong: React.FC = () =>{
      
 
     return(
-
-     <>
+      <>
         <MintSongButton onToggleModal={toggleModal}/>
         <MintSongModal 
           isMinting={isMinting} 
@@ -169,9 +168,7 @@ const MintSong: React.FC = () =>{
           onHandleModal={toggleModal}
           onHandleMintForm={handleMintForm}
         />
-
-     </>
-
+       </>
     )
 }
 
