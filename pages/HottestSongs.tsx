@@ -20,15 +20,12 @@ import { ipfsToHttps } from "../src/services/ipfs/fetchIpfs";
 
 
 const HottestSongs: React.FC = () => {
+
+  const [selectedSong, setSelectedSong] = useState<GetAllMusic_musicNFTs>(); 
   
-  const [selectedSong, setSelectedSong] = useState<GetAllMusic_musicNFTs>();
 
   const handlePlaySong = async (musicNft: GetAllMusic_musicNFTs) => {
-    //set local state
     setSelectedSong(musicNft);
-
-    // set selected Song state
-    // set banner place holder to start loading while fetching image from ipfs
   };
 
   const handleCloseStickyPlayer = () =>{
