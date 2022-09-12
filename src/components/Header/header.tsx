@@ -26,6 +26,10 @@ function Header() {
     router.push("/");
   };
 
+  const navigateProfilePage = () => {
+    router.push("/profile");
+  };
+
   let correctNetwork;
 
   if(chain?.network === 'maticmum' || !isConnected){ 
@@ -46,23 +50,32 @@ function Header() {
           </h1>
         </div>
         {/* Ad marketplace */}
-        <div className="flex flex-col justify-center">
-          {/* LINK TO ADVERTISEMENT PAGE */}
-          {!useRouter().pathname.includes("adMarketPlace") ? (
-            <button
+        <div className="flex flex-row justify-center">
+
+            <Button
+              type="link"
               onClick={navigateToAdPage}
               className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
             >
               Ad Marketplace
-            </button>
-          ) : (
-            <button
+            </Button>
+
+            <Button
+              type="link"
               onClick={navigateToHottestSongPage}
               className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
             >
-              Listen to Music
-            </button>
-          )}
+              Music
+            </Button>
+
+            <Button
+              type="link"
+              onClick={navigateProfilePage}
+              className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
+            >
+              Profile
+            </Button>
+
         </div>
         {correctNetwork}
              </header>

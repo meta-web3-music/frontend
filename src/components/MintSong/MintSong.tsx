@@ -119,6 +119,7 @@ const MintSong: React.FC = () =>{
         const advNftID = resCreateMusicWithAdv.events?.[2].args
           ?.tokenId as BigNumber;
   
+          // connect to zora contract
         const zoraModuleManager = ZoraModuleManager__factory.connect( 
           ZoraModuleManagerAddr,
           signer
