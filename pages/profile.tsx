@@ -33,14 +33,6 @@ const Profile: NextPage = () => {
 
 export default Profile;
 
-const Music: React.FC = () =>{
-    console.log('render Music')
-    return(
-        <div>
-            Music Content tab
-        </div>
-    )
-}
 
 const Advertisment: React.FC = () =>{
     console.log('render advertisement')

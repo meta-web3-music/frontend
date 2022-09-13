@@ -7,6 +7,7 @@ const { Title } = Typography;
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import { fetchIpfs } from "../../services/ipfs/fetchIpfs";
 import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+
 interface TitleProps {
   musicItem: GetAllMusic_musicNFTs;
 }
