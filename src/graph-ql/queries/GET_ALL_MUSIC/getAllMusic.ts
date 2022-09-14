@@ -20,9 +20,10 @@ export const GET_ALL_MUSIC = gql`
 }`
 
 
-export const GET_ALL_MUSIC_WITH_ADSPACE = gql`
-  query GetAllMusic{
-    musicNFTs{
+
+export const GET_USER_MUSIC = gql`
+  query GetAllMusic($userAddress:String){
+    musicNFTs(where:{owner:$userAddress}){
             advNfts{
               expirationDuration
             }

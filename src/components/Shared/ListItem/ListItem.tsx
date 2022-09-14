@@ -8,19 +8,23 @@ import { useMusicMetadata } from '../../../hooks/useMetadata/useMetadata';
 
 // types imports
 import { GetAllMusic_musicNFTs } from '../../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic';
+import { ReactNode } from 'react';
 
 interface ListItemProps{
     item: GetAllMusic_musicNFTs
+    extra: ReactNode
 }
 
-const ListItem: React.FC<ListItemProps> = ({item})=>{
+const ListItem: React.FC<ListItemProps> = ({item,extra=null})=>{
 
     const music = useMusicMetadata(item);
 
     return (
-        <List.Item>
+        <List.Item
+        extra={extra}
+        >
             <List.Item.Meta
-            title={<Title level={3}>{music?.body.title}</Title>}
+            title={<Title level={5}>{music?.body.title}</Title>}
             description={ <Text>{`${Number(item.advNfts[0].expirationDuration)/86400} Days Left`}</Text>  }
             />
             {/* <SongNode musicItem={item} playSong={playSong} /> */}
