@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react'
 import { fetchIpfs } from '../../services/ipfs/fetchIpfs';
-import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GetUserListedMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetUserListedMusic";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 
-export const useMusicMetadata = (item:GetAllMusic_musicNFTs) =>{
+export const useMusicMetadata = (item:GetUserListedMusic_musicNFTs) =>{
     
 const [music, setMusic] = useState<MusicNftMetaData>();
 

@@ -16,8 +16,8 @@ const MusicTab: React.FC = () =>{
 
     return(
       <>
-        <ListedCategory type='Listed'/>
-        <ExpiredCategory type='Expired'/>
+        <ListedCategory />
+        <ExpiredCategory />
       </>
     )
 }
@@ -39,12 +39,12 @@ const ListedCategory: React.FC = ()=>{
   return(
     <div className='mt-7'>
       <Title level={3}>Listed</Title>
-            {/* <List
+            <List
             loading={isLoading}
             className={"self-center p-4 max-w-3xl rounded-xl border-slate-800"}
             itemLayout="horizontal"
             dataSource={music}
-            renderItem={(item) =><ListItem extra={<Button>List</Button>} item={item}/> }/> */}
+            renderItem={(item) =><ListItem extra={<Button>List</Button>} item={item}/> }/>
         
     </div>
   )
@@ -63,13 +63,13 @@ const ExpiredCategory: React.FC = ()=>{
   return(
     <div className='mt-7'>
       <Title level={3}>Expired</Title>
-            <List
+            {/* <List
             loading={isLoading}
             className={"self-center p-4 max-w-3xl rounded-xl border-slate-800"}
             itemLayout="horizontal"
             dataSource={ads}
-            renderItem={(item) =><ListItem extra={<Button>List</Button>} item={item}/>
-             }/>
+            renderItem={(item) =><ListItem extra={<Button>List</Button>} item={item}/> */}
+             {/* }/> */}
         
     </div>
   )
