@@ -8,9 +8,9 @@
 // ====================================================
 
 export interface GetAllMusic_musicNFTs_advNfts {
-  expirationDuration: string;
   __typename: "AdvNFT";
   assetHash: string;
+  expirationDuration: any;
 }
 
 export interface GetAllMusic_musicNFTs_creator {

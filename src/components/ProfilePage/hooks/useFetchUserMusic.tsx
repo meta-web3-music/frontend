@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
 import {useQuery} from '@apollo/client'
-import { GetAllMusic } from "../../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
-import { GET_USER_MUSIC } from "../../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+import { GetUserListedMusic } from "../../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetUserListedMusic";
+import { GET_USER_LISTED_MUSIC } from "../../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 
  const useFetchUserMusic = () =>{
 
@@ -11,7 +11,7 @@ import { GET_USER_MUSIC } from "../../../graph-ql/queries/GET_ALL_MUSIC/getAllMu
           loading: isLoading,
           data: allMusic,
           error: error,
-        } = useQuery<GetAllMusic>(GET_USER_MUSIC,{
+        } = useQuery<GetUserListedMusic>(GET_USER_LISTED_MUSIC,{
           variables: {
             userAddress: address?.toLowerCase()
           },
