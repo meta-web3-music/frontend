@@ -14,7 +14,6 @@ jobs:
       - name: Build next app
         run: |
           yarn install --frozen-lockfile
-          rm -rf __generated__
           yarn build
   lint:
     name: Lint next app

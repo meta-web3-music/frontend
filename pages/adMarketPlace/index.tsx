@@ -19,8 +19,14 @@ import {
   GetUnsold_marketItems,
 } from "../../src/graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
 import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
-import { MarketPlace__factory } from "../../src/contracts";
+import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
+import { NFTStorage } from "nft.storage";
+import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
 
+// create client instance for nft.storage
+const client = new NFTStorage({
+  token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
+});
 const { Title } = Typography;
 
 const AdMarketPlace: React.FC = () => {
@@ -33,19 +39,34 @@ const AdMarketPlace: React.FC = () => {
     setShowModal(!showModal);
   };
 
-  const handleAdForm = async () => {
+  const handleAdForm = async (formData: AdModalFormValues) => {
+    console.log("hemlo");
+
     try {
       setIsCreatingAd(true);
+
+      const adImageHash = await client.storeBlob(formData.bannerImage[0]);
+      const advNftDataObj: AdvNftMetaData = {
+        description: `Adv nft for NFT`,
+        mimeType: "image/jpeg",
+        name: `${selectedAdv?.itemId} ADV NFT`,
+        version: "",
+      };
 
       console.log("handleAdForm: Adding MetaData to IPFS");
 
       if (!signer) {
         return;
       }
+      const metadataHash = await client.storeBlob(
+        new Blob([JSON.stringify(advNftDataObj)])
+      );
+      const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
 
       if (!selectedAdv?.token.id) {
         throw new Error("Failed to get selected adv id");
+        return;
       }
       console.log("handleAdForm: Creating Market Sale");
 
@@ -57,6 +78,9 @@ const AdMarketPlace: React.FC = () => {
       // invoke contract func and mint song nft with ad nft
 
       console.log("handleAdForm: Updating adv banner");
+      await adNft
+        .updateHash(selectedAdv?.token.id, metadataHash, adImageHash)
+        .then((e) => e.wait());
       // // const advNftID = resCreateMusicWithAdv.events?.[3].args
       //   ?.tokenId as BigNumber;
       setIsCreatingAd(false);
@@ -82,7 +106,7 @@ const AdMarketPlace: React.FC = () => {
 
         <AdModal
           isCreatingAd={isCreatingAd}
-          onHandleAdForm={handleAdForm}
+          onHandleAdForm={(d) => handleAdForm(d)}
           onHandleModal={handleAdModal}
           isVisible={showModal}
         />

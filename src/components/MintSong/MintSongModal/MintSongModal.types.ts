@@ -1,6 +1,8 @@
+import { MintMusicWAdFormValues } from "./MintForm/MintForm.types";
+
 interface ModalProps {
   onHandleModal: () => void;
-  onHandleMintForm: (value: unknown) => void;
+  onHandleMintForm: (value: MintMusicWAdFormValues) => void;
   isVisible: boolean;
   isMinting: boolean;
 }

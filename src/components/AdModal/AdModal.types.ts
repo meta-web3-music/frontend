@@ -1,8 +1,10 @@
-interface AdModalProps {
-    onHandleModal: () => void;
-    onHandleAdForm: (value: Object) => void;
-    isVisible: boolean;
-    isCreatingAd: boolean;
-  }
+import { AdModalFormValues } from "./AdModalForm/AdModalForm.types";
 
-  export type {AdModalProps}
+interface AdModalProps {
+  onHandleModal: () => void;
+  onHandleAdForm: (value: AdModalFormValues) => void;
+  isVisible: boolean;
+  isCreatingAd: boolean;
+}
+
+export type { AdModalProps }
