@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { Modal, Form, Button, Radio, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import React from "react";
+import { Modal} from "antd";
+
 
 // custom-component imports
 import AdModalForm from './AdModalForm/AdModalForm'

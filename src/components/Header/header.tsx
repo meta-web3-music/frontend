@@ -1,11 +1,22 @@
-import React, { useContext, useRef } from "react";
-import { FaEthereum, FaCircle } from "react-icons/fa";
+import React from "react";
 import { useRouter } from "next/router";
-import { WalletContext } from "../../contexts/WalletContext";
+
+// rainbowkit imports
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useNetwork, useSwitchNetwork, useAccount } from 'wagmi'
+
+// antd imports
+import {Button} from 'antd'
+
+
 
 function Header() {
-  const walletContext = useContext(WalletContext);
+
   const router = useRouter();
+  const { chain } = useNetwork()
+  const {switchNetwork} = useSwitchNetwork()
+  const {isConnected} = useAccount()
+
 
   const navigateToAdPage = () => {
     router.push("/adMarketPlace");
@@ -14,7 +25,16 @@ function Header() {
   const navigateToHottestSongPage = () => {
     router.push("/");
   };
-  useRouter();
+
+  let correctNetwork;
+
+  if(chain?.network === 'maticmum' || !isConnected){ 
+    correctNetwork = <ConnectButton/>
+  }else(
+    correctNetwork = (
+      <Button onClick={()=>switchNetwork?.(80001)}>Click to switch to Mumbai network</Button>
+    ) 
+  ) 
 
   return (
     <>
@@ -44,38 +64,8 @@ function Header() {
             </button>
           )}
         </div>
-        {/* ETH Buttons */}
-        <div className="flex flex-row">
-          {/* network btn */}
-          <div className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-xs leading-tight uppercase rounded-full my-3 mr-4">
-            <img
-              src="./polygon.svg"
-              className="flex align-center w-[16px] h-[16px]"
-            />
-            <span className="flex ml-1 text-base">Mumbai</span>
-          </div>
-          {!walletContext.walletAddress ? (
-            <button
-              onClick={walletContext.getWeb3Provider}
-              className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3 mr-4"
-            >
-              Connect
-            </button>
-          ) : (
-            <button
-              onClick={walletContext.clearWallet}
-              className="flex flex-row items-center px-4 py-1 border bg-white text-black font-medium text-base leading-tight uppercase rounded-full my-3"
-            >
-              <span>0 MATIC</span>
-              <span className="flex flex-row align-center bg-gray-100 rounded-full p-1 ml-1">
-                <FaCircle className=" text-[#15ae5c] mr-1 w-5 h-5" />
-                {walletContext.walletAddress.substring(0, 4)}...
-                {walletContext.walletAddress.substring(-4, 4)}
-              </span>
-            </button>
-          )}
-        </div>
-      </header>
+        {correctNetwork}
+             </header>
     </>
   );
 }

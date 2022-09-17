@@ -2,4 +2,5 @@ import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__ge
 
 export interface StickyPlayerProps {
   musicNft: GetAllMusic_musicNFTs;
+  onClosePlayer: ()=>void;
 }
