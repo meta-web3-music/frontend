@@ -40,12 +40,16 @@ const AdMarketPlace: React.FC = () => {
   };
 
   const handleAdForm = async (formData: AdModalFormValues) => {
-    console.log("hemlo");
-
+    if (!formData.bannerImage[0].originFileObj) {
+      //TODO: error
+      return;
+    }
     try {
       setIsCreatingAd(true);
 
-      const adImageHash = await client.storeBlob(formData.bannerImage[0]);
+      const adImageHash = await client.storeBlob(
+        formData.bannerImage[0].originFileObj
+      );
       const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
