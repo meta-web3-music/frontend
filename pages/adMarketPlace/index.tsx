@@ -1,32 +1,29 @@
 import { useContext } from "react";
 import Header from "../../src/components/Header/header";
-
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 // antd imports
 import { DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
 import type { RadioChangeEvent } from "antd";
 
 import { useRouter } from "next/router";
-import {
-  GetAllAsks,
-  GetAllAsks_asks,
-} from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
-import { GET_ALL_ASKS } from "../../src/graph-ql/queries/GET_ALL_ASKS/getAllAsks";
+
 import { useQuery } from "@apollo/client";
-import { AdvNFTAddr, ZoraAskAddr } from "../../src/env";
+import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
 import { useEffect, useState } from "react";
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 // custom-component imports
 import AdModal from "../../src/components/AdModal/AdModal";
+import { useSigner, useConnect } from "wagmi";
 
 import { NFTStorage, File } from "nft.storage";
-import { WalletContext } from "../../src/contexts/WalletContext";
-import {
-  AdvNFT__factory,
-  ZoraAsk__factory,
-  ZoraModuleManager__factory,
-} from "../../src/contracts";
+import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
+import {
+  GetUnsold,
+  GetUnsold_marketItems,
+} from "../../src/graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
+import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
 
 const { Title, Text } = Typography;
 
@@ -36,9 +33,9 @@ const client = new NFTStorage({
 });
 
 const AdMarketPlace: React.FC = () => {
-  const walletContext = useContext(WalletContext);
   const router = useRouter();
-  const [selectedAdv, setSelectedAdv] = useState<GetAllAsks_asks>();
+  const { data: signer } = useSigner();
+  const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
 
@@ -65,32 +62,26 @@ const AdMarketPlace: React.FC = () => {
 
       console.log("handleAdForm: Adding MetaData to IPFS");
 
+      if (!signer) {
+        return;
+      }
       const metadataHash = await client.storeBlob(
         new Blob([JSON.stringify(advNftDataObj)])
       );
-      const signer = (await walletContext.getWeb3Provider()).getSigner();
       const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
-      const zoraAsks = ZoraAsk__factory.connect(ZoraAskAddr, signer);
-      const zeroAddr = "0x0000000000000000000000000000000000000000";
-      console.log(selectedAdv);
+      const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
+
       if (!selectedAdv?.token.id) {
         throw new Error("Failed to get selected adv id");
         return;
       }
-      console.log("handleAdForm: Filling Zora Asks");
+      console.log("handleAdForm: Creating Market Sale");
 
-      await zoraAsks
-        .fillAsk(
-          AdvNFTAddr,
-          selectedAdv?.token.id,
-          zeroAddr,
-          selectedAdv?.ask_askPrice,
-          zeroAddr,
-          {
-            value: selectedAdv?.ask_askPrice,
-          }
-        )
-        .then((e) => e.wait);
+      await marketPlace
+        .createMarketSale(AdvNFTAddr, selectedAdv?.token.id, {
+          value: selectedAdv?.price,
+        })
+        .then((e) => e.wait());
       // invoke contract func and mint song nft with ad nft
 
       console.log("handleAdForm: Updating adv banner");
@@ -108,8 +99,7 @@ const AdMarketPlace: React.FC = () => {
     handleAdModal();
   };
 
-  const handleRentClick = (advNft: GetAllAsks_asks) => {
-    console.log(selectedAdv);
+  const handleRentClick = (advNft: GetUnsold_marketItems) => {
 
     setSelectedAdv(advNft);
 
@@ -135,15 +125,17 @@ const AdMarketPlace: React.FC = () => {
 
 interface AdlistProp {
   onHandleModal: () => void;
-  onRentClick: (advNft: GetAllAsks_asks) => void;
+  onRentClick: (advNft: GetUnsold_marketItems) => void;
 }
 
 const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
+  const { data: signer } = useSigner();
+  const { openConnectModal } = useConnectModal();
   const {
     loading: isLoadingAllAsks,
     data: allAsksConnection,
     error: allAskError,
-  } = useQuery<GetAllAsks>(GET_ALL_ASKS, {
+  } = useQuery<GetUnsold>(GET_UNSOLD, {
     variables: {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
@@ -152,8 +144,6 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
   // add useState hooks here
   const [price, setPrice] = useState("100MATIC");
   const [views, setViews] = useState("100kViews");
-
-  const {getWeb3Provider,web3Provider} = useContext(WalletContext)
 
   const onChangePrice = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
@@ -209,8 +199,8 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
 
   return (
     <>
-     {/* start dropdowns */}
-     <div className="flex flex-row items-center mb-3">
+      {/* start dropdowns */}
+      <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
         <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
@@ -231,39 +221,45 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
       </div>
       {/* end dropdowns */}
 
-    <List
-      loading={isLoadingAllAsks}
-      style={{
-        width: "700px",
-        alignSelf: "center",
-        border: "1px solid #e5e5e5",
-        borderRadius: "20px",
-        padding: "1em",
-      }}
-      itemLayout="horizontal"
-      dataSource={allAsksConnection?.asks}
-      renderItem={(item) => {
-        return (
-          <List.Item
-          extra={
-            <Button onClick={web3Provider === undefined ? getWeb3Provider : () => onRentClick(item)}>Rent Ad Space</Button>
-          }
-          >
-            <List.Item.Meta
-              // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-              title={<TitleNode item={item} />}
-              description="TODO: fetch desc from ipfs"
-            />
-          </List.Item>
-        );
-      }}
-    />
-      </>
+      <List
+        loading={isLoadingAllAsks}
+        style={{
+          width: "700px",
+          alignSelf: "center",
+          border: "1px solid #e5e5e5",
+          borderRadius: "20px",
+          padding: "1em",
+        }}
+        itemLayout="horizontal"
+        dataSource={allAsksConnection?.marketItems}
+        renderItem={(item) => {
+          return (
+            <List.Item
+              extra={
+                <Button
+                  onClick={
+                    !!!signer ? openConnectModal : () => onRentClick(item)
+                  }
+                >
+                  Rent Ad Space
+                </Button>
+              }
+            >
+              <List.Item.Meta
+                // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                title={<TitleNode item={item} />}
+                description="TODO: fetch desc from ipfs"
+              />
+            </List.Item>
+          );
+        }}
+      />
+    </>
   );
 };
 
 interface TitleProps {
-  item: GetAllAsks_asks;
+  item: GetUnsold_marketItems;
 }
 
 const TitleNode: React.FC<TitleProps> = ({ item }) => {

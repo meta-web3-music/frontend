@@ -2,11 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { AdvNFT } from "./AdvNFT";
+export type { MarketPlace } from "./MarketPlace";
 export type { MusicNFT } from "./MusicNFT";
-export type { ZoraAsk } from "./ZoraAsk";
-export type { ZoraModuleManager } from "./ZoraModuleManager";
 export * as factories from "./factories";
 export { AdvNFT__factory } from "./factories/AdvNFT__factory";
+export { MarketPlace__factory } from "./factories/MarketPlace__factory";
 export { MusicNFT__factory } from "./factories/MusicNFT__factory";
-export { ZoraAsk__factory } from "./factories/ZoraAsk__factory";
-export { ZoraModuleManager__factory } from "./factories/ZoraModuleManager__factory";

@@ -6,14 +6,23 @@ import {
   chain,
   configureChains,
   createClient,
+  Chain
 } from 'wagmi';
 
 import { publicProvider } from 'wagmi/providers/public';
-
- const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.polygonMumbai, chain.optimism, chain.arbitrum],
+// 9000: "https://eth.bd.evmos.dev:8545/",
+const tEvmos: Chain = {
+  id: 9000,
+  name: "Evmos Testnet",
+  network: "tevmos",
+  rpcUrls: {
+    default: "https://eth.bd.evmos.dev:8545"
+  }
+}
+const { chains, provider } = configureChains(
+  [tEvmos],
   [
-    publicProvider() 
+    publicProvider()
   ]
 );
 
@@ -22,7 +31,7 @@ const { connectors } = getDefaultWallets({
   chains
 });
 
-export const Chains = chains 
+export const Chains = chains
 export const wagmiClient = createClient({
   autoConnect: true,
   connectors,
