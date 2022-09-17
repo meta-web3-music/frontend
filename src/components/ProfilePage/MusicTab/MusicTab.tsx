@@ -57,8 +57,9 @@ const ExpiredCategory: React.FC = ()=>{
 
   // TODO: Create error-boundary to catch error when thrown
   if(error){
-    throw new Error('Problem caught while fetching music Category')
+    throw new Error('Problem caught while fetching expired ads')
   }
+
 
   return(
     <div className='mt-7'>

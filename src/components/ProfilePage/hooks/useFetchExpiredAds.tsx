@@ -13,7 +13,7 @@ import { GET_USER_EXPIRED_ADSPACES } from "../../../graph-ql/queries/GET_ALL_ADS
           error: error,
         } = useQuery<GetUserExpiredAdspaces>(GET_USER_EXPIRED_ADSPACES,{
           variables: {
-            userAddress:'0x485a3fbc66ccddcd0bf65c7f4a318d08878d411b',
+            userAddress:address?.toLowerCase(),
             expirationTime: 0
           },
         });
