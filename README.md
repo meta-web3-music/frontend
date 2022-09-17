@@ -14,7 +14,7 @@ OCTAV3 is a decentralized music streaming platform that connects artists, listen
 - Client built on Next.js with TypeScript
 - TailwindCSS and Ant Design to design components
 - Ethers.js for front-end interaction with smart contracts
-- WalletConnect and Web3Modal to connect to Polygon Mumbai testnet
+- WalletConnect and Web3Modal to connect to Evmos testnet
 
 **Back-end:**
 - https://github.com/meta-web3-music/smart-contracts

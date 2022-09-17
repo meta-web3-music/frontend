@@ -1,24 +1,18 @@
-import React, { useState,useContext } from "react";
+import React from "react";
 
 // antd lib
-import { Modal} from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 // types
 import { ModalProps } from "./MintSongModal.types";
 // custom-components
 import MintForm from "./MintForm/MintForm";
 
-
-
-
 const MintSongModal: React.FC<ModalProps> = ({
   onHandleModal,
   onHandleMintForm,
   isVisible,
-  isMinting
+  isMinting,
 }) => {
-
-
   return (
     <>
       <Modal
@@ -29,9 +23,7 @@ const MintSongModal: React.FC<ModalProps> = ({
         footer={null}
         onCancel={onHandleModal}
       >
-
         <MintForm isMinting={isMinting} onHandleMintForm={onHandleMintForm} />
-
       </Modal>
     </>
   );

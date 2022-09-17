@@ -6,11 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --max-warnings 0",
     "postinstall": "npm run codegen",
-    "typechain-gen": "typechain --target ethers-v5 --out-dir src/contracts './src/contracts/abis/*.json'",
+    "typechain-gen": "rm -rf src/contracts/*ts src/contracts/factories/* && typechain --target ethers-v5 --out-dir src/contracts './src/contracts/abis/*.json'",
     "codegen": "npm run graphql-gen && npm run typechain-gen",
-    "graphql-gen": "apollo service:download --endpoint=https://api.thegraph.com/subgraphs/name/thisisommore/muzik ./src/graph-ql/graphql-schema.json && apollo codegen:generate --localSchemaFile=./src/graph-ql/graphql-schema.json --target=typescript --tagName=gql"
+    "graphql-gen": "apollo service:download --endpoint=https://query.graph.ommore.me/subgraphs/name/thisisommore/muzik ./src/graph-ql/graphql-schema.json && apollo codegen:generate --localSchemaFile=./src/graph-ql/graphql-schema.json --target=typescript --tagName=gql && rm -rf __generated__"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -30,6 +30,7 @@
     "@types/node": "18.6.4",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
     "apollo": "^2.34.0",
     "autoprefixer": "^10.4.8",
     "eslint": "8.21.0",

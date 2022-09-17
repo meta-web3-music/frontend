@@ -1,18 +1,30 @@
+<<<<<<< HEAD
 import { useState } from "react";
 
+=======
+import Header from "../../src/components/Header/header";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+>>>>>>> main
 // antd imports
 import { Typography} from "antd";
 const { Title, Text } = Typography;
 
+<<<<<<< HEAD
 import {
   GetAllAsks_asks,
 } from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
 
 import { AdvNFTAddr, ZoraAskAddr } from "../../src/env";
+=======
+import { useQuery } from "@apollo/client";
+import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
+import React, { useCallback, useEffect, useState } from "react";
+>>>>>>> main
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 
 // custom-component imports
 import AdModal from "../../src/components/AdModal/AdModal";
+<<<<<<< HEAD
 import Header from "../../src/components/Header/header";
 import Adlist from "../../src/components/MarketPlacePage/Adlist/Adlist";
 
@@ -27,16 +39,35 @@ import {
 } from "../../src/contracts";
 
 
+=======
+import { useSigner } from "wagmi";
+
+import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
+import {
+  GetUnsold,
+  GetUnsold_marketItems,
+} from "../../src/graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
+import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
+import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
+import { NFTStorage } from "nft.storage";
+import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
+>>>>>>> main
 
 // create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
+const { Title } = Typography;
 
 const AdMarketPlace: React.FC = () => {
+<<<<<<< HEAD
 
 
   const [selectedAdv, setSelectedAdv] = useState<GetAllAsks_asks>();
+=======
+  const { data: signer } = useSigner();
+  const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
+>>>>>>> main
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
   const {data: signer} = useSigner()
@@ -45,52 +76,53 @@ const AdMarketPlace: React.FC = () => {
     setShowModal(!showModal);
   };
 
+<<<<<<< HEAD
   
+=======
+  const handleAdForm = async (formData: AdModalFormValues) => {
+    console.log("hemlo");
+>>>>>>> main
 
-  const handleAdForm = async (formData: any) => {
     try {
       setIsCreatingAd(true);
-      const adImageHash = await client.storeBlob(
-        formData.adFile[0].originFileObj
-      );
+
+      const adImageHash = await client.storeBlob(formData.bannerImage[0]);
       const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
-        name: `${formData.rentDuration}ADV NFT`,
+        name: `${selectedAdv?.itemId} ADV NFT`,
         version: "",
       };
 
       console.log("handleAdForm: Adding MetaData to IPFS");
 
+      if (!signer) {
+        return;
+      }
       const metadataHash = await client.storeBlob(
         new Blob([JSON.stringify(advNftDataObj)])
       );
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
       const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
-      const zoraAsks = ZoraAsk__factory.connect(ZoraAskAddr, signer);
-      const zeroAddr = "0x0000000000000000000000000000000000000000";
-      console.log(selectedAdv);
+      const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
+
       if (!selectedAdv?.token.id) {
         throw new Error("Failed to get selected adv id");
       }
-      console.log("handleAdForm: Filling Zora Asks");
+      console.log("handleAdForm: Creating Market Sale");
 
-      await zoraAsks
-        .fillAsk(
-          AdvNFTAddr,
-          selectedAdv?.token.id,
-          zeroAddr,
-          selectedAdv?.ask_askPrice,
-          zeroAddr,
-          {
-            value: selectedAdv?.ask_askPrice,
-          }
-        )
-        .then((e) => e.wait);
+      await marketPlace
+        .createMarketSale(AdvNFTAddr, selectedAdv?.token.id, {
+          value: selectedAdv?.price,
+        })
+        .then((e) => e.wait());
       // invoke contract func and mint song nft with ad nft
 
       console.log("handleAdForm: Updating adv banner");
-      const resAdvImageCreation = await adNft
+      await adNft
         .updateHash(selectedAdv?.token.id, metadataHash, adImageHash)
         .then((e) => e.wait());
       // // const advNftID = resCreateMusicWithAdv.events?.[3].args
@@ -104,9 +136,7 @@ const AdMarketPlace: React.FC = () => {
     handleAdModal();
   };
 
-  const handleRentClick = (advNft: GetAllAsks_asks) => {
-    console.log(selectedAdv);
-
+  const handleRentClick = (advNft: GetUnsold_marketItems) => {
     setSelectedAdv(advNft);
 
     setShowModal(true);
@@ -121,7 +151,7 @@ const AdMarketPlace: React.FC = () => {
 
         <AdModal
           isCreatingAd={isCreatingAd}
-          onHandleAdForm={handleAdForm}
+          onHandleAdForm={(d) => handleAdForm(d)}
           onHandleModal={handleAdModal}
           isVisible={showModal}
         />
@@ -130,5 +160,170 @@ const AdMarketPlace: React.FC = () => {
   );
 };
 
+<<<<<<< HEAD
+=======
+interface AdlistProp {
+  onHandleModal: () => void;
+  onRentClick: (advNft: GetUnsold_marketItems) => void;
+}
+
+const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
+  const { data: signer } = useSigner();
+  const { openConnectModal } = useConnectModal();
+  const { loading: isLoadingAllAsks, data: allAsksConnection } =
+    useQuery<GetUnsold>(GET_UNSOLD, {
+      variables: {
+        nftContractAddr: AdvNFTAddr.toLowerCase(),
+      },
+    });
+
+  // add useState hooks here
+  const [price, setPrice] = useState("100MATIC");
+  const [views, setViews] = useState("100kViews");
+
+  const onChangePrice = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setPrice(e.target.value);
+  };
+
+  //  menu items for price dropdown filter
+  const priceFilterMenu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <Radio.Group onChange={onChangePrice} value={price}>
+              <Space direction="vertical">
+                <Radio value={"100MATIC"}>100 MATIC and under</Radio>
+                <Radio value={"200MATIC"}>200 MATIC and under</Radio>
+                <Radio value={"300MATIC"}>500 MATIC and under</Radio>
+              </Space>
+            </Radio.Group>
+          ),
+          key: "1",
+        },
+      ]}
+    />
+  );
+
+  const onChangeViews = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setViews(e.target.value);
+  };
+
+  // menu items for number of view dropdown filter
+  const viewsFilterMenu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <Radio.Group onChange={onChangeViews} value={views}>
+              <Space direction="vertical">
+                <Radio value={"1000Views"}>1000 views and under</Radio>
+                <Radio value={"10kViews"}>10K views and under</Radio>
+                <Radio value={"50kViews"}>50K views and under</Radio>
+                <Radio value={"100kViews"}>100K views and under</Radio>
+                <Radio value={"1MViews"}>1 million+ views</Radio>
+              </Space>
+            </Radio.Group>
+          ),
+          key: "1",
+        },
+      ]}
+    />
+  );
+
+  return (
+    <>
+      {/* start dropdowns */}
+      <div className="flex flex-row items-center mb-3">
+        <span>Filter by</span>
+        <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
+              Price
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+        <Dropdown overlay={viewsFilterMenu} trigger={["click"]}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
+              Views
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+      </div>
+      {/* end dropdowns */}
+
+      <List
+        loading={isLoadingAllAsks}
+        style={{
+          width: "700px",
+          alignSelf: "center",
+          border: "1px solid #e5e5e5",
+          borderRadius: "20px",
+          padding: "1em",
+        }}
+        itemLayout="horizontal"
+        dataSource={allAsksConnection?.marketItems}
+        renderItem={(item) => {
+          return (
+            <List.Item
+              extra={
+                <Button
+                  onClick={!signer ? openConnectModal : () => onRentClick(item)}
+                >
+                  Rent Ad Space
+                </Button>
+              }
+            >
+              <List.Item.Meta
+                // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                title={<TitleNode item={item} />}
+                description="TODO: fetch desc from ipfs"
+              />
+            </List.Item>
+          );
+        }}
+      />
+    </>
+  );
+};
+
+interface TitleProps {
+  item: GetUnsold_marketItems;
+}
+
+const TitleNode: React.FC<TitleProps> = ({ item }) => {
+  const [metaData, setMetaData] = useState<AdvNftMetaData>();
+  const fetchMetaData = useCallback(async () => {
+    const advMetaData = await fetchIpfs<AdvNftMetaData>(
+      item.token.metaDataHash
+    );
+    setMetaData(advMetaData);
+  }, [item]);
+  useEffect(() => {
+    fetchMetaData();
+  }, [fetchMetaData, item]);
+  return (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <Title style={{ marginRight: "5px", marginBottom: "0px" }} level={5}>
+        {metaData?.name}
+      </Title>
+      <span
+        style={{
+          background: "#f4f4f4",
+          padding: "2px 6px",
+          borderRadius: "20px",
+        }}
+      >
+        {item.token.id}
+      </span>
+    </div>
+  );
+};
+>>>>>>> main
 
 export default AdMarketPlace;

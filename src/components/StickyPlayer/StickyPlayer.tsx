@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-
+import { useCallback, useEffect, useState } from "react";
 // antd imports
-import { Typography, Card, Button } from "antd";
-import { CloseOutlined } from '@ant-design/icons';
+import { Typography, Card } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 const { Text, Title } = Typography;
 
 // utility imports
@@ -12,25 +11,27 @@ import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { StickyPlayerProps } from "./StickyPlayer.types";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 
-
 // COMPONENT
-const StickyPlayer: React.FC<StickyPlayerProps> = ({ onClosePlayer, musicNft }) => {
+const StickyPlayer: React.FC<StickyPlayerProps> = ({
+  onClosePlayer,
+  musicNft,
+}) => {
   const [musicMetaData, setMusicMetaData] = useState<MusicNftMetaData>();
-  useEffect(() => {
-    fetchMusicMetaData();
-  }, [musicNft]);
-
-  const fetchMusicMetaData = async () => {
+  const fetchMusicMetaData = useCallback(async () => {
     const musicNftMetaData = await fetchIpfs<MusicNftMetaData>(
       musicNft.metaDataUri
     );
     setMusicMetaData(musicNftMetaData);
-  };
+  }, [musicNft]);
+
+  useEffect(() => {
+    fetchMusicMetaData();
+  }, [fetchMusicMetaData, musicNft]);
 
   return (
     <Card
-      size='small'
-      title={<TitleNode musicMetaData={musicMetaData}/>}
+      size="small"
+      title={<TitleNode musicMetaData={musicMetaData} />}
       extra={<CloseOutlined onClick={onClosePlayer} />}
       style={{
         background: "#ffffff",
@@ -45,7 +46,6 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ onClosePlayer, musicNft }) 
         padding: ".7em 1em",
       }}
     >
-      
       <audio
         autoPlay
         loop
@@ -58,17 +58,17 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ onClosePlayer, musicNft }) 
 
 export default StickyPlayer;
 
-interface TitleNodeProps{
-  musicMetaData: MusicNftMetaData | undefined
+interface TitleNodeProps {
+  musicMetaData: MusicNftMetaData | undefined;
 }
 
-const TitleNode: React.FC<TitleNodeProps> = ({musicMetaData})=>{
-  return(
+const TitleNode: React.FC<TitleNodeProps> = ({ musicMetaData }) => {
+  return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-        <Title style={{ margin: "0" }} level={5}>
-          {musicMetaData?.body.title}
-        </Title>
-        <Text type="secondary">{musicMetaData?.body.artist}</Text>
-      </div>
-  )
-}
+      <Title style={{ margin: "0" }} level={5}>
+        {musicMetaData?.body.title}
+      </Title>
+      <Text type="secondary">{musicMetaData?.body.artist}</Text>
+    </div>
+  );
+};

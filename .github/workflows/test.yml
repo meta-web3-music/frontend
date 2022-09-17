@@ -1,0 +1,31 @@
+name: "Lint and build"
+on: push
+
+jobs:
+  build:
+    name: Build next app
+    runs-on: ubuntu-latest
+    env:
+     NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Build next app
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+  lint:
+    name: Lint next app
+    runs-on: ubuntu-latest
+    env:
+     NEXT_PUBLIC_NFT_STORAGE_TOKEN: ${{ secrets.NEXT_PUBLIC_NFT_STORAGE_TOKEN }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Lint code
+        run: |
+          yarn install --frozen-lockfile
+          rm -rf __generated__
+          yarn lint --max-warnings=0

@@ -1,6 +1,9 @@
+export type AdModalFormValues = {
+  bannerImage: File[];
+};
 interface AdModalFormProps {
-    onHandleAdForm: (value: Object) => void;
-    isCreatingAd: boolean;
-  }
+  onHandleAdForm: (values: AdModalFormValues) => void;
+  isCreatingAd: boolean;
+}
 
-export type {AdModalFormProps}
+export type { AdModalFormProps }
