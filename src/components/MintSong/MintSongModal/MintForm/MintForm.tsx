@@ -1,22 +1,15 @@
 // antd component lib
-import { Form, Upload, Button, InputNumber, Input, Radio } from "antd";
+import { Form, Upload, Button, InputNumber, Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Slider } from "antd";
 import type { SliderMarks } from "antd/es/slider";
 
 // types
-import { FormProps } from "./MintForm.types";
+import { FormProps, MintMusicWAdFormValues } from "./MintForm.types";
 
 const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
   return (
-    <Form
+    <Form<MintMusicWAdFormValues>
       name="mintingForm"
       initialValues={{ remember: true }}
       onFinish={onHandleMintForm}
@@ -56,10 +49,10 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
       </Form.Item>
 
       <Form.Item
-        name="upload"
+        name="songFile"
         label="Upload Song"
         valuePropName="fileList"
-        getValueFromEvent={normFile}
+        getValueFromEvent={(e) => e.fileList}
         rules={[{ required: true, message: "Please input artist name!" }]}
         extra="Please provide supported formats (.mp3, .wav)"
       >

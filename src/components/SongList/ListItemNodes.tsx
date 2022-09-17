@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 // antd imports
 import { Typography, Button } from "antd";
 const { Title } = Typography;
@@ -13,15 +13,15 @@ interface TitleProps {
 const TitleNode: React.FC<TitleProps> = ({ musicItem }) => {
   const [metadata, setMetaData] = useState<MusicNftMetaData>();
 
-  const fetchMetaData = async () => {
+  const fetchMetaData = useCallback(async () => {
     const musicMetaData = await fetchIpfs<MusicNftMetaData>(
       musicItem.metaDataUri
     );
     setMetaData(musicMetaData);
-  };
+  }, [musicItem]);
   useEffect(() => {
     fetchMetaData();
-  }, []);
+  }, [fetchMetaData]);
 
   return (
     <div style={{ display: "flex", alignItems: "center" }}>

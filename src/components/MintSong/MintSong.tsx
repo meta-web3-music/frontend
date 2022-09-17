@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { NFTStorage } from "nft.storage";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
@@ -17,7 +17,8 @@ import MintSongButton from "./MintSongButton/MintSongButton";
 import MintSongModal from "./MintSongModal/MintSongModal";
 
 // wagmi imports
-import { useSigner, useAccount } from "wagmi";
+import { useSigner } from "wagmi";
+import { MintMusicWAdFormValues } from "./MintSongModal/MintForm/MintForm.types";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -28,13 +29,12 @@ const MintSong: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const { data: signer } = useSigner();
-  const { address } = useAccount();
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const handleMintForm = async (formData: any) => {
+  const handleMintForm = async (formData: MintMusicWAdFormValues) => {
     if (!signer) {
       //TODO: error
       return;
@@ -44,13 +44,13 @@ const MintSong: React.FC = () => {
 
       // store metadata of music on nft.storage
       const musicAssetHash = await client.storeBlob(
-        formData.upload[0].originFileObj
+        new Blob([formData.songFile[0]])
       );
 
       // create metadata object for music nft
       const metaDataObj: MusicNftMetaData = {
         body: {
-          artist: formData.songArtist,
+          artist: formData.artistName,
           artwork: {
             info: {
               mimeType: "image/jpeg",
@@ -116,10 +116,9 @@ const MintSong: React.FC = () => {
       // end minting
       setIsMinting(false);
       toggleModal();
-    } catch (err: any) {
+    } catch (err: unknown) {
       setIsMinting(false);
       console.log(err);
-      console.log(err.stack);
     }
 
     // close modal
@@ -132,7 +131,7 @@ const MintSong: React.FC = () => {
         isMinting={isMinting}
         isVisible={showModal}
         onHandleModal={toggleModal}
-        onHandleMintForm={handleMintForm}
+        onHandleMintForm={(formData) => handleMintForm(formData)}
       />
     </>
   );

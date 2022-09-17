@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import Header from "../../src/components/Header/header";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 // antd imports
@@ -6,34 +5,31 @@ import { DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
 import type { RadioChangeEvent } from "antd";
 
-import { useRouter } from "next/router";
-
 import { useQuery } from "@apollo/client";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 // custom-component imports
 import AdModal from "../../src/components/AdModal/AdModal";
-import { useSigner, useConnect } from "wagmi";
+import { useSigner } from "wagmi";
 
-import { NFTStorage, File } from "nft.storage";
-import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
 import {
   GetUnsold,
   GetUnsold_marketItems,
 } from "../../src/graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
 import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
-
-const { Title, Text } = Typography;
+import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
+import { NFTStorage } from "nft.storage";
+import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
+const { Title } = Typography;
 
 const AdMarketPlace: React.FC = () => {
-  const router = useRouter();
   const { data: signer } = useSigner();
   const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -43,20 +39,17 @@ const AdMarketPlace: React.FC = () => {
     setShowModal(!showModal);
   };
 
-  const navigateBack = () => {
-    router.push("/adMarketPlace");
-  };
+  const handleAdForm = async (formData: AdModalFormValues) => {
+    console.log("hemlo");
 
-  const handleAdForm = async (formData: any) => {
     try {
       setIsCreatingAd(true);
-      const adImageHash = await client.storeBlob(
-        formData.adFile[0].originFileObj
-      );
+
+      const adImageHash = await client.storeBlob(formData.bannerImage[0]);
       const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
-        name: `${formData.rentDuration}ADV NFT`,
+        name: `${selectedAdv?.itemId} ADV NFT`,
         version: "",
       };
 
@@ -85,7 +78,7 @@ const AdMarketPlace: React.FC = () => {
       // invoke contract func and mint song nft with ad nft
 
       console.log("handleAdForm: Updating adv banner");
-      const resAdvImageCreation = await adNft
+      await adNft
         .updateHash(selectedAdv?.token.id, metadataHash, adImageHash)
         .then((e) => e.wait());
       // // const advNftID = resCreateMusicWithAdv.events?.[3].args
@@ -100,7 +93,6 @@ const AdMarketPlace: React.FC = () => {
   };
 
   const handleRentClick = (advNft: GetUnsold_marketItems) => {
-
     setSelectedAdv(advNft);
 
     setShowModal(true);
@@ -114,7 +106,7 @@ const AdMarketPlace: React.FC = () => {
 
         <AdModal
           isCreatingAd={isCreatingAd}
-          onHandleAdForm={handleAdForm}
+          onHandleAdForm={(d) => handleAdForm(d)}
           onHandleModal={handleAdModal}
           isVisible={showModal}
         />
@@ -131,15 +123,12 @@ interface AdlistProp {
 const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
   const { data: signer } = useSigner();
   const { openConnectModal } = useConnectModal();
-  const {
-    loading: isLoadingAllAsks,
-    data: allAsksConnection,
-    error: allAskError,
-  } = useQuery<GetUnsold>(GET_UNSOLD, {
-    variables: {
-      nftContractAddr: AdvNFTAddr.toLowerCase(),
-    },
-  });
+  const { loading: isLoadingAllAsks, data: allAsksConnection } =
+    useQuery<GetUnsold>(GET_UNSOLD, {
+      variables: {
+        nftContractAddr: AdvNFTAddr.toLowerCase(),
+      },
+    });
 
   // add useState hooks here
   const [price, setPrice] = useState("100MATIC");
@@ -237,9 +226,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
             <List.Item
               extra={
                 <Button
-                  onClick={
-                    !!!signer ? openConnectModal : () => onRentClick(item)
-                  }
+                  onClick={!signer ? openConnectModal : () => onRentClick(item)}
                 >
                   Rent Ad Space
                 </Button>
@@ -264,16 +251,15 @@ interface TitleProps {
 
 const TitleNode: React.FC<TitleProps> = ({ item }) => {
   const [metaData, setMetaData] = useState<AdvNftMetaData>();
-
-  const fetchMetaData = async () => {
+  const fetchMetaData = useCallback(async () => {
     const advMetaData = await fetchIpfs<AdvNftMetaData>(
       item.token.metaDataHash
     );
     setMetaData(advMetaData);
-  };
+  }, [item]);
   useEffect(() => {
     fetchMetaData();
-  }, [item]);
+  }, [fetchMetaData, item]);
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Title style={{ marginRight: "5px", marginBottom: "0px" }} level={5}>

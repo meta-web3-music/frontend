@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_MUSIC } from "../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
 import { GetAllMusic } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 
 // antd imports
-import {  List } from "antd";
+import { List } from "antd";
 
 // types
 import { SongListProps } from "./SongList.types";
@@ -13,22 +13,15 @@ import { SongListProps } from "./SongList.types";
 import { TitleNode, SongNode } from "./ListItemNodes";
 
 const SongList: React.FC<SongListProps> = ({ playSong }) => {
-  const {
-    loading: isLoadingAllMusic,
-    data: allMusicConnection,
-    error: allMusicError,
-  } = useQuery<GetAllMusic>(GET_ALL_MUSIC, {
-    variables: {
-      currentTime: Math.floor(Date.now() / 1000).toString(),
-    },
-  });
-
+  const { loading: isLoadingAllMusic, data: allMusicConnection } =
+    useQuery<GetAllMusic>(GET_ALL_MUSIC, {
+      variables: {
+        currentTime: Math.floor(Date.now() / 1000).toString(),
+      },
+    });
 
   return (
     <>
-
-  
-
       {/* songlist */}
       <List
         loading={isLoadingAllMusic}

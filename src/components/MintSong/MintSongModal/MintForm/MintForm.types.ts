@@ -1,6 +1,14 @@
-interface FormProps {
-    onHandleMintForm: (value: Object) => void;
-    isMinting: boolean;
-  }
+export type MintMusicWAdFormValues = {
+  songName: string;
+  artistName: string;
+  adDurationDays: number;
+  adSpacePrice: string;
+  songFile: File[];
+};
 
-  export type {FormProps}
+interface FormProps {
+  onHandleMintForm: (value: MintMusicWAdFormValues) => void;
+  isMinting: boolean;
+}
+
+export type { FormProps }
