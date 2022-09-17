@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Header from "../../src/components/Header/header";
-
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 // antd imports
 import { DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Space, Radio, Typography, List } from "antd";
@@ -14,9 +14,9 @@ import { useEffect, useState } from "react";
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 // custom-component imports
 import AdModal from "../../src/components/AdModal/AdModal";
+import { useSigner, useConnect } from "wagmi";
 
 import { NFTStorage, File } from "nft.storage";
-import { WalletContext } from "../../src/contexts/WalletContext";
 import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
 import {
@@ -33,8 +33,8 @@ const client = new NFTStorage({
 });
 
 const AdMarketPlace: React.FC = () => {
-  const walletContext = useContext(WalletContext);
   const router = useRouter();
+  const { data: signer } = useSigner();
   const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
@@ -62,10 +62,12 @@ const AdMarketPlace: React.FC = () => {
 
       console.log("handleAdForm: Adding MetaData to IPFS");
 
+      if (!signer) {
+        return;
+      }
       const metadataHash = await client.storeBlob(
         new Blob([JSON.stringify(advNftDataObj)])
       );
-      const signer = (await walletContext.getWeb3Provider()).getSigner();
       const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
 
@@ -128,6 +130,8 @@ interface AdlistProp {
 }
 
 const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
+  const { data: signer } = useSigner();
+  const { openConnectModal } = useConnectModal();
   const {
     loading: isLoadingAllAsks,
     data: allAsksConnection,
@@ -233,7 +237,13 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
           return (
             <List.Item
               extra={
-                <Button onClick={() => onRentClick(item)}>Rent Space</Button>
+                <Button
+                  onClick={
+                    !!!signer ? openConnectModal : () => onRentClick(item)
+                  }
+                >
+                  Rent Ad Space
+                </Button>
               }
             >
               <List.Item.Meta
