@@ -131,7 +131,7 @@ const MintSong: React.FC = () => {
         isMinting={isMinting}
         isVisible={showModal}
         onHandleModal={toggleModal}
-        onHandleMintForm={(d) => handleMintForm(d)}
+        onHandleMintForm={(formData) => handleMintForm(formData)}
       />
     </>
   );
