@@ -100,7 +100,6 @@ const AdMarketPlace: React.FC = () => {
   };
 
   const handleRentClick = (advNft: GetUnsold_marketItems) => {
-    console.log(selectedAdv);
 
     setSelectedAdv(advNft);
 
