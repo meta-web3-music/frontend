@@ -9,9 +9,8 @@ rules:
     - error
     - unix
 overrides:
-  - files: 
-    - "*.js"
-    - "*.jsx"
+  - files:
+      - "*.tsx"
     rules:
-      "@typescript-eslint/...": "off"
-      "react-hooks/exhaustive-deps": "off"
+      "react/react-in-jsx-scope": "off"
+      "react/prop-types": "off"
