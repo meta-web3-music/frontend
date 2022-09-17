@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { NFTStorage } from "nft.storage";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
@@ -17,7 +17,7 @@ import MintSongButton from "./MintSongButton/MintSongButton";
 import MintSongModal from "./MintSongModal/MintSongModal";
 
 // wagmi imports
-import { useSigner, useAccount } from "wagmi";
+import { useSigner } from "wagmi";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -28,7 +28,6 @@ const MintSong: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const { data: signer } = useSigner();
-  const { address } = useAccount();
 
   const toggleModal = () => {
     setShowModal(!showModal);

@@ -1,5 +1,5 @@
 // antd component lib
-import { Form, Upload, Button, InputNumber, Input, Radio } from "antd";
+import { Form, Upload, Button, InputNumber, Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Slider } from "antd";
 import type { SliderMarks } from "antd/es/slider";

@@ -2,8 +2,11 @@ extends:
   - next/core-web-vitals
   - eslint:recommended
   - plugin:react/recommended
+  - "plugin:@typescript-eslint/eslint-recommended"
+  - "plugin:@typescript-eslint/recommended"
 plugins:
   - react
+  - "@typescript-eslint"
 rules:
   linebreak-style:
     - error

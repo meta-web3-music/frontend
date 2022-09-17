@@ -9,17 +9,17 @@ interface Body {
     duration: number
     mimeType: string
     notes: string
-    project: any
+    project: null
     title: string
-    trackNumber: any
+    trackNumber: string
     version: string
-    visualizer: any
+    visualizer: string
 }
 
 interface Artwork {
     info: Info
     isNft: boolean
-    nft: any
+    nft: null
 }
 
 interface Info {
