@@ -23,6 +23,7 @@ import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
 import { MusicNftMetaData } from "../../src/types/MusicNFTData";
+import { asyncStore } from "../../src/services/ipfs/nftstorage";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -48,9 +49,9 @@ const AdMarketPlace: React.FC = () => {
     try {
       setIsCreatingAd(true);
 
-      const adImageHash = await client.storeBlob(
-        formData.bannerImage[0].originFileObj
-      );
+      const { hash: adImageHash, storePromise: storeAdImagePromise } =
+        await asyncStore(client, formData.bannerImage[0].originFileObj);
+
       const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
@@ -64,9 +65,9 @@ const AdMarketPlace: React.FC = () => {
       if (!signer) {
         return;
       }
-      const metadataHash = await client.storeBlob(
-        new Blob([JSON.stringify(advNftDataObj)])
-      );
+      const { hash: metaDataHash, storePromise: storeMetaDataPromise } =
+        await asyncStore(client, new Blob([JSON.stringify(advNftDataObj)]));
+
       const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
 
@@ -84,11 +85,16 @@ const AdMarketPlace: React.FC = () => {
       // invoke contract func and mint song nft with ad nft
 
       console.log("handleAdForm: Updating adv banner");
-      await adNft
-        .updateHash(selectedAdv?.token.id, metadataHash, adImageHash)
+      const updateHashPromise = adNft
+        .updateHash(selectedAdv?.token.id, metaDataHash, adImageHash)
         .then((e) => e.wait());
       // // const advNftID = resCreateMusicWithAdv.events?.[3].args
       //   ?.tokenId as BigNumber;
+      await Promise.all([
+        updateHashPromise,
+        storeAdImagePromise,
+        storeMetaDataPromise,
+      ]);
       setIsCreatingAd(false);
     } catch (err) {
       console.log(err);
