@@ -1,9 +1,11 @@
 // antd imports
-import { Form, Button, Upload } from "antd";
+import { Form, Button, Upload, Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 // types imports
 import { AdModalFormProps, AdModalFormValues } from "./AdModalForm.types";
-
+import { antdNorm } from "../../../services/antd-form/norm";
+const urlPattern =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/i;
 const AdModalForm: React.FC<AdModalFormProps> = ({
   onHandleAdForm,
   isCreatingAd,
@@ -17,10 +19,23 @@ const AdModalForm: React.FC<AdModalFormProps> = ({
       layout="vertical"
     >
       <Form.Item
+        label="Advertisment URL"
+        name="adUrl"
+        rules={[
+          {
+            required: true,
+            message: "Please input valid advertisment url!",
+            pattern: urlPattern,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
         name="bannerImage"
         label="Upload banner image"
         valuePropName="fileList"
-        getValueFromEvent={(e) => e.fileList.item(0)}
+        getValueFromEvent={antdNorm}
         extra="Please provide supported formats (.png, .jpeg, .jpg)"
       >
         <Upload action="/" accept=".png,.jpg,.jpeg" listType="picture">

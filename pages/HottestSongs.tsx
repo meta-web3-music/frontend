@@ -14,8 +14,6 @@ import AdBanner from "../src/components/AdBanner/AdBanner";
 import StickyPlayer from "../src/components/StickyPlayer/StickyPlayer";
 import MintSong from "../src/components/MintSong/MintSong";
 
-import { ipfsToHttps } from "../src/services/ipfs/fetchIpfs";
-
 const HottestSongs: React.FC = () => {
   const [selectedSong, setSelectedSong] = useState<GetAllMusic_musicNFTs>();
 
@@ -37,11 +35,7 @@ const HottestSongs: React.FC = () => {
       <Title level={3}>Hottest Songs</Title>
       <Text>Place your ads under the hottest songs</Text>
       <MintSong />
-      {selectedSong && (
-        <AdBanner
-          imageUrl={ipfsToHttps(selectedSong.advNfts[0]?.assetHash ?? "")}
-        />
-      )}
+      {selectedSong && <AdBanner advNft={selectedSong.advNfts[0]} />}
       {memoizedSongList}
       {selectedSong && (
         <StickyPlayer

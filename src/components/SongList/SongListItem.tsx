@@ -52,7 +52,7 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
     >
       <div className="relative h-60 w-40 md:w-48 lg:w-56">
         <div
-          className={`image-placeholder duration-200 h-60 w-56 flex justify-center items-center text-8xl text-blue-800 ${
+          className={`image-placeholder duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800 ${
             imageLoaded ? "hidden" : "block"
           }`}
         >
