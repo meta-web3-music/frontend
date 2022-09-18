@@ -48,6 +48,9 @@ export const GET_USER_UNSOLD = gql`
           }
           metaDataUri
           assetUri
+          advNfts{
+              expirationDuration
+          }
         }
         metaDataHash
         assetHash

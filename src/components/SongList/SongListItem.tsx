@@ -4,6 +4,7 @@ import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import styled from "styled-components";
 import Image from "next/image";
+
 type Props = {
   musicNft: GetAllMusic_musicNFTs;
   onPlaySong: () => void;
@@ -30,6 +31,7 @@ const SongListItemStyled = styled.div`
     color: #042440;
   }
 `;
+
 const SongListItem = ({ musicNft, onPlaySong }: Props) => {
   const [metaData, setMetaData] = useState<MusicNftMetaData>();
   useEffect(() => {

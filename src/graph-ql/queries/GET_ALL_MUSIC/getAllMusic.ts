@@ -5,7 +5,6 @@ export const GET_ALL_MUSIC = gql`
     musicNFTs{
             advNfts(where:{expirationTime_gt:$currentTime}){
               assetHash
-<<<<<<< HEAD
               expirationDuration
             }
         id
@@ -27,9 +26,7 @@ export const GET_USER_LISTED_MUSIC = gql`
     musicNFTs(where:{owner:$userAddress}){
             advNfts{
               expirationDuration
-=======
               metaDataHash
->>>>>>> main
             }
         id
         creator {

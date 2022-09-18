@@ -17,12 +17,8 @@ import { GetUserUnsold } from "../../../graph-ql/queries/GET_UNSOLD/__generated_
             sellerAddress: address?.toLowerCase()
           },
         });
-
-
-
   
         const music = allAsk?.marketItems
-        console.log(error)
   
         return  {music,isLoading,error}
   }
