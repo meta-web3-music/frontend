@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { NFTStorage } from "nft.storage";
+import { CIDString, NFTStorage } from "nft.storage";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 
 // web3 imports
@@ -18,6 +18,7 @@ import MintSongModal from "./MintSongModal/MintSongModal";
 // wagmi imports
 import { useSigner } from "wagmi";
 import { MintMusicWAdFormValues } from "./MintSongModal/MintForm/MintForm.types";
+import { asyncStore } from "../../services/ipfs/nftstorage";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -45,14 +46,16 @@ const MintSong: React.FC = () => {
     try {
       setIsMinting(true);
 
+      const storePromises: Promise<CIDString>[] = [];
       // store metadata of music on nft.storage
-      const musicAssetHash = await client.storeBlob(
-        formData.songFile[0].originFileObj
-      );
 
-      const artWorkHash = await client.storeBlob(
-        formData.artWorkFile[0].originFileObj
-      );
+      const { hash: musicAssetHash, storePromise: storeMusicAssetPromise } =
+        await asyncStore(client, formData.songFile[0].originFileObj);
+      storePromises.push(storeMusicAssetPromise);
+
+      const { hash: artWorkHash, storePromise: storeArtWorkHash } =
+        await asyncStore(client, formData.artWorkFile[0].originFileObj);
+      storePromises.push(storeArtWorkHash);
 
       // create metadata object for music nft
       const metaDataObj: MusicNftMetaData = {
@@ -76,11 +79,12 @@ const MintSong: React.FC = () => {
           visualizer: "",
         },
       };
-
       // store music nft metadata on nft.storage
-      const musicMetadataHash = await client.storeBlob(
-        new Blob([JSON.stringify(metaDataObj)])
-      );
+      const {
+        hash: musicMetaDataHash,
+        storePromise: storeMusicMetaDataPromise,
+      } = await asyncStore(client, new Blob([JSON.stringify(metaDataObj)]));
+      storePromises.push(storeMusicMetaDataPromise);
 
       // create metadata object for advertisement nft
       const advNftDataObj: AdvNftMetaData = {
@@ -92,9 +96,11 @@ const MintSong: React.FC = () => {
       };
 
       // store advertisement nft metadata on nft.storage
-      const advNftMetaDataHash = await client.storeBlob(
-        new Blob([JSON.stringify(advNftDataObj)])
-      );
+      const {
+        hash: advNftMetaDataHash,
+        storePromise: storeAdvNFTMetaDataPromise,
+      } = await asyncStore(client, new Blob([JSON.stringify(advNftDataObj)]));
+      storePromises.push(storeAdvNFTMetaDataPromise);
 
       // connect to music nft smart-contract
       const musicNft = MusicNFT__factory.connect(MusicNFTAddr, signer);
@@ -102,13 +108,13 @@ const MintSong: React.FC = () => {
       // invoke contract func and mint song nft with ad nft
       const resCreateMusicWithAdv = await musicNft
         .createMusicWithAdv(
-          musicMetadataHash,
+          musicMetaDataHash,
           musicAssetHash,
           advNftMetaDataHash,
           // TODO: generate this, maybe not important for mvp
           "",
           // formData.adDuration returns number of days
-          formData.adDurationDays ?? 3 * 86400 // 1 Day == 86400 seconds
+          (formData.adDurationDays ?? 3) * 86400 // 1 Day == 86400 seconds
         )
         .then((e) => e.wait());
       console.log("events");
@@ -123,12 +129,11 @@ const MintSong: React.FC = () => {
       console.log("Creating market item");
       console.log("adv id is", advNftID);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
-      await marketPlace.createMarketItem(
-        AdvNFTAddr,
-        advNftID.toNumber(),
-        advSpacePrice_BigInt
-      );
+      const createMarketItemPromise = marketPlace
+        .createMarketItem(AdvNFTAddr, advNftID.toNumber(), advSpacePrice_BigInt)
+        .then((e) => e.wait());
 
+      await Promise.all([createMarketItemPromise, ...storePromises]);
       // end minting
       setIsMinting(false);
       toggleModal();
