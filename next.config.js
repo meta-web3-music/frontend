@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ["nftstorage.link"],
+    unoptimized :true
   },
 };
 
