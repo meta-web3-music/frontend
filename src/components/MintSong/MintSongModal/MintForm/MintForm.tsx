@@ -32,11 +32,7 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="Ad duration"
-        name="adDurationDays"
-        rules={[{ required: true, message: "Please pick a duration!" }]}
-      >
+      <Form.Item label="Ad duration" name="adDurationDays">
         <Slider min={3} max={30} marks={marks} defaultValue={3} />
       </Form.Item>
 
@@ -53,14 +49,25 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         label="Upload Song"
         valuePropName="fileList"
         getValueFromEvent={(e) => e.fileList}
-        rules={[{ required: true, message: "Please input artist name!" }]}
+        rules={[{ required: true, message: "Please upload song file!" }]}
         extra="Please provide supported formats (.mp3, .wav)"
       >
-        <Upload name="logo" action="/" accept=".mp3,.wav" listType="picture">
+        <Upload action="/" accept=".mp3,.wav" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
-
+      <Form.Item
+        name="artWorkFile"
+        label="Upload ArtWork"
+        valuePropName="fileList"
+        getValueFromEvent={(e) => e.fileList}
+        rules={[{ required: true, message: "Please upload artwork file!" }]}
+        extra="Please provide supported formats (.png, .img)"
+      >
+        <Upload action="/" accept=".png,.img" listType="picture">
+          <Button icon={<UploadOutlined />}>Click to upload</Button>
+        </Upload>
+      </Form.Item>
       <Form.Item>
         <Button
           loading={isMinting}

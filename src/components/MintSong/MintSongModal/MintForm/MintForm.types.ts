@@ -1,9 +1,11 @@
+import { UploadFile } from "antd"
 export type MintMusicWAdFormValues = {
   songName: string;
   artistName: string;
   adDurationDays: number;
   adSpacePrice: number;
-  songFile: File[];
+  artWorkFile: UploadFile[];
+  songFile: UploadFile[];
 };
 
 interface FormProps {
