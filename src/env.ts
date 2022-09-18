@@ -1,4 +1,4 @@
-export const AdvNFTAddr = "0x44DF601b5CAeFfeed3cfAadb3D9dF4b42385B038";
-export const MusicNFTAddr = "0x11007ff239Ea87956e380eA6f00FEa86293aa6Ac";
-export const MarketPlaceAddr = "0xcA6355c6212e2CA40D4d73AEa7f82BeF97981a7C";
+export const AdvNFTAddr = "0xED7F9873657dA47f92ef1d1E2BE3713De1e901cC";
+export const MusicNFTAddr = "0xd0851856D6EBbC3f13e69370A0e811f512933455";
+export const MarketPlaceAddr = "0xFA989709E33998fD00670c07672E40b078F7035A";
 export const GraphQLEndpoint = "https://query.graph.ommore.me/subgraphs/name/thisisommore/muzik"

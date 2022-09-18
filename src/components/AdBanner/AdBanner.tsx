@@ -23,7 +23,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ advNft }) => {
           width={"100%"}
           height={"200px"}
           src={ipfsToHttps(advNft.assetHash)}
-          alt="adv banner"
+          alt="Advertisement banner"
         />
       </div>
     </a>

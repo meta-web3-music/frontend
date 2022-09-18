@@ -63,9 +63,9 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         valuePropName="fileList"
         getValueFromEvent={antdNorm}
         rules={[{ required: true, message: "Please upload artwork file!" }]}
-        extra="Please provide supported formats (.png, .img)"
+        extra="Please provide supported formats (.png, .img, .jpg, .jpeg)"
       >
-        <Upload action="/" accept=".png,.img" listType="picture">
+        <Upload action="/" accept=".png,.img.,.jpg,.jpeg" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
