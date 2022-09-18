@@ -36,6 +36,7 @@ export const GET_USER_UNSOLD = gql`
       itemId
       owner
       price
+      forSale
       token{
         id
          musicNFT{

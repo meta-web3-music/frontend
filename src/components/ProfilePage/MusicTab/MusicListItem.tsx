@@ -28,7 +28,7 @@ const MusicListItem: React.FC<ListItemProps> = ({item,extra=null})=>{
         >
             <List.Item.Meta
             title={<Title level={5}>{music?.body.title}</Title>}
-            description={ <Text>{`${Number(item?.advNfts[0].expirationDuration)/86400} Days Left`}</Text>  }
+            description={ <Text>{`${Number(item?.token.expirationDuration)/86400} Days Left`}</Text>  }
             />
             {/* <SongNode musicItem={item} playSong={playSong} /> */}
       </List.Item>

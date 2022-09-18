@@ -1,3 +1,5 @@
+import {useState} from 'react';
+
 // antd imports
 import {List,Typography,Button} from 'antd'
 const {Title} = Typography;
@@ -19,10 +21,20 @@ import useFetchUserMusic from '../hooks/useFetchUserMusic';
 
 
 const MusicTab: React.FC = () =>{
+
+  const [expired,setExpired] = useState([])
+
+  const moveToExpired=(item)=>{
+    console.log(item)
+    const copyState = expired.slice()
+    copyState.push(item);
+    setExpired(copyState)
+  }
+
     return (
       <>
-        <ListedCategory />
-        <ExpiredCategory />
+        <ListedCategory onExpire={moveToExpired} />
+        <ExpiredCategory dataSource={expired} />
       </>
     )
 }
@@ -30,27 +42,45 @@ const MusicTab: React.FC = () =>{
 export default MusicTab
 
 
+interface ListedProps{
+  onExpire: (item:object)=>void
+}
 
-const ListedCategory: React.FC = ()=>{
+const ListedCategory: React.FC<ListedProps> = ({onExpire})=>{
 
     const {music,isLoading,error} = useFetchUserMusic() 
-    console.log(music)
-    console.log(error)
+  const [isRemovingSale, setIsRemovingSale] = useState(false)
 
     const {data:signer} = useSigner()
     
-    const removeAdSpace=(item)=>{
-
+    const removeAdSpace= async(item)=>{
 
       // call add removing service here.
-
-      // connect to music nft smart-contract
-      // const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
-      // adNft.createAdSpace()
       const market = MarketPlace__factory.connect(MarketPlaceAddr, signer)
-      market.removeFromSale(item.itemId)
+      try{
+        setIsRemovingSale(true)
+        const res = await market.removeFromSale(item.itemId);
+        onExpire(item)
+        setIsRemovingSale(false)
+        console.log(res)
+      }catch(err){
+        console.log(err)
+        setIsRemovingSale(false)
+      }
+
     }
 
+    const renewAdSpace = async(item)=>{
+      // call add removing service here.
+      console.log(item)
+      const market = MarketPlace__factory.connect(MarketPlaceAddr, signer)
+      try{
+        const res = await market.createMarketSale(MarketPlaceAddr,item.itemId);
+        console.log(res)
+      }catch(err){
+        console.log(err)
+      }
+    }
   // TODO: Create error-boundary to catch error when thrown
   if(error){
     throw new Error('Problem caught while fetching music Category')
@@ -65,12 +95,16 @@ const ListedCategory: React.FC = ()=>{
             className={"self-center p-4 max-w-3xl rounded-xl border-slate-800"}
             itemLayout="horizontal"
             dataSource={music}
-            renderItem={(item) =><MusicListItem extra={<Button onClick={(item)=>removeAdSpace(item)}>De-List</Button>} item={item}/> }/>
+            renderItem={(item) =><MusicListItem extra={<Button loading={isRemovingSale} onClick={()=>renewAdSpace(item)}>{`${item?.forSale?'De-list':'List'}`}</Button>} item={item}/> }/>
     </div>
   )
 }
 
-const ExpiredCategory: React.FC = ()=>{
+interface ExpiredProps{
+  dataSource: Array<object>
+}
+
+const ExpiredCategory: React.FC<ExpiredProps> = ({dataSource})=>{
 
     const {ads,isLoading,error} = useFetchExpiredAds()  
   console.log(ads)
@@ -88,8 +122,8 @@ const ExpiredCategory: React.FC = ()=>{
             loading={isLoading}
             className={"self-center p-4 max-w-3xl rounded-xl border-slate-800"}
             itemLayout="horizontal"
-            dataSource={ads}
-            renderItem={(item) =><ListItem extra={<Button>De-List</Button>} item={item}/>
+            dataSource={dataSource}
+            renderItem={(item) =><MusicListItem extra={<Button>De-List</Button>} item={item}/>
               }/>
         
     </div>

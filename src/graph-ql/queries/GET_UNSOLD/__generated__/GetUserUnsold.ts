@@ -17,6 +17,11 @@ export interface GetUserUnsold_marketItems_token_musicNFT_owner {
   id: string;
 }
 
+export interface GetUserUnsold_marketItems_token_musicNFT_advNfts {
+  __typename: "AdvNFT";
+  expirationDuration: any;
+}
+
 export interface GetUserUnsold_marketItems_token_musicNFT {
   __typename: "MusicNFT";
   id: string;
@@ -24,6 +29,7 @@ export interface GetUserUnsold_marketItems_token_musicNFT {
   owner: GetUserUnsold_marketItems_token_musicNFT_owner;
   metaDataUri: string;
   assetUri: string;
+  advNfts: GetUserUnsold_marketItems_token_musicNFT_advNfts[];
 }
 
 export interface GetUserUnsold_marketItems_token_owner {
@@ -36,6 +42,7 @@ export interface GetUserUnsold_marketItems_token {
   id: string;
   musicNFT: GetUserUnsold_marketItems_token_musicNFT;
   metaDataHash: string;
+  forSale: any;
   assetHash: string;
   owner: GetUserUnsold_marketItems_token_owner;
   expirationDuration: any;
@@ -46,6 +53,7 @@ export interface GetUserUnsold_marketItems {
   itemId: any;
   owner: any;
   price: any;
+  forSale: boolean;
   token: GetUserUnsold_marketItems_token;
 }
 
@@ -54,5 +62,5 @@ export interface GetUserUnsold {
 }
 
 export interface GetUserUnsoldVariables {
-  sellerAddress?: any | null;
+  sellerAddress?: string | null;
 }
