@@ -6902,21 +6902,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-<<<<<<< HEAD
-          },
-          {
-            "name": "timestamp",
-            "description": "Integer representation of the timestamp stored in blocks for the chain",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-=======
->>>>>>> main
           }
         ],
         "inputFields": null,

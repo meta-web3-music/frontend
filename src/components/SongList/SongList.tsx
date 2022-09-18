@@ -22,10 +22,6 @@ const SongList: React.FC<SongListProps> = ({ playSong }) => {
 
   return (
     <>
-<<<<<<< HEAD
-=======
-      {/* songlist */}
->>>>>>> main
       <List
         loading={isLoadingAllMusic}
         style={{

@@ -17,6 +17,7 @@ interface ListItemProps{
 
 const ListItem: React.FC<ListItemProps> = ({item,extra=null})=>{
 
+    console.log('music data',item);
     const music = useMusicMetadata(item);
 
     return (

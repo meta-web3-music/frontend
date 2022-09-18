@@ -1,7 +1,8 @@
 import { useAccount } from "wagmi";
 import {useQuery} from '@apollo/client'
-import { GetUserListedMusic } from "../../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetUserListedMusic";
-import { GET_USER_LISTED_MUSIC } from "../../../graph-ql/queries/GET_ALL_MUSIC/getAllMusic";
+
+import { GET_UNSOLD, GET_USER_UNSOLD } from "../../../graph-ql/queries/GET_UNSOLD/getUnsold";
+import { GetUserUnsold } from "../../../graph-ql/queries/GET_UNSOLD/__generated__/GetUserUnsold";
 
  const useFetchUserMusic = () =>{
 
@@ -9,15 +10,19 @@ import { GET_USER_LISTED_MUSIC } from "../../../graph-ql/queries/GET_ALL_MUSIC/g
   
       const {
           loading: isLoading,
-          data: allMusic,
+          data: allAsk,
           error: error,
-        } = useQuery<GetUserListedMusic>(GET_USER_LISTED_MUSIC,{
+        } = useQuery<GetUserUnsold>(GET_USER_UNSOLD,{
           variables: {
-            userAddress: address?.toLowerCase()
+            sellerAddress: address?.toLowerCase()
           },
         });
+
+
+
   
-        const music = allMusic?.musicNFTs
+        const music = allAsk?.marketItems
+        console.log(error)
   
         return  {music,isLoading,error}
   }

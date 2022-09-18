@@ -1,45 +1,17 @@
-<<<<<<< HEAD
-import { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-=======
 import Header from "../../src/components/Header/header";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
->>>>>>> main
 // antd imports
-import { Typography} from "antd";
+import { Typography,List,Button} from "antd";
 const { Title, Text } = Typography;
 
-<<<<<<< HEAD
-import {
-  GetAllAsks_asks,
-} from "../../src/graph-ql/queries/GET_ALL_ASKS/__generated__/GetAllAsks";
-
-import { AdvNFTAddr, ZoraAskAddr } from "../../src/env";
-=======
 import { useQuery } from "@apollo/client";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
-import React, { useCallback, useEffect, useState } from "react";
->>>>>>> main
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 
 // custom-component imports
 import AdModal from "../../src/components/AdModal/AdModal";
-<<<<<<< HEAD
-import Header from "../../src/components/Header/header";
-import Adlist from "../../src/components/MarketPlacePage/Adlist/Adlist";
-
-// wagmi imports
-import {useSigner} from 'wagmi'
-
-import { NFTStorage, File } from "nft.storage";
-
-import {
-  AdvNFT__factory,
-  ZoraAsk__factory,
-} from "../../src/contracts";
-
-
-=======
 import { useSigner } from "wagmi";
 
 import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
@@ -51,37 +23,27 @@ import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
 import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
->>>>>>> main
 
 // create client instance for nft.storage
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
-const { Title } = Typography;
+
 
 const AdMarketPlace: React.FC = () => {
-<<<<<<< HEAD
-
-
-  const [selectedAdv, setSelectedAdv] = useState<GetAllAsks_asks>();
-=======
+  
   const { data: signer } = useSigner();
   const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
->>>>>>> main
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
-  const {data: signer} = useSigner()
+
 
   const handleAdModal = () => {
     setShowModal(!showModal);
   };
 
-<<<<<<< HEAD
-  
-=======
   const handleAdForm = async (formData: AdModalFormValues) => {
     console.log("hemlo");
->>>>>>> main
 
     try {
       setIsCreatingAd(true);
@@ -102,10 +64,6 @@ const AdMarketPlace: React.FC = () => {
       const metadataHash = await client.storeBlob(
         new Blob([JSON.stringify(advNftDataObj)])
       );
-<<<<<<< HEAD
-
-=======
->>>>>>> main
       const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
 
@@ -138,7 +96,6 @@ const AdMarketPlace: React.FC = () => {
 
   const handleRentClick = (advNft: GetUnsold_marketItems) => {
     setSelectedAdv(advNft);
-
     setShowModal(true);
   };
   
@@ -160,8 +117,7 @@ const AdMarketPlace: React.FC = () => {
   );
 };
 
-<<<<<<< HEAD
-=======
+
 interface AdlistProp {
   onHandleModal: () => void;
   onRentClick: (advNft: GetUnsold_marketItems) => void;
@@ -177,86 +133,10 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
       },
     });
 
-  // add useState hooks here
-  const [price, setPrice] = useState("100MATIC");
-  const [views, setViews] = useState("100kViews");
-
-  const onChangePrice = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setPrice(e.target.value);
-  };
-
-  //  menu items for price dropdown filter
-  const priceFilterMenu = (
-    <Menu
-      items={[
-        {
-          label: (
-            <Radio.Group onChange={onChangePrice} value={price}>
-              <Space direction="vertical">
-                <Radio value={"100MATIC"}>100 MATIC and under</Radio>
-                <Radio value={"200MATIC"}>200 MATIC and under</Radio>
-                <Radio value={"300MATIC"}>500 MATIC and under</Radio>
-              </Space>
-            </Radio.Group>
-          ),
-          key: "1",
-        },
-      ]}
-    />
-  );
-
-  const onChangeViews = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setViews(e.target.value);
-  };
-
-  // menu items for number of view dropdown filter
-  const viewsFilterMenu = (
-    <Menu
-      items={[
-        {
-          label: (
-            <Radio.Group onChange={onChangeViews} value={views}>
-              <Space direction="vertical">
-                <Radio value={"1000Views"}>1000 views and under</Radio>
-                <Radio value={"10kViews"}>10K views and under</Radio>
-                <Radio value={"50kViews"}>50K views and under</Radio>
-                <Radio value={"100kViews"}>100K views and under</Radio>
-                <Radio value={"1MViews"}>1 million+ views</Radio>
-              </Space>
-            </Radio.Group>
-          ),
-          key: "1",
-        },
-      ]}
-    />
-  );
+  
 
   return (
     <>
-      {/* start dropdowns */}
-      <div className="flex flex-row items-center mb-3">
-        <span>Filter by</span>
-        <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
-          <a onClick={(e) => e.preventDefault()}>
-            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
-              Price
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
-        <Dropdown overlay={viewsFilterMenu} trigger={["click"]}>
-          <a onClick={(e) => e.preventDefault()}>
-            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
-              Views
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
-      </div>
-      {/* end dropdowns */}
-
       <List
         loading={isLoadingAllAsks}
         style={{
@@ -297,7 +177,9 @@ interface TitleProps {
 }
 
 const TitleNode: React.FC<TitleProps> = ({ item }) => {
+
   const [metaData, setMetaData] = useState<AdvNftMetaData>();
+
   const fetchMetaData = useCallback(async () => {
     const advMetaData = await fetchIpfs<AdvNftMetaData>(
       item.token.metaDataHash
@@ -307,6 +189,7 @@ const TitleNode: React.FC<TitleProps> = ({ item }) => {
   useEffect(() => {
     fetchMetaData();
   }, [fetchMetaData, item]);
+
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Title style={{ marginRight: "5px", marginBottom: "0px" }} level={5}>
@@ -324,6 +207,5 @@ const TitleNode: React.FC<TitleProps> = ({ item }) => {
     </div>
   );
 };
->>>>>>> main
 
 export default AdMarketPlace;

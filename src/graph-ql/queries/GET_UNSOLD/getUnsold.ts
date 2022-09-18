@@ -28,3 +28,33 @@ export const GET_UNSOLD = gql`
       }
     }
 }`
+
+
+export const GET_USER_UNSOLD = gql`
+  query GetUserUnsold($sellerAddress:String) {
+    marketItems(where:{seller:$sellerAddress}){
+      itemId
+      owner
+      price
+      token{
+        id
+         musicNFT{
+          id
+          creator {
+            id
+          }
+          owner {
+            id
+          }
+          metaDataUri
+          assetUri
+        }
+        metaDataHash
+        assetHash
+        owner{
+          id
+        }
+        expirationDuration
+      }
+    }
+}`
