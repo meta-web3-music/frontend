@@ -6,6 +6,7 @@ import type { SliderMarks } from "antd/es/slider";
 
 // types
 import { FormProps, MintMusicWAdFormValues } from "./MintForm.types";
+import { antdNorm } from "../../../../services/antd-form/norm";
 
 const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
   return (
@@ -48,7 +49,7 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         name="songFile"
         label="Upload Song"
         valuePropName="fileList"
-        getValueFromEvent={(e) => e.fileList}
+        getValueFromEvent={antdNorm}
         rules={[{ required: true, message: "Please upload song file!" }]}
         extra="Please provide supported formats (.mp3, .wav)"
       >
@@ -60,7 +61,7 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         name="artWorkFile"
         label="Upload ArtWork"
         valuePropName="fileList"
-        getValueFromEvent={(e) => e.fileList}
+        getValueFromEvent={antdNorm}
         rules={[{ required: true, message: "Please upload artwork file!" }]}
         extra="Please provide supported formats (.png, .img)"
       >

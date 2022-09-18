@@ -3,4 +3,5 @@ export interface AdvNftMetaData {
     mimeType: string
     name: string
     version: string
+    external_url: string
 }

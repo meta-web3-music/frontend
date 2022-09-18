@@ -88,6 +88,7 @@ const MintSong: React.FC = () => {
         mimeType: "image/jpeg",
         name: `${formData.songName}ADV NFT`,
         version: "",
+        external_url: "",
       };
 
       // store advertisement nft metadata on nft.storage
@@ -105,7 +106,7 @@ const MintSong: React.FC = () => {
           musicAssetHash,
           advNftMetaDataHash,
           // TODO: generate this, maybe not important for mvp
-          "advAssetHash",
+          "",
           // formData.adDuration returns number of days
           formData.adDurationDays ?? 3 * 86400 // 1 Day == 86400 seconds
         )
