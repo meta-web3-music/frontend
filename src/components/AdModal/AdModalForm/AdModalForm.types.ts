@@ -1,5 +1,7 @@
+import { UploadFile } from "antd";
+
 export type AdModalFormValues = {
-  bannerImage: File[];
+  bannerImage: UploadFile[];
 };
 interface AdModalFormProps {
   onHandleAdForm: (values: AdModalFormValues) => void;

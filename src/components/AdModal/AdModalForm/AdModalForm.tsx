@@ -20,7 +20,7 @@ const AdModalForm: React.FC<AdModalFormProps> = ({
         name="bannerImage"
         label="Upload banner image"
         valuePropName="fileList"
-        getValueFromEvent={(e) => e.fileList}
+        getValueFromEvent={(e) => e.fileList.item(0)}
         extra="Please provide supported formats (.png, .jpeg, .jpg)"
       >
         <Upload action="/" accept=".png,.jpg,.jpeg" listType="picture">

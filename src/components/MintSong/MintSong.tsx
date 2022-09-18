@@ -35,7 +35,11 @@ const MintSong: React.FC = () => {
   };
 
   const handleMintForm = async (formData: MintMusicWAdFormValues) => {
-    if (!signer) {
+    if (
+      !signer ||
+      !formData.songFile[0].originFileObj ||
+      !formData.artWorkFile[0].originFileObj
+    ) {
       //TODO: error
       return;
     }
@@ -44,7 +48,11 @@ const MintSong: React.FC = () => {
 
       // store metadata of music on nft.storage
       const musicAssetHash = await client.storeBlob(
-        new Blob([formData.songFile[0]])
+        formData.songFile[0].originFileObj
+      );
+
+      const artWorkHash = await client.storeBlob(
+        formData.artWorkFile[0].originFileObj
       );
 
       // create metadata object for music nft
@@ -54,7 +62,7 @@ const MintSong: React.FC = () => {
           artwork: {
             info: {
               mimeType: "image/jpeg",
-              uri: "cover image uri",
+              uri: "ipfs://" + artWorkHash,
             },
             isNft: false,
             nft: null,
@@ -100,7 +108,7 @@ const MintSong: React.FC = () => {
           // TODO: generate this, maybe not important for mvp
           "advAssetHash",
           // formData.adDuration returns number of days
-          formData.adDurationDays * 86400 // 1 Day == 86400 seconds
+          formData.adDurationDays ?? 3 * 86400 // 1 Day == 86400 seconds
         )
         .then((e) => e.wait());
       console.log("events");
