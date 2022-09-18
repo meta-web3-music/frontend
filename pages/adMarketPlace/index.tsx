@@ -22,6 +22,7 @@ import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
 import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
+import { ethers } from "ethers";
 import { MusicNftMetaData } from "../../src/types/MusicNFTData";
 
 // create client instance for nft.storage
@@ -135,7 +136,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
     });
 
   // add useState hooks here
-  const [price, setPrice] = useState("100MATIC");
+  const [price, setPrice] = useState("100EVMOS");
   const [views, setViews] = useState("100kViews");
 
   const onChangePrice = (e: RadioChangeEvent) => {
@@ -151,9 +152,9 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
           label: (
             <Radio.Group onChange={onChangePrice} value={price}>
               <Space direction="vertical">
-                <Radio value={"100MATIC"}>100 MATIC and under</Radio>
-                <Radio value={"200MATIC"}>200 MATIC and under</Radio>
-                <Radio value={"300MATIC"}>500 MATIC and under</Radio>
+                <Radio value={"100EVMOS"}>100 EVMOS and under</Radio>
+                <Radio value={"200EVMOS"}>200 EVMOS and under</Radio>
+                <Radio value={"300EVMOS"}>500 EVMOS and under</Radio>
               </Space>
             </Radio.Group>
           ),
@@ -274,7 +275,7 @@ const AdvItem = ({ item, onRentClick }: AdvItemProps) => {
                 borderRadius: "20px",
               }}
             >
-              {item.token.id}
+              {ethers.utils.formatEther(item.price) + " Evmos"}
             </span>
           </div>
         }

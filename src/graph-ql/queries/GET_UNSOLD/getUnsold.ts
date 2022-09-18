@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 export const GET_UNSOLD = gql`
   query GetUnsold($nftContractAddr:Bytes) {
-    marketItems(where:{nftContract:$nftContractAddr,sold:false,deleted:false}){
+    marketItems(where:{nftContract:$nftContractAddr,sold:false,deleted:false,forSale:true}){
       itemId
       owner
       price
