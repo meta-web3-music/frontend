@@ -3,7 +3,7 @@ export type MintMusicWAdFormValues = {
   songName: string;
   artistName: string;
   adDurationDays: number;
-  adSpacePrice: string;
+  adSpacePrice: number;
   artWorkFile: UploadFile[];
   songFile: UploadFile[];
 };

@@ -6,8 +6,7 @@ import { MusicNftMetaData } from "../../types/MusicNFTData";
 // web3 imports
 import { MarketPlace__factory, MusicNFT__factory } from "../../contracts";
 
-import { BigNumber } from "ethers";
-
+import { BigNumber, ethers } from "ethers";
 import { AdvNFTAddr, MusicNFTAddr, MarketPlaceAddr } from "../../env";
 
 import { AdvNftMetaData } from "../../types/AdvNFTData";
@@ -69,7 +68,7 @@ const MintSong: React.FC = () => {
           },
           duration: 100,
           mimeType: "audio/mp3",
-          notes: formData.adSpacePrice,
+          notes: `Song with price ${formData.adSpacePrice}`,
           project: null,
           title: formData.songName,
           trackNumber: "",
@@ -115,11 +114,19 @@ const MintSong: React.FC = () => {
       console.log(resCreateMusicWithAdv);
       const advNftID = resCreateMusicWithAdv.events?.[2].args
         ?.tokenId as BigNumber;
-
-      console.log("Creating ask");
+      ethers.utils.parseEther;
+      const advSpacePrice_BigInt = ethers.utils.parseEther(
+        formData.adSpacePrice.toString()
+      );
+      console.log(advSpacePrice_BigInt);
+      console.log("Creating market item");
       console.log("adv id is", advNftID);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
-      await marketPlace.createMarketItem(AdvNFTAddr, advNftID.toNumber(), 123);
+      await marketPlace.createMarketItem(
+        AdvNFTAddr,
+        advNftID.toNumber(),
+        advSpacePrice_BigInt
+      );
 
       // end minting
       setIsMinting(false);
