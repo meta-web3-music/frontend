@@ -1,14 +1,16 @@
-type MintMusicAdFormValues = {
+import { UploadFile } from "antd"
+type MintMusicWAdFormValues = {
   songName: string;
   artistName: string;
   adDurationDays: number;
-  adSpacePrice: string;
-  songFile: File[];
+  adSpacePrice: number;
+  artWorkFile: UploadFile[];
+  songFile: UploadFile[];
 };
 
 interface FormProps {
-  onHandleMintForm: (value: MintMusicAdFormValues) => void;
+  onHandleMintForm: (value: MintMusicWAdFormValues) => void;
   isMinting: boolean;
 }
 
-export type { FormProps, MintMusicAdFormValues }
+export type { FormProps, MintMusicWAdFormValues }

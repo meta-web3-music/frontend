@@ -17,8 +17,22 @@ const tEvmos: Chain = {
   network: "tevmos",
   rpcUrls: {
     default: "https://eth.bd.evmos.dev:8545"
-  }
+  },
+  blockExplorers: {
+    default: {
+      name: "Evmos Explorer",
+      url: "https://evm.evmos.dev",
+    }
+  },
+  nativeCurrency: {
+    name: "EVMOS",
+    decimals: 18,
+    symbol: "tEVMOS"
+  },
+  testnet: true
 }
+
+
 const { chains, provider } = configureChains(
   [tEvmos],
   [

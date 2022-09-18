@@ -23,6 +23,7 @@ import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
 import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
+import { MusicNftMetaData } from "../../src/types/MusicNFTData";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -43,17 +44,22 @@ const AdMarketPlace: React.FC = () => {
   };
 
   const handleAdForm = async (formData: AdModalFormValues) => {
-    console.log("hemlo");
-
+    if (!formData.bannerImage[0].originFileObj) {
+      //TODO: error
+      return;
+    }
     try {
       setIsCreatingAd(true);
 
-      const adImageHash = await client.storeBlob(formData.bannerImage[0]);
+      const adImageHash = await client.storeBlob(
+        formData.bannerImage[0].originFileObj
+      );
       const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
         name: `${selectedAdv?.itemId} ADV NFT`,
         version: "",
+        external_url: formData.adUrl,
       };
 
       console.log("handleAdForm: Adding MetaData to IPFS");
@@ -124,8 +130,6 @@ interface AdlistProp {
 }
 
 const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
-  const { data: signer } = useSigner();
-  const { openConnectModal } = useConnectModal();
   const { loading: isLoadingAllAsks, data: allAsksConnection } =
     useQuery<GetUnsold>(GET_UNSOLD, {
       variables: {
@@ -148,41 +152,24 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
         }}
         itemLayout="horizontal"
         dataSource={allAsksConnection?.marketItems}
-        renderItem={(item) => {
-          return (
-            <List.Item
-              extra={
-                <Button
-                  onClick={!signer ? openConnectModal : () => onRentClick(item)}
-                >
-                  Rent Ad Space
-                </Button>
-              }
-            >
-              <List.Item.Meta
-                // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={<TitleNode item={item} />}
-                description="TODO: fetch desc from ipfs"
-              />
-            </List.Item>
-          );
-        }}
+        renderItem={(item) => <AdvItem onRentClick={onRentClick} item={item} />}
       />
     </>
   );
 };
 
-interface TitleProps {
+interface AdvItemProps {
   item: GetUnsold_marketItems;
+  onRentClick: (advNft: GetUnsold_marketItems) => void;
 }
 
-const TitleNode: React.FC<TitleProps> = ({ item }) => {
-
-  const [metaData, setMetaData] = useState<AdvNftMetaData>();
-
+const AdvItem = ({ item, onRentClick }: AdvItemProps) => {
+  const { data: signer } = useSigner();
+  const { openConnectModal } = useConnectModal();
+  const [metaData, setMetaData] = useState<MusicNftMetaData>();
   const fetchMetaData = useCallback(async () => {
-    const advMetaData = await fetchIpfs<AdvNftMetaData>(
-      item.token.metaDataHash
+    const advMetaData = await fetchIpfs<MusicNftMetaData>(
+      item.token.musicNFT.metaDataUri
     );
     setMetaData(advMetaData);
   }, [item]);
@@ -191,20 +178,37 @@ const TitleNode: React.FC<TitleProps> = ({ item }) => {
   }, [fetchMetaData, item]);
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <Title style={{ marginRight: "5px", marginBottom: "0px" }} level={5}>
-        {metaData?.name}
-      </Title>
-      <span
-        style={{
-          background: "#f4f4f4",
-          padding: "2px 6px",
-          borderRadius: "20px",
-        }}
-      >
-        {item.token.id}
-      </span>
-    </div>
+    <List.Item
+      extra={
+        <Button onClick={!signer ? openConnectModal : () => onRentClick(item)}>
+          Rent Ad Space
+        </Button>
+      }
+    >
+      <List.Item.Meta
+        // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+        title={
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Title
+              style={{ marginRight: "5px", marginBottom: "0px" }}
+              level={5}
+            >
+              {metaData?.body.title}
+            </Title>
+            <span
+              style={{
+                background: "#f4f4f4",
+                padding: "2px 6px",
+                borderRadius: "20px",
+              }}
+            >
+              {item.token.id}
+            </span>
+          </div>
+        }
+        description={metaData?.body.artist}
+      />
+    </List.Item>
   );
 };
 

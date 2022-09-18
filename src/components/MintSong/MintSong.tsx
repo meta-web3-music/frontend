@@ -6,8 +6,7 @@ import { MusicNftMetaData } from "../../types/MusicNFTData";
 // web3 imports
 import { MarketPlace__factory, MusicNFT__factory } from "../../contracts";
 
-import { BigNumber } from "ethers";
-
+import { BigNumber, ethers } from "ethers";
 import { AdvNFTAddr, MusicNFTAddr, MarketPlaceAddr } from "../../env";
 
 import { AdvNftMetaData } from "../../types/AdvNFTData";
@@ -18,7 +17,7 @@ import MintSongModal from "./MintSongModal/MintSongModal";
 
 // wagmi imports
 import { useSigner } from "wagmi";
-import { MintMusicAdFormValues } from "./MintSongModal/MintForm/MintForm.types";
+import { MintMusicWAdFormValues } from "./MintSongModal/MintForm/MintForm.types";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -34,8 +33,12 @@ const MintSong: React.FC = () => {
     setShowModal(!showModal);
   };
 
-  const handleMintForm = async (formData: MintMusicAdFormValues) => {
-    if (!signer) {
+  const handleMintForm = async (formData: MintMusicWAdFormValues) => {
+    if (
+      !signer ||
+      !formData.songFile[0].originFileObj ||
+      !formData.artWorkFile[0].originFileObj
+    ) {
       //TODO: error
       return;
     }
@@ -44,7 +47,11 @@ const MintSong: React.FC = () => {
 
       // store metadata of music on nft.storage
       const musicAssetHash = await client.storeBlob(
-        new Blob([formData.songFile[0]])
+        formData.songFile[0].originFileObj
+      );
+
+      const artWorkHash = await client.storeBlob(
+        formData.artWorkFile[0].originFileObj
       );
 
       // create metadata object for music nft
@@ -54,14 +61,14 @@ const MintSong: React.FC = () => {
           artwork: {
             info: {
               mimeType: "image/jpeg",
-              uri: "cover image uri",
+              uri: "ipfs://" + artWorkHash,
             },
             isNft: false,
             nft: null,
           },
           duration: 100,
           mimeType: "audio/mp3",
-          notes: formData.adSpacePrice,
+          notes: `Song with price ${formData.adSpacePrice}`,
           project: null,
           title: formData.songName,
           trackNumber: "",
@@ -81,6 +88,7 @@ const MintSong: React.FC = () => {
         mimeType: "image/jpeg",
         name: `${formData.songName}ADV NFT`,
         version: "",
+        external_url: "",
       };
 
       // store advertisement nft metadata on nft.storage
@@ -98,20 +106,28 @@ const MintSong: React.FC = () => {
           musicAssetHash,
           advNftMetaDataHash,
           // TODO: generate this, maybe not important for mvp
-          "advAssetHash",
+          "",
           // formData.adDuration returns number of days
-          formData.adDurationDays * 86400 // 1 Day == 86400 seconds
+          formData.adDurationDays ?? 3 * 86400 // 1 Day == 86400 seconds
         )
         .then((e) => e.wait());
       console.log("events");
       console.log(resCreateMusicWithAdv);
       const advNftID = resCreateMusicWithAdv.events?.[2].args
         ?.tokenId as BigNumber;
-
-      console.log("Creating ask");
+      ethers.utils.parseEther;
+      const advSpacePrice_BigInt = ethers.utils.parseEther(
+        formData.adSpacePrice.toString()
+      );
+      console.log(advSpacePrice_BigInt);
+      console.log("Creating market item");
       console.log("adv id is", advNftID);
       const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
-      await marketPlace.createMarketItem(AdvNFTAddr, advNftID.toNumber(), 123);
+      await marketPlace.createMarketItem(
+        AdvNFTAddr,
+        advNftID.toNumber(),
+        advSpacePrice_BigInt
+      );
 
       // end minting
       setIsMinting(false);

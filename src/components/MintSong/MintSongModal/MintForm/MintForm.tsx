@@ -6,6 +6,7 @@ import type { SliderMarks } from "antd/es/slider";
 
 // types
 import { FormProps, MintMusicWAdFormValues } from "./MintForm.types";
+import { antdNorm } from "../../../../services/antd-form/norm";
 
 const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
   return (
@@ -32,11 +33,7 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="Ad duration"
-        name="adDurationDays"
-        rules={[{ required: true, message: "Please pick a duration!" }]}
-      >
+      <Form.Item label="Ad duration" name="adDurationDays">
         <Slider min={3} max={30} marks={marks} defaultValue={3} />
       </Form.Item>
 
@@ -52,15 +49,26 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         name="songFile"
         label="Upload Song"
         valuePropName="fileList"
-        getValueFromEvent={(e) => e.fileList}
-        rules={[{ required: true, message: "Please input artist name!" }]}
+        getValueFromEvent={antdNorm}
+        rules={[{ required: true, message: "Please upload song file!" }]}
         extra="Please provide supported formats (.mp3, .wav)"
       >
-        <Upload name="logo" action="/" accept=".mp3,.wav" listType="picture">
+        <Upload action="/" accept=".mp3,.wav" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
-
+      <Form.Item
+        name="artWorkFile"
+        label="Upload ArtWork"
+        valuePropName="fileList"
+        getValueFromEvent={antdNorm}
+        rules={[{ required: true, message: "Please upload artwork file!" }]}
+        extra="Please provide supported formats (.png, .img)"
+      >
+        <Upload action="/" accept=".png,.img" listType="picture">
+          <Button icon={<UploadOutlined />}>Click to upload</Button>
+        </Upload>
+      </Form.Item>
       <Form.Item>
         <Button
           loading={isMinting}
