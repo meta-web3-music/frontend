@@ -10,6 +10,14 @@ const Styled = styled.div`
 function DarkModeToggle() {
   const { theme, setTheme } = useTheme();
 
+  if (theme == "system") {
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (isDark) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }
   return (
     <Styled className="ml-auto flex items-center relative">
       <div className="opacity-0 text-gray-700 text-3xl mr-5 pointer-events-none">
