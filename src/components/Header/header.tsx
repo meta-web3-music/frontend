@@ -43,21 +43,27 @@ function Header() {
         </div>
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">
-          {/* LINK TO ADVERTISEMENT PAGE */}
-          {pathname != "/ad-marketplace" ? (
+          <div className="flex">
+            <Link href="/">
+              <button
+                onClick={navigateToHottestSongPage}
+                className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none  ${
+                  pathname == "/" ? "text-[#FF7E39]" : ""
+                }`}
+              >
+                Home
+              </button>
+            </Link>
             <Link href="ad-marketplace">
-              <button className="inline-block px-4 py-1 border text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2 border-none">
+              <button
+                className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none ${
+                  pathname == "/ad-marketplace" ? "text-[#FF7E39]" : ""
+                }`}
+              >
                 Ad Marketplace
               </button>
             </Link>
-          ) : (
-            <button
-              onClick={navigateToHottestSongPage}
-              className="inline-block px-4 py-1 border text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2 border-none"
-            >
-              Listen to Music
-            </button>
-          )}
+          </div>
         </div>
         <DarkModeToggle />
         {correctNetwork}
