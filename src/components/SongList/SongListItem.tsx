@@ -47,7 +47,7 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
   };
   return (
     <SongListItemStyled
-      className="m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden"
+      className="m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white"
       onClick={onPlaySong}
     >
       <div className="relative h-60 w-40 md:w-48 lg:w-56">
@@ -77,9 +77,9 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
       </div>
 
       <div className="flex pl-2 items-stretch">
-        <div className="w-1/2 leading-3 flex justify-center flex-col data my-1">
-          <p className="m-0 font-bold mb-1">{metaData?.body.title}</p>
-          <p className="m-0 text-xs">{metaData?.body.artist}</p>
+        <div className="w-1/2 leading-3 flex justify-center flex-col data my-1 ">
+          <p className="m-0 font-bold mb-1 ">{metaData?.body.title}</p>
+          <p className="m-0 text-xs ">{metaData?.body.artist}</p>
         </div>
       </div>
     </SongListItemStyled>

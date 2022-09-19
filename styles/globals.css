@@ -1,7 +1,33 @@
-@tailwind base {
-  body {
-    @apply bg-[#f7f7f7];
-  }
+@tailwind base;
+#__next,
+body,
+html {
+  transition-duration: 0.3s;
+}
+html.dark #__next {
+  background: radial-gradient(
+        100% 225% at 100% 0%,
+        rgba(4, 36, 64, 0.8) 0%,
+        rgba(4, 36, 64, 0) 99%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    #000000;
+}
+html.dark body {
+  background: radial-gradient(
+        100% 225% at 100% 0%,
+        rgba(4, 36, 64, 0.8) 0%,
+        rgba(4, 36, 64, 0) 99%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    #000000 !important;
+}
+html.dark .ant-typography {
+  color: white !important;
+}
+
+.font-farro {
+  font-family: "Farro", sans-serif;
 }
 @tailwind components;
 @tailwind utilities;
