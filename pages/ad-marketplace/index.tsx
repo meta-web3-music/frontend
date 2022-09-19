@@ -113,7 +113,7 @@ const AdMarketPlace: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
+      <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left dark:text-white">
         <Title level={2}>Ad Marketplace</Title>
         <Adlist onHandleModal={handleAdModal} onRentClick={handleRentClick} />
 
@@ -212,7 +212,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
         <span>Filter by</span>
         <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
-            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
+            <Space className="inline-block px-6 py-2 border shadow text-black dark:text-white font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Price
               <DownOutlined />
             </Space>
@@ -221,7 +221,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
 
         <Dropdown overlay={viewsFilterMenu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
-            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
+            <Space className="inline-block px-6 py-2 border shadow text-black  dark:text-white font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Views
               <DownOutlined />
             </Space>

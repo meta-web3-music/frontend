@@ -31,7 +31,10 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
           <p className="text-2xl m-0">{musicMetaData?.body.title}</p>
           <p>{musicMetaData?.body.artist}</p>
         </div>
-        <div className="div text-2xl ml-auto mr-2" onClick={onClosePlayer}>
+        <div
+          className="div text-2xl ml-auto mr-2 mb-auto mt-2 duration-150 hover:-rotate-90"
+          onClick={onClosePlayer}
+        >
           <span className="iconify" data-icon="akar-icons:cross"></span>
         </div>
       </div>

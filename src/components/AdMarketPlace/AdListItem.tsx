@@ -61,12 +61,12 @@ const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
   };
   return (
     <AdListItemStyled
-      className="m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden"
+      className="m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white"
       onClick={onPlaySong}
     >
       <div className="relative h-60 w-40 md:w-48 lg:w-56 flex">
         <div
-          className={`image-placeholder duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800 ${
+          className={`image-placeholder duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800  ${
             imageLoaded ? "hidden" : "block"
           }`}
         >
@@ -92,12 +92,13 @@ const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
       </div>
 
       <div className="flex pl-2 items-stretch">
-        <div className="w-1/2 leading-3 flex justify-center flex-col data my-1">
-          <p className="m-0 font-bold mb-1">{metaData?.body.title}</p>
-          <p className="m-0 text-xs">{metaData?.body.artist}</p>
+        <div className="w-1/2 leading-3 flex justify-center flex-col data my-1 ">
+          <p className="m-0 font-bold mb-1 ">{metaData?.body.title}</p>
+          <p className="m-0 text-xs ">{metaData?.body.artist}</p>
         </div>
         <button
-          className="w-1/2 bg-orange-700 text-white rounded-2xl py-1 my-auto ml-auto mr-1 h-9 overflow-hidden relative buy-btn"
+          className="w-3/4  text-white inline font-bold rounded-2xl my-auto ml-auto mr-1 h-9 overflow-hidden relative buy-btn"
+          style={{ background: "#0E77FC" }}
           onClick={onBuyClick}
         >
           <div className="span absolute -top-full left-1/2 -translate-y-1/2 -translate-x-1/2 label duration-300">
