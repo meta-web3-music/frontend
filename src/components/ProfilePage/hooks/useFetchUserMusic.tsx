@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
 import {useQuery} from '@apollo/client'
 
-import { GET_UNSOLD, GET_USER_UNSOLD } from "../../../graph-ql/queries/GET_UNSOLD/getUnsold";
+import { GET_USER_UNSOLD } from "../../../graph-ql/queries/GET_UNSOLD/getUnsold";
 import { GetUserUnsold } from "../../../graph-ql/queries/GET_UNSOLD/__generated__/GetUserUnsold";
 
  const useFetchUserMusic = () =>{
@@ -14,7 +14,7 @@ import { GetUserUnsold } from "../../../graph-ql/queries/GET_UNSOLD/__generated_
           error: error,
         } = useQuery<GetUserUnsold>(GET_USER_UNSOLD,{
           variables: {
-            sellerAddress: address?.toLowerCase()
+            sellerAddress:address?.toLowerCase()
           },
         });
   

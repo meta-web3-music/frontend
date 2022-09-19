@@ -13,3 +13,16 @@ query GetUserExpiredAdspaces($userAddress:String,$expirationTime:BigInt){
         }
   }
 }`
+
+export const GET_ADVERTISER_ADS = gql`
+query GetAdvertiserAds($advertiserAddress:String){
+  advNFTs(where:{owner:$advertiserAddress,assetHash_not:""}){
+        musicNFT{
+            metaDataUri
+            assetUri
+        }
+        assetHash
+        expirationDuration
+  }
+}`
+

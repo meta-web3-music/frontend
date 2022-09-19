@@ -42,7 +42,6 @@ export interface GetUserUnsold_marketItems_token {
   id: string;
   musicNFT: GetUserUnsold_marketItems_token_musicNFT;
   metaDataHash: string;
-  forSale: any;
   assetHash: string;
   owner: GetUserUnsold_marketItems_token_owner;
   expirationDuration: any;

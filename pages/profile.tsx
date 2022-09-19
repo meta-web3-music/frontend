@@ -5,6 +5,7 @@ import {Tabs} from 'antd'
 
 // component imports
 import MusicTab from "../src/components/ProfilePage/MusicTab/MusicTab";
+import AdvertisementTab from "../src/components/ProfilePage/AdvertisementTab/AdvertismentTab";
 
 
 
@@ -20,7 +21,7 @@ const Profile: NextPage = () => {
             <MusicTab/>
         </Tabs.TabPane>
         <Tabs.TabPane  tab="Advertisement" key="adverstisment">
-            <Advertisment/>
+            <AdvertisementTab/>
         </Tabs.TabPane>
         <Tabs.TabPane  tab="Subscription" key="subscription">
             Subscription
