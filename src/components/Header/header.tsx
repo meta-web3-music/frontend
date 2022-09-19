@@ -46,14 +46,14 @@ function Header() {
           {/* LINK TO ADVERTISEMENT PAGE */}
           {pathname != "/ad-marketplace" ? (
             <Link href="ad-marketplace">
-              <button className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2">
+              <button className="inline-block px-4 py-1 border text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2 border-none">
                 Ad Marketplace
               </button>
             </Link>
           ) : (
             <button
               onClick={navigateToHottestSongPage}
-              className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
+              className="inline-block px-4 py-1 border text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2 border-none"
             >
               Listen to Music
             </button>
