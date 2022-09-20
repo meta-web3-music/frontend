@@ -23,8 +23,6 @@ import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
 import { asyncStore } from "../../src/services/ipfs/nftstorage";
 import AdListItem from "../../src/components/AdMarketPlace/AdListItem";
-import { GetAllMusic_musicNFTs } from "../../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
-import StickyPlayer from "../../src/components/StickyPlayer/StickyPlayer";
 import { MusicPlayerSub } from "../../src/subs/MusicPlayerSub";
 
 // create client instance for nft.storage
