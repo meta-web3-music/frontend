@@ -24,6 +24,7 @@ import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdMo
 import { asyncStore } from "../../src/services/ipfs/nftstorage";
 import AdListItem from "../../src/components/AdMarketPlace/AdListItem";
 import { MusicPlayerSub } from "../../src/subs/MusicPlayerSub";
+import Head from "next/head";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -197,6 +198,9 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
   const { openConnectModal } = useConnectModal();
   return (
     <>
+      <Head>
+        <title>Market</title>
+      </Head>
       {/* start dropdowns */}
       <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
