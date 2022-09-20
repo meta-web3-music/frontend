@@ -5,6 +5,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 // antd imports
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu, Space, Radio, Typography } from "antd";
+const {Title} = Typography;
 import type { RadioChangeEvent } from "antd";
 
 import { useQuery } from "@apollo/client";
@@ -143,6 +144,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
   });
+  
   const [selectedSong, setSelectedSong] =
     useState<Omit<GetAllMusic_musicNFTs, "advNfts">>();
 
