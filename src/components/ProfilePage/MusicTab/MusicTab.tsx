@@ -11,19 +11,18 @@ import {useQuery} from '@apollo/client';
 import { useAccount, useSigner } from 'wagmi';
 
 // contract imports
-import { AdvNFT__factory, MarketPlace__factory } from '../../../contracts';
-import { AdvNFTAddr, MarketPlaceAddr } from '../../../env';
+import { MarketPlace__factory } from '../../../contracts';
+import { MarketPlaceAddr } from '../../../env';
 
 // custom-components imports
-import ListItem from '../../Shared/ListItem/ListItem';
 import MusicListItem from './MusicListItem';
 
 // custom-hooks imports
 import useFetchExpiredAds from '../hooks/useFetchExpiredAds';
 import useFetchUserMusic from '../hooks/useFetchUserMusic';
-import { GET_USER_UNLISTED_ADS, GET_USER_UNSOLD } from '../../../graph-ql/queries/GET_UNSOLD/getUnsold';
-import { GetUserUnsold } from '../../../graph-ql/queries/GET_UNSOLD/__generated__/GetUserUnsold';
+import { GET_USER_UNLISTED_ADS } from '../../../graph-ql/queries/GET_UNSOLD/getUnsold';
 import { GetUserUnlisted } from '../../../graph-ql/queries/GET_UNSOLD/__generated__/GetUserUnlisted';
+
 
 
 const MusicTab: React.FC = () =>{
@@ -120,11 +119,15 @@ const {
   
 
   const renewAdSpace = async(item)=>{
+
+
+  
+
     // call add removing service here.
     console.log(item)
     const market = MarketPlace__factory.connect(MarketPlaceAddr, signer)
     try{
-      const res = await market.createMarketSale(MarketPlaceAddr,item.itemId);
+      const res = await market.createMarketItem(MarketPlaceAddr,item.itemId, item.price);
       console.log(res)
     }catch(err){
       console.log(err)

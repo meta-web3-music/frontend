@@ -72,6 +72,7 @@ export const GET_USER_UNLISTED_ADS = gql`
       owner
       price
       sold
+      seller
       forSale
       token{
         id

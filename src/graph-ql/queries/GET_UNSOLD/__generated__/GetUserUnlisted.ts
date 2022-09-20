@@ -53,6 +53,7 @@ export interface GetUserUnlisted_marketItems {
   owner: any;
   price: any;
   sold: boolean;
+  seller: any;
   forSale: boolean;
   token: GetUserUnlisted_marketItems_token;
 }
