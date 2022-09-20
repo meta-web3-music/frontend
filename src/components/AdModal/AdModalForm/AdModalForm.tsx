@@ -38,7 +38,7 @@ const AdModalForm: React.FC<AdModalFormProps> = ({
         getValueFromEvent={antdNorm}
         extra="Please provide supported formats (.png, .jpeg, .jpg)"
       >
-        <Upload action="/" accept=".png,.jpg,.jpeg" listType="picture">
+        <Upload accept=".png,.jpg,.jpeg" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>

@@ -53,7 +53,7 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         rules={[{ required: true, message: "Please upload song file!" }]}
         extra="Please provide supported formats (.mp3, .wav)"
       >
-        <Upload action="/" accept=".mp3,.wav" listType="picture">
+        <Upload accept=".mp3,.wav" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
@@ -65,7 +65,7 @@ const MintForm: React.FC<FormProps> = ({ onHandleMintForm, isMinting }) => {
         rules={[{ required: true, message: "Please upload artwork file!" }]}
         extra="Please provide supported formats (.png, .img, .jpg, .jpeg)"
       >
-        <Upload action="/" accept=".png,.img.,.jpg,.jpeg" listType="picture">
+        <Upload accept=".png,.img.,.jpg,.jpeg" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
