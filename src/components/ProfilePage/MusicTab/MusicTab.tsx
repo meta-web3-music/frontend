@@ -52,11 +52,8 @@ export default MusicTab
 
 
 
-interface ListedProps{
-  onExpire: (item:object)=>void
-}
 
-const ListedCategory: React.FC<ListedProps> = ({onExpire})=>{
+const ListedCategory: React.FC= ()=>{
 
     const {music,isLoading,error} = useFetchUserMusic() 
   const [isRemovingSale, setIsRemovingSale] = useState(false)
@@ -70,7 +67,6 @@ const ListedCategory: React.FC<ListedProps> = ({onExpire})=>{
       try{
         setIsRemovingSale(true)
         const res = await market.removeFromSale(item.itemId);
-        onExpire(item)
         setIsRemovingSale(false)
         console.log(res)
       }catch(err){
@@ -80,17 +76,6 @@ const ListedCategory: React.FC<ListedProps> = ({onExpire})=>{
 
     }
 
-    const renewAdSpace = async(item)=>{
-      // call add removing service here.
-      console.log(item)
-      const market = MarketPlace__factory.connect(MarketPlaceAddr, signer)
-      try{
-        const res = await market.createMarketSale(MarketPlaceAddr,item.itemId);
-        console.log(res)
-      }catch(err){
-        console.log(err)
-      }
-    }
   // TODO: Create error-boundary to catch error when thrown
   if(error){
     throw new Error('Problem caught while fetching music Category')
@@ -105,7 +90,7 @@ const ListedCategory: React.FC<ListedProps> = ({onExpire})=>{
             className={"self-center p-4 max-w-3xl rounded-xl border-slate-800"}
             itemLayout="horizontal"
             dataSource={music}
-            renderItem={(item) =><MusicListItem extra={<Button loading={isRemovingSale} onClick={()=>renewAdSpace(item)}>Unlist</Button>} item={item}/> }/>
+            renderItem={(item) =><MusicListItem extra={<Button disabled={item.sold?true:false} loading={isRemovingSale} onClick={()=>removeAdSpace(item)}>Unlist</Button>} item={item}/> }/>
     </div>
   )
 }

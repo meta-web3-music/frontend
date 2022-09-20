@@ -19,8 +19,19 @@ interface ListItemProps{
 
 const MusicListItem: React.FC<ListItemProps> = ({item,extra=null})=>{
 
-    console.log('from musiclistitem',item)
     const music = useMarketMetadata(item);
+    let isAd = false;
+
+if(item.token.assetHash!== ""){
+    isAd=true;
+}
+
+const descriptionNode = (
+    <>
+    <Text>{`${Number(item?.token.expirationDuration)/86400} Days Left`}</Text>
+    {isAd?<Text type='secondary'>Adspace is occupied</Text>:null}
+    </>
+)
 
     return (
         <List.Item
@@ -28,7 +39,7 @@ const MusicListItem: React.FC<ListItemProps> = ({item,extra=null})=>{
         >
             <List.Item.Meta
             title={<Title level={5}>{music?.body.title}</Title>}
-            description={ <Text>{`${Number(item?.token.expirationDuration)/86400} Days Left`}</Text>  }
+            description={descriptionNode}
             />
             {/* <SongNode musicItem={item} playSong={playSong} /> */}
       </List.Item>
