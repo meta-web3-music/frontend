@@ -7,16 +7,14 @@ import { useNetwork, useSwitchNetwork, useAccount } from "wagmi";
 
 // antd imports
 import { Button } from "antd";
+import Link from "next/link";
+import DarkModeToggle from "./DarkModeToggle";
 
 function Header() {
   const router = useRouter();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { isConnected } = useAccount();
-
-  const navigateToAdPage = () => {
-    router.push("/adMarketPlace");
-  };
 
   const navigateToHottestSongPage = () => {
     router.push("/");
@@ -36,44 +34,42 @@ function Header() {
         Click to switch to tEVMOS network
       </Button>
     );
+  const { pathname } = useRouter();
 
   return (
     <>
-      <header className="flex flex-row items-center justify-between md:px-10 mb-10 py-2 bg-slate-50 border-b">
+      <header className="flex flex-row items-center justify-between md:px-10 mb-10 py-2 bg-slate-50 dark:bg-primary duration-300 dark:text-white">
         {/* headline */}
-        <div className="" onClick={navigateToHottestSongPage}>
-          <h1 className="text-3xl font-bold m-3 hover:cursor-pointer">
+        <div onClick={navigateToHottestSongPage}>
+          <p className="text-3xl font-bold m-3 hover:cursor-pointer dark:text-white font-farro">
             OCTAV3
-          </h1>
+          </p>
         </div>
         {/* Ad marketplace */}
-        <div className="flex flex-row justify-center">
-
-            <Button
-              type="link"
-              onClick={navigateToAdPage}
-              className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
-            >
-              Ad Marketplace
-            </Button>
-
-            <Button
-              type="link"
-              onClick={navigateToHottestSongPage}
-              className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
-            >
-              Music
-            </Button>
-
-            <Button
-              type="link"
-              onClick={navigateProfilePage}
-              className="inline-block px-8 py-1 border bg-white text-[#FF7E39] font-medium text-base leading-tight rounded-full my-2"
-            >
-              Profile
-            </Button>
-
+        <div className="flex flex-col justify-center">
+          <div className="flex">
+            <Link href="/">
+              <button
+                onClick={navigateToHottestSongPage}
+                className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none  ${
+                  pathname == "/" ? "text-[#FF7E39]" : ""
+                }`}
+              >
+                Home
+              </button>
+            </Link>
+            <Link href="ad-marketplace">
+              <button
+                className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none ${
+                  pathname == "/ad-marketplace" ? "text-[#FF7E39]" : ""
+                }`}
+              >
+                Ad Marketplace
+              </button>
+            </Link>
+          </div>
         </div>
+        <DarkModeToggle />
         {correctNetwork}
       </header>
     </>

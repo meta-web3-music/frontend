@@ -1,8 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-// antd imports
-import { Typography, Card } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
-const { Text, Title } = Typography;
 
 // utility imports
 import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
@@ -29,46 +25,28 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   }, [fetchMusicMetaData, musicNft]);
 
   return (
-    <Card
-      size="small"
-      title={<TitleNode musicMetaData={musicMetaData} />}
-      extra={<CloseOutlined onClick={onClosePlayer} />}
-      style={{
-        background: "#ffffff",
-        boxShadow: "1px 0px 12px 1px rgba(0,0,0,0.35)",
-        zIndex: "2",
-        position: "fixed",
-        bottom: "1em",
-        left: "1em",
-        display: "flex",
-        maxWidth: "500px",
-        flexDirection: "column",
-        padding: ".7em 1em",
-      }}
-    >
+    <div className="fixed left-2 backdrop-blur-2xl bottom-2 bg-gray-800/50 text-white p-2 rounded-xl z-10">
+      <div className="flex items-center">
+        <div className="div">
+          <p className="text-2xl m-0">{musicMetaData?.body.title}</p>
+          <p>{musicMetaData?.body.artist}</p>
+        </div>
+        <div
+          className="div text-2xl ml-auto mr-2 mb-auto mt-2 duration-150 hover:-rotate-90"
+          onClick={onClosePlayer}
+        >
+          <span className="iconify" data-icon="akar-icons:cross"></span>
+        </div>
+      </div>
+
       <audio
         autoPlay
         loop
         controls
         src={`${ipfsToHttps(musicNft.assetUri)}`}
       ></audio>
-    </Card>
+    </div>
   );
 };
 
 export default StickyPlayer;
-
-interface TitleNodeProps {
-  musicMetaData: MusicNftMetaData | undefined;
-}
-
-const TitleNode: React.FC<TitleNodeProps> = ({ musicMetaData }) => {
-  return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <Title style={{ margin: "0" }} level={5}>
-        {musicMetaData?.body.title}
-      </Title>
-      <Text type="secondary">{musicMetaData?.body.artist}</Text>
-    </div>
-  );
-};

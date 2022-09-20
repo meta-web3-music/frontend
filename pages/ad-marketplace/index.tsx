@@ -3,8 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import Header from "../../src/components/Header/header";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 // antd imports
-import { Typography,List,Button} from "antd";
-const { Title, Text } = Typography;
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Menu, Space, Radio, Typography } from "antd";
+import type { RadioChangeEvent } from "antd";
 
 import { useQuery } from "@apollo/client";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
@@ -14,7 +15,6 @@ import { AdvNftMetaData } from "../../src/types/AdvNFTData";
 import AdModal from "../../src/components/AdModal/AdModal";
 import { useSigner } from "wagmi";
 
-import { fetchIpfs } from "../../src/services/ipfs/fetchIpfs";
 import {
   GetUnsold,
   GetUnsold_marketItems,
@@ -23,8 +23,10 @@ import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
 import { AdvNFT__factory, MarketPlace__factory } from "../../src/contracts";
 import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
-import { MusicNftMetaData } from "../../src/types/MusicNFTData";
 import { asyncStore } from "../../src/services/ipfs/nftstorage";
+import AdListItem from "../../src/components/AdMarketPlace/AdListItem";
+import { GetAllMusic_musicNFTs } from "../../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import StickyPlayer from "../../src/components/StickyPlayer/StickyPlayer";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -114,7 +116,7 @@ const AdMarketPlace: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left">
+      <div className="flex flex-col align-center justify-center w-full md:w-4/5 lg:w-2/3 m-2 md:m-auto px-2 text-left dark:text-white">
         <Title level={2}>Ad Marketplace</Title>
         <Adlist onHandleModal={handleAdModal} onRentClick={handleRentClick} />
 
@@ -136,85 +138,112 @@ interface AdlistProp {
 }
 
 const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
-  const { loading: isLoadingAllAsks, data: allAsksConnection } =
-    useQuery<GetUnsold>(GET_UNSOLD, {
-      variables: {
-        nftContractAddr: AdvNFTAddr.toLowerCase(),
-      },
-    });
+  const { data: allAsksConnection } = useQuery<GetUnsold>(GET_UNSOLD, {
+    variables: {
+      nftContractAddr: AdvNFTAddr.toLowerCase(),
+    },
+  });
+  const [selectedSong, setSelectedSong] =
+    useState<Omit<GetAllMusic_musicNFTs, "advNfts">>();
 
-  
+  // add useState hooks here
+  const [price, setPrice] = useState("100MATIC");
+  const [views, setViews] = useState("100kViews");
 
-  return (
-    <>
-      <List
-        loading={isLoadingAllAsks}
-        style={{
-          width: "700px",
-          alignSelf: "center",
-          border: "1px solid #e5e5e5",
-          borderRadius: "20px",
-          padding: "1em",
-        }}
-        itemLayout="horizontal"
-        dataSource={allAsksConnection?.marketItems}
-        renderItem={(item) => <AdvItem onRentClick={onRentClick} item={item} />}
-      />
-    </>
+  const onChangePrice = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setPrice(e.target.value);
+  };
+
+  //  menu items for price dropdown filter
+  const priceFilterMenu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <Radio.Group onChange={onChangePrice} value={price}>
+              <Space direction="vertical">
+                <Radio value={"100MATIC"}>100 MATIC and under</Radio>
+                <Radio value={"200MATIC"}>200 MATIC and under</Radio>
+                <Radio value={"300MATIC"}>500 MATIC and under</Radio>
+              </Space>
+            </Radio.Group>
+          ),
+          key: "1",
+        },
+      ]}
+    />
   );
-};
 
-interface AdvItemProps {
-  item: GetUnsold_marketItems;
-  onRentClick: (advNft: GetUnsold_marketItems) => void;
-}
+  const onChangeViews = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setViews(e.target.value);
+  };
 
-const AdvItem = ({ item, onRentClick }: AdvItemProps) => {
+  // menu items for number of view dropdown filter
+  const viewsFilterMenu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <Radio.Group onChange={onChangeViews} value={views}>
+              <Space direction="vertical">
+                <Radio value={"1000Views"}>1000 views and under</Radio>
+                <Radio value={"10kViews"}>10K views and under</Radio>
+                <Radio value={"50kViews"}>50K views and under</Radio>
+                <Radio value={"100kViews"}>100K views and under</Radio>
+                <Radio value={"1MViews"}>1 million+ views</Radio>
+              </Space>
+            </Radio.Group>
+          ),
+          key: "1",
+        },
+      ]}
+    />
+  );
   const { data: signer } = useSigner();
   const { openConnectModal } = useConnectModal();
-  const [metaData, setMetaData] = useState<MusicNftMetaData>();
-  const fetchMetaData = useCallback(async () => {
-    const advMetaData = await fetchIpfs<MusicNftMetaData>(
-      item.token.musicNFT.metaDataUri
-    );
-    setMetaData(advMetaData);
-  }, [item]);
-  useEffect(() => {
-    fetchMetaData();
-  }, [fetchMetaData, item]);
-
   return (
-    <List.Item
-      extra={
-        <Button onClick={!signer ? openConnectModal : () => onRentClick(item)}>
-          Rent Ad Space
-        </Button>
-      }
-    >
-      <List.Item.Meta
-        // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-        title={
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Title
-              style={{ marginRight: "5px", marginBottom: "0px" }}
-              level={5}
-            >
-              {metaData?.body.title}
-            </Title>
-            <span
-              style={{
-                background: "#f4f4f4",
-                padding: "2px 6px",
-                borderRadius: "20px",
-              }}
-            >
-              {item.token.id}
-            </span>
-          </div>
-        }
-        description={metaData?.body.artist}
-      />
-    </List.Item>
+    <>
+      {selectedSong && (
+        <StickyPlayer
+          onClosePlayer={() => setSelectedSong(undefined)}
+          musicNft={selectedSong}
+        />
+      )}
+      {/* start dropdowns */}
+      <div className="flex flex-row items-center mb-3">
+        <span>Filter by</span>
+        <Dropdown overlay={priceFilterMenu} trigger={["click"]}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space className="inline-block px-6 py-2 border shadow text-black dark:text-white font-medium text-xs leading-tight uppercase rounded-full ml-4">
+              Price
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+
+        <Dropdown overlay={viewsFilterMenu} trigger={["click"]}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space className="inline-block px-6 py-2 border shadow text-black  dark:text-white font-medium text-xs leading-tight uppercase rounded-full ml-4">
+              Views
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+      </div>
+      {/* end dropdowns */}
+      <div className="flex flex-wrap justify-center mb-4">
+        {allAsksConnection?.marketItems.map((e) => (
+          <AdListItem
+            key={e.itemId}
+            marketItem={e}
+            onBuyClick={!signer ? openConnectModal : () => onRentClick(e)}
+            onPlaySong={() => setSelectedSong(e.token.musicNFT)}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
