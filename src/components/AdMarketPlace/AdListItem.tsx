@@ -72,16 +72,18 @@ const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
         >
           <span className="iconify" data-icon="bi:music-note-beamed"></span>
         </div>
-        <Image
-          className="object-cover artwork duration-200 m-auto"
-          src={getImageSrc()}
-          layout="fill"
-          alt={`Artwork for ${metaData?.body.title}`}
-          onLoad={() => setImageLoaded(true)}
-          onError={() => setImageLoaded(false)}
-          hidden={!imageLoaded}
-          objectFit={"cover"}
-        />
+        {metaData && imageLoaded && (
+          <Image
+            className="object-cover artwork duration-200 m-auto"
+            src={getImageSrc()}
+            layout="fill"
+            alt={`Artwork for ${metaData?.body.title}`}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(false)}
+            objectFit={"cover"}
+          />
+        )}
+
         <div
           className={`play-button duration-300 scale-50 opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl ml-auto  flex align-center ${
             imageLoaded ? "text-white" : "text-blue-800"

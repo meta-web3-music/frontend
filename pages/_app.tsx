@@ -8,6 +8,7 @@ import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { WagmiConfig } from "wagmi";
 import { ThemeProvider } from "next-themes";
 import Script from "next/script";
+import MusicPlayer from "../src/components/MusicPlayer/MusicPlayer";
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
     uri: GraphQLEndpoint,
@@ -17,7 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Script src="https://code.iconify.design/3/3.0.0/iconify.min.js" />
-
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
           chains={chains}
@@ -27,6 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <ApolloProvider client={client}>
             <ThemeProvider attribute="class">
+              <MusicPlayer />
               <Component {...pageProps} />
             </ThemeProvider>
           </ApolloProvider>

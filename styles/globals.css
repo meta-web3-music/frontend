@@ -4,6 +4,10 @@ body,
 html {
   transition-duration: 0.3s;
 }
+
+#__next {
+  padding-bottom: 100px;
+}
 html.dark #__next {
   background: radial-gradient(
         100% 225% at 100% 0%,
@@ -28,6 +32,14 @@ html.dark .ant-typography {
 
 .font-farro {
   font-family: "Farro", sans-serif;
+}
+
+.spring-light {
+  transition-timing-function: cubic-bezier(0, 0, 0.125, 1.65);
+}
+
+.spring-heavy {
+  transition-timing-function: cubic-bezier(0.585, 0.32, 0.06, 1.155);
 }
 @tailwind components;
 @tailwind utilities;

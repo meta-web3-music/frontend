@@ -23,8 +23,7 @@ import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
 import { asyncStore } from "../../src/services/ipfs/nftstorage";
 import AdListItem from "../../src/components/AdMarketPlace/AdListItem";
-import { GetAllMusic_musicNFTs } from "../../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
-import StickyPlayer from "../../src/components/StickyPlayer/StickyPlayer";
+import { MusicPlayerSub } from "../../src/subs/MusicPlayerSub";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -139,9 +138,6 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
   });
-  const [selectedSong, setSelectedSong] =
-    useState<Omit<GetAllMusic_musicNFTs, "advNfts">>();
-
   // add useState hooks here
   const [price, setPrice] = useState("100MATIC");
   const [views, setViews] = useState("100kViews");
@@ -201,12 +197,6 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
   const { openConnectModal } = useConnectModal();
   return (
     <>
-      {selectedSong && (
-        <StickyPlayer
-          onClosePlayer={() => setSelectedSong(undefined)}
-          musicNft={selectedSong}
-        />
-      )}
       {/* start dropdowns */}
       <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
@@ -235,7 +225,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
             key={e.itemId}
             marketItem={e}
             onBuyClick={!signer ? openConnectModal : () => onRentClick(e)}
-            onPlaySong={() => setSelectedSong(e.token.musicNFT)}
+            onPlaySong={() => MusicPlayerSub.next(e.token.musicNFT)}
           />
         ))}
       </div>

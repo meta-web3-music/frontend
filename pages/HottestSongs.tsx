@@ -11,18 +11,15 @@ const { Text, Title } = Typography;
 // custom-components imports
 import SongList from "../src/components/SongList/SongList";
 import AdBanner from "../src/components/AdBanner/AdBanner";
-import StickyPlayer from "../src/components/StickyPlayer/StickyPlayer";
 import MintSong from "../src/components/MintSong/MintSong";
+import { MusicPlayerSub } from "../src/subs/MusicPlayerSub";
 
 const HottestSongs: React.FC = () => {
   const [selectedSong, setSelectedSong] = useState<GetAllMusic_musicNFTs>();
 
   const handlePlaySong = async (musicNft: GetAllMusic_musicNFTs) => {
+    MusicPlayerSub.next(musicNft);
     setSelectedSong(musicNft);
-  };
-
-  const handleCloseStickyPlayer = () => {
-    setSelectedSong(undefined);
   };
 
   const memoizedSongList = useMemo(
@@ -37,12 +34,6 @@ const HottestSongs: React.FC = () => {
       <MintSong />
       {selectedSong && <AdBanner advNft={selectedSong.advNfts[0]} />}
       {memoizedSongList}
-      {selectedSong && (
-        <StickyPlayer
-          onClosePlayer={handleCloseStickyPlayer}
-          musicNft={selectedSong}
-        />
-      )}
     </div>
   );
 };
