@@ -41,5 +41,18 @@ html.dark .ant-typography {
 .spring-heavy {
   transition-timing-function: cubic-bezier(0.585, 0.32, 0.06, 1.155);
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 14px;
+  transition: 0.4s;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(4 36 64 / 1);
+  border: solid 4px black;
+  border-radius: 10px;
+}
 @tailwind components;
 @tailwind utilities;
