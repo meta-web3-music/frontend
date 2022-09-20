@@ -48,7 +48,7 @@ function Header() {
               <button
                 onClick={navigateToHottestSongPage}
                 className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none  ${
-                  pathname == "/" ? "text-[#FF7E39]" : ""
+                  pathname == "/" ? "text-[#BF9484]" : ""
                 }`}
               >
                 Home
@@ -57,7 +57,7 @@ function Header() {
             <Link href="ad-marketplace">
               <button
                 className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none ${
-                  pathname == "/ad-marketplace" ? "text-[#FF7E39]" : ""
+                  pathname == "/ad-marketplace" ? "text-[#BF9484]" : ""
                 }`}
               >
                 Ad Marketplace
