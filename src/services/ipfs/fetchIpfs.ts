@@ -5,10 +5,10 @@ export async function fetchIpfs<T>(ipfsUrl: string): Promise<T | undefined> {
     try {
         const fetchJson = await fetchRes.json();
         return fetchJson as T
-    } catch (error) {
-        //
-    }
 
+    } catch (error) {
+        return undefined
+    }
 }
 
 export function ipfsToHttps(ipfsUrl: string) {
