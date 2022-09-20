@@ -47,6 +47,8 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
     const httpsURL = ipfsToHttps(artWorkUri ?? "");
     return httpsURL;
   };
+
+  if (!metaData) return <></>;
   return (
     <SongListItemStyled
       className="m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white"

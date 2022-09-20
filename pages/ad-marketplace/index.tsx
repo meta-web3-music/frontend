@@ -26,8 +26,7 @@ import { NFTStorage } from "nft.storage";
 import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
 import { asyncStore } from "../../src/services/ipfs/nftstorage";
 import AdListItem from "../../src/components/AdMarketPlace/AdListItem";
-import { GetAllMusic_musicNFTs } from "../../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
-import StickyPlayer from "../../src/components/StickyPlayer/StickyPlayer";
+import { MusicPlayerSub } from "../../src/subs/MusicPlayerSub";
 
 // create client instance for nft.storage
 const client = new NFTStorage({
@@ -144,12 +143,8 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
   });
-  
-  const [selectedSong, setSelectedSong] =
-    useState<Omit<GetAllMusic_musicNFTs, "advNfts">>();
-
   // add useState hooks here
-  const [price, setPrice] = useState("100MATIC");
+  const [price, setPrice] = useState("100EVMOS");
   const [views, setViews] = useState("100kViews");
 
   const onChangePrice = (e: RadioChangeEvent) => {
@@ -165,9 +160,9 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
           label: (
             <Radio.Group onChange={onChangePrice} value={price}>
               <Space direction="vertical">
-                <Radio value={"100MATIC"}>100 MATIC and under</Radio>
-                <Radio value={"200MATIC"}>200 MATIC and under</Radio>
-                <Radio value={"300MATIC"}>500 MATIC and under</Radio>
+                <Radio value={"100EVMOS"}>100 EVMOS and under</Radio>
+                <Radio value={"200EVMOS"}>200 EVMOS and under</Radio>
+                <Radio value={"300EVMOS"}>500 EVMOS and under</Radio>
               </Space>
             </Radio.Group>
           ),
@@ -207,12 +202,6 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
   const { openConnectModal } = useConnectModal();
   return (
     <>
-      {selectedSong && (
-        <StickyPlayer
-          onClosePlayer={() => setSelectedSong(undefined)}
-          musicNft={selectedSong}
-        />
-      )}
       {/* start dropdowns */}
       <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
@@ -241,7 +230,7 @@ const Adlist: React.FC<AdlistProp> = ({ onRentClick }) => {
             key={e.itemId}
             marketItem={e}
             onBuyClick={!signer ? openConnectModal : () => onRentClick(e)}
-            onPlaySong={() => setSelectedSong(e.token.musicNFT)}
+            onPlaySong={() => MusicPlayerSub.next(e.token.musicNFT)}
           />
         ))}
       </div>

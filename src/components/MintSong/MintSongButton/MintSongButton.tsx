@@ -35,7 +35,12 @@ const MintSongButton: React.FC<MintSongButtonProps> = ({ onToggleModal }) => {
       </div>
       <Button
         type="primary"
-        style={{ fontWeight: "bold", background: "#0E77FC", borderRadius: 12 }}
+        style={{
+          fontWeight: "bold",
+          background: "#a67968",
+          borderRadius: 12,
+          border: "none",
+        }}
         onClick={isConnected ? onToggleModal : openConnectModal}
       >
         Mint Song NFT
