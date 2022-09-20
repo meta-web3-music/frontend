@@ -53,6 +53,7 @@ const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
 
   const getImageSrc = (): string => {
     const artWorkUri = metaData?.body.artwork.info.uri;
+
     if (!artWorkUri?.includes("ipfs://")) {
       return "";
     }
@@ -72,7 +73,7 @@ const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
         >
           <span className="iconify" data-icon="bi:music-note-beamed"></span>
         </div>
-        {metaData && imageLoaded && (
+        {metaData && (
           <Image
             className="object-cover artwork duration-200 m-auto"
             src={getImageSrc()}
