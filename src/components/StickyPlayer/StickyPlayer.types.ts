@@ -1,6 +1,6 @@
-import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { TMusicPlayer_MusicNft } from "../MusicPlayer/MusicPlayer";
 
 export interface StickyPlayerProps {
-  musicNft: Omit<GetAllMusic_musicNFTs, "advNfts">;
+  musicNft?: TMusicPlayer_MusicNft;
   onClosePlayer: () => void;
 }
