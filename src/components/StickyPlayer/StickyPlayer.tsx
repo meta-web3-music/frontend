@@ -32,6 +32,8 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   };
 
   const getTime = (s: number): string => {
+    if (!s) return "0:00";
+
     const seconds = Math.floor(s % 60);
     const secondsStr = seconds < 10 ? "0" + seconds : seconds;
     return Math.floor(s / 60) + ":" + secondsStr;
