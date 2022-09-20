@@ -25,11 +25,11 @@ const MusicListItem: React.FC<ListItemProps> = ({item,extra=null})=>{
 if(item.token.assetHash!== ""){
     isAd=true;
 }
-
 const descriptionNode = (
     <>
     <Text>{`${Number(item?.token.expirationDuration)/86400} Days Left`}</Text>
-    {isAd?<Text type='secondary'>Adspace is occupied</Text>:null}
+    <br />
+    {isAd?<Text type='secondary'>Adspace has 1 AD</Text>:null}
     </>
 )
 

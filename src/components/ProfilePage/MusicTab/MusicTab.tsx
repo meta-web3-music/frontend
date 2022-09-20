@@ -90,7 +90,7 @@ const ListedCategory: React.FC= ()=>{
             className={"self-center p-4 max-w-3xl rounded-xl border-slate-800"}
             itemLayout="horizontal"
             dataSource={music}
-            renderItem={(item) =><MusicListItem extra={<Button disabled={item.sold?true:false} loading={isRemovingSale} onClick={()=>removeAdSpace(item)}>Unlist</Button>} item={item}/> }/>
+            renderItem={(item) =><MusicListItem extra={<Button disabled={item.sold?true:false} loading={isRemovingSale} onClick={()=>removeAdSpace(item)}>{`${item.sold?'Unlist(Ad-exists)':'Unlist'}`}</Button>} item={item}/> }/>
     </div>
   )
 }
