@@ -49,7 +49,13 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         duration,
       });
     });
-  }, [audioRef]);
+    audioRef.current?.addEventListener("pause", () => {
+      if (isPlaying) setIsPlaying(false);
+    });
+    audioRef.current?.addEventListener("play", () => {
+      if (!isPlaying) setIsPlaying(true);
+    });
+  }, [audioRef, isPlaying]);
   const [musicMetaData, setMusicMetaData] = useState<MusicNftMetaData>();
   const fetchMusicMetaData = useCallback(async () => {
     try {
