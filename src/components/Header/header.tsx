@@ -20,6 +20,10 @@ function Header() {
     router.push("/");
   };
 
+  const navigateProfilePage = () => {
+    router.push("/profile");
+  };
+
   let correctNetwork;
 
   if (chain?.network === "tevmos" || !isConnected) {
@@ -61,6 +65,15 @@ function Header() {
                 }`}
               >
                 Ad Marketplace
+              </button>
+            </Link>
+            <Link href="profile">
+              <button
+                className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none ${
+                  pathname == "/ad-marketplace" ? "text-[#FF7E39]" : ""
+                }`}
+              >
+                Profile
               </button>
             </Link>
           </div>

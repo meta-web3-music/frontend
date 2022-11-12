@@ -1,5 +1,5 @@
 import { UploadFile } from "antd"
-export type MintMusicWAdFormValues = {
+type MintMusicWAdFormValues = {
   songName: string;
   artistName: string;
   adDurationDays: number;
@@ -13,4 +13,4 @@ interface FormProps {
   isMinting: boolean;
 }
 
-export type { FormProps }
+export type { FormProps, MintMusicWAdFormValues }

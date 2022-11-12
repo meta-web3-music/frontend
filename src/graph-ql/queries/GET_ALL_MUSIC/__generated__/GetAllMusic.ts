@@ -10,7 +10,7 @@
 export interface GetAllMusic_musicNFTs_advNfts {
   __typename: "AdvNFT";
   assetHash: string;
-  metaDataHash: string;
+  expirationDuration: any;
 }
 
 export interface GetAllMusic_musicNFTs_creator {

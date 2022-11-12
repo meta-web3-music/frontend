@@ -1,14 +1,17 @@
+import React, { useCallback, useEffect, useState } from "react";
+
 import Header from "../../src/components/Header/header";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 // antd imports
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu, Space, Radio, Typography } from "antd";
+const {Title} = Typography;
 import type { RadioChangeEvent } from "antd";
 
 import { useQuery } from "@apollo/client";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../src/env";
-import React, { useState } from "react";
 import { AdvNftMetaData } from "../../src/types/AdvNFTData";
+
 // custom-component imports
 import AdModal from "../../src/components/AdModal/AdModal";
 import { useSigner } from "wagmi";
@@ -30,13 +33,15 @@ import Head from "next/head";
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
 });
-const { Title } = Typography;
+
 
 const AdMarketPlace: React.FC = () => {
+  
   const { data: signer } = useSigner();
   const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
+
 
   const handleAdModal = () => {
     setShowModal(!showModal);
@@ -74,7 +79,6 @@ const AdMarketPlace: React.FC = () => {
 
       if (!selectedAdv?.token.id) {
         throw new Error("Failed to get selected adv id");
-        return;
       }
       console.log("handleAdForm: Creating Market Sale");
 
@@ -107,9 +111,9 @@ const AdMarketPlace: React.FC = () => {
 
   const handleRentClick = (advNft: GetUnsold_marketItems) => {
     setSelectedAdv(advNft);
-
     setShowModal(true);
   };
+  
   return (
     <>
       <Header />
@@ -127,6 +131,7 @@ const AdMarketPlace: React.FC = () => {
     </>
   );
 };
+
 
 interface AdlistProp {
   onHandleModal: () => void;
