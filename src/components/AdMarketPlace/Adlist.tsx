@@ -4,16 +4,16 @@ import { DownOutlined } from "@ant-design/icons";
 import { RadioChangeEvent, Menu, Radio, Space, Dropdown } from "antd";
 import { useState } from "react";
 import { useSigner } from "wagmi";
-import AdListItem from "../../src/components/AdMarketPlace/AdListItem";
-import AdModal from "../../src/components/AdModal/AdModal";
-import { AdvNFTAddr } from "../../src/env";
-import { GET_UNSOLD } from "../../src/graph-ql/queries/GET_UNSOLD/getUnsold";
+import AdListItem from "./AdListItem";
+import AdModal from "../AdModal/AdModal";
+import { AdvNFTAddr } from "../../env";
+import { GET_UNSOLD } from "../../graph-ql/queries/GET_UNSOLD/getUnsold";
 import {
   GetUnsold,
   GetUnsold_marketItems,
-} from "../../src/graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
-import { AdModalFormValues } from "../../src/components/AdModal/AdModalForm/AdModalForm.types";
-import { buyAdvNft } from "../../src/services/smart-contract/buyAdvNft";
+} from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
+import { AdModalFormValues } from "../AdModal/AdModalForm/AdModalForm.types";
+import { buyAdvNft } from "../../services/smart-contract/buyAdvNft";
 
 export const Adlist: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);

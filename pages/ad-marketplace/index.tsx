@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import { Adlist } from "./Adlist";
+import { Adlist } from "../../src/components/AdMarketPlace/Adlist";
 import Head from "next/head";
 // create client instance for nft.storage
 export const AdMarketPlace: React.FC = () => {

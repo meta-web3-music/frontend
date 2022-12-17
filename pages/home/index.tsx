@@ -1,8 +1,7 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import HottestSongs from "../HottestSongs";
 
-const Home: NextPage = () => {
+const Home: React.FC = () => {
   return (
     <>
       <Head>

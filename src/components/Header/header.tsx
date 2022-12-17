@@ -9,19 +9,13 @@ import Link from "next/link";
 import DarkModeToggle from "./DarkModeToggle";
 
 function Header() {
-  const router = useRouter();
-
-  const navigateToHottestSongPage = () => {
-    router.push("/");
-  };
-
   const { pathname } = useRouter();
 
   return (
     <>
       <header className="flex flex-row items-center justify-between md:px-10 mb-10 py-2 bg-slate-50 dark:bg-primary duration-300 dark:text-white">
         {/* headline */}
-        <div onClick={navigateToHottestSongPage}>
+        <div>
           <p className="text-3xl font-bold m-3 hover:cursor-pointer dark:text-white font-farro">
             OCTAV3
           </p>
@@ -31,7 +25,6 @@ function Header() {
           <div className="flex">
             <Link href="home">
               <button
-                onClick={navigateToHottestSongPage}
                 className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none  ${
                   pathname == "/home" ? "text-[#BF9484]" : ""
                 }`}
