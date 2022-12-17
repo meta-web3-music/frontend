@@ -3,33 +3,18 @@ import { useRouter } from "next/router";
 
 // rainbowkit imports
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useNetwork, useSwitchNetwork, useAccount } from "wagmi";
 
 // antd imports
-import { Button } from "antd";
 import Link from "next/link";
 import DarkModeToggle from "./DarkModeToggle";
 
 function Header() {
   const router = useRouter();
-  const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
-  const { isConnected } = useAccount();
 
   const navigateToHottestSongPage = () => {
     router.push("/");
   };
 
-  let correctNetwork;
-
-  if (chain?.network === "tevmos" || !isConnected) {
-    correctNetwork = <ConnectButton />;
-  } else
-    correctNetwork = (
-      <Button onClick={() => switchNetwork?.(9000)}>
-        Click to switch to tEVMOS network
-      </Button>
-    );
   const { pathname } = useRouter();
 
   return (
@@ -66,7 +51,7 @@ function Header() {
           </div>
         </div>
         <DarkModeToggle />
-        {correctNetwork}
+        <ConnectButton />
       </header>
     </>
   );

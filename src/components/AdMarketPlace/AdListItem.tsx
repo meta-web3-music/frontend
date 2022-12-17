@@ -108,10 +108,10 @@ const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
             Buy
           </div>
           <span className="price text-xs absolute price top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 duration-300">
-            {ethers.utils.formatUnits(marketItem.price)} EVMOS
+            {ethers.utils.formatUnits(marketItem.price)} MATIC
           </span>
           <span className="opacity-0 text-xs">
-            {ethers.utils.formatUnits(marketItem.price)} EVMOS
+            {ethers.utils.formatUnits(marketItem.price)} MATIC
           </span>
         </button>
       </div>
