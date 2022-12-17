@@ -3,18 +3,13 @@ import { useRouter } from "next/router";
 
 // rainbowkit imports
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useNetwork, useSwitchNetwork, useAccount } from "wagmi";
 
 // antd imports
-import { Button } from "antd";
 import Link from "next/link";
 import DarkModeToggle from "./DarkModeToggle";
 
 function Header() {
   const router = useRouter();
-  const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
-  const { isConnected } = useAccount();
 
   const navigateToHottestSongPage = () => {
     router.push("/");
