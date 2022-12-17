@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { CIDString, NFTStorage } from "nft.storage";
+import { CIDString } from "nft.storage";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 
 // web3 imports
@@ -19,11 +19,6 @@ import MintSongModal from "./MintSongModal/MintSongModal";
 import { useSigner } from "wagmi";
 import { MintMusicWAdFormValues } from "./MintSongModal/MintForm/MintForm.types";
 import { asyncStore } from "../../services/ipfs/nftstorage";
-
-// create client instance for nft.storage
-const client = new NFTStorage({
-  token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN ?? "",
-});
 
 const MintSong: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -50,11 +45,11 @@ const MintSong: React.FC = () => {
       // store metadata of music on nft.storage
 
       const { hash: musicAssetHash, storePromise: storeMusicAssetPromise } =
-        await asyncStore(client, formData.songFile[0].originFileObj);
+        await asyncStore(formData.songFile[0].originFileObj);
       storePromises.push(storeMusicAssetPromise);
 
       const { hash: artWorkHash, storePromise: storeArtWorkHash } =
-        await asyncStore(client, formData.artWorkFile[0].originFileObj);
+        await asyncStore(formData.artWorkFile[0].originFileObj);
       storePromises.push(storeArtWorkHash);
 
       // create metadata object for music nft
@@ -83,7 +78,7 @@ const MintSong: React.FC = () => {
       const {
         hash: musicMetaDataHash,
         storePromise: storeMusicMetaDataPromise,
-      } = await asyncStore(client, new Blob([JSON.stringify(metaDataObj)]));
+      } = await asyncStore(new Blob([JSON.stringify(metaDataObj)]));
       storePromises.push(storeMusicMetaDataPromise);
 
       // create metadata object for advertisement nft
@@ -99,7 +94,7 @@ const MintSong: React.FC = () => {
       const {
         hash: advNftMetaDataHash,
         storePromise: storeAdvNFTMetaDataPromise,
-      } = await asyncStore(client, new Blob([JSON.stringify(advNftDataObj)]));
+      } = await asyncStore(new Blob([JSON.stringify(advNftDataObj)]));
       storePromises.push(storeAdvNFTMetaDataPromise);
 
       // connect to music nft smart-contract
