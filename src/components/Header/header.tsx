@@ -29,11 +29,11 @@ function Header() {
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">
           <div className="flex">
-            <Link href="/">
+            <Link href="home">
               <button
                 onClick={navigateToHottestSongPage}
                 className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none  ${
-                  pathname == "/" ? "text-[#BF9484]" : ""
+                  pathname == "/home" ? "text-[#BF9484]" : ""
                 }`}
               >
                 Home

@@ -9,6 +9,7 @@ import { WagmiConfig } from "wagmi";
 import { ThemeProvider } from "next-themes";
 import Script from "next/script";
 import MusicPlayer from "../src/components/MusicPlayer/MusicPlayer";
+import Header from "../src/components/Header/header";
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
     uri: GraphQLEndpoint,
@@ -28,6 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ApolloProvider client={client}>
             <ThemeProvider attribute="class">
               <MusicPlayer />
+              <Header />
               <Component {...pageProps} />
             </ThemeProvider>
           </ApolloProvider>

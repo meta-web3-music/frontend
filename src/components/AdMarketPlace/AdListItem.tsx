@@ -1,48 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
-import styled from "styled-components";
 import Image from "next/image";
 import { GetUnsold_marketItems } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
 import { ethers } from "ethers";
+import { AdListItemStyled } from "./AdListItemStyled";
+import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 type Props = {
   marketItem: GetUnsold_marketItems;
-  onPlaySong: () => void;
   onBuyClick: (() => void) | undefined;
 };
 
-const AdListItemStyled = styled.div`
-  :hover {
-    .play-button {
-      transform: scale(1) translate(-50%, -50%);
-      opacity: 1;
-    }
-
-    .image-placeholder {
-      scale: 0.7;
-      opacity: 0;
-    }
-
-    .artwork {
-      transform: scale(1.03);
-    }
-  }
-
-  .buy-btn {
-    :hover {
-      .label {
-        top: 50%;
-      }
-      .price {
-        top: 200%;
-      }
-    }
-  }
-  .data {
-    color: #042440;
-  }
-`;
-const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
+const AdListItem = ({ marketItem, onBuyClick }: Props) => {
   const [metaData, setMetaData] = useState<MusicNftMetaData>();
   useEffect(() => {
     fetchIpfs<MusicNftMetaData>(marketItem.token.musicNFT.metaDataUri).then(
@@ -63,7 +32,7 @@ const AdListItem = ({ marketItem, onPlaySong, onBuyClick }: Props) => {
   return (
     <AdListItemStyled
       className="m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white"
-      onClick={onPlaySong}
+      onClick={() => MusicPlayerSub.next(marketItem.token.musicNFT)}
     >
       <div className="relative h-60 w-40 md:w-48 lg:w-56 flex">
         <div
