@@ -1,4 +1,5 @@
 # README
+
 OCTAV3
 
 # What is it?
@@ -7,7 +8,7 @@ OCTAV3 is a decentralized music streaming platform that connects artists, listen
 
 # How it’s made
 
-Built with Evmos and nft.storage (IPFS).
+Built with Polygon Mumbai and nft.storage (IPFS).
 
 ## How to use OCTAV3
 

@@ -20,16 +20,6 @@ function Header() {
     router.push("/");
   };
 
-  let correctNetwork;
-
-  if (chain?.network === "tevmos" || !isConnected) {
-    correctNetwork = <ConnectButton />;
-  } else
-    correctNetwork = (
-      <Button onClick={() => switchNetwork?.(9000)}>
-        Click to switch to tEVMOS network
-      </Button>
-    );
   const { pathname } = useRouter();
 
   return (
@@ -66,7 +56,7 @@ function Header() {
           </div>
         </div>
         <DarkModeToggle />
-        {correctNetwork}
+        <ConnectButton />
       </header>
     </>
   );

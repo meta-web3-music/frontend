@@ -10,31 +10,9 @@ import {
 } from 'wagmi';
 
 import { publicProvider } from 'wagmi/providers/public';
-// 9000: "https://eth.bd.evmos.dev:8545/",
-const tEvmos: Chain = {
-  id: 9000,
-  name: "Evmos Testnet",
-  network: "tevmos",
-  rpcUrls: {
-    default: "https://eth.bd.evmos.dev:8545"
-  },
-  blockExplorers: {
-    default: {
-      name: "Evmos Explorer",
-      url: "https://evm.evmos.dev",
-    }
-  },
-  nativeCurrency: {
-    name: "EVMOS",
-    decimals: 18,
-    symbol: "tEVMOS"
-  },
-  testnet: true
-}
-
 
 const { chains, provider } = configureChains(
-  [tEvmos],
+  [chain.polygonMumbai],
   [
     publicProvider()
   ]
