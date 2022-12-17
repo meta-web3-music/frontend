@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 
 // graphql imports
-import { GetAllMusic_musicNFTs } from "../src/graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 
 // antd imports
 // antd imports
@@ -9,10 +9,10 @@ import { Typography } from "antd";
 const { Text, Title } = Typography;
 
 // custom-components imports
-import SongList from "../src/components/SongList/SongList";
-import AdBanner from "../src/components/AdBanner/AdBanner";
-import MintSong from "../src/components/MintSong/MintSong";
-import { MusicPlayerSub } from "../src/subs/MusicPlayerSub";
+import SongList from "../SongList/SongList";
+import AdBanner from "../AdBanner/AdBanner";
+import MintSong from "../MintSong/MintSong";
+import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 
 const HottestSongs: React.FC = () => {
   const [selectedSong, setSelectedSong] = useState<GetAllMusic_musicNFTs>();

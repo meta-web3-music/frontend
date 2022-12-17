@@ -1,5 +1,5 @@
 import Head from "next/head";
-import HottestSongs from "../HottestSongs";
+import HottestSongs from "../../src/components/Home/HottestSongs";
 
 const Home: React.FC = () => {
   return (

@@ -25,7 +25,7 @@ export const Adlist: React.FC = () => {
     }
     setIsCreatingAd(true);
     try {
-      buyAdvNft(formData, selectedAdv, signer);
+      await buyAdvNft(formData, selectedAdv, signer);
     } catch (err) {
       console.log(err);
       setIsCreatingAd(false);
