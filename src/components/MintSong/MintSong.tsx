@@ -1,16 +1,5 @@
 import React, { useState } from "react";
 
-import { CIDString } from "nft.storage";
-import { MusicNftMetaData } from "../../types/MusicNFTData";
-
-// web3 imports
-import { MarketPlace__factory, MusicNFT__factory } from "../../contracts";
-
-import { BigNumber, ethers } from "ethers";
-import { AdvNFTAddr, MusicNFTAddr, MarketPlaceAddr } from "../../env";
-
-import { AdvNftMetaData } from "../../types/AdvNFTData";
-
 // custom-component imports
 import MintSongButton from "./MintSongButton/MintSongButton";
 import MintSongModal from "./MintSongModal/MintSongModal";
