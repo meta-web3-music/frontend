@@ -11,7 +11,7 @@ import { AdModalProps } from "./AdModal.types";
 import { antdNorm } from "../../services/antd-form/norm";
 import { AdModalFormValues } from "./AdModalForm/AdModalForm.types";
 
-const AdModal: React.FC<AdModalProps> = ({
+const BuyAdModal: React.FC<AdModalProps> = ({
   onCancelModal,
   onHandleAdForm,
   isVisible,
@@ -86,4 +86,4 @@ const AdModal: React.FC<AdModalProps> = ({
   );
 };
 
-export default AdModal;
+export default BuyAdModal;

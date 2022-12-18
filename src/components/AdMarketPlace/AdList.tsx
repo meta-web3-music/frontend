@@ -4,7 +4,7 @@ import { Menu, Radio, Space, Dropdown } from "antd";
 import { useState } from "react";
 import { useSigner } from "wagmi";
 import AdListItem from "./AdListItem";
-import AdModal from "../AdModal/AdModal";
+import BuyAdModal from "../AdModal/BuyAdModal";
 import { AdvNFTAddr } from "../../env";
 import { GET_UNSOLD } from "../../graph-ql/queries/GET_UNSOLD/getUnsold";
 import {
@@ -53,7 +53,7 @@ export const AdList: React.FC = () => {
 
   return (
     <>
-      <AdModal
+      <BuyAdModal
         isCreatingAd={isCreatingAd}
         onHandleAdForm={handleAdForm}
         onCancelModal={() => setShowModal(false)}
