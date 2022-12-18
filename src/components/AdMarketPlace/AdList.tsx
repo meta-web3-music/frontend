@@ -1,7 +1,6 @@
-import { useQuery } from "@apollo/client";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { DownOutlined } from "@ant-design/icons";
-import { RadioChangeEvent, Menu, Radio, Space, Dropdown } from "antd";
+import { Menu, Radio, Space, Dropdown } from "antd";
 import { useState } from "react";
 import { useSigner } from "wagmi";
 import AdListItem from "./AdListItem";
@@ -14,8 +13,9 @@ import {
 } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
 import { AdModalFormValues } from "../AdModal/AdModalForm/AdModalForm.types";
 import { buyAdvNft } from "../../services/smart-contract/buyAdvNft";
+import { useQuery } from "@apollo/client";
 
-export const Adlist: React.FC = () => {
+export const AdList: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { data: signer } = useSigner();
   const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
@@ -29,14 +29,13 @@ export const Adlist: React.FC = () => {
     } catch (err) {
       console.log(err);
       setIsCreatingAd(false);
-      handleAdModal();
     } finally {
+      setShowModal(false);
       setIsCreatingAd(false);
     }
   };
   const handleRentClick = (advNft: GetUnsold_marketItems) => {
     setSelectedAdv(advNft);
-
     setShowModal(true);
   };
   const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
@@ -50,23 +49,14 @@ export const Adlist: React.FC = () => {
   const [price, setPrice] = useState("100MATIC");
   const [views, setViews] = useState("100kViews");
 
-  const onChangePrice = (e: RadioChangeEvent) => {
-    setPrice(e.target.value);
-  };
-
-  const onChangeViews = (e: RadioChangeEvent) => {
-    setViews(e.target.value);
-  };
-
-  const handleAdModal = () => setShowModal(!showModal);
   const { openConnectModal } = useConnectModal();
 
   return (
     <>
       <AdModal
         isCreatingAd={isCreatingAd}
-        onHandleAdForm={(d) => handleAdForm(d)}
-        onHandleModal={handleAdModal}
+        onHandleAdForm={handleAdForm}
+        onCancelModal={() => setShowModal(false)}
         isVisible={showModal}
       />
 
@@ -79,7 +69,10 @@ export const Adlist: React.FC = () => {
               items={[
                 {
                   label: (
-                    <Radio.Group onChange={onChangePrice} value={price}>
+                    <Radio.Group
+                      onChange={(e) => setPrice(e.target.value)}
+                      value={price}
+                    >
                       <Space direction="vertical">
                         <Radio value={"100MATIC"}>100 MATIC and under</Radio>
                         <Radio value={"200MATIC"}>200 MATIC and under</Radio>
@@ -108,7 +101,10 @@ export const Adlist: React.FC = () => {
               items={[
                 {
                   label: (
-                    <Radio.Group onChange={onChangeViews} value={views}>
+                    <Radio.Group
+                      onChange={(e) => setViews(e.target.value)}
+                      value={views}
+                    >
                       <Space direction="vertical">
                         <Radio value={"1000Views"}>1000 views and under</Radio>
                         <Radio value={"10kViews"}>10K views and under</Radio>

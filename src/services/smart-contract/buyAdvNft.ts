@@ -41,9 +41,8 @@ export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_m
         return;
     }
     console.log("handleAdForm: Creating Market Sale");
-
     await marketPlace
-        .createMarketSale(AdvNFTAddr, advNft?.token.id, {
+        .createMarketSale(AdvNFTAddr, advNft?.itemId, {
             value: advNft?.price,
         })
         .then((e) => e.wait());

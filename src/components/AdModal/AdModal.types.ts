@@ -1,7 +1,7 @@
 import { AdModalFormValues } from "./AdModalForm/AdModalForm.types";
 
 interface AdModalProps {
-  onHandleModal: () => void;
+  onCancelModal: () => void;
   onHandleAdForm: (value: AdModalFormValues) => void;
   isVisible: boolean;
   isCreatingAd: boolean;
