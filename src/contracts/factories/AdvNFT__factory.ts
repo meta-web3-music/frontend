@@ -33,6 +33,25 @@ const _abi = [
     inputs: [
       {
         indexed: false,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "assetHash",
+        type: "string",
+      },
+    ],
+    name: "AdvNFTAssetHashUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
         internalType: "string",
         name: "metaDataHash",
         type: "string",
@@ -77,17 +96,11 @@ const _abi = [
       {
         indexed: false,
         internalType: "string",
-        name: "metaHash",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "assetHash",
+        name: "metaDataHash",
         type: "string",
       },
     ],
-    name: "AdvNFTHashUpdated",
+    name: "AdvNFTMetaDataHashUpdated",
     type: "event",
   },
   {
@@ -390,6 +403,25 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "musicTokenId",
+        type: "uint256",
+      },
+    ],
+    name: "isExpired",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "marketplaceAddress",
     outputs: [
@@ -658,16 +690,52 @@ const _abi = [
       },
       {
         internalType: "string",
-        name: "_metaDataHash",
+        name: "_assetHash",
+        type: "string",
+      },
+    ],
+    name: "updateAssetHash",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_assetHash",
         type: "string",
       },
       {
         internalType: "string",
-        name: "_dataHash",
+        name: "_metaDataHash",
         type: "string",
       },
     ],
     name: "updateHash",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_metaDataHash",
+        type: "string",
+      },
+    ],
+    name: "updateMetaDataHash",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

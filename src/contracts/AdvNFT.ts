@@ -38,6 +38,7 @@ export interface AdvNFTInterface extends utils.Interface {
     "getApproved(uint256)": FunctionFragment;
     "getCurrentAdvAssetUri(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "isExpired(uint256)": FunctionFragment;
     "marketplaceAddress()": FunctionFragment;
     "name()": FunctionFragment;
     "nftContractAddr()": FunctionFragment;
@@ -54,7 +55,9 @@ export interface AdvNFTInterface extends utils.Interface {
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "unpause()": FunctionFragment;
+    "updateAssetHash(uint256,string)": FunctionFragment;
     "updateHash(uint256,string,string)": FunctionFragment;
+    "updateMetaDataHash(uint256,string)": FunctionFragment;
   };
 
   getFunction(
@@ -68,6 +71,7 @@ export interface AdvNFTInterface extends utils.Interface {
       | "getApproved"
       | "getCurrentAdvAssetUri"
       | "isApprovedForAll"
+      | "isExpired"
       | "marketplaceAddress"
       | "name"
       | "nftContractAddr"
@@ -84,7 +88,9 @@ export interface AdvNFTInterface extends utils.Interface {
       | "tokenURI"
       | "transferFrom"
       | "unpause"
+      | "updateAssetHash"
       | "updateHash"
+      | "updateMetaDataHash"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -130,6 +136,10 @@ export interface AdvNFTInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isExpired",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "marketplaceAddress",
@@ -194,12 +204,20 @@ export interface AdvNFTInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "updateAssetHash",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "updateHash",
     values: [
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
       PromiseOrValue<string>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateMetaDataHash",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
 
   decodeFunctionResult(
@@ -226,6 +244,7 @@ export interface AdvNFTInterface extends utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "isExpired", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "marketplaceAddress",
     data: BytesLike
@@ -269,11 +288,20 @@ export interface AdvNFTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "updateAssetHash",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "updateHash", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "updateMetaDataHash",
+    data: BytesLike
+  ): Result;
 
   events: {
+    "AdvNFTAssetHashUpdated(uint256,string)": EventFragment;
     "AdvNFTCreated(string,string,uint256,uint32,uint256)": EventFragment;
-    "AdvNFTHashUpdated(uint256,string,string)": EventFragment;
+    "AdvNFTMetaDataHashUpdated(uint256,string)": EventFragment;
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "Paused(address)": EventFragment;
@@ -281,14 +309,27 @@ export interface AdvNFTInterface extends utils.Interface {
     "Unpaused(address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AdvNFTAssetHashUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AdvNFTCreated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AdvNFTHashUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AdvNFTMetaDataHashUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
+
+export interface AdvNFTAssetHashUpdatedEventObject {
+  tokenId: BigNumber;
+  assetHash: string;
+}
+export type AdvNFTAssetHashUpdatedEvent = TypedEvent<
+  [BigNumber, string],
+  AdvNFTAssetHashUpdatedEventObject
+>;
+
+export type AdvNFTAssetHashUpdatedEventFilter =
+  TypedEventFilter<AdvNFTAssetHashUpdatedEvent>;
 
 export interface AdvNFTCreatedEventObject {
   metaDataHash: string;
@@ -304,18 +345,17 @@ export type AdvNFTCreatedEvent = TypedEvent<
 
 export type AdvNFTCreatedEventFilter = TypedEventFilter<AdvNFTCreatedEvent>;
 
-export interface AdvNFTHashUpdatedEventObject {
+export interface AdvNFTMetaDataHashUpdatedEventObject {
   tokenId: BigNumber;
-  metaHash: string;
-  assetHash: string;
+  metaDataHash: string;
 }
-export type AdvNFTHashUpdatedEvent = TypedEvent<
-  [BigNumber, string, string],
-  AdvNFTHashUpdatedEventObject
+export type AdvNFTMetaDataHashUpdatedEvent = TypedEvent<
+  [BigNumber, string],
+  AdvNFTMetaDataHashUpdatedEventObject
 >;
 
-export type AdvNFTHashUpdatedEventFilter =
-  TypedEventFilter<AdvNFTHashUpdatedEvent>;
+export type AdvNFTMetaDataHashUpdatedEventFilter =
+  TypedEventFilter<AdvNFTMetaDataHashUpdatedEvent>;
 
 export interface ApprovalEventObject {
   owner: string;
@@ -445,6 +485,11 @@ export interface AdvNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    isExpired(
+      musicTokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     marketplaceAddress(overrides?: CallOverrides): Promise<[string]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
@@ -516,10 +561,22 @@ export interface AdvNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    updateAssetHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     updateHash(
       tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
       _metaDataHash: PromiseOrValue<string>,
-      _dataHash: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    updateMetaDataHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _metaDataHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -572,6 +629,11 @@ export interface AdvNFT extends BaseContract {
   isApprovedForAll(
     owner: PromiseOrValue<string>,
     operator: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isExpired(
+    musicTokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -646,10 +708,22 @@ export interface AdvNFT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  updateAssetHash(
+    tokenId: PromiseOrValue<BigNumberish>,
+    _assetHash: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   updateHash(
     tokenId: PromiseOrValue<BigNumberish>,
+    _assetHash: PromiseOrValue<string>,
     _metaDataHash: PromiseOrValue<string>,
-    _dataHash: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  updateMetaDataHash(
+    tokenId: PromiseOrValue<BigNumberish>,
+    _metaDataHash: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -702,6 +776,11 @@ export interface AdvNFT extends BaseContract {
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    isExpired(
+      musicTokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -772,15 +851,36 @@ export interface AdvNFT extends BaseContract {
 
     unpause(overrides?: CallOverrides): Promise<void>;
 
+    updateAssetHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     updateHash(
       tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
       _metaDataHash: PromiseOrValue<string>,
-      _dataHash: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateMetaDataHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _metaDataHash: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
 
   filters: {
+    "AdvNFTAssetHashUpdated(uint256,string)"(
+      tokenId?: null,
+      assetHash?: null
+    ): AdvNFTAssetHashUpdatedEventFilter;
+    AdvNFTAssetHashUpdated(
+      tokenId?: null,
+      assetHash?: null
+    ): AdvNFTAssetHashUpdatedEventFilter;
+
     "AdvNFTCreated(string,string,uint256,uint32,uint256)"(
       metaDataHash?: null,
       assetHash?: null,
@@ -796,16 +896,14 @@ export interface AdvNFT extends BaseContract {
       musicNFTId?: null
     ): AdvNFTCreatedEventFilter;
 
-    "AdvNFTHashUpdated(uint256,string,string)"(
+    "AdvNFTMetaDataHashUpdated(uint256,string)"(
       tokenId?: null,
-      metaHash?: null,
-      assetHash?: null
-    ): AdvNFTHashUpdatedEventFilter;
-    AdvNFTHashUpdated(
+      metaDataHash?: null
+    ): AdvNFTMetaDataHashUpdatedEventFilter;
+    AdvNFTMetaDataHashUpdated(
       tokenId?: null,
-      metaHash?: null,
-      assetHash?: null
-    ): AdvNFTHashUpdatedEventFilter;
+      metaDataHash?: null
+    ): AdvNFTMetaDataHashUpdatedEventFilter;
 
     "Approval(address,address,uint256)"(
       owner?: PromiseOrValue<string> | null,
@@ -899,6 +997,11 @@ export interface AdvNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    isExpired(
+      musicTokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     marketplaceAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -970,10 +1073,22 @@ export interface AdvNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    updateAssetHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     updateHash(
       tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
       _metaDataHash: PromiseOrValue<string>,
-      _dataHash: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    updateMetaDataHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _metaDataHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -1027,6 +1142,11 @@ export interface AdvNFT extends BaseContract {
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isExpired(
+      musicTokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1103,10 +1223,22 @@ export interface AdvNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    updateAssetHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     updateHash(
       tokenId: PromiseOrValue<BigNumberish>,
+      _assetHash: PromiseOrValue<string>,
       _metaDataHash: PromiseOrValue<string>,
-      _dataHash: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateMetaDataHash(
+      tokenId: PromiseOrValue<BigNumberish>,
+      _metaDataHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

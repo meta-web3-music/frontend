@@ -9,7 +9,7 @@ import { asyncStore } from "../ipfs/nftstorage";
 
 
 export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_marketItems, signer: FetchSignerResult<Signer>) => {
-    if (!formData.bannerImage[0].originFileObj) {
+    if (!formData.bannerImage[0].originFileObj || !formData.advAudioFile[0].originFileObj) {
         //TODO: error
         return;
     }
@@ -17,12 +17,17 @@ export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_m
     const { hash: adImageHash, storePromise: storeAdImagePromise } =
         await asyncStore(formData.bannerImage[0].originFileObj);
 
+    const { hash: adAudioHash, storePromise: storeAdAudioPromise } =
+        await asyncStore(formData.advAudioFile[0].originFileObj);
     const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
         name: `${advNft?.itemId} ADV NFT`,
         version: "",
         external_url: formData.adUrl,
+        ad_audio_url: `ipfs://${adAudioHash}`,
+        ad_description: formData.advDesc,
+        ad_title: formData.advTitle
     };
 
     console.log("handleAdForm: Adding MetaData to IPFS");
@@ -50,13 +55,14 @@ export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_m
 
     console.log("handleAdForm: Updating adv banner");
     const updateHashPromise = adNft
-        .updateHash(advNft?.token.id, metaDataHash, adImageHash)
+        .updateHash(advNft?.token.id, adImageHash,metaDataHash)
         .then((e) => e.wait());
     // // const advNftID = resCreateMusicWithAdv.events?.[3].args
     //   ?.tokenId as BigNumber;
     await Promise.all([
         updateHashPromise,
         storeAdImagePromise,
+        storeAdAudioPromise,
         storeMetaDataPromise,
     ]);
 };

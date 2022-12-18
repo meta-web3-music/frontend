@@ -4,4 +4,7 @@ export interface AdvNftMetaData {
     name: string
     version: string
     external_url: string
+    ad_audio_url: string
+    ad_title: string
+    ad_description: string
 }
