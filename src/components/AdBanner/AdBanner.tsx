@@ -17,7 +17,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ advNft }) => {
   if (!advNft?.assetHash) return <div></div>;
   return (
     <a target="_blank" rel="noreferrer" href={metaData?.external_url}>
-      <div style={{ marginBottom: "1em" }}>
+      <div className="mb-4">
         <Image
           preview={false}
           width={"100%"}

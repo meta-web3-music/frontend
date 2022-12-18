@@ -7,7 +7,7 @@ const Home: React.FC = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <div className="w-full flex flex-col">
         <HottestSongs />
       </div>
     </>

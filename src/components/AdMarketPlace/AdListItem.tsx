@@ -69,8 +69,7 @@ const AdListItem = ({ marketItem, onBuyClick }: Props) => {
           <p className="m-0 text-xs ">{metaData?.body.artist}</p>
         </div>
         <button
-          className="w-3/4  text-white inline font-bold rounded-2xl my-auto ml-auto mr-1 h-9 overflow-hidden relative buy-btn"
-          style={{ background: "#0E77FC" }}
+          className="w-3/4  text-white inline font-bold rounded-2xl my-auto ml-auto mr-1 h-9 overflow-hidden relative buy-btn bg-[#0E77FC]"
           onClick={onBuyClick}
         >
           <div className="span absolute -top-full left-1/2 -translate-y-1/2 -translate-x-1/2 label duration-300">

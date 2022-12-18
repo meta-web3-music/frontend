@@ -114,7 +114,7 @@ const MintSongModal: React.FC<ModalProps> = ({
               loading={isMinting}
               shape="round"
               size="large"
-              style={{ width: "100%" }}
+              className="w-full"
               type="primary"
               htmlType="submit"
             >

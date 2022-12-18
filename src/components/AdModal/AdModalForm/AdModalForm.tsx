@@ -57,7 +57,7 @@ const AdModalForm: React.FC<AdModalFormProps> = ({
           loading={isCreatingAd}
           shape="round"
           size="large"
-          style={{ width: "100%" }}
+          className="w-full"
           type="primary"
           htmlType="submit"
         >
