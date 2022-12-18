@@ -48,6 +48,26 @@ const BuyAdModal: React.FC<AdModalProps> = ({
             <Input />
           </Form.Item>
           <Form.Item
+            name="advAudioFile"
+            label="Upload Ad Audio"
+            valuePropName="fileList"
+            getValueFromEvent={antdNorm}
+            rules={[{ required: true, message: "Please upload ad audio file!" }]}
+            extra="Please provide supported formats (.mp3, .wav)"
+          >
+            <Upload
+              accept=".mp3,.wav"
+              listType="picture"
+              customRequest={({ onSuccess }) =>
+                setTimeout(() => {
+                  onSuccess?.("ok", undefined);
+                }, 0)
+              }
+            >
+              <Button icon={<UploadOutlined />}>Click to upload</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item
             name="bannerImage"
             label="Upload banner image"
             valuePropName="fileList"

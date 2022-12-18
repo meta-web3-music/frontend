@@ -8,6 +8,7 @@ import { StickyPlayerProps } from "./StickyPlayer.types";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import styled from "styled-components";
 import Image from "next/image";
+import { AdvNftMetaData } from "../../types/AdvNFTData";
 
 const Styled = styled.div``;
 
@@ -16,7 +17,10 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   onClosePlayer,
   musicNft,
 }) => {
+  const [isPlayingAd, setIsPlayingAd] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [musicMetaData, setMusicMetaData] = useState<MusicNftMetaData>();
+  const [advMetaData, setAdvMetaData] = useState<AdvNftMetaData>();
   const [audioTime, setAudioTime] = useState({
     currentTime: 0,
     duration: 0,
@@ -55,24 +59,35 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
     audioRef.current?.addEventListener("play", () => {
       if (!isPlaying) setIsPlaying(true);
     });
-  }, [audioRef, isPlaying]);
-  const [musicMetaData, setMusicMetaData] = useState<MusicNftMetaData>();
-  const fetchMusicMetaData = useCallback(async () => {
+    audioRef.current?.addEventListener("ended", () => {
+      if (isPlayingAd) setIsPlayingAd(false);
+    });
+  }, [audioRef, isPlaying, isPlayingAd]);
+  const fetchMetaData = useCallback(async () => {
     try {
       if (!musicNft) return;
       const musicNftMetaData = await fetchIpfs<MusicNftMetaData>(
         musicNft.metaDataUri
       );
       setMusicMetaData(musicNftMetaData);
+
+      if (!musicNft.advNfts) return;
+      const advNftMetaData = await fetchIpfs<AdvNftMetaData>(
+        musicNft.advNfts[0].metaDataHash
+      );
+
+      setAdvMetaData(advNftMetaData);
+      if (advNftMetaData?.ad_audio_url) setIsPlayingAd(true);
     } catch {
       //
     }
   }, [musicNft]);
 
   useEffect(() => {
+    setIsPlayingAd(false);
     setIsPlaying(true);
-    fetchMusicMetaData();
-  }, [fetchMusicMetaData, musicNft]);
+    fetchMetaData();
+  }, [fetchMetaData, musicNft]);
 
   return (
     <Styled
@@ -80,25 +95,44 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         !musicNft ? "translate-y-full" : "translate-y-8"
       }`}
     >
-      <div className="h-11 w-11 relative mr-2">
-        <Image
-          className="h-full w-full"
-          objectFit="contain"
-          src={ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")}
-          layout="fill"
-          alt="artwork"
-        />
-      </div>
-      <div className="mr-4">
-        <p className="text-2xl m-0">{musicMetaData?.body.title}</p>
-        <p className="m-0 text-xs">{musicMetaData?.body.artist}</p>
-      </div>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={advMetaData?.external_url}
+        className="flex text-white"
+        style={{
+          pointerEvents: isPlayingAd ? "initial" : "none",
+        }}
+      >
+        <div className="h-11 w-11 relative mr-2">
+          <Image
+            className="h-full w-full"
+            objectFit="contain"
+            src={ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")}
+            layout="fill"
+            alt="artwork"
+          />
+        </div>
+        <div className="mr-4">
+          <p className="text-2xl m-0">
+            {isPlayingAd ? "TODO list" : musicMetaData?.body.title}
+          </p>
+          <p className="m-0 text-xs">
+            {isPlayingAd
+              ? "Get your TODO list sorted"
+              : musicMetaData?.body.artist}
+          </p>
+        </div>
+      </a>
       <audio
         autoPlay
         ref={audioRef}
-        loop
         className="ml-4"
-        src={`${ipfsToHttps(musicNft?.assetUri ?? "")}`}
+        src={`${
+          isPlayingAd
+            ? ipfsToHttps(advMetaData?.ad_audio_url ?? "")
+            : ipfsToHttps(musicNft?.assetUri ?? "")
+        }`}
       />
 
       <div className="flex">

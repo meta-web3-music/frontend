@@ -65,6 +65,7 @@ export const mintMusicAndAdv = async (formData: MintMusicWAdFormValues, signer: 
             name: `${formData.songName}ADV NFT`,
             version: "",
             external_url: "",
+            ad_audio_url: ""
         };
 
         // store advertisement nft metadata on nft.storage
