@@ -108,18 +108,22 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
           <Image
             className="h-full w-full"
             objectFit="contain"
-            src={ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")}
+            src={
+              isPlayingAd
+                ? ipfsToHttps(musicNft?.advNfts?.[0].assetHash ?? "")
+                : ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")
+            }
             layout="fill"
             alt="artwork"
           />
         </div>
         <div className="mr-4">
           <p className="text-2xl m-0">
-            {isPlayingAd ? "TODO list" : musicMetaData?.body.title}
+            {isPlayingAd ? advMetaData?.ad_title : musicMetaData?.body.title}
           </p>
           <p className="m-0 text-xs">
             {isPlayingAd
-              ? "Get your TODO list sorted"
+              ? advMetaData?.ad_description
               : musicMetaData?.body.artist}
           </p>
         </div>

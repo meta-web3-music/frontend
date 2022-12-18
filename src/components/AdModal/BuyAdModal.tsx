@@ -35,6 +35,30 @@ const BuyAdModal: React.FC<AdModalProps> = ({
           layout="vertical"
         >
           <Form.Item
+            label="Advertisment Title"
+            name="advTitle"
+            rules={[
+              {
+                required: true,
+                message: "Please input valid title!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Advertisment Description"
+            name="advDesc"
+            rules={[
+              {
+                required: true,
+                message: "Please input valid description!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
             label="Advertisment URL"
             name="adUrl"
             rules={[
@@ -52,7 +76,9 @@ const BuyAdModal: React.FC<AdModalProps> = ({
             label="Upload Ad Audio"
             valuePropName="fileList"
             getValueFromEvent={antdNorm}
-            rules={[{ required: true, message: "Please upload ad audio file!" }]}
+            rules={[
+              { required: true, message: "Please upload ad audio file!" },
+            ]}
             extra="Please provide supported formats (.mp3, .wav)"
           >
             <Upload

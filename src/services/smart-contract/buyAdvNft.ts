@@ -25,7 +25,9 @@ export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_m
         name: `${advNft?.itemId} ADV NFT`,
         version: "",
         external_url: formData.adUrl,
-        ad_audio_url: `ipfs://${adAudioHash}`
+        ad_audio_url: `ipfs://${adAudioHash}`,
+        ad_description: formData.advDesc,
+        ad_title: formData.advTitle
     };
 
     console.log("handleAdForm: Adding MetaData to IPFS");
