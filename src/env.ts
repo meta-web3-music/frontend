@@ -1,4 +1,4 @@
-export const AdvNFTAddr = "0xED7F9873657dA47f92ef1d1E2BE3713De1e901cC";
-export const MusicNFTAddr = "0xd0851856D6EBbC3f13e69370A0e811f512933455";
-export const MarketPlaceAddr = "0xFA989709E33998fD00670c07672E40b078F7035A";
+export const AdvNFTAddr = "0x0b6abA80D045a29d1c720284421094eB0EF2291D";
+export const MusicNFTAddr = "0x8A316d5f0b04eA495D3808Fb66144c90f2da662e";
+export const MarketPlaceAddr = "0x890351b827Bd1f48e479A93dd3397C6b16b33870";
 export const GraphQLEndpoint = "https://api.thegraph.com/subgraphs/name/thisisommore/muzik"

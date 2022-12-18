@@ -55,7 +55,7 @@ export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_m
 
     console.log("handleAdForm: Updating adv banner");
     const updateHashPromise = adNft
-        .updateHash(advNft?.token.id, metaDataHash, adImageHash)
+        .updateHash(advNft?.token.id, adImageHash,metaDataHash)
         .then((e) => e.wait());
     // // const advNftID = resCreateMusicWithAdv.events?.[3].args
     //   ?.tokenId as BigNumber;
