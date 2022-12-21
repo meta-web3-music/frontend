@@ -34,6 +34,10 @@ html.dark .ant-typography {
   font-family: "Farro", sans-serif;
 }
 
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
 .spring-light {
   transition-timing-function: cubic-bezier(0, 0, 0.125, 1.65);
 }
@@ -42,17 +46,13 @@ html.dark .ant-typography {
   transition-timing-function: cubic-bezier(0.585, 0.32, 0.06, 1.155);
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 14px;
-  transition: 0.4s;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: rgb(4 36 64 / 1);
-  border: solid 4px black;
-  border-radius: 10px;
-}
 @tailwind components;
 @tailwind utilities;
+
+.ant-slider-track {
+  background-color: #003c83 !important;
+}
+
+.ant-slider-handle {
+  border: solid 2px #003c83 !important;
+}

@@ -1,6 +1,6 @@
 import { FetchSignerResult } from "@wagmi/core";
 import { Signer } from "ethers";
-import { AdModalFormValues } from "../../components/AdModal/AdModalForm/AdModalForm.types";
+import { BuyAdFormValues } from "../../components/BuyAdModal/BuyAdForm.types";
 import { AdvNFT__factory, MarketPlace__factory } from "../../contracts";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
 import { GetUnsold_marketItems } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
@@ -8,17 +8,20 @@ import { AdvNftMetaData } from "../../types/AdvNFTData";
 import { asyncStore } from "../ipfs/nftstorage";
 
 
-export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_marketItems, signer: FetchSignerResult<Signer>) => {
-    if (!formData.bannerImage[0].originFileObj || !formData.advAudioFile[0].originFileObj) {
+export const buyAdvNft = async (formData: BuyAdFormValues, advNft: GetUnsold_marketItems, signer: FetchSignerResult<Signer>) => {
+
+    const bannerImage = formData.bannerImage.item(0)
+    const advAudio = formData.advAudioFile.item(0)
+    if (!bannerImage || !advAudio) {
         //TODO: error
         return;
     }
 
     const { hash: adImageHash, storePromise: storeAdImagePromise } =
-        await asyncStore(formData.bannerImage[0].originFileObj);
+        await asyncStore(bannerImage);
 
     const { hash: adAudioHash, storePromise: storeAdAudioPromise } =
-        await asyncStore(formData.advAudioFile[0].originFileObj);
+        await asyncStore(advAudio);
     const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
@@ -55,7 +58,7 @@ export const buyAdvNft = async (formData: AdModalFormValues, advNft: GetUnsold_m
 
     console.log("handleAdForm: Updating adv banner");
     const updateHashPromise = adNft
-        .updateHash(advNft?.token.id, adImageHash,metaDataHash)
+        .updateHash(advNft?.token.id, adImageHash, metaDataHash)
         .then((e) => e.wait());
     // // const advNftID = resCreateMusicWithAdv.events?.[3].args
     //   ?.tokenId as BigNumber;

@@ -9,10 +9,14 @@ import { MusicNftMetaData } from "../../types/MusicNFTData";
 import { asyncStore } from "../ipfs/nftstorage";
 
 export const mintMusicAndAdv = async (formData: MintMusicWAdFormValues, signer: FetchSignerResult<Signer>) => {
+    const songFile = formData.songFile.item(0)
+    const artWorkFile = formData.artWorkFile.item(0)
+
+
     if (
         !signer ||
-        !formData.songFile[0].originFileObj ||
-        !formData.artWorkFile[0].originFileObj
+        !songFile ||
+        !artWorkFile
     ) {
         //TODO: error
         return;
@@ -22,11 +26,11 @@ export const mintMusicAndAdv = async (formData: MintMusicWAdFormValues, signer: 
         // store metadata of music on nft.storage
 
         const { hash: musicAssetHash, storePromise: storeMusicAssetPromise } =
-            await asyncStore(formData.songFile[0].originFileObj);
+            await asyncStore(songFile);
         storePromises.push(storeMusicAssetPromise);
 
         const { hash: artWorkHash, storePromise: storeArtWorkHash } =
-            await asyncStore(formData.artWorkFile[0].originFileObj);
+            await asyncStore(artWorkFile);
         storePromises.push(storeArtWorkHash);
 
         // create metadata object for music nft
@@ -93,7 +97,6 @@ export const mintMusicAndAdv = async (formData: MintMusicWAdFormValues, signer: 
             )
             .then((e) => e.wait());
         console.log("events");
-        console.log(resCreateMusicWithAdv);
         const advNftID = resCreateMusicWithAdv.events?.[2].args
             ?.tokenId as BigNumber;
         ethers.utils.parseEther;

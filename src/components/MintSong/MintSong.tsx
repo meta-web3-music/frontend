@@ -19,6 +19,7 @@ const MintSong: React.FC = () => {
       //TODO: error
       return;
     }
+
     setIsMinting(true);
     try {
       await mintMusicAndAdv(formData, signer);
