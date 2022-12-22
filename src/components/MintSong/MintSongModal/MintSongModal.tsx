@@ -15,16 +15,9 @@ const MintSongModal: React.FC<ModalProps> = ({
   isVisible,
   isMinting,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    formState: { errors },
-    setValue,
-  } = useForm<MintMusicWAdFormValues>();
+  const { register, handleSubmit, watch, control, setValue } =
+    useForm<MintMusicWAdFormValues>();
   const songFile = watch("songFile")?.item(0);
-  console.log(errors);
 
   const fillFromMetaData = useCallback(async () => {
     if (songFile) {
