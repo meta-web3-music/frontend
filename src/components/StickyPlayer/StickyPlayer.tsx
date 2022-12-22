@@ -6,11 +6,8 @@ import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 // type imports
 import { StickyPlayerProps } from "./StickyPlayer.types";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
-import styled from "styled-components";
 import Image from "next/image";
 import { AdvNftMetaData } from "../../types/AdvNFTData";
-
-const Styled = styled.div``;
 
 // COMPONENT
 const StickyPlayer: React.FC<StickyPlayerProps> = ({
@@ -90,7 +87,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   }, [fetchMetaData, musicNft]);
 
   return (
-    <Styled
+    <div
       className={`fixed flex left-0 bottom-0 backdrop-blur-2xl dark:bg-gray-800/60 bg-gray-800/75 text-white p-2 z-10 w-full items-center duration-300 spring-heavy pb-10 ${
         !musicNft ? "translate-y-full" : "translate-y-8"
       }`}
@@ -105,17 +102,19 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         }}
       >
         <div className="h-11 w-11 relative mr-2">
-          <Image
-            className="h-full w-full"
-            objectFit="contain"
-            src={
-              isPlayingAd
-                ? ipfsToHttps(musicNft?.advNfts?.[0].assetHash ?? "")
-                : ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")
-            }
-            layout="fill"
-            alt="artwork"
-          />
+          {musicNft && musicMetaData?.body.artwork.info.uri && (
+            <Image
+              className="h-full w-full"
+              objectFit="contain"
+              src={
+                isPlayingAd && musicNft?.advNfts?.[0].assetHash
+                  ? ipfsToHttps(musicNft?.advNfts?.[0].assetHash ?? "")
+                  : ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")
+              }
+              layout="fill"
+              alt="artwork"
+            />
+          )}
         </div>
         <div className="mr-4">
           <p className="text-2xl m-0">
@@ -185,7 +184,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
       >
         <span className="iconify" data-icon="akar-icons:cross"></span>
       </div>
-    </Styled>
+    </div>
   );
 };
 

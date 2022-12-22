@@ -1,7 +1,5 @@
 import React from "react";
-import { Typography, Button } from "antd";
-
-const { Title, Text } = Typography;
+import { Button } from "antd";
 
 // types imports
 import { MintSongButtonProps } from "./MintSongbutton.types";
@@ -16,16 +14,16 @@ const MintSongButton: React.FC<MintSongButtonProps> = ({ onToggleModal }) => {
   const { isConnected } = useAccount();
 
   return (
-    <div className="flex justify-between items-center m-4 rounded-xl border-solid border-[#e5e5e5e5] border-2 py-3 px-4">
+    <div className="flex justify-between items-center m-4 rounded-xl bg-[#3d3d3de4] text-white py-3 px-4">
       <div className="flex flex-col">
-        <Title level={5} className="font-medium">
-          Mint Song NFT
-        </Title>
-        <Text>Get paid for all songs uploaded to our platform</Text>
+        <p className="font-medium text-lg m-0 mb-1 text-white">Mint Song NFT</p>
+        <p className="font-medium m-0 mb-1 text-white">
+          Get paid for all songs uploaded to our platform
+        </p>
       </div>
       <Button
         type="primary"
-        className="!font-bold !bg-[#a67968] !rounded-xl !border-none"
+        className="!font-bold !bg-[#107bde] !rounded-xl !border-none"
         onClick={isConnected ? onToggleModal : openConnectModal}
       >
         Mint Song NFT

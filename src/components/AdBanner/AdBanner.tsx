@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 // antd imports
-import { Image } from "antd";
 // styles imports
 // types imports
 import { AdBannerProps } from "./AdBanner.types";
 import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { AdvNftMetaData } from "../../types/AdvNFTData";
+import Image from "next/image";
 
 const AdBanner: React.FC<AdBannerProps> = ({ advNft }) => {
   const [metaData, setMetaData] = useState<AdvNftMetaData>();
@@ -17,14 +17,15 @@ const AdBanner: React.FC<AdBannerProps> = ({ advNft }) => {
   if (!advNft?.assetHash) return <div></div>;
   return (
     <a target="_blank" rel="noreferrer" href={metaData?.external_url}>
-      <div className="mb-4">
-        <Image
-          preview={false}
-          width={"100%"}
-          height={"200px"}
-          src={ipfsToHttps(advNft.assetHash)}
-          alt="Advertisement banner"
-        />
+      <div className="mb-4 h-52 object-contain relative">
+        {advNft.assetHash && (
+          <Image
+            src={ipfsToHttps(advNft.assetHash)}
+            alt="Advertisement banner"
+            layout="fill"
+            objectFit="contain"
+          />
+        )}
       </div>
     </a>
   );

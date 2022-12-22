@@ -4,14 +4,14 @@ import { Menu, Radio, Space, Dropdown } from "antd";
 import { useState } from "react";
 import { useSigner } from "wagmi";
 import AdListItem from "./AdListItem";
-import BuyAdModal from "../AdModal/BuyAdModal";
+import BuyAdModal from "../BuyAdModal/BuyAdModal";
 import { AdvNFTAddr } from "../../env";
 import { GET_UNSOLD } from "../../graph-ql/queries/GET_UNSOLD/getUnsold";
 import {
   GetUnsold,
   GetUnsold_marketItems,
 } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
-import { AdModalFormValues } from "../AdModal/AdModalForm/AdModalForm.types";
+import { BuyAdFormValues } from "../BuyAdModal/BuyAdForm.types";
 import { buyAdvNft } from "../../services/smart-contract/buyAdvNft";
 import { useQuery } from "@apollo/client";
 
@@ -19,7 +19,7 @@ export const AdList: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { data: signer } = useSigner();
   const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
-  const handleAdForm = async (formData: AdModalFormValues) => {
+  const handleAdForm = async (formData: BuyAdFormValues) => {
     if (!selectedAdv || !signer) {
       return;
     }
@@ -56,7 +56,7 @@ export const AdList: React.FC = () => {
       <BuyAdModal
         isCreatingAd={isCreatingAd}
         onHandleAdForm={handleAdForm}
-        onCancelModal={() => setShowModal(false)}
+        onCloseModal={() => setShowModal(false)}
         isVisible={showModal}
       />
 
