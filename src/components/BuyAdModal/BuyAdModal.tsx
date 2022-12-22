@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-const urlPattern =
-  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/i;
 
 // types imports
 import { AdModalProps } from "./BuyAdModal.types";
@@ -17,11 +15,7 @@ const BuyAdModal: React.FC<AdModalProps> = ({
   isVisible,
   isCreatingAd,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<BuyAdFormValues>();
+  const { register, handleSubmit } = useForm<BuyAdFormValues>();
 
   useEffect(() => {
     const eventListnerCallBack = (event: KeyboardEvent) => {
@@ -91,6 +85,7 @@ const BuyAdModal: React.FC<AdModalProps> = ({
             required
             placeholder="Url*"
             className="mb-2"
+            type="url"
             {...register("adUrl")}
           />
           <OTextArea
