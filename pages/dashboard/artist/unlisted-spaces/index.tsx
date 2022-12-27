@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSigner } from "wagmi";
 import { DashboardPageLayout } from "../..";
 import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";

@@ -11,18 +11,22 @@ import Script from "next/script";
 import MusicPlayer from "../src/components/MusicPlayer/MusicPlayer";
 import Header from "../src/components/Header/header";
 import { NextPage } from "next";
-import { ReactElement, ReactNode } from "react";
+import React, { ReactElement } from "react";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement) => ReactElement;
 };
 
-function MyApp({ Component, pageProps }: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const client = new ApolloClient({
     uri: GraphQLEndpoint,
     cache: new InMemoryCache(),
   });
-
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <>
       <Script src="https://code.iconify.design/3/3.0.0/iconify.min.js" />
@@ -38,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ThemeProvider attribute="class">
               <MusicPlayer />
               <Header />
-              <Layout Component={Component} pageProps={pageProps} />
+              {getLayout(<Component {...pageProps} />)}
             </ThemeProvider>
           </ApolloProvider>
         </RainbowKitProvider>
@@ -46,13 +50,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-const Layout = ({ Component, pageProps }: any) => {
-  if (Component.getLayout) {
-    return Component.getLayout(<Component {...pageProps} />);
-  } else {
-    return <Component {...pageProps} />;
-  }
-};
 
 export default MyApp;

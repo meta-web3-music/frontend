@@ -3,12 +3,11 @@ import { BigNumberish, Signer } from "ethers";
 import { BuyAdFormValues } from "../../components/BuyAdModal/BuyAdForm.types";
 import { AdvNFT__factory, MarketPlace__factory } from "../../contracts";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
-import { GetUnsold_marketItems } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
 import { AdvNftMetaData } from "../../types/AdvNFTData";
 import { asyncStore } from "../ipfs/nftstorage";
 
 
-export const buyAdvNft = async (formData: BuyAdFormValues, marketItemId:BigNumberish,advNftId: BigNumberish,price : BigNumberish, signer: FetchSignerResult<Signer>) => {
+export const buyAdvNft = async (formData: BuyAdFormValues, marketItemId: BigNumberish, advNftId: BigNumberish, price: BigNumberish, signer: FetchSignerResult<Signer>) => {
 
     const bannerImage = formData.bannerImage.item(0)
     const advAudio = formData.advAudioFile.item(0)

@@ -1,47 +1,15 @@
-import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { DownOutlined } from "@ant-design/icons";
 import { Menu, Radio, Space, Dropdown } from "antd";
 import { useState } from "react";
-import { useSigner } from "wagmi";
-import BuyAdModal from "../BuyAdModal/BuyAdModal";
 import { AdvNFTAddr } from "../../env";
 import { GET_UNSOLD } from "../../graph-ql/queries/GET_UNSOLD/getUnsold";
-import {
-  GetUnsold,
-  GetUnsold_marketItems,
-} from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
-import { BuyAdFormValues } from "../BuyAdModal/BuyAdForm.types";
-import { buyAdvNft } from "../../services/smart-contract/buyAdvNft";
+import { GetUnsold } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
 import { useQuery } from "@apollo/client";
 import AdvNFT from "../AdvNFT/AdvNFT";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import RentSpaceButton from "../../../pages/ad-marketplace/RentSpaceButton";
 
 export const AdList: React.FC = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const { data: signer } = useSigner();
-  const [selectedAdv, setSelectedAdv] = useState<GetUnsold_marketItems>();
-  const handleAdForm = async (formData: BuyAdFormValues) => {
-    if (!selectedAdv || !signer) {
-      return;
-    }
-    setIsCreatingAd(true);
-    try {
-      // await buyAdvNft(formData, selectedAdv, signer);
-    } catch (err) {
-      console.log(err);
-      setIsCreatingAd(false);
-    } finally {
-      setShowModal(false);
-      setIsCreatingAd(false);
-    }
-  };
-  const handleRentClick = (advNft: GetUnsold_marketItems) => {
-    setSelectedAdv(advNft);
-    setShowModal(true);
-  };
-  const [isCreatingAd, setIsCreatingAd] = useState<boolean>(false);
-
   const { data: allAsksConnection } = useQuery<GetUnsold>(GET_UNSOLD, {
     variables: {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
@@ -50,18 +18,8 @@ export const AdList: React.FC = () => {
   // add useState hooks here
   const [price, setPrice] = useState("100MATIC");
   const [views, setViews] = useState("100kViews");
-
-  const { openConnectModal } = useConnectModal();
-
   return (
     <>
-      <BuyAdModal
-        isCreatingAd={isCreatingAd}
-        onHandleAdForm={handleAdForm}
-        onCloseModal={() => setShowModal(false)}
-        isVisible={showModal}
-      />
-
       {/* start dropdowns */}
       <div className="flex flex-row items-center mb-3">
         <span>Filter by</span>
