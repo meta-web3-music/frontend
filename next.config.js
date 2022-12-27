@@ -2,11 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    images: {
-      unoptimized: true,
-    },
-  },
   images: {
     domains: ["nftstorage.link"],
   },
@@ -15,6 +10,11 @@ const nextConfig = {
       {
         source: "/",
         destination: "/home",
+        permanent: true,
+      },
+      {
+        source: "/dashboard",
+        destination: "/dashboard/artist/unlisted-spaces",
         permanent: true,
       },
     ];

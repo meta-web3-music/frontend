@@ -1,5 +1,5 @@
 import { FetchSignerResult } from "@wagmi/core";
-import { Signer } from "ethers";
+import { BigNumberish, Signer } from "ethers";
 import { BuyAdFormValues } from "../../components/BuyAdModal/BuyAdForm.types";
 import { AdvNFT__factory, MarketPlace__factory } from "../../contracts";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
@@ -8,7 +8,7 @@ import { AdvNftMetaData } from "../../types/AdvNFTData";
 import { asyncStore } from "../ipfs/nftstorage";
 
 
-export const buyAdvNft = async (formData: BuyAdFormValues, advNft: GetUnsold_marketItems, signer: FetchSignerResult<Signer>) => {
+export const buyAdvNft = async (formData: BuyAdFormValues, marketItemId:BigNumberish,advNftId: BigNumberish,price : BigNumberish, signer: FetchSignerResult<Signer>) => {
 
     const bannerImage = formData.bannerImage.item(0)
     const advAudio = formData.advAudioFile.item(0)
@@ -25,7 +25,7 @@ export const buyAdvNft = async (formData: BuyAdFormValues, advNft: GetUnsold_mar
     const advNftDataObj: AdvNftMetaData = {
         description: `Adv nft for NFT`,
         mimeType: "image/jpeg",
-        name: `${advNft?.itemId} ADV NFT`,
+        name: `${advNftId} ADV NFT`,
         version: "",
         external_url: formData.adUrl,
         ad_audio_url: `ipfs://${adAudioHash}`,
@@ -44,21 +44,17 @@ export const buyAdvNft = async (formData: BuyAdFormValues, advNft: GetUnsold_mar
     const adNft = AdvNFT__factory.connect(AdvNFTAddr, signer);
     const marketPlace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
 
-    if (!advNft?.token.id) {
-        throw new Error("Failed to get selected adv id");
-        return;
-    }
     console.log("handleAdForm: Creating Market Sale");
     await marketPlace
-        .createMarketSale(AdvNFTAddr, advNft?.itemId, {
-            value: advNft?.price,
+        .createMarketSale(AdvNFTAddr, marketItemId, {
+            value: price,
         })
         .then((e) => e.wait());
     // invoke contract func and mint song nft with ad nft
 
     console.log("handleAdForm: Updating adv banner");
     const updateHashPromise = adNft
-        .updateHash(advNft?.token.id, adImageHash, metaDataHash)
+        .updateHash(advNftId, adImageHash, metaDataHash)
         .then((e) => e.wait());
     // // const advNftID = resCreateMusicWithAdv.events?.[3].args
     //   ?.tokenId as BigNumber;

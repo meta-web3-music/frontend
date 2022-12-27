@@ -17,7 +17,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ advNft }) => {
   if (!advNft?.assetHash) return <div></div>;
   return (
     <a target="_blank" rel="noreferrer" href={metaData?.external_url}>
-      <div className="mb-4 h-52 object-contain relative">
+      <div className="mb-4 h-52 relative">
         {advNft.assetHash && (
           <Image
             src={ipfsToHttps(advNft.assetHash)}

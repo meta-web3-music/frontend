@@ -8,7 +8,6 @@ interface Body {
     artwork: Artwork
     duration: number
     mimeType: string
-    notes: string
     project: null
     title: string
     trackNumber: string

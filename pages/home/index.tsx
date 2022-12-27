@@ -7,7 +7,7 @@ const Home: React.FC = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col overflow-scroll">
         <HottestSongs />
       </div>
     </>

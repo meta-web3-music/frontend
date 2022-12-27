@@ -10,6 +10,13 @@ import { ThemeProvider } from "next-themes";
 import Script from "next/script";
 import MusicPlayer from "../src/components/MusicPlayer/MusicPlayer";
 import Header from "../src/components/Header/header";
+import { NextPage } from "next";
+import { ReactElement, ReactNode } from "react";
+
+export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
     uri: GraphQLEndpoint,
@@ -23,14 +30,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RainbowKitProvider
           chains={chains}
           theme={lightTheme({
-            accentColor: "#a67968",
+            accentColor: "#F3EA01",
+            accentColorForeground: "#313131",
           })}
         >
           <ApolloProvider client={client}>
             <ThemeProvider attribute="class">
               <MusicPlayer />
               <Header />
-              <Component {...pageProps} />
+              <Layout Component={Component} pageProps={pageProps} />
             </ThemeProvider>
           </ApolloProvider>
         </RainbowKitProvider>
@@ -38,5 +46,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+const Layout = ({ Component, pageProps }: any) => {
+  if (Component.getLayout) {
+    return Component.getLayout(<Component {...pageProps} />);
+  } else {
+    return <Component {...pageProps} />;
+  }
+};
 
 export default MyApp;

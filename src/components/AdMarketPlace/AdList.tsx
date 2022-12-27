@@ -3,7 +3,6 @@ import { DownOutlined } from "@ant-design/icons";
 import { Menu, Radio, Space, Dropdown } from "antd";
 import { useState } from "react";
 import { useSigner } from "wagmi";
-import AdListItem from "./AdListItem";
 import BuyAdModal from "../BuyAdModal/BuyAdModal";
 import { AdvNFTAddr } from "../../env";
 import { GET_UNSOLD } from "../../graph-ql/queries/GET_UNSOLD/getUnsold";
@@ -14,6 +13,9 @@ import {
 import { BuyAdFormValues } from "../BuyAdModal/BuyAdForm.types";
 import { buyAdvNft } from "../../services/smart-contract/buyAdvNft";
 import { useQuery } from "@apollo/client";
+import AdvNFT from "../AdvNFT/AdvNFT";
+import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
+import RentSpaceButton from "../../../pages/ad-marketplace/RentSpaceButton";
 
 export const AdList: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -25,7 +27,7 @@ export const AdList: React.FC = () => {
     }
     setIsCreatingAd(true);
     try {
-      await buyAdvNft(formData, selectedAdv, signer);
+      // await buyAdvNft(formData, selectedAdv, signer);
     } catch (err) {
       console.log(err);
       setIsCreatingAd(false);
@@ -88,7 +90,7 @@ export const AdList: React.FC = () => {
           trigger={["click"]}
         >
           <a onClick={(e) => e.preventDefault()}>
-            <Space className="inline-block px-6 py-2 border shadow text-black dark:text-white font-medium text-xs leading-tight uppercase rounded-full ml-4">
+            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Price
               <DownOutlined />
             </Space>
@@ -122,7 +124,7 @@ export const AdList: React.FC = () => {
           trigger={["click"]}
         >
           <a onClick={(e) => e.preventDefault()}>
-            <Space className="inline-block px-6 py-2 border shadow text-black  dark:text-white font-medium text-xs leading-tight uppercase rounded-full ml-4">
+            <Space className="inline-block px-6 py-2 border shadow text-black font-medium text-xs leading-tight uppercase rounded-full ml-4">
               Views
               <DownOutlined />
             </Space>
@@ -132,10 +134,22 @@ export const AdList: React.FC = () => {
       {/* end dropdowns */}
       <div className="flex flex-wrap justify-center mb-4">
         {allAsksConnection?.marketItems.map((e) => (
-          <AdListItem
+          <AdvNFT
             key={e.itemId}
-            marketItem={e}
-            onBuyClick={!signer ? openConnectModal : () => handleRentClick(e)}
+            expirationDuration={e.token.expirationDuration}
+            musicMetaDataUri={e.token.musicNFT.metaDataUri}
+            price={e.price}
+            onArtWorkClick={() => {
+              MusicPlayerSub.next(e.token.musicNFT);
+            }}
+            CustomButton={
+              <RentSpaceButton
+                marketItemId={e.itemId}
+                adNftId={e.token.id}
+                price={e.price}
+              />
+            }
+            buttonText="Rent space now"
           />
         ))}
       </div>

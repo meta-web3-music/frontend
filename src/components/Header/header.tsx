@@ -1,46 +1,46 @@
 import React from "react";
-import { useRouter } from "next/router";
 
 // rainbowkit imports
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-// antd imports
-import Link from "next/link";
 import DarkModeToggle from "./DarkModeToggle";
+import { SmartLink } from "../SmartLink/SmartLink";
+import Link from "next/link";
 
 function Header() {
-  const { pathname } = useRouter();
-
   return (
     <>
-      <header className="flex flex-row items-center justify-between md:px-10 mb-10 py-2 bg-slate-50 dark:bg-primary duration-300 dark:text-white">
+      <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2 bg-slate-50 dark:bg-primary duration-300">
         {/* headline */}
         <div>
-          <p className="text-3xl font-bold m-3 hover:cursor-pointer dark:text-white font-farro">
-            OCTAV3
-          </p>
+          <Link href="/home">
+            <p className="text-3xl font-bold m-3 hover:cursor-pointer">
+              OCTAV3
+            </p>
+          </Link>
         </div>
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">
           <div className="flex">
-            <Link href="home">
-              <button
-                className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none  ${
-                  pathname == "/home" ? "text-[#BF9484]" : ""
-                }`}
-              >
+            <SmartLink href="/home" activeClass="text-[#A49E1E]">
+              <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
                 Home
               </button>
-            </Link>
-            <Link href="ad-marketplace">
-              <button
-                className={`inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none ${
-                  pathname == "/ad-marketplace" ? "text-[#BF9484]" : ""
-                }`}
-              >
-                Ad Marketplace
+            </SmartLink>
+            <SmartLink href="/ad-marketplace" activeClass="text-[#A49E1E]">
+              <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
+                Ad marketplace
               </button>
-            </Link>
+            </SmartLink>
+            <SmartLink
+              href="/dashboard"
+              subHref="/artist/unlisted-spaces"
+              activeClass="text-[#A49E1E]"
+            >
+              <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
+                Dashboard
+              </button>
+            </SmartLink>
           </div>
         </div>
         <DarkModeToggle />

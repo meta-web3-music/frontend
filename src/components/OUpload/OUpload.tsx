@@ -3,12 +3,13 @@ import OButton from "../OButton/OButton";
 
 type Props = {
   buttonText: string;
-  iconifyIconName?: string;
+  label: string;
+  info?: string;
 };
 const OUpload = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement> & Props
->(({ buttonText, className, iconifyIconName, ...rest }, ref) => {
+>(({ buttonText, className, label, info, ...p }, ref) => {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState<string>();
 
@@ -18,28 +19,27 @@ const OUpload = React.forwardRef<
     );
   }, []);
   return (
-    <div className={className}>
+    <div>
+      <label className="text-[#000000c9] text-lg" htmlFor={p.name}>
+        {label}
+      </label>
       <OButton
+        color="yellow"
+        btnType="fill"
         onClick={() => {
           fileRef.current?.click();
         }}
-        className="z-10 relative"
+        className={`mt-1 z-10 relative w-full ${className}`}
       >
         {fileName ? (
           <p className="m-0 text-ellipsis whitespace-nowrap overflow-hidden">
             {fileName}
           </p>
         ) : (
-          <>
-            {iconifyIconName && (
-              <span className="mr-2 text-2xl">
-                <span className="iconify" data-icon={iconifyIconName}></span>
-              </span>
-            )}
-            <p className="m-0">{buttonText}</p>
-          </>
+          <p className="m-0">{buttonText}</p>
         )}
       </OButton>
+      {info && <p className="text-[#0000007c] mt-2">{info}</p>}
       <input
         ref={(node) => {
           fileRef.current = node;
@@ -51,7 +51,7 @@ const OUpload = React.forwardRef<
         }}
         type="file"
         className="opacity-0 -translate-y-3/4 -z-10 relative"
-        {...rest}
+        {...p}
       />
       <div className="-mt-5"></div>
     </div>

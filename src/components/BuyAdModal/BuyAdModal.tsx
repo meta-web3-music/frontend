@@ -95,6 +95,7 @@ const BuyAdModal: React.FC<AdModalProps> = ({
             rows={4}
           />
           <OButton
+            color="blue"
             isLoading={isCreatingAd}
             className="mt-2 inline-flex py-3 mb-4"
             type="submit"
