@@ -26,6 +26,7 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
   onBtnClick,
   CustomButton,
   isLoading,
+  disabled,
 }) => {
   const getImageSrc = (): string => {
     if (!artWorkUri?.includes("ipfs://")) {
@@ -39,7 +40,7 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
     <div className="my-2 font-figtree">
       <div className="flex m-2">
         <div
-          className="h-12 relative w-12 rounded-full overflow-hidden"
+          className="h-10 relative w-10 rounded-full overflow-hidden"
           onClick={onArtWorkClick}
         >
           {artWorkUri && (
@@ -53,33 +54,30 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
           )}
         </div>
         <div className="ml-3 flex flex-col justify-center">
-          <p className="m-0 font-bold text-lg leading-5">{title}</p>
-          <p className="m-0 text-gray-500 text-base">{artist} . 20M views</p>
+          <p className="m-0 font-bold text-md leading-5">{title}</p>
+          <p className="m-0 text-gray-500 text-md">{artist} . 20M views</p>
         </div>
       </div>
-      <div className="m-2 bg-gray-200 rounded-lg text-gray-500 font-bold flex flex-col p-3">
+      <div className="m-2 bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-500 font-bold flex flex-col p-3">
         <div className="flex">
           {status && (
-            <div className="flex items-center bg-white rounded-3xl px-2 text-gray-700 font-bold mb-1">
+            <div className="flex items-center bg-white rounded-3xl px-2 text-gray-600 font-bold mb-1 text-sm">
               <MarketStatusBatch
                 color={statusColors[status]}
-                className="h-2 w-2 rounded-full mr-1"
+                className="h-3 w-3 rounded-full mr-1"
               ></MarketStatusBatch>
               {status.toUpperCase()}
             </div>
           )}
-
-          <div className="ml-auto text-xl mb-1">
-            <span className="iconify" data-icon="uil:setting" />
-          </div>
         </div>
-        <p>
+        <p className="m-0 mb-1 dark:text-gray-200">
           {price && <>{price} &#8226; FOR </>}
           {expirationDuration} DAYS
         </p>
         {CustomButton && CustomButton}
         {buttonText && btnType && (
           <OButton
+            disabled={disabled}
             color="yellow"
             isLoading={isLoading}
             className="self-stretch"

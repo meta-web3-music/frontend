@@ -18,6 +18,7 @@ import { BigNumberish, ethers } from "ethers";
 import { placeAdToMarket } from "../../services/smart-contract/placeAdToMarket";
 import OModalTitle from "../OModal/OModalTitle";
 import OModalTopNav from "../OModal/OModalTopNav";
+import OModalForm from "../OModal/OModalForm";
 
 const MintSongButton: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -107,10 +108,7 @@ const MintSongButton: React.FC = () => {
       </OButton>
       <OModal isVisible={showModal} onCloseModal={() => setShowModal(false)}>
         {currentPage == "MINT_SONG" && (
-          <form
-            onSubmit={handleSubmitMusicMint(handleMusicMintForm)}
-            className="flex flex-col bg-[#F7F7F7] pt-16 px-14 w-full h-full z-20 overflow-scroll shadow-2xl font-figtree"
-          >
+          <OModalForm onSubmit={handleSubmitMusicMint(handleMusicMintForm)}>
             <OModalTitle>Create Space</OModalTitle>
             <div className="flex flex-col w-5/12 self-center">
               <div className="flex">
@@ -165,7 +163,7 @@ const MintSongButton: React.FC = () => {
               )}
 
               <div className="mt-5 w-5/6">
-                <p className="text-black">
+                <p className="text-black dark:text-white">
                   {currentPage == "MINT_SONG" ? (
                     <>
                       By clicking on “Upload and mint” you agree that you have
@@ -208,7 +206,7 @@ const MintSongButton: React.FC = () => {
                 </div>
               </div>
             </div>
-          </form>
+          </OModalForm>
         )}
 
         {currentPage == "CREATE_ADSPACE" && (

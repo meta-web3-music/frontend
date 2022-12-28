@@ -75,7 +75,7 @@ const ListButton: React.FC<{ adTokenId: BigNumberish }> = (p) => {
             />
 
             <div className="mt-5 w-5/6">
-              <p className="text-black">
+              <p className="text-black dark:text-white">
                 An AdNFT will be added to the marketplace where it can be bought
                 and sold
               </p>

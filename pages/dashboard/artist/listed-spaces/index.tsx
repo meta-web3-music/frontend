@@ -67,8 +67,9 @@ const ListedSpaces: NextPageWithLayout = () => {
               /* */
             }}
             status={sold ? "filled" : "open"}
-            btnType={!sold ? "outline" : undefined}
+            btnType={"outline"}
             buttonText="Unlist Space"
+            disabled={sold}
             onBtnClick={() => {
               unList(itemId);
             }}

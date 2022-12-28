@@ -11,8 +11,8 @@ type Props = {
 
 const colors = {
   blue: ["#003C83", "#003C83"],
-  yellow: ["#F3EA01", "#948f03"],
-  gray: ["#E6E6E6", "#000000a9"],
+  yellow: ["#F3EA01", "#F3EA01"],
+  gray: ["#E6E6E6", "#00000034"],
 };
 
 const borderColors = {
@@ -22,7 +22,7 @@ const borderColors = {
 
 const textColors = {
   blue: ["white", "white"],
-  yellow: ["black", "black"],
+  yellow: ["black", "#1d1d1d"],
   gray: ["black", "#cfcfcf"],
 };
 const StyledButton = styled.button<{
@@ -42,10 +42,21 @@ const StyledButton = styled.button<{
   &:focus-visible {
     box-shadow: 0px 0px 14px -2px ${(p) => (p.borderColor ? p.borderColor : p.color)};
   }
+
+  &:disabled {
+    color: #717171;
+    &:hover {
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      box-shadow: none;
+    }
+  }
 `;
 const OButton: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement> & Props
-> = ({ isLoading, color, btnType, ...p }) => {
+> = ({ isLoading, color, btnType, disabled, ...p }) => {
   const { resolvedTheme } = useTheme();
 
   return (
@@ -57,11 +68,11 @@ const OButton: React.FC<
       textColor={
         resolvedTheme == "dark" ? textColors[color][1] : textColors[color][0]
       }
-      className={`rounded-lg px-4 py-2 text-md flex items-center justify-center 
+      className={`rounded-md px-4 py-1 text-md flex items-center justify-center 
     duration-100 outline-none font-bold ${p.className} ${
         btnType == "fill" ? "bg" : ""
       }`}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     >
       {isLoading && <Spinner className="mr-3"></Spinner>}
       {p.children}

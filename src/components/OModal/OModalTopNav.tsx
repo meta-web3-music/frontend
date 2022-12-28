@@ -6,11 +6,17 @@ const OModalTopNav: React.FC<
   <div className="w-1/2 mr-1">
     <div
       className={`h-1 ${
-        notActive ? "bg-[rgb(0,0,0,0.20)]" : "bg-[rgb(0,0,0,0.55)]"
+        notActive
+          ? "bg-[rgb(0,0,0,0.20)] dark:bg-gray-600"
+          : "bg-[rgb(0,0,0,0.55)] dark:bg-white"
       } rounded-2xl`}
     ></div>
     <p
-      className={`mt-2 ${notActive ? "text-[rgb(0,0,0,0.40)]" : "text-black"}`}
+      className={`mt-2 ${
+        notActive
+          ? "text-[rgb(0,0,0,0.40)] dark:text-gray-600"
+          : "text-black dark:text-white"
+      }`}
     >
       {children}
     </p>

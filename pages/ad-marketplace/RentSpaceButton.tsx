@@ -111,7 +111,9 @@ const RentSpaceButton: React.FC<Props> = (p) => {
               {...registerAd("bannerImage")}
             />
             <div className="mt-5 w-5/6">
-              <p className="text-black">An AdNFT will be bought using MATIC</p>
+              <p className="text-black dark:text-white">
+                An AdNFT will be bought using MATIC
+              </p>
               <div className="flex">
                 <OButton
                   btnType="fill"

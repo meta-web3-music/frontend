@@ -8,7 +8,10 @@ const OTextArea = React.forwardRef<
   React.TextareaHTMLAttributes<HTMLTextAreaElement> & Props
 >(({ label, ...p }, ref) => (
   <>
-    <label className="text-[#000000c9] text-lg mt-3" htmlFor={p.name}>
+    <label
+      className="text-[#000000c9] dark:text-white text-lg mt-3"
+      htmlFor={p.name}
+    >
       {label}
     </label>
     <textarea

@@ -42,7 +42,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="dark:text-white overflow-hidden">
+      <body className="dark:text-white bg-[#F7F7F7] dark:bg-gray-900 overflow-hidden">
         <Main />
         <NextScript />
       </body>

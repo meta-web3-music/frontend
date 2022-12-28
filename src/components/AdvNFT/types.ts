@@ -8,6 +8,7 @@ export type CommonProps = {
     status?: "filled" | "open"
     isLoading?: boolean
     CustomButton?: React.ReactNode
+    disabled?: boolean
 }
 
 export type AdvNFTUIProps = {

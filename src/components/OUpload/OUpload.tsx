@@ -20,7 +20,10 @@ const OUpload = React.forwardRef<
   }, []);
   return (
     <div>
-      <label className="text-[#000000c9] text-lg" htmlFor={p.name}>
+      <label
+        className="text-[#000000c9] dark:text-white text-lg"
+        htmlFor={p.name}
+      >
         {label}
       </label>
       <OButton
@@ -39,7 +42,7 @@ const OUpload = React.forwardRef<
           <p className="m-0">{buttonText}</p>
         )}
       </OButton>
-      {info && <p className="text-[#0000007c] mt-2">{info}</p>}
+      {info && <p className="text-[#0000007c] dark:text-white mt-2">{info}</p>}
       <input
         ref={(node) => {
           fileRef.current = node;
