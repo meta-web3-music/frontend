@@ -42,3 +42,16 @@ html.dark .ant-typography {
 .ant-slider-handle {
   border: solid 2px #003c83 !important;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+  transition: 0.4s;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(15, 57, 94);
+  outline: solid 4px transparent;
+  border-radius: 10px;
+}
