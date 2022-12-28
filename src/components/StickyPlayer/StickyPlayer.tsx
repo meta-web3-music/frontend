@@ -14,6 +14,16 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   onClosePlayer,
   musicNft,
 }) => {
+  const resetStates = () => {
+    setIsPlayingAd(false);
+    setIsPlaying(true);
+    setMusicMetaData(undefined);
+    setAdvMetaData(undefined);
+    setAudioTime({
+      currentTime: 0,
+      duration: 0,
+    });
+  };
   const [isPlayingAd, setIsPlayingAd] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [musicMetaData, setMusicMetaData] = useState<MusicNftMetaData>();
@@ -42,13 +52,14 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   const audioRef = useRef<HTMLAudioElement>(null);
   useEffect(() => {
     const eventListnerCallBack = (event: KeyboardEvent) => {
-      if (event.key === " ") isPlaying ? pauseSong() : playSong();
+      if (event.key === " " && musicMetaData)
+        isPlaying ? pauseSong() : playSong();
     };
     document.addEventListener("keydown", eventListnerCallBack);
     return () => {
       document.removeEventListener("keydown", eventListnerCallBack);
     };
-  }, [isPlaying]);
+  }, [isPlaying, musicMetaData]);
   useEffect(() => {
     audioRef.current?.addEventListener("timeupdate", () => {
       const currentTime = audioRef.current?.currentTime ?? 0;
@@ -188,7 +199,10 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
       </div>
       <div
         className="text-2xl mr-2 duration-150 hover:-rotate-90 ml-auto"
-        onClick={onClosePlayer}
+        onClick={() => {
+          resetStates();
+          onClosePlayer();
+        }}
       >
         <span className="iconify" data-icon="akar-icons:cross"></span>
       </div>
