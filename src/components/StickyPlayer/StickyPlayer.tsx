@@ -40,7 +40,15 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
     return Math.floor(s / 60) + ":" + secondsStr;
   };
   const audioRef = useRef<HTMLAudioElement>(null);
-
+  useEffect(() => {
+    const eventListnerCallBack = (event: KeyboardEvent) => {
+      if (event.key === " ") isPlaying ? pauseSong() : playSong();
+    };
+    document.addEventListener("keydown", eventListnerCallBack);
+    return () => {
+      document.removeEventListener("keydown", eventListnerCallBack);
+    };
+  }, [isPlaying]);
   useEffect(() => {
     audioRef.current?.addEventListener("timeupdate", () => {
       const currentTime = audioRef.current?.currentTime ?? 0;
