@@ -44,7 +44,8 @@ const StyledButton = styled.button<{
   }
 
   &:disabled {
-    color: #717171;
+    color: #a1a1a1;
+    border-color: #a1a1a1;
     &:hover {
       box-shadow: none;
     }
