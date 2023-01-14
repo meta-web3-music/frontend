@@ -58,7 +58,7 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
           <p className="m-0 text-gray-500 text-md">{artist} . 20M views</p>
         </div>
       </div>
-      <div className="m-2 bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-500 font-bold flex flex-col p-3">
+      <div className="m-2 bg-gray-200 rounded-lg text-gray-500 font-bold flex flex-col p-3">
         <div className="flex">
           {status && (
             <div className="flex items-center bg-white rounded-3xl px-2 text-gray-600 font-bold mb-1 text-sm">
@@ -70,7 +70,7 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
             </div>
           )}
         </div>
-        <p className="m-0 mb-1 dark:text-gray-200">
+        <p className="m-0 mb-1">
           {price && <>{price} &#8226; FOR </>}
           {expirationDuration} DAYS
         </p>

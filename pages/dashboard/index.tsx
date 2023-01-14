@@ -8,7 +8,7 @@ const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
   return (
     <>
       <div className="flex font-figtree overflow-hidden h-screen">
-        <div className="flex flex-col bg-white dark:bg-[#122649] h-[90vh] w-4/12 p-4 pt-20 pl-8">
+        <div className="flex flex-col bg-white dark:bg-[rgb(26,26,26)] h-[90vh] w-4/12 p-4 pt-20 pl-8">
           <p>Artist</p>
           <div className="ml-4">
             <SmartLink
@@ -36,7 +36,7 @@ const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
           </div>
           <MintSongButton />
         </div>
-        <div className="bg-gray-100 dark:bg-gray-800 pl-10 h-full overflow-scroll w-full">
+        <div className="bg-gray-100 dark:bg-[#121212] pl-10 h-full overflow-scroll w-full">
           {p.children}
         </div>
       </div>

@@ -210,10 +210,7 @@ const MintSongButton: React.FC = () => {
         )}
 
         {currentPage == "CREATE_ADSPACE" && (
-          <form
-            onSubmit={handleSubmitAdMint(handleAdMintForm)}
-            className="flex flex-col bg-[#F7F7F7] pt-16 px-14 w-full h-full z-20  shadow-2xl font-figtree"
-          >
+          <OModalForm onSubmit={handleSubmitAdMint(handleAdMintForm)}>
             <OModalTitle>Create Space</OModalTitle>
             <div className="flex flex-col w-5/12 self-center">
               <div className="flex">
@@ -242,7 +239,7 @@ const MintSongButton: React.FC = () => {
               />
 
               <div className="mt-5 w-5/6">
-                <p className="text-black">
+                <p className="text-black dark:text-white">
                   An AdNFT will be minted with your newly minted song and will
                   be added to the marketplace where it can be bought and sold
                 </p>
@@ -268,7 +265,7 @@ const MintSongButton: React.FC = () => {
                 </div>
               </div>
             </div>
-          </form>
+          </OModalForm>
         )}
       </OModal>
     </>

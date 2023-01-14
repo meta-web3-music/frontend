@@ -23,7 +23,7 @@ const HottestSongs: React.FC = () => {
 
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-5/6 m-2 md:m-auto px-2 text-left pt-14">
-      <p className="text-4xl font-bold mb-10">Hottest Songs</p>
+      <p className="text-4xl font-bold mb-10">Songs</p>
       {selectedSong && <AdBanner advNft={selectedSong.advNfts[0]} />}
       {memoizedSongList}
     </div>

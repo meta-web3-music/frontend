@@ -10,7 +10,7 @@ import Link from "next/link";
 function Header() {
   return (
     <>
-      <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2 bg-slate-50 dark:bg-primary duration-300">
+      <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2 bg-slate-50 dark:bg-[rgb(26,26,26)] duration-300">
         {/* headline */}
         <div>
           <Link href="/home">
