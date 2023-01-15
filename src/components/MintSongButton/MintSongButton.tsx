@@ -26,6 +26,7 @@ const MintSongButton: React.FC = () => {
   const { data: signer } = useSigner();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
+  const [tAndCModal, setTAndCModal] = useState(false);
   const [currentPage, setCurrentPage] = useState<
     "MINT_SONG" | "CREATE_ADSPACE"
   >("MINT_SONG");
@@ -169,7 +170,9 @@ const MintSongButton: React.FC = () => {
                       By clicking on “Upload and mint” you agree that you have
                       read the{" "}
                       <a
-                        href=""
+                        onClick={() => {
+                          setTAndCModal(true);
+                        }}
                         className="text-[rgba(9,34,255,0.70)] hover:underline hover:text-[rgba(9,34,255,0.70)]"
                       >
                         T&Cs
@@ -267,6 +270,58 @@ const MintSongButton: React.FC = () => {
             </div>
           </OModalForm>
         )}
+      </OModal>
+      <OModal isVisible={tAndCModal} onCloseModal={() => setTAndCModal(false)}>
+        <div className="bg-white h-[80vh] w-[90vw] overflow-scroll text-black rounded-md p-5 pr-72 flex flex-col z-20">
+          <div className="flex mb-4">
+            <div
+              className="text-2xl mr-4 mt-1 cursor-pointer"
+              onClick={() => {
+                setTAndCModal(false);
+              }}
+            >
+              <span
+                className="iconify"
+                data-icon="material-symbols:arrow-back"
+              ></span>
+            </div>
+            <div className="text-lg">
+              <p className="text-2xl font-bold">
+                Terms and Conditions for Song Minting as an NFT
+              </p>
+              <p>
+                By clicking on the &quot;Upload and mint&quot; button, you
+                represent and warrant that you have confirmed that you own all
+                rights, including intellectual property rights, in and to the
+                song that you are uploading. You further agree that you will
+                indemnify and hold Schelling Labs Inc. and its affiliates,
+                employees, agents, and representatives from any and all claims,
+                damages, and expenses arising from any breach of this
+                representation and warranty.
+              </p>
+              <p>
+                You acknowledge that Schelling Labs Inc. does not endorse any
+                content submitted by users and is not responsible for any
+                intellectual property infringement or other legal issues that
+                may arise from your submission. By clicking on the &quot;Upload
+                and mint&quot; button, you acknowledge that you have read and
+                agree to these terms and conditions, and that the song will be
+                minted as a non-fungible token (NFT). You understand that this
+                process creates a unique digital asset that may be bought and
+                sold in the open market. You agree that you are solely
+                responsible for the promotion and sale of your NFT, and that you
+                will not hold Schelling Labs Inc. responsible for any loss or
+                damage that may arise from the sale or promotion of your NFT.
+                You acknowledge that you are aware of the risks associated with
+                participating in the NFT market, and that you are solely
+                responsible for conducting your own due diligence and for making
+                your own investment decisions. By clicking on the &quot;Upload
+                and mint&quot; button, you acknowledge that you have read and
+                agree to these terms and conditions.
+              </p>
+            </div>
+          </div>
+        </div>
       </OModal>
     </>
   );
