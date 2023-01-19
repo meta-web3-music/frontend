@@ -8,6 +8,7 @@ import { AdvNFTUIProps } from "./types";
 const statusColors = {
   filled: "#341CC3",
   open: "#1CC373",
+  expired: "#00000075",
 };
 
 const MarketStatusBatch = styled.div<{ color: string }>`

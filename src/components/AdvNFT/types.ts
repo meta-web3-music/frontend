@@ -5,7 +5,7 @@ export type CommonProps = {
     btnType?: "outline" | "fill";
     buttonText?: string;
     price?: string;
-    status?: "filled" | "open"
+    status?: "filled" | "open" | "expired"
     isLoading?: boolean
     CustomButton?: React.ReactNode
     disabled?: boolean

@@ -20,7 +20,12 @@ import OModalTitle from "../OModal/OModalTitle";
 import OModalTopNav from "../OModal/OModalTopNav";
 import OModalForm from "../OModal/OModalForm";
 
-const MintSongButton: React.FC = () => {
+type Props = {
+  musicTokenId?: BigNumberish;
+  color: "blue" | "yellow" | "gray";
+  text?: string;
+};
+const MintSongButton: React.FC<Props> = (p) => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const { data: signer } = useSigner();
@@ -29,9 +34,9 @@ const MintSongButton: React.FC = () => {
   const [tAndCModal, setTAndCModal] = useState(false);
   const [currentPage, setCurrentPage] = useState<
     "MINT_SONG" | "CREATE_ADSPACE"
-  >("MINT_SONG");
+  >(p.musicTokenId != undefined ? "CREATE_ADSPACE" : "MINT_SONG");
 
-  const [tokenId, setTokenId] = useState<BigNumberish>(0);
+  const [tokenId, setTokenId] = useState<BigNumberish>(p.musicTokenId ?? 0);
   const handleMusicMintForm = async (formData: MintMusicFormValues) => {
     if (!signer) {
       //TODO: error
@@ -54,7 +59,9 @@ const MintSongButton: React.FC = () => {
 
   const handleOnCancel = () => {
     setShowModal(false);
-    setCurrentPage("MINT_SONG");
+    setCurrentPage(
+      p.musicTokenId != undefined ? "CREATE_ADSPACE" : "MINT_SONG"
+    );
   };
   const handleAdMintForm = async (formData: MintAdFormValues) => {
     if (!signer) {
@@ -101,11 +108,11 @@ const MintSongButton: React.FC = () => {
         onClick={() =>
           isConnected ? setShowModal(true) : openConnectModal?.()
         }
-        color="gray"
+        color={p.color}
         btnType="fill"
         className="w-full mt-auto"
       >
-        Create Space
+        {p.text ?? "Create Space"}
       </OButton>
       <OModal isVisible={showModal} onCloseModal={() => setShowModal(false)}>
         {currentPage == "MINT_SONG" && (
