@@ -36,4 +36,5 @@ export interface GetExpiredSpaces {
 
 export interface GetExpiredSpacesVariables {
   currentTime?: any | null;
+  creator?: any | null;
 }

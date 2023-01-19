@@ -94,18 +94,18 @@ const RentSpaceButton: React.FC<Props> = (p) => {
 
             <OUpload
               info="Upload audio up to 3MB, Supported formats .mp3, .wav"
-              label="Audio Upload"
+              label="Sound Ad Upload"
               required
-              buttonText="Audio file"
+              buttonText="Sound ad file"
               className="w-1/3 mr-4"
               accept=".mp3,.wav"
               {...registerAd("advAudioFile")}
             />
             <OUpload
               info="Upload image up to xMB, Supported formats .jpg, .png"
-              label="Cover art upload"
+              label="Banner image upload"
               required
-              buttonText="Upload cover"
+              buttonText="Banner image"
               className="w-1/3"
               accept=".png,.jpg,.jpeg"
               {...registerAd("bannerImage")}
