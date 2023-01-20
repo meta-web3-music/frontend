@@ -151,7 +151,7 @@ const MintSongButton: React.FC<Props> = (p) => {
                     {...registerMusic("songFile")}
                   />
                   <OUpload
-                    info="Upload image up to xMB, Supported formats .jpeg, .png"
+                    info="Upload image up to 3MB, Supported formats .jpeg, .png"
                     label="Cover art upload"
                     required
                     buttonText="Upload cover"
