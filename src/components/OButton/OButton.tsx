@@ -12,7 +12,7 @@ type Props = {
 const colors = {
   blue: ["#003C83", "#003C83"],
   yellow: ["#F3EA01", "#F3EA01"],
-  gray: ["#E6E6E6", "#00000034"],
+  gray: ["#E6E6E6", "#E6E6E6"],
 };
 
 const borderColors = {
@@ -23,7 +23,7 @@ const borderColors = {
 const textColors = {
   blue: ["white", "white"],
   yellow: ["black", "#1d1d1d"],
-  gray: ["black", "#cfcfcf"],
+  gray: ["black", "black"],
 };
 const StyledButton = styled.button<{
   color: string;
