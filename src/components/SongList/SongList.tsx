@@ -17,7 +17,7 @@ const SongList: React.FC<SongListProps> = ({ playSong }) => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center mb-4 h-[70vh] overflow-y-scroll">
+      <div className="flex flex-wrap justify-center pt-4 mb-4 h-[70vh] overflow-y-scroll">
         {allMusicConnection?.musicNFTs.map((e) => (
           <SongListItem
             key={e.id}

@@ -27,6 +27,9 @@ const SongListItemStyled = styled.div`
     }
   }
 
+  &.playing {
+    box-shadow: 0px 0px 14px 4px #f3ea01;
+  }
   .data {
     color: #042440;
   }
@@ -60,7 +63,7 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
   return (
     <SongListItemStyled
       className={`m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white ${
-        isCurrentPlaying ? "shadow-[#F3EA01]" : ""
+        isCurrentPlaying ? "playing" : ""
       }`}
       onClick={onPlaySong}
     >
