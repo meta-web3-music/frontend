@@ -64,9 +64,9 @@ const RentSpaceButton: React.FC<Props> = (p) => {
       </OButton>
       <OModal isVisible={showModal} onCloseModal={() => setShowModal(false)}>
         <OModalForm onSubmit={handleSubmitAdBuy(handleAdBuyForm)}>
-          <OModalTitle>Rent space</OModalTitle>
+          <OModalTitle>Rent</OModalTitle>
           <div className="flex flex-col lg:w-5/12 self-center">
-            <OModalTopNav>Buy Adspace</OModalTopNav>
+            <OModalTopNav>Adspace</OModalTopNav>
 
             <OInput
               label="Title"
