@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-// antd imports
 // styles imports
 // types imports
 import { AdBannerProps } from "./AdBanner.types";

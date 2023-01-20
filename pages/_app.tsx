@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import "antd/dist/antd.css";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { GraphQLEndpoint } from "../src/env";
 import { wagmiClient, Chains as chains } from "../walletConfig";

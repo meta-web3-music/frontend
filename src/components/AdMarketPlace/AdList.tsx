@@ -1,6 +1,3 @@
-import { DownOutlined } from "@ant-design/icons";
-import { Menu, Radio, Space, Dropdown } from "antd";
-import { useState } from "react";
 import { AdvNFTAddr } from "../../env";
 import { GET_UNSOLD } from "../../graph-ql/queries/GET_UNSOLD/getUnsold";
 import { GetUnsold } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
@@ -15,9 +12,6 @@ export const AdList: React.FC = () => {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
   });
-  // add useState hooks here
-  const [price, setPrice] = useState("100MATIC");
-  const [views, setViews] = useState("100kViews");
   return (
     <>
       <div className="flex flex-wrap justify-center mb-4">
