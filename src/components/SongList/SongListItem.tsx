@@ -4,6 +4,7 @@ import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import styled from "styled-components";
 import Image from "next/image";
+import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 type Props = {
   musicNft: GetAllMusic_musicNFTs;
   onPlaySong: () => void;
@@ -36,7 +37,16 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
     fetchIpfs<MusicNftMetaData>(musicNft.metaDataUri).then(setMetaData);
   }, [musicNft]);
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  const [isCurrentPlaying, setIsCurrentPlaying] = useState(false);
+  useEffect(() => {
+    MusicPlayerSub.subscribe((e) => {
+      if (e?.id == musicNft.id) {
+        setIsCurrentPlaying(true);
+      } else {
+        setIsCurrentPlaying(false);
+      }
+    });
+  }, [musicNft]);
   const getImageSrc = (): string => {
     const artWorkUri = metaData?.body.artwork.info.uri;
     if (!artWorkUri?.includes("ipfs://")) {
@@ -49,7 +59,9 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
   if (!metaData) return <></>;
   return (
     <SongListItemStyled
-      className="m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white"
+      className={`m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white ${
+        isCurrentPlaying ? "shadow-[#F3EA01]" : ""
+      }`}
       onClick={onPlaySong}
     >
       <div className="relative h-60 w-40 md:w-48 lg:w-56">
@@ -60,6 +72,7 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
         >
           <span className="iconify" data-icon="bi:music-note-beamed"></span>
         </div>
+
         <Image
           className="object-cover artwork duration-200"
           src={getImageSrc()}

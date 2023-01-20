@@ -15,19 +15,19 @@ const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
               href="/dashboard/artist/unlisted-spaces"
               activeClass="text-[#969324]"
             >
-              <p>Unlisted spaces</p>
+              <p className="my-3">Unlisted spaces</p>
             </SmartLink>
             <SmartLink
               href="/dashboard/artist/listed-spaces"
               activeClass="text-[#969324]"
             >
-              <p>Listed spaces</p>
+              <p className="my-3">Listed spaces</p>
             </SmartLink>
             <SmartLink
               href="/dashboard/artist/expired-spaces"
               activeClass="text-[#969324]"
             >
-              <p>Expired spaces</p>
+              <p className="my-3">Expired spaces</p>
             </SmartLink>
           </div>
           <p>Brands</p>
@@ -36,7 +36,7 @@ const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
               href="/dashboard/brands/active-spaces"
               activeClass="text-[#969324]"
             >
-              <p>Active spaces</p>
+              <p className="my-3">Active spaces</p>
             </SmartLink>
           </div>
           <MintSongButton color="gray" />
