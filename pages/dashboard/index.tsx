@@ -8,7 +8,7 @@ const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
   return (
     <>
       <div className="flex font-figtree overflow-hidden h-screen">
-        <div className="flex flex-col bg-white dark:bg-[rgb(26,26,26)] h-[90vh] w-4/12 p-4 pt-20 pl-8">
+        <div className="flex flex-col bg-white dark:bg-[rgb(26,26,26)] h-[90vh] w-2/12 p-4 pt-20 pl-8">
           <p>Artist</p>
           <div className="ml-4">
             <SmartLink
