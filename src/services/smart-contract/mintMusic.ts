@@ -79,10 +79,9 @@ export const mintMusic = async (formData: MintMusicFormValues, publicClient: Pub
                 }
             }
         })
-        const musicTokenId = resCreateMusic.events?.[0].args?.tokenId as BigNumber
         await Promise.all([...storePromises]);
 
-        return musicTokenId;
+        return 0;
         // end minting
     } catch (err: unknown) {
         console.log(err);

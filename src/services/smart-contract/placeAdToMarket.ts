@@ -1,4 +1,3 @@
-import { BigNumberish, Signer } from "ethers";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
 import { PublicClient, WalletClient, getContract } from "viem";
 import AdvNFT from "@/contracts/abis/AdvNFT";

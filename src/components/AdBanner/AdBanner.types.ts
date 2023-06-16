@@ -1,7 +1,6 @@
-import { GetAllMusic_musicNFTs_advNfts } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic"
-
+import { GetAllMusicQuery } from "../../graph-ql/queries/muzik/__generated__/graphql"
 interface AdBannerProps {
-    advNft?: GetAllMusic_musicNFTs_advNfts
+    advNft?: GetAllMusicQuery["musicNFTs"][0]["advNfts"][0]
 }
 
 export type { AdBannerProps }

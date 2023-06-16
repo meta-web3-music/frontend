@@ -1,7 +1,7 @@
-import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+import { GetAllMusicQuery } from "@/graph-ql/queries/muzik/__generated__/graphql";
 
 interface SongListProps {
-  playSong: (musicNft: GetAllMusic_musicNFTs) => void;
+  playSong: (musicNft: GetAllMusicQuery["musicNFTs"][0]) => void;
 }
 
 export type { SongListProps }

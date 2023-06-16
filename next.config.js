@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true,
-    omains: ["nftstorage.link"],
-  }, 
+    domains: ["nftstorage.link"],
+  },
   async redirects() {
     return [
       {
@@ -18,6 +17,6 @@ const nextConfig = {
       },
     ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

@@ -1,11 +1,9 @@
-import { PublicClient } from "@wagmi/core";
-import { BigNumberish, Signer } from "ethers";
 import { BuyAdFormValues } from "../../components/BuyAdModal/BuyAdForm.types";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
 import { AdvNftMetaData } from "../../types/AdvNFTData";
 import { asyncStore } from "../ipfs/nftstorage";
 import AdvNFT from '../../contracts/abis/AdvNFT'
-import { WalletClient, getContract, parseAbi } from 'viem'
+import { PublicClient, WalletClient, getContract, parseAbi } from 'viem'
 import MarketPlace from "@/contracts/abis/MarketPlace";
 
 

@@ -2,7 +2,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { BigNumberish, ethers } from "ethers";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAccount, useWalletClient } from "wagmi";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import OButton from "../../../../src/components/OButton/OButton";
 import OInput from "../../../../src/components/OInput/OInput";
 import OModal from "../../../../src/components/OModal/OModal";
@@ -10,11 +10,13 @@ import OModalForm from "../../../../src/components/OModal/OModalForm";
 import OModalTitle from "../../../../src/components/OModal/OModalTitle";
 import OModalTopNav from "../../../../src/components/OModal/OModalTopNav";
 import { placeAdToMarket } from "../../../../src/services/smart-contract/placeAdToMarket";
+import * as viem from "viem";
 
-const ListButton: React.FC<{ adTokenId: BigNumberish }> = (p) => {
+const ListButton: React.FC<{ adTokenId: bigint }> = (p) => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const { data: signer } = useWalletClient();
+  const publicClient = usePublicClient();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
 
@@ -33,10 +35,15 @@ const ListButton: React.FC<{ adTokenId: BigNumberish }> = (p) => {
 
     setIsMinting(true);
     try {
-      const advSpacePrice_BigInt = ethers.utils.parseEther(
-        formData.price.toString()
+      const advSpacePrice_BigInt = viem.parseEther(
+        formData.price as `${number}`
       );
-      await placeAdToMarket(p.adTokenId, advSpacePrice_BigInt, signer);
+      await placeAdToMarket(
+        p.adTokenId,
+        advSpacePrice_BigInt,
+        publicClient,
+        signer
+      );
     } catch (err) {
       console.log(err);
     } finally {

@@ -13,10 +13,10 @@ const UnlistedSpaces: NextPageWithLayout = () => {
   const { data, refetch, loading } = useQuery(GET_UNLISTED, {});
 
   useEffect(() => {
-    if(!signingData) return
+    if (!signingData) return;
     refetch({
       ownerAddr: signingData.account.address.toLowerCase(),
-    })
+    });
   }, [refetch, signingData]);
 
   const Header = () => (
@@ -48,7 +48,7 @@ const UnlistedSpaces: NextPageWithLayout = () => {
               /* */
             }}
             key={e.id}
-            CustomButton={<ListButton adTokenId={e.id} />}
+            CustomButton={<ListButton adTokenId={BigInt(e.id)} />}
           />
         ))}
       </div>

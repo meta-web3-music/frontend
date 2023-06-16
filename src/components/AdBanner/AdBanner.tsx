@@ -24,8 +24,9 @@ const AdBanner: React.FC<AdBannerProps> = ({ advNft }) => {
             fill
             sizes="100vw"
             style={{
-              objectFit: "contain"
-            }} />
+              objectFit: "contain",
+            }}
+          />
         )}
       </div>
     </a>

@@ -19,7 +19,7 @@ import { placeAdToMarket } from "../../services/smart-contract/placeAdToMarket";
 import OModalTitle from "../OModal/OModalTitle";
 import OModalTopNav from "../OModal/OModalTopNav";
 import OModalForm from "../OModal/OModalForm";
-import view from "viem"
+import * as viem from "viem";
 type Props = {
   musicTokenId?: bigint;
   color: "blue" | "yellow" | "gray";
@@ -46,7 +46,7 @@ const MintSongButton: React.FC<Props> = (p) => {
 
     setIsMinting(true);
     try {
-      const _tokenId = await mintMusic(formData, publicClient,walletClient);
+      const _tokenId = await mintMusic(formData, publicClient, walletClient);
       if (_tokenId) {
         setTokenId(_tokenId);
       }
@@ -77,13 +77,19 @@ const MintSongButton: React.FC<Props> = (p) => {
         songName,
         tokenId,
         formData.duration,
-        publicClient,walletClient
+        publicClient,
+        walletClient
       );
-      const advSpacePrice_BigInt = view.parseEther(
+      const advSpacePrice_BigInt = viem.parseEther(
         formData.price as `${number}`
       );
       if (adTokenId) {
-        await placeAdToMarket(adTokenId, advSpacePrice_BigInt, publicClient,walletClient);
+        await placeAdToMarket(
+          adTokenId,
+          advSpacePrice_BigInt,
+          publicClient,
+          walletClient
+        );
       }
       setCurrentPage("MINT_SONG");
     } catch (err) {
