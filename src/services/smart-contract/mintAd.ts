@@ -50,7 +50,8 @@ export const mintAd = async (songName: string, musicTokenId: bigint, expirationD
                 // TODO: generate this, maybe not important for mvp
                 "",
                 expirationDuration * 86400], { account: walletClient.account, chain: walletClient.chain });
-        const unwatch = adNft.watchEvent.Transfer({ from: zeroAddress, to: walletClient.account.address }, {
+        // TODO unwatch
+        adNft.watchEvent.Transfer({ from: zeroAddress, to: walletClient.account.address }, {
             onLogs: (e) => {
                 const event = e.filter(ee => ee.transactionHash == createdAdHash);
                 if (event.length > 1) {

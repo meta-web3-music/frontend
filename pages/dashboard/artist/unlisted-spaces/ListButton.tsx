@@ -1,5 +1,4 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { BigNumberish, ethers } from "ethers";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";

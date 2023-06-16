@@ -3,7 +3,7 @@ import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
 import { AdvNftMetaData } from "../../types/AdvNFTData";
 import { asyncStore } from "../ipfs/nftstorage";
 import AdvNFT from '../../contracts/abis/AdvNFT'
-import { PublicClient, WalletClient, getContract, parseAbi } from 'viem'
+import { PublicClient, WalletClient, getContract } from 'viem'
 import MarketPlace from "@/contracts/abis/MarketPlace";
 
 

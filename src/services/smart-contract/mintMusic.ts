@@ -71,7 +71,8 @@ export const mintMusic = async (formData: MintMusicFormValues, publicClient: Pub
 
         // invoke contract func and mint song nft
         const createMusicHash = await musicNft.write.createMusic([musicMetaDataHash, musicAssetHash], { account: walletClient.account, chain: walletClient.chain })
-        const unwatch = musicNft.watchEvent.Transfer({ from: zeroAddress, to: walletClient.account.address }, {
+        // TODO unwatch
+        musicNft.watchEvent.Transfer({ from: zeroAddress, to: walletClient.account.address }, {
             onLogs: (e) => {
                 const event = e.filter(ee => ee.transactionHash == createMusicHash);
                 if (event.length > 1) {

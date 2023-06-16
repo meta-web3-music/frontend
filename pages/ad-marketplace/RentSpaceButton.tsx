@@ -1,8 +1,7 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { BigNumberish } from "ethers";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAccount, useWalletClient ,usePublicClient} from "wagmi";
+import { useAccount, useWalletClient, usePublicClient } from "wagmi";
 import { BuyAdFormValues } from "../../src/components/BuyAdModal/BuyAdForm.types";
 import OButton from "../../src/components/OButton/OButton";
 import OInput from "../../src/components/OInput/OInput";
@@ -23,7 +22,7 @@ const RentSpaceButton: React.FC<Props> = (p) => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const { data: walletCilent } = useWalletClient();
-  const publicClient =  usePublicClient();
+  const publicClient = usePublicClient();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
 
@@ -39,7 +38,14 @@ const RentSpaceButton: React.FC<Props> = (p) => {
 
     setIsMinting(true);
     try {
-      await buyAdvNft(formData, p.marketItemId, p.adNftId, p.price, publicClient,walletCilent);
+      await buyAdvNft(
+        formData,
+        p.marketItemId,
+        p.adNftId,
+        p.price,
+        publicClient,
+        walletCilent
+      );
     } catch (err) {
       console.log(err);
     } finally {

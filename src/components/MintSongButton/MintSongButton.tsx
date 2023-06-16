@@ -14,7 +14,6 @@ import OUpload from "../OUpload/OUpload";
 import { useForm } from "react-hook-form";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { mintAd } from "../../services/smart-contract/mintAd";
-import { BigNumberish, ethers } from "ethers";
 import { placeAdToMarket } from "../../services/smart-contract/placeAdToMarket";
 import OModalTitle from "../OModal/OModalTitle";
 import OModalTopNav from "../OModal/OModalTopNav";

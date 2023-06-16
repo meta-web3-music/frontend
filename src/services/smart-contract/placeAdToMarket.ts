@@ -1,6 +1,5 @@
 import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
 import { PublicClient, WalletClient, getContract } from "viem";
-import AdvNFT from "@/contracts/abis/AdvNFT";
 import MarketPlace from "@/contracts/abis/MarketPlace";
 
 export const placeAdToMarket = async (adTokenId: bigint, price: bigint, publicClient: PublicClient, walletClient: WalletClient) => {
