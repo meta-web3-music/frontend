@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+// TODO use alias import instead of ../ where possible
 import type { AppProps } from "next/app";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { GraphQLEndpoint } from "../src/env";
@@ -6,6 +6,7 @@ import { wagmiClient, Chains as chains } from "../walletConfig";
 import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { WagmiConfig } from "wagmi";
 import { ThemeProvider } from "next-themes";
+import "../src/app/globals.css"
 import Script from "next/script";
 import MusicPlayer from "../src/components/MusicPlayer/MusicPlayer";
 import Header from "../src/components/Header/header";
@@ -29,7 +30,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Script src="https://code.iconify.design/3/3.0.0/iconify.min.js" />
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiClient}>
         <RainbowKitProvider
           chains={chains}
           theme={lightTheme({

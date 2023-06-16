@@ -1,24 +1,22 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { DashboardPageLayout } from "../..";
 import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";
 import Spinner from "../../../../src/components/Spinner/Spinner";
-import { GET_UNLISTED } from "../../../../src/graph-ql/queries/GET_UNLISTED/getUnListed";
-import { GetUnListed } from "../../../../src/graph-ql/queries/GET_UNLISTED/__generated__/GetUnListed";
 import { NextPageWithLayout } from "../../../_app";
 import ListButton from "./ListButton";
+import { GET_UNLISTED } from "@/graph-ql/queries/muzik/GET_UNLISTED/getUnListed";
 
 const UnlistedSpaces: NextPageWithLayout = () => {
-  const { data: signingData } = useSigner();
-  const { data, refetch, loading } = useQuery<GetUnListed>(GET_UNLISTED, {});
+  const { data: signingData } = useWalletClient();
+  const { data, refetch, loading } = useQuery(GET_UNLISTED, {});
 
   useEffect(() => {
-    signingData?.getAddress().then((addr) =>
-      refetch({
-        ownerAddr: addr.toLowerCase(),
-      })
-    );
+    if(!signingData) return
+    refetch({
+      ownerAddr: signingData.account.address.toLowerCase(),
+    })
   }, [refetch, signingData]);
 
   const Header = () => (

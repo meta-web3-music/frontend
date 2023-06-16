@@ -2,7 +2,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { BigNumberish } from "ethers";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useWalletClient ,usePublicClient} from "wagmi";
 import { BuyAdFormValues } from "../../src/components/BuyAdModal/BuyAdForm.types";
 import OButton from "../../src/components/OButton/OButton";
 import OInput from "../../src/components/OInput/OInput";
@@ -15,14 +15,15 @@ import OUpload from "../../src/components/OUpload/OUpload";
 import { buyAdvNft } from "../../src/services/smart-contract/buyAdvNft";
 
 type Props = {
-  marketItemId: BigNumberish;
-  price: BigNumberish;
-  adNftId: BigNumberish;
+  marketItemId: bigint;
+  price: bigint;
+  adNftId: bigint;
 };
 const RentSpaceButton: React.FC<Props> = (p) => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-  const { data: signer } = useSigner();
+  const { data: walletCilent } = useWalletClient();
+  const publicClient =  usePublicClient();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
 
@@ -31,14 +32,14 @@ const RentSpaceButton: React.FC<Props> = (p) => {
   };
 
   const handleAdBuyForm = async (formData: BuyAdFormValues) => {
-    if (!signer) {
+    if (!walletCilent) {
       //TODO: error
       return;
     }
 
     setIsMinting(true);
     try {
-      await buyAdvNft(formData, p.marketItemId, p.adNftId, p.price, signer);
+      await buyAdvNft(formData, p.marketItemId, p.adNftId, p.price, publicClient,walletCilent);
     } catch (err) {
       console.log(err);
     } finally {

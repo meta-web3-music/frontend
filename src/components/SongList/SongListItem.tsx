@@ -79,12 +79,12 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
         <Image
           className="object-cover artwork duration-200"
           src={getImageSrc()}
-          layout="fill"
           alt={`Artwork for ${metaData?.body.title}`}
           onLoad={() => setImageLoaded(true)}
           onError={() => setImageLoaded(false)}
           hidden={!imageLoaded}
-        />
+          fill
+          sizes="100vw" />
         <div
           className={`play-button duration-300 scale-50 opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl ml-auto  flex align-center ${
             imageLoaded ? "text-white" : "text-blue-800"

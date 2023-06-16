@@ -1,30 +1,35 @@
 import { useQuery } from "@apollo/client";
 import { BigNumberish } from "ethers";
 import React, { useEffect, useState } from "react";
-import { useSigner } from "wagmi";
+import { usePublicClient, useWalletClient } from "wagmi";
 import { DashboardPageLayout } from "../..";
 import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";
 import Spinner from "../../../../src/components/Spinner/Spinner";
-import { MarketPlace__factory } from "../../../../src/contracts";
 import { MarketPlaceAddr } from "../../../../src/env";
-import { GET_LISTED } from "../../../../src/graph-ql/queries/GET_LISTED_SPACES/getListedSpaces";
-import { GetListed } from "../../../../src/graph-ql/queries/GET_LISTED_SPACES/__generated__/GetListed";
 import { NextPageWithLayout } from "../../../_app";
+import { GET_LISTED } from "@/graph-ql/queries/muzik/GET_LISTED_SPACES/getListedSpaces";
+import MarketPlace from "@/contracts/abis/MarketPlace";
+import { getContract } from "viem";
 
 const ListedSpaces: NextPageWithLayout = () => {
-  const { data: signingData } = useSigner();
-  const { data, refetch, loading } = useQuery<GetListed>(GET_LISTED, {});
-  const { data: signer } = useSigner();
+  const { data: walletClient } = useWalletClient();
+  const { data, refetch, loading } = useQuery(GET_LISTED, {});
+  const publicClient = usePublicClient()
   const [currentUnListings, setCurrentUnListing] = useState<BigNumberish[]>([]);
 
-  const unList = async (itemId: BigNumberish) => {
+  const unList = async (itemId: bigint) => {
     const _currentUnListings = currentUnListings.slice();
     _currentUnListings.push(itemId);
     setCurrentUnListing(_currentUnListings);
-    if (!signer) return;
-    const marketplace = MarketPlace__factory.connect(MarketPlaceAddr, signer);
+    if (!walletClient) return;
+    const marketplace = getContract({
+      address: MarketPlaceAddr,
+      abi: MarketPlace,
+      publicClient,
+      walletClient
+  });
     try {
-      await marketplace.removeFromSale(itemId);
+      await marketplace.write.removeFromSale([itemId]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -32,12 +37,14 @@ const ListedSpaces: NextPageWithLayout = () => {
     }
   };
   useEffect(() => {
-    signingData?.getAddress().then((addr) =>
+    if(!walletClient){
+      //TODO error in all code if no wallet
+      return
+    }
       refetch({
-        sellerAddr: addr.toLowerCase(),
+        sellerAddr: walletClient.account.address.toLowerCase(),
       })
-    );
-  }, [refetch, signingData]);
+  }, [refetch, walletClient]);
 
   const Header = () => (
     <div className="ml-4 pt-12">

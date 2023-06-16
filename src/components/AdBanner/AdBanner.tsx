@@ -21,9 +21,11 @@ const AdBanner: React.FC<AdBannerProps> = ({ advNft }) => {
           <Image
             src={ipfsToHttps(advNft.assetHash)}
             alt="Advertisement banner"
-            layout="fill"
-            objectFit="contain"
-          />
+            fill
+            sizes="100vw"
+            style={{
+              objectFit: "contain"
+            }} />
         )}
       </div>
     </a>

@@ -1,6 +1,9 @@
 tasks:
-  - init: yarn
+  - name: "Dev"
+    init: yarn
     command: yarn dev
+  - name: Watch graphql
+    command: yarn graphql-watch
 ports:
   - port: 3000
     visibility: private

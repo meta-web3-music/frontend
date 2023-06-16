@@ -1,18 +1,20 @@
-import { BigNumber, Signer } from "ethers";
 import { CIDString } from "nft.storage";
-import { FetchSignerResult } from "@wagmi/core";
 import { MintMusicFormValues } from "../../components/MintSongButton/MintSongModal/MintForm/MintForm.types";
-import { MusicNFT__factory } from "../../contracts";
 import { MusicNFTAddr } from "../../env";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import { asyncStore } from "../ipfs/nftstorage";
+import { PublicClient, WalletClient, getContract, zeroAddress } from "viem";
+import MusicNFT from "@/contracts/abis/MusicNFT";
 
-export const mintMusic = async (formData: MintMusicFormValues, signer: FetchSignerResult<Signer>) => {
+export const mintMusic = async (formData: MintMusicFormValues, publicClient: PublicClient, walletClient: WalletClient) => {
+    if (!walletClient.account) {
+        //TODO error
+        return
+    }
     const songFile = formData.songFile.item(0)
     const artWorkFile = formData.artWorkFile.item(0)
 
     if (
-        !signer ||
         !songFile ||
         !artWorkFile
     ) {
@@ -60,10 +62,23 @@ export const mintMusic = async (formData: MintMusicFormValues, signer: FetchSign
         storePromises.push(storeMusicMetaDataPromise);
 
         // connect to music nft smart-contract
-        const musicNft = MusicNFT__factory.connect(MusicNFTAddr, signer);
+        const musicNft = getContract({
+            address: MusicNFTAddr,
+            abi: MusicNFT,
+            publicClient,
+            walletClient,
+        });
 
         // invoke contract func and mint song nft
-        const resCreateMusic = await musicNft.createMusic(musicMetaDataHash, musicAssetHash).then((e) => e.wait());
+        const createMusicHash = await musicNft.write.createMusic([musicMetaDataHash, musicAssetHash], { account: walletClient.account, chain: walletClient.chain })
+        const unwatch = musicNft.watchEvent.Transfer({ from: zeroAddress, to: walletClient.account.address }, {
+            onLogs: (e) => {
+                const event = e.filter(ee => ee.transactionHash == createMusicHash);
+                if (event.length > 1) {
+                    throw new Error("")
+                }
+            }
+        })
         const musicTokenId = resCreateMusic.events?.[0].args?.tokenId as BigNumber
         await Promise.all([...storePromises]);
 

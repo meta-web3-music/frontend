@@ -1,26 +1,30 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { DashboardPageLayout } from "../..";
 import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";
-import { GET_ACTIVE_SPACES } from "../../../../src/graph-ql/queries/GET_ACTIVE_SPACES/getActiveSpaces";
+import { GET_ACTIVE_SPACES } from "../../../../src/graph-ql/queries/muzik/GET_ACTIVE_SPACES/getActiveSpaces";
 import { NextPageWithLayout } from "../../../_app";
-import { GetActiveSpaces } from "../../../../src/graph-ql/queries/GET_ACTIVE_SPACES/__generated__/GetActiveSpaces";
 import Spinner from "../../../../src/components/Spinner/Spinner";
 
 const ActiveSpaces: NextPageWithLayout = () => {
-  const { data: signingData } = useSigner();
-  const { data, refetch, loading } = useQuery<GetActiveSpaces>(
+  const { data: signingData } = useWalletClient();
+  const { data, refetch, loading } = useQuery(
     GET_ACTIVE_SPACES,
     {}
   );
 
   useEffect(() => {
-    signingData?.getAddress().then((addr) =>
-      refetch({
-        ownerAddr: addr.toLowerCase(),
-      })
-    );
+ 
+    const addr=signingData?.account.address
+    if(!addr) {
+      //TODO error
+      return;
+    }
+    refetch({
+      ownerAddr: addr.toLowerCase(),
+    })
+   
   }, [refetch, signingData]);
 
   const Header = () => (

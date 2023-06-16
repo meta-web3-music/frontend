@@ -48,10 +48,10 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
             <Image
               className="object-cover artwork duration-200 m-auto"
               src={getImageSrc()}
-              layout="fill"
               alt={`Artwork for ${title}`}
               objectFit={"cover"}
-            />
+              fill
+              sizes="100vw" />
           )}
         </div>
         <div className="ml-3 flex flex-col justify-center">

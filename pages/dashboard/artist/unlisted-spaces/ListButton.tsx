@@ -2,7 +2,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { BigNumberish, ethers } from "ethers";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 import OButton from "../../../../src/components/OButton/OButton";
 import OInput from "../../../../src/components/OInput/OInput";
 import OModal from "../../../../src/components/OModal/OModal";
@@ -14,7 +14,7 @@ import { placeAdToMarket } from "../../../../src/services/smart-contract/placeAd
 const ListButton: React.FC<{ adTokenId: BigNumberish }> = (p) => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-  const { data: signer } = useSigner();
+  const { data: signer } = useWalletClient();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
 

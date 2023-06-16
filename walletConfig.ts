@@ -1,31 +1,32 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import {
-  getDefaultWallets,
+    getDefaultWallets,
 } from '@rainbow-me/rainbowkit';
 import {
-  chain,
-  configureChains,
-  createClient,
-  Chain
+    createConfig,
+    configureChains,
+    Chain
 } from 'wagmi';
-
 import { publicProvider } from 'wagmi/providers/public';
+import { polygonMumbai } from "wagmi/chains"
 
-const { chains, provider } = configureChains(
-  [chain.polygonMumbai],
-  [
-    publicProvider()
-  ]
+const { chains, publicClient } = configureChains(
+    [polygonMumbai],
+    [
+        publicProvider()
+    ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'Octave Music Streaming',
-  chains
+    appName: 'Octave Music Streaming',
+    chains,
+    //TODO in env
+    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ""
 });
 
 export const Chains = chains
-export const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider
+export const wagmiClient = createConfig({
+    autoConnect: true,
+    connectors,
+    publicClient
 })
