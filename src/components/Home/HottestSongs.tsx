@@ -1,17 +1,17 @@
+"use client";
 import React, { useState, useMemo } from "react";
-
-// graphql imports
-import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 
 // custom-components imports
 import SongList from "../SongList/SongList";
 import AdBanner from "../AdBanner/AdBanner";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
+import { GetAllMusicQuery } from "@/graph-ql/queries/muzik/__generated__/graphql";
 
 const HottestSongs: React.FC = () => {
-  const [selectedSong, setSelectedSong] = useState<GetAllMusic_musicNFTs>();
+  const [selectedSong, setSelectedSong] =
+    useState<GetAllMusicQuery["musicNFTs"][0]>();
 
-  const handlePlaySong = async (musicNft: GetAllMusic_musicNFTs) => {
+  const handlePlaySong = async (musicNft: GetAllMusicQuery["musicNFTs"][0]) => {
     MusicPlayerSub.next(musicNft);
     setSelectedSong(musicNft);
   };

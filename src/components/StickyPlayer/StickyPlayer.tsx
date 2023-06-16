@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // utility imports
@@ -124,14 +125,17 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
           {musicNft && musicMetaData?.body.artwork.info.uri && (
             <Image
               className="h-full w-full"
-              objectFit="contain"
               src={
                 isPlayingAd && musicNft?.advNfts?.[0].assetHash
                   ? ipfsToHttps(musicNft?.advNfts?.[0].assetHash ?? "")
                   : ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")
               }
-              layout="fill"
               alt="artwork"
+              fill
+              sizes="100vw"
+              style={{
+                objectFit: "contain",
+              }}
             />
           )}
         </div>

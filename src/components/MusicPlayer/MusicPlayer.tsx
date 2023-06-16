@@ -1,10 +1,14 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import StickyPlayer from "../StickyPlayer/StickyPlayer";
+import { GetAllMusicQuery } from "@/graph-ql/queries/muzik/__generated__/graphql";
 
 type Optional<T, K extends keyof T> = Partial<T> & Omit<T, K>;
-export type TMusicPlayer_MusicNft = Optional<GetAllMusic_musicNFTs, "advNfts">;
+export type TMusicPlayer_MusicNft = Optional<
+  GetAllMusicQuery["musicNFTs"][0],
+  "advNfts"
+>;
 function MusicPlayer() {
   const [music, setMusicNft] = useState<TMusicPlayer_MusicNft>();
   useEffect(() => {

@@ -1,5 +1,6 @@
+"use client";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 import classNames from "classnames";
@@ -14,7 +15,7 @@ export const SmartLink: React.FC<React.PropsWithChildren & Props> = ({
   subHref,
   ...p
 }) => {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
 
   const finalHref = subHref ? href + subHref : href;
   return (
@@ -26,7 +27,7 @@ export const SmartLink: React.FC<React.PropsWithChildren & Props> = ({
             reactPortalEle.props.className,
             "cursor-pointer"
           );
-          pathname.startsWith(href)
+          pathname?.startsWith(href)
             ? (_className = classNames(_className, activeClass))
             : null;
           return React.cloneElement(e as React.ReactElement, {

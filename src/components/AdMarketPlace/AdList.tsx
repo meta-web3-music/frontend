@@ -1,13 +1,13 @@
+"use client";
 import { AdvNFTAddr } from "../../env";
-import { GET_UNSOLD } from "../../graph-ql/queries/GET_UNSOLD/getUnsold";
-import { GetUnsold } from "../../graph-ql/queries/GET_UNSOLD/__generated__/GetUnsold";
 import { useQuery } from "@apollo/client";
 import AdvNFT from "../AdvNFT/AdvNFT";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
-import RentSpaceButton from "../../../pages/ad-marketplace/RentSpaceButton";
+import { GET_UNSOLD } from "@/graph-ql/queries/muzik/GET_UNSOLD/getUnsold";
+import RentSpaceButton from "@/app/ad-marketplace/RentSpaceButton";
 
 export const AdList: React.FC = () => {
-  const { data: allAsksConnection } = useQuery<GetUnsold>(GET_UNSOLD, {
+  const { data: allAsksConnection } = useQuery(GET_UNSOLD, {
     variables: {
       nftContractAddr: AdvNFTAddr.toLowerCase(),
     },
@@ -27,7 +27,7 @@ export const AdList: React.FC = () => {
             CustomButton={
               <RentSpaceButton
                 marketItemId={e.itemId}
-                adNftId={e.token.id}
+                adNftId={BigInt(e.token.id)}
                 price={e.price}
               />
             }

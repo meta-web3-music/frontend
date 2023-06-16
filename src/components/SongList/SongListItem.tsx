@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { GetAllMusic_musicNFTs } from "../../graph-ql/queries/GET_ALL_MUSIC/__generated__/GetAllMusic";
+"use client";
 import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import styled from "styled-components";
 import Image from "next/image";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
+import { GetAllMusicQuery } from "@/graph-ql/queries/muzik/__generated__/graphql";
+import { useEffect, useState } from "react";
 type Props = {
-  musicNft: GetAllMusic_musicNFTs;
+  musicNft: GetAllMusicQuery["musicNFTs"][0];
   onPlaySong: () => void;
 };
 
@@ -79,11 +80,12 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
         <Image
           className="object-cover artwork duration-200"
           src={getImageSrc()}
-          layout="fill"
           alt={`Artwork for ${metaData?.body.title}`}
           onLoad={() => setImageLoaded(true)}
           onError={() => setImageLoaded(false)}
           hidden={!imageLoaded}
+          fill
+          sizes="100vw"
         />
         <div
           className={`play-button duration-300 scale-50 opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl ml-auto  flex align-center ${

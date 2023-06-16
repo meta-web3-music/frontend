@@ -1,7 +1,8 @@
+"use client";
 import React, { useState } from "react";
 
 // wagmi imports
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import {
   MintMusicFormValues,
   MintAdFormValues,
@@ -14,21 +15,21 @@ import OUpload from "../OUpload/OUpload";
 import { useForm } from "react-hook-form";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { mintAd } from "../../services/smart-contract/mintAd";
-import { BigNumberish, ethers } from "ethers";
 import { placeAdToMarket } from "../../services/smart-contract/placeAdToMarket";
 import OModalTitle from "../OModal/OModalTitle";
 import OModalTopNav from "../OModal/OModalTopNav";
 import OModalForm from "../OModal/OModalForm";
-
+import * as viem from "viem";
 type Props = {
-  musicTokenId?: BigNumberish;
+  musicTokenId?: bigint;
   color: "blue" | "yellow" | "gray";
   text?: string;
 };
 const MintSongButton: React.FC<Props> = (p) => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-  const { data: signer } = useSigner();
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
   const [tAndCModal, setTAndCModal] = useState(false);
@@ -36,16 +37,16 @@ const MintSongButton: React.FC<Props> = (p) => {
     "MINT_SONG" | "CREATE_ADSPACE"
   >(p.musicTokenId != undefined ? "CREATE_ADSPACE" : "MINT_SONG");
 
-  const [tokenId, setTokenId] = useState<BigNumberish>(p.musicTokenId ?? 0);
+  const [tokenId, setTokenId] = useState<bigint>(p.musicTokenId ?? BigInt(0));
   const handleMusicMintForm = async (formData: MintMusicFormValues) => {
-    if (!signer) {
+    if (!walletClient) {
       //TODO: error
       return;
     }
 
     setIsMinting(true);
     try {
-      const _tokenId = await mintMusic(formData, signer);
+      const _tokenId = await mintMusic(formData, publicClient, walletClient);
       if (_tokenId) {
         setTokenId(_tokenId);
       }
@@ -64,7 +65,7 @@ const MintSongButton: React.FC<Props> = (p) => {
     );
   };
   const handleAdMintForm = async (formData: MintAdFormValues) => {
-    if (!signer) {
+    if (!walletClient) {
       //TODO: error
       return;
     }
@@ -76,13 +77,19 @@ const MintSongButton: React.FC<Props> = (p) => {
         songName,
         tokenId,
         formData.duration,
-        signer
+        publicClient,
+        walletClient
       );
-      const advSpacePrice_BigInt = ethers.utils.parseEther(
-        formData.price.toString()
+      const advSpacePrice_BigInt = viem.parseEther(
+        formData.price as `${number}`
       );
       if (adTokenId) {
-        await placeAdToMarket(adTokenId, advSpacePrice_BigInt, signer);
+        await placeAdToMarket(
+          adTokenId,
+          advSpacePrice_BigInt,
+          publicClient,
+          walletClient
+        );
       }
       setCurrentPage("MINT_SONG");
     } catch (err) {
