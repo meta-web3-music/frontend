@@ -1,21 +1,53 @@
+"use client";
+import { WagmiConfig } from "wagmi";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import Header from "@/components/Header/header";
+import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
+import Script from "next/script";
+import { ThemeProvider } from "next-themes";
+import { wagmiClient, Chains } from "../../walletConfig";
+import { GraphQLEndpoint } from "@/env";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata = {
-  title: "OCTAV3",
-  description: "Browse music with breeze",
-};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const client = new ApolloClient({
+    uri: GraphQLEndpoint,
+    cache: new InMemoryCache(),
+  });
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <html lang="en">
+          <body>
+            <Script src="https://code.iconify.design/3/3.0.0/iconify.min.js" />
+            <WagmiConfig config={wagmiClient}>
+              <RainbowKitProvider
+                chains={Chains}
+                theme={lightTheme({
+                  accentColor: "#F3EA01",
+                  accentColorForeground: "#313131",
+                })}
+              >
+                <ApolloProvider client={client}>
+                  <ThemeProvider attribute="class">
+                    <MusicPlayer />
+                    <Header />
+                    {children}
+                  </ThemeProvider>
+                </ApolloProvider>
+              </RainbowKitProvider>
+            </WagmiConfig>
+          </body>
+        </html>
+      </body>
     </html>
   );
 }

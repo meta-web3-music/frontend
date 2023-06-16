@@ -1,9 +1,10 @@
+"use client";
 import { AdvNFTAddr } from "../../env";
 import { useQuery } from "@apollo/client";
 import AdvNFT from "../AdvNFT/AdvNFT";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
-import RentSpaceButton from "../../../pages/ad-marketplace/RentSpaceButton";
 import { GET_UNSOLD } from "@/graph-ql/queries/muzik/GET_UNSOLD/getUnsold";
+import RentSpaceButton from "@/app/ad-marketplace/RentSpaceButton";
 
 export const AdList: React.FC = () => {
   const { data: allAsksConnection } = useQuery(GET_UNSOLD, {

@@ -1,17 +1,18 @@
+"use client";
+import { BuyAdFormValues } from "@/components/BuyAdModal/BuyAdForm.types";
+import OButton from "@/components/OButton/OButton";
+import OInput from "@/components/OInput/OInput";
+import OModal from "@/components/OModal/OModal";
+import OModalForm from "@/components/OModal/OModalForm";
+import OModalTitle from "@/components/OModal/OModalTitle";
+import OModalTopNav from "@/components/OModal/OModalTopNav";
+import OTextArea from "@/components/OTextArea/OTextArea";
+import OUpload from "@/components/OUpload/OUpload";
+import { buyAdvNft } from "@/services/smart-contract/buyAdvNft";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAccount, useWalletClient, usePublicClient } from "wagmi";
-import { BuyAdFormValues } from "../../src/components/BuyAdModal/BuyAdForm.types";
-import OButton from "../../src/components/OButton/OButton";
-import OInput from "../../src/components/OInput/OInput";
-import OModal from "../../src/components/OModal/OModal";
-import OModalForm from "../../src/components/OModal/OModalForm";
-import OModalTitle from "../../src/components/OModal/OModalTitle";
-import OModalTopNav from "../../src/components/OModal/OModalTopNav";
-import OTextArea from "../../src/components/OTextArea/OTextArea";
-import OUpload from "../../src/components/OUpload/OUpload";
-import { buyAdvNft } from "../../src/services/smart-contract/buyAdvNft";
 
 type Props = {
   marketItemId: bigint;

@@ -1,30 +1,24 @@
+"use client";
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useWalletClient } from "wagmi";
-import { DashboardPageLayout } from "../..";
-import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";
-import { GET_ACTIVE_SPACES } from "../../../../src/graph-ql/queries/muzik/GET_ACTIVE_SPACES/getActiveSpaces";
-import { NextPageWithLayout } from "../../../_app";
-import Spinner from "../../../../src/components/Spinner/Spinner";
+import AdvNFT from "../../../../components/AdvNFT/AdvNFT";
+import { GET_ACTIVE_SPACES } from "../../../../graph-ql/queries/muzik/GET_ACTIVE_SPACES/getActiveSpaces";
+import Spinner from "../../../../components/Spinner/Spinner";
 
-const ActiveSpaces: NextPageWithLayout = () => {
+const ActiveSpaces = () => {
   const { data: signingData } = useWalletClient();
-  const { data, refetch, loading } = useQuery(
-    GET_ACTIVE_SPACES,
-    {}
-  );
+  const { data, refetch, loading } = useQuery(GET_ACTIVE_SPACES, {});
 
   useEffect(() => {
- 
-    const addr=signingData?.account.address
-    if(!addr) {
+    const addr = signingData?.account.address;
+    if (!addr) {
       //TODO error
       return;
     }
     refetch({
       ownerAddr: addr.toLowerCase(),
-    })
-   
+    });
   }, [refetch, signingData]);
 
   const Header = () => (
@@ -64,7 +58,5 @@ const ActiveSpaces: NextPageWithLayout = () => {
     </>
   );
 };
-
-ActiveSpaces.getLayout = DashboardPageLayout;
 
 export default ActiveSpaces;

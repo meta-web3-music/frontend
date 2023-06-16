@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import StickyPlayer from "../StickyPlayer/StickyPlayer";

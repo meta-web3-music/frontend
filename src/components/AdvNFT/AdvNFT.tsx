@@ -1,3 +1,4 @@
+"use client";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { fetchIpfs } from "../../services/ipfs/fetchIpfs";

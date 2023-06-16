@@ -1,3 +1,4 @@
+"use client";
 import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import styled from "styled-components";

@@ -1,14 +1,13 @@
+"use client";
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useWalletClient } from "wagmi";
-import { DashboardPageLayout } from "../..";
-import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";
-import Spinner from "../../../../src/components/Spinner/Spinner";
-import { NextPageWithLayout } from "../../../_app";
+import AdvNFT from "../../../../components/AdvNFT/AdvNFT";
+import Spinner from "../../../../components/Spinner/Spinner";
 import ListButton from "./ListButton";
 import { GET_UNLISTED } from "@/graph-ql/queries/muzik/GET_UNLISTED/getUnListed";
 
-const UnlistedSpaces: NextPageWithLayout = () => {
+const UnlistedSpaces = () => {
   const { data: signingData } = useWalletClient();
   const { data, refetch, loading } = useQuery(GET_UNLISTED, {});
 
@@ -55,7 +54,5 @@ const UnlistedSpaces: NextPageWithLayout = () => {
     </>
   );
 };
-
-UnlistedSpaces.getLayout = DashboardPageLayout;
 
 export default UnlistedSpaces;

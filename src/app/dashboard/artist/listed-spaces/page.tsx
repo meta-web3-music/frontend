@@ -1,20 +1,19 @@
+"use client";
 import { useQuery } from "@apollo/client";
 import { BigNumberish } from "ethers";
 import React, { useEffect, useState } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
-import { DashboardPageLayout } from "../..";
-import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";
-import Spinner from "../../../../src/components/Spinner/Spinner";
-import { MarketPlaceAddr } from "../../../../src/env";
-import { NextPageWithLayout } from "../../../_app";
+import AdvNFT from "../../../../components/AdvNFT/AdvNFT";
+import Spinner from "../../../../components/Spinner/Spinner";
+import { MarketPlaceAddr } from "../../../../env";
 import { GET_LISTED } from "@/graph-ql/queries/muzik/GET_LISTED_SPACES/getListedSpaces";
 import MarketPlace from "@/contracts/abis/MarketPlace";
 import { getContract } from "viem";
 
-const ListedSpaces: NextPageWithLayout = () => {
+const ListedSpaces = () => {
   const { data: walletClient } = useWalletClient();
   const { data, refetch, loading } = useQuery(GET_LISTED, {});
-  const publicClient = usePublicClient()
+  const publicClient = usePublicClient();
   const [currentUnListings, setCurrentUnListing] = useState<BigNumberish[]>([]);
 
   const unList = async (itemId: bigint) => {
@@ -26,8 +25,8 @@ const ListedSpaces: NextPageWithLayout = () => {
       address: MarketPlaceAddr,
       abi: MarketPlace,
       publicClient,
-      walletClient
-  });
+      walletClient,
+    });
     try {
       await marketplace.write.removeFromSale([itemId]);
     } catch (error) {
@@ -37,13 +36,13 @@ const ListedSpaces: NextPageWithLayout = () => {
     }
   };
   useEffect(() => {
-    if(!walletClient){
+    if (!walletClient) {
       //TODO error in all code if no wallet
-      return
+      return;
     }
-      refetch({
-        sellerAddr: walletClient.account.address.toLowerCase(),
-      })
+    refetch({
+      sellerAddr: walletClient.account.address.toLowerCase(),
+    });
   }, [refetch, walletClient]);
 
   const Header = () => (
@@ -89,7 +88,5 @@ const ListedSpaces: NextPageWithLayout = () => {
     </>
   );
 };
-
-ListedSpaces.getLayout = DashboardPageLayout;
 
 export default ListedSpaces;

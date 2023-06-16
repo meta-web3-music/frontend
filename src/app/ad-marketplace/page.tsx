@@ -1,7 +1,7 @@
-import { AdList } from "../../src/components/AdMarketPlace/AdList";
+import { AdList } from "@/components/AdMarketPlace/AdList";
 import Head from "next/head";
 // create client instance for nft.storage
-export const AdMarketPlace: React.FC = () => {
+const AdMarketPlace = () => {
   return (
     <>
       <Head>

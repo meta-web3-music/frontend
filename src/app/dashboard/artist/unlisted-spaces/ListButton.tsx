@@ -1,14 +1,15 @@
+"use client";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
-import OButton from "../../../../src/components/OButton/OButton";
-import OInput from "../../../../src/components/OInput/OInput";
-import OModal from "../../../../src/components/OModal/OModal";
-import OModalForm from "../../../../src/components/OModal/OModalForm";
-import OModalTitle from "../../../../src/components/OModal/OModalTitle";
-import OModalTopNav from "../../../../src/components/OModal/OModalTopNav";
-import { placeAdToMarket } from "../../../../src/services/smart-contract/placeAdToMarket";
+import OButton from "../../../../components/OButton/OButton";
+import OInput from "../../../../components/OInput/OInput";
+import OModal from "../../../../components/OModal/OModal";
+import OModalForm from "../../../../components/OModal/OModalForm";
+import OModalTitle from "../../../../components/OModal/OModalTitle";
+import OModalTopNav from "../../../../components/OModal/OModalTopNav";
+import { placeAdToMarket } from "../../../../services/smart-contract/placeAdToMarket";
 import * as viem from "viem";
 
 const ListButton: React.FC<{ adTokenId: bigint }> = (p) => {

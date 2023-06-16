@@ -1,9 +1,7 @@
 import React from "react";
-import MintSongButton from "../../src/components/MintSongButton/MintSongButton";
-import { SmartLink } from "../../src/components/SmartLink/SmartLink";
-import { NextPageWithLayout } from "../_app";
+import MintSongButton from "../../components/MintSongButton/MintSongButton";
+import { SmartLink } from "../../components/SmartLink/SmartLink";
 
-const DashboardPage: NextPageWithLayout = () => <></>;
 const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
   return (
     <>
@@ -49,8 +47,4 @@ const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
   );
 };
 
-export const DashboardPageLayout = (page: React.ReactNode) => (
-  <DashboardLayout>{page}</DashboardLayout>
-);
-DashboardPage.getLayout = DashboardPageLayout;
-export default DashboardPage;
+export default DashboardLayout;

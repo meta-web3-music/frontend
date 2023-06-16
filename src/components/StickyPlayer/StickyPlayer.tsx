@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // utility imports
@@ -133,8 +134,9 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
               fill
               sizes="100vw"
               style={{
-                objectFit: "contain"
-              }} />
+                objectFit: "contain",
+              }}
+            />
           )}
         </div>
         <div className="mr-4">

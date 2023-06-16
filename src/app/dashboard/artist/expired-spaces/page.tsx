@@ -1,24 +1,22 @@
+"use client";
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useWalletClient } from "wagmi";
-import { DashboardPageLayout } from "../..";
-import AdvNFT from "../../../../src/components/AdvNFT/AdvNFT";
-import MintSongButton from "../../../../src/components/MintSongButton/MintSongButton";
-import Spinner from "../../../../src/components/Spinner/Spinner";
+import AdvNFT from "../../../../components/AdvNFT/AdvNFT";
+import MintSongButton from "../../../../components/MintSongButton/MintSongButton";
+import Spinner from "../../../../components/Spinner/Spinner";
 
-import { NextPageWithLayout } from "../../../_app";
 import { GET_EXPIRED_SPACES } from "@/graph-ql/queries/muzik/GET_EXPIRED_SPACES/getExpiredSpaces";
 
-const ExpiredSpaces: NextPageWithLayout = () => {
+const ExpiredSpaces = () => {
   const { data: signingData } = useWalletClient();
-  const { data, refetch, loading } =
-    useQuery(GET_EXPIRED_SPACES);
+  const { data, refetch, loading } = useQuery(GET_EXPIRED_SPACES);
 
   useEffect(() => {
-    if(!signingData) return
+    if (!signingData) return;
     const _currentDate = new Date();
     refetch({
-      creator:    signingData.account.address.toLowerCase(),
+      creator: signingData.account.address.toLowerCase(),
       currentTime: Math.ceil(_currentDate.getTime() / 1000),
     });
   }, [refetch, signingData]);
@@ -76,7 +74,5 @@ const ExpiredSpaces: NextPageWithLayout = () => {
     </>
   );
 };
-
-ExpiredSpaces.getLayout = DashboardPageLayout;
 
 export default ExpiredSpaces;
