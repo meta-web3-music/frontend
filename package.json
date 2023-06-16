@@ -42,6 +42,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.1",
     "@graphql-codegen/client-preset": "^4.0.0",
+    "@netlify/plugin-nextjs": "^4.29.5-appdir.0",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.59.11"
   }
