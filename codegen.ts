@@ -9,7 +9,7 @@ const config: CodegenConfig = {
                 gqlTagName: 'gql',
             },
             documents: ['src/graph-ql/queries/muzik/**/*.ts'],
-            schema: "https://api.thegraph.com/subgraphs/name/thisisommore/muzik"
+            schema: "https://api.thegraph.com/subgraphs/name/thisisommore/muzik",
         },
         './src/graph-ql/queries/spinamp/__generated__/': {
             preset: 'client',

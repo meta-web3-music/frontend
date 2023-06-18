@@ -1,7 +1,7 @@
 import { gql } from "../__generated__";
 
 export const GET_ALL_MUSIC = gql(`
-  query GetAllMusic($currentTime:BigInt) {
+  query GetAllMusic($currentTime:BigInt) @api(name: muzik) {
     musicNFTs{
             advNfts(where:{expirationTime_gt:$currentTime}){
               assetHash

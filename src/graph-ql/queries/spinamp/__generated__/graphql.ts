@@ -42,6 +42,10 @@ export type Address = Node & {
   erc721TransfersByFrom: Erc721TransfersConnection;
   /** Reads and enables pagination through a set of `Erc721Transfer`. */
   erc721TransfersByTo: Erc721TransfersConnection;
+  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
+  erc1155TransfersByFrom: Erc1155TransfersConnection;
+  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
+  erc1155TransfersByTo: Erc1155TransfersConnection;
   id: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `LensProfile`. */
   lensProfilesByAddress: LensProfilesConnection;
@@ -87,6 +91,30 @@ export type AddressErc721TransfersByToArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Erc721TransfersOrderBy>>;
+};
+
+
+export type AddressErc1155TransfersByFromArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<Erc1155TransferCondition>;
+  filter?: InputMaybe<Erc1155TransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
+};
+
+
+export type AddressErc1155TransfersByToArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<Erc1155TransferCondition>;
+  filter?: InputMaybe<Erc1155TransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
 };
 
 
@@ -215,6 +243,14 @@ export type AddressFilter = {
   erc721TransfersByTo?: InputMaybe<AddressToManyErc721TransferFilter>;
   /** Some related `erc721TransfersByTo` exist. */
   erc721TransfersByToExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `erc1155TransfersByFrom` relation. */
+  erc1155TransfersByFrom?: InputMaybe<AddressToManyErc1155TransferFilter>;
+  /** Some related `erc1155TransfersByFrom` exist. */
+  erc1155TransfersByFromExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `erc1155TransfersByTo` relation. */
+  erc1155TransfersByTo?: InputMaybe<AddressToManyErc1155TransferFilter>;
+  /** Some related `erc1155TransfersByTo` exist. */
+  erc1155TransfersByToExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
   /** Filter by the object’s `lensProfilesByAddress` relation. */
@@ -267,6 +303,16 @@ export type AddressToManyErc721TransferFilter = {
   none?: InputMaybe<Erc721TransferFilter>;
   /** Some related `Erc721Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   some?: InputMaybe<Erc721TransferFilter>;
+};
+
+/** A filter to be used against many `Erc1155Transfer` object types. All fields are combined with a logical ‘and.’ */
+export type AddressToManyErc1155TransferFilter = {
+  /** Every related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<Erc1155TransferFilter>;
+  /** No related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<Erc1155TransferFilter>;
+  /** Some related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<Erc1155TransferFilter>;
 };
 
 /** A filter to be used against many `LensProfile` object types. All fields are combined with a logical ‘and.’ */
@@ -357,6 +403,10 @@ export enum AddressesOrderBy {
   Erc721TransfersByFromCountDesc = 'ERC721_TRANSFERS_BY_FROM__COUNT_DESC',
   Erc721TransfersByToCountAsc = 'ERC721_TRANSFERS_BY_TO__COUNT_ASC',
   Erc721TransfersByToCountDesc = 'ERC721_TRANSFERS_BY_TO__COUNT_DESC',
+  Erc1155TransfersByFromCountAsc = 'ERC1155_TRANSFERS_BY_FROM__COUNT_ASC',
+  Erc1155TransfersByFromCountDesc = 'ERC1155_TRANSFERS_BY_FROM__COUNT_DESC',
+  Erc1155TransfersByToCountAsc = 'ERC1155_TRANSFERS_BY_TO__COUNT_ASC',
+  Erc1155TransfersByToCountDesc = 'ERC1155_TRANSFERS_BY_TO__COUNT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   LensProfilesByAddressCountAsc = 'LENS_PROFILES_BY_ADDRESS__COUNT_ASC',
@@ -1726,6 +1776,10 @@ export enum Erc721TransfersOrderBy {
 
 export type Erc1155Transfer = Node & {
   __typename?: 'Erc1155Transfer';
+  /** Reads a single `Address` that is related to this `Erc1155Transfer`. */
+  addressByFrom?: Maybe<Address>;
+  /** Reads a single `Address` that is related to this `Erc1155Transfer`. */
+  addressByTo?: Maybe<Address>;
   chainId?: Maybe<Scalars['String']['output']>;
   contractAddress?: Maybe<Scalars['String']['output']>;
   createdAtBlockNumber?: Maybe<Scalars['BigInt']['output']>;
@@ -1740,10 +1794,6 @@ export type Erc1155Transfer = Node & {
   to?: Maybe<Scalars['String']['output']>;
   tokenId: Scalars['String']['output'];
   transactionHash?: Maybe<Scalars['String']['output']>;
-  /** Reads a single `User` that is related to this `Erc1155Transfer`. */
-  userByFrom?: Maybe<User>;
-  /** Reads a single `User` that is related to this `Erc1155Transfer`. */
-  userByTo?: Maybe<User>;
 };
 
 /**
@@ -1775,6 +1825,14 @@ export type Erc1155TransferCondition = {
 
 /** A filter to be used against `Erc1155Transfer` object types. All fields are combined with a logical ‘and.’ */
 export type Erc1155TransferFilter = {
+  /** Filter by the object’s `addressByFrom` relation. */
+  addressByFrom?: InputMaybe<AddressFilter>;
+  /** A related `addressByFrom` exists. */
+  addressByFromExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `addressByTo` relation. */
+  addressByTo?: InputMaybe<AddressFilter>;
+  /** A related `addressByTo` exists. */
+  addressByToExists?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<Erc1155TransferFilter>>;
   /** Filter by the object’s `chainId` field. */
@@ -1805,14 +1863,6 @@ export type Erc1155TransferFilter = {
   tokenId?: InputMaybe<StringFilter>;
   /** Filter by the object’s `transactionHash` field. */
   transactionHash?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `userByFrom` relation. */
-  userByFrom?: InputMaybe<UserFilter>;
-  /** A related `userByFrom` exists. */
-  userByFromExists?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `userByTo` relation. */
-  userByTo?: InputMaybe<UserFilter>;
-  /** A related `userByTo` exists. */
-  userByToExists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** A connection to a list of `Erc1155Transfer` values. */
@@ -1839,6 +1889,38 @@ export type Erc1155TransfersEdge = {
 
 /** Methods to use when ordering `Erc1155Transfer`. */
 export enum Erc1155TransfersOrderBy {
+  AddressByFromAvatarUrlAsc = 'ADDRESS_BY_FROM__AVATAR_URL_ASC',
+  AddressByFromAvatarUrlDesc = 'ADDRESS_BY_FROM__AVATAR_URL_DESC',
+  AddressByFromEnsAvatarAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_ASC',
+  AddressByFromEnsAvatarCheckedAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_ASC',
+  AddressByFromEnsAvatarCheckedDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_DESC',
+  AddressByFromEnsAvatarDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_DESC',
+  AddressByFromEnsNameAsc = 'ADDRESS_BY_FROM__ENS_NAME_ASC',
+  AddressByFromEnsNameCheckedAsc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_ASC',
+  AddressByFromEnsNameCheckedDesc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_DESC',
+  AddressByFromEnsNameDesc = 'ADDRESS_BY_FROM__ENS_NAME_DESC',
+  AddressByFromIdAsc = 'ADDRESS_BY_FROM__ID_ASC',
+  AddressByFromIdDesc = 'ADDRESS_BY_FROM__ID_DESC',
+  AddressByFromNameAsc = 'ADDRESS_BY_FROM__NAME_ASC',
+  AddressByFromNameDesc = 'ADDRESS_BY_FROM__NAME_DESC',
+  AddressByFromUserIdAsc = 'ADDRESS_BY_FROM__USER_ID_ASC',
+  AddressByFromUserIdDesc = 'ADDRESS_BY_FROM__USER_ID_DESC',
+  AddressByToAvatarUrlAsc = 'ADDRESS_BY_TO__AVATAR_URL_ASC',
+  AddressByToAvatarUrlDesc = 'ADDRESS_BY_TO__AVATAR_URL_DESC',
+  AddressByToEnsAvatarAsc = 'ADDRESS_BY_TO__ENS_AVATAR_ASC',
+  AddressByToEnsAvatarCheckedAsc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_ASC',
+  AddressByToEnsAvatarCheckedDesc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_DESC',
+  AddressByToEnsAvatarDesc = 'ADDRESS_BY_TO__ENS_AVATAR_DESC',
+  AddressByToEnsNameAsc = 'ADDRESS_BY_TO__ENS_NAME_ASC',
+  AddressByToEnsNameCheckedAsc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_ASC',
+  AddressByToEnsNameCheckedDesc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_DESC',
+  AddressByToEnsNameDesc = 'ADDRESS_BY_TO__ENS_NAME_DESC',
+  AddressByToIdAsc = 'ADDRESS_BY_TO__ID_ASC',
+  AddressByToIdDesc = 'ADDRESS_BY_TO__ID_DESC',
+  AddressByToNameAsc = 'ADDRESS_BY_TO__NAME_ASC',
+  AddressByToNameDesc = 'ADDRESS_BY_TO__NAME_DESC',
+  AddressByToUserIdAsc = 'ADDRESS_BY_TO__USER_ID_ASC',
+  AddressByToUserIdDesc = 'ADDRESS_BY_TO__USER_ID_DESC',
   ChainIdAsc = 'CHAIN_ID_ASC',
   ChainIdDesc = 'CHAIN_ID_DESC',
   ContractAddressAsc = 'CONTRACT_ADDRESS_ASC',
@@ -1895,35 +1977,7 @@ export enum Erc1155TransfersOrderBy {
   ToAsc = 'TO_ASC',
   ToDesc = 'TO_DESC',
   TransactionHashAsc = 'TRANSACTION_HASH_ASC',
-  TransactionHashDesc = 'TRANSACTION_HASH_DESC',
-  UserByFromAvatarIpfshashAsc = 'USER_BY_FROM__AVATAR_IPFSHASH_ASC',
-  UserByFromAvatarIpfshashDesc = 'USER_BY_FROM__AVATAR_IPFSHASH_DESC',
-  UserByFromAvatarUrlAsc = 'USER_BY_FROM__AVATAR_URL_ASC',
-  UserByFromAvatarUrlDesc = 'USER_BY_FROM__AVATAR_URL_DESC',
-  UserByFromCustomThemeAsc = 'USER_BY_FROM__CUSTOM_THEME_ASC',
-  UserByFromCustomThemeDesc = 'USER_BY_FROM__CUSTOM_THEME_DESC',
-  UserByFromDescriptionAsc = 'USER_BY_FROM__DESCRIPTION_ASC',
-  UserByFromDescriptionDesc = 'USER_BY_FROM__DESCRIPTION_DESC',
-  UserByFromIdAsc = 'USER_BY_FROM__ID_ASC',
-  UserByFromIdDesc = 'USER_BY_FROM__ID_DESC',
-  UserByFromNameAsc = 'USER_BY_FROM__NAME_ASC',
-  UserByFromNameDesc = 'USER_BY_FROM__NAME_DESC',
-  UserByFromPredefinedThemeNameAsc = 'USER_BY_FROM__PREDEFINED_THEME_NAME_ASC',
-  UserByFromPredefinedThemeNameDesc = 'USER_BY_FROM__PREDEFINED_THEME_NAME_DESC',
-  UserByToAvatarIpfshashAsc = 'USER_BY_TO__AVATAR_IPFSHASH_ASC',
-  UserByToAvatarIpfshashDesc = 'USER_BY_TO__AVATAR_IPFSHASH_DESC',
-  UserByToAvatarUrlAsc = 'USER_BY_TO__AVATAR_URL_ASC',
-  UserByToAvatarUrlDesc = 'USER_BY_TO__AVATAR_URL_DESC',
-  UserByToCustomThemeAsc = 'USER_BY_TO__CUSTOM_THEME_ASC',
-  UserByToCustomThemeDesc = 'USER_BY_TO__CUSTOM_THEME_DESC',
-  UserByToDescriptionAsc = 'USER_BY_TO__DESCRIPTION_ASC',
-  UserByToDescriptionDesc = 'USER_BY_TO__DESCRIPTION_DESC',
-  UserByToIdAsc = 'USER_BY_TO__ID_ASC',
-  UserByToIdDesc = 'USER_BY_TO__ID_DESC',
-  UserByToNameAsc = 'USER_BY_TO__NAME_ASC',
-  UserByToNameDesc = 'USER_BY_TO__NAME_DESC',
-  UserByToPredefinedThemeNameAsc = 'USER_BY_TO__PREDEFINED_THEME_NAME_ASC',
-  UserByToPredefinedThemeNameDesc = 'USER_BY_TO__PREDEFINED_THEME_NAME_DESC'
+  TransactionHashDesc = 'TRANSACTION_HASH_DESC'
 }
 
 /** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
@@ -7175,10 +7229,6 @@ export type User = Node & {
   collectorsByUserId: CollectorsConnection;
   customTheme?: Maybe<Scalars['JSON']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
-  erc1155TransfersByFrom: Erc1155TransfersConnection;
-  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
-  erc1155TransfersByTo: Erc1155TransfersConnection;
   id: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -7220,30 +7270,6 @@ export type UserCollectorsByUserIdArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CollectorsOrderBy>>;
-};
-
-
-export type UserErc1155TransfersByFromArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc1155TransferCondition>;
-  filter?: InputMaybe<Erc1155TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
-};
-
-
-export type UserErc1155TransfersByToArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc1155TransferCondition>;
-  filter?: InputMaybe<Erc1155TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
 };
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -7288,14 +7314,6 @@ export type UserFilter = {
   customTheme?: InputMaybe<JsonFilter>;
   /** Filter by the object’s `description` field. */
   description?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `erc1155TransfersByFrom` relation. */
-  erc1155TransfersByFrom?: InputMaybe<UserToManyErc1155TransferFilter>;
-  /** Some related `erc1155TransfersByFrom` exist. */
-  erc1155TransfersByFromExist?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `erc1155TransfersByTo` relation. */
-  erc1155TransfersByTo?: InputMaybe<UserToManyErc1155TransferFilter>;
-  /** Some related `erc1155TransfersByTo` exist. */
-  erc1155TransfersByToExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
   /** Filter by the object’s `name` field. */
@@ -7338,16 +7356,6 @@ export type UserToManyCollectorFilter = {
   some?: InputMaybe<CollectorFilter>;
 };
 
-/** A filter to be used against many `Erc1155Transfer` object types. All fields are combined with a logical ‘and.’ */
-export type UserToManyErc1155TransferFilter = {
-  /** Every related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: InputMaybe<Erc1155TransferFilter>;
-  /** No related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: InputMaybe<Erc1155TransferFilter>;
-  /** Some related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: InputMaybe<Erc1155TransferFilter>;
-};
-
 /** A connection to a list of `User` values. */
 export type UsersConnection = {
   __typename?: 'UsersConnection';
@@ -7386,10 +7394,6 @@ export enum UsersOrderBy {
   CustomThemeDesc = 'CUSTOM_THEME_DESC',
   DescriptionAsc = 'DESCRIPTION_ASC',
   DescriptionDesc = 'DESCRIPTION_DESC',
-  Erc1155TransfersByFromCountAsc = 'ERC1155_TRANSFERS_BY_FROM__COUNT_ASC',
-  Erc1155TransfersByFromCountDesc = 'ERC1155_TRANSFERS_BY_FROM__COUNT_DESC',
-  Erc1155TransfersByToCountAsc = 'ERC1155_TRANSFERS_BY_TO__COUNT_ASC',
-  Erc1155TransfersByToCountDesc = 'ERC1155_TRANSFERS_BY_TO__COUNT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
@@ -7406,7 +7410,7 @@ export type GetMyMusicQueryVariables = Exact<{
 }>;
 
 
-export type GetMyMusicQuery = { __typename?: 'Query', allNfts?: { __typename?: 'NftsConnection', nodes: Array<{ __typename?: 'Nft', metadataIpfsHash?: string | null, contractAddress?: string | null } | null> } | null };
+export type GetMyMusicQuery = { __typename?: 'Query', allNfts?: { __typename?: 'NftsConnection', nodes: Array<{ __typename?: 'Nft', id: string, tokenId?: string | null, metadata?: any | null, contractAddress?: string | null } | null> } | null };
 
 
-export const GetMyMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyMusic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allNfts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metadataIpfsHash"}},{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}}]}}]}}]}}]} as unknown as DocumentNode<GetMyMusicQuery, GetMyMusicQueryVariables>;
+export const GetMyMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyMusic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"spinamp"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allNfts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"5"}},{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"IntValue","value":"3"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}}]}}]}}]}}]} as unknown as DocumentNode<GetMyMusicQuery, GetMyMusicQueryVariables>;

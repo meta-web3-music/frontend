@@ -1,17 +1,16 @@
 "use client";
-import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
-import { MusicNftMetaData } from "../../types/MusicNFTData";
 import styled from "styled-components";
 import Image from "next/image";
-import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
-import { GetAllMusicQuery } from "@/graph-ql/queries/muzik/__generated__/graphql";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 type Props = {
-  musicNft: GetAllMusicQuery["musicNFTs"][0];
   onPlaySong: () => void;
+  coverArt: string;
+  title: string;
+  artist: string;
+  isCurrentPlaying: boolean;
 };
 
-const SongListItemStyled = styled.div`
+const SongListItemUIStyled = styled.div`
   :hover {
     .play-button {
       transform: scale(1) translate(-50%, -50%);
@@ -35,34 +34,17 @@ const SongListItemStyled = styled.div`
     color: #042440;
   }
 `;
-const SongListItem = ({ musicNft, onPlaySong }: Props) => {
-  const [metaData, setMetaData] = useState<MusicNftMetaData>();
-  useEffect(() => {
-    fetchIpfs<MusicNftMetaData>(musicNft.metaDataUri).then(setMetaData);
-  }, [musicNft]);
+const SongListItemUI = ({
+  onPlaySong,
+  coverArt,
+  artist,
+  title,
+  isCurrentPlaying,
+}: Props) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isCurrentPlaying, setIsCurrentPlaying] = useState(false);
-  useEffect(() => {
-    MusicPlayerSub.subscribe((e) => {
-      if (e?.id == musicNft.id) {
-        setIsCurrentPlaying(true);
-      } else {
-        setIsCurrentPlaying(false);
-      }
-    });
-  }, [musicNft]);
-  const getImageSrc = (): string => {
-    const artWorkUri = metaData?.body.artwork.info.uri;
-    if (!artWorkUri?.includes("ipfs://")) {
-      return "";
-    }
-    const httpsURL = ipfsToHttps(artWorkUri ?? "");
-    return httpsURL;
-  };
 
-  if (!metaData) return <></>;
   return (
-    <SongListItemStyled
+    <SongListItemUIStyled
       className={`m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white ${
         isCurrentPlaying ? "playing" : ""
       }`}
@@ -79,13 +61,12 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
 
         <Image
           className="object-cover artwork duration-200"
-          src={getImageSrc()}
-          alt={`Artwork for ${metaData?.body.title}`}
+          src={coverArt}
+          alt={`Artwork for ${title}`}
           onLoad={() => setImageLoaded(true)}
           onError={() => setImageLoaded(false)}
           hidden={!imageLoaded}
           fill
-          sizes="100vw"
         />
         <div
           className={`play-button duration-300 scale-50 opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl ml-auto  flex align-center ${
@@ -95,15 +76,14 @@ const SongListItem = ({ musicNft, onPlaySong }: Props) => {
           <span className="iconify" data-icon="bi:play-fill"></span>
         </div>
       </div>
-
       <div className="flex pl-2 items-stretch">
         <div className="w-1/2 leading-3 flex justify-center flex-col data my-1 ">
-          <p className="m-0 font-bold mb-1 ">{metaData?.body.title}</p>
-          <p className="m-0 text-xs ">{metaData?.body.artist}</p>
+          <p className="m-0 font-bold mb-1 ">{title}</p>
+          <p className="m-0 text-xs ">{artist}</p>
         </div>
       </div>
-    </SongListItemStyled>
+    </SongListItemUIStyled>
   );
 };
 
-export default SongListItem;
+export default SongListItemUI;

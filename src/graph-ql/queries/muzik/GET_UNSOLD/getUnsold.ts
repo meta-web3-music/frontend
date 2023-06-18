@@ -1,7 +1,7 @@
 import { gql } from "../__generated__";
 
 export const GET_UNSOLD = gql(`
-  query GetUnsold($nftContractAddr:Bytes) {
+  query GetUnsold($nftContractAddr:Bytes) @api(name: muzik) {
     marketItems(where:{nftContract:$nftContractAddr,sold:false,deleted:false}){
       itemId
       owner

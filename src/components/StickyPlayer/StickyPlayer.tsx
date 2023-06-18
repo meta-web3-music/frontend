@@ -1,14 +1,9 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-
-// utility imports
-import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
+import { useEffect, useRef, useState } from "react";
 
 // type imports
 import { StickyPlayerProps } from "./StickyPlayer.types";
-import { MusicNftMetaData } from "../../types/MusicNFTData";
 import Image from "next/image";
-import { AdvNftMetaData } from "../../types/AdvNFTData";
 
 // COMPONENT
 const StickyPlayer: React.FC<StickyPlayerProps> = ({
@@ -18,8 +13,6 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   const resetStates = () => {
     setIsPlayingAd(false);
     setIsPlaying(true);
-    setMusicMetaData(undefined);
-    setAdvMetaData(undefined);
     setAudioTime({
       currentTime: 0,
       duration: 0,
@@ -27,8 +20,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   };
   const [isPlayingAd, setIsPlayingAd] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [musicMetaData, setMusicMetaData] = useState<MusicNftMetaData>();
-  const [advMetaData, setAdvMetaData] = useState<AdvNftMetaData>();
+
   const [audioTime, setAudioTime] = useState({
     currentTime: 0,
     duration: 0,
@@ -53,14 +45,13 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   const audioRef = useRef<HTMLAudioElement>(null);
   useEffect(() => {
     const eventListnerCallBack = (event: KeyboardEvent) => {
-      if (event.key === " " && musicMetaData)
-        isPlaying ? pauseSong() : playSong();
+      if (event.key === " " && musicNft) isPlaying ? pauseSong() : playSong();
     };
     document.addEventListener("keydown", eventListnerCallBack);
     return () => {
       document.removeEventListener("keydown", eventListnerCallBack);
     };
-  }, [isPlaying, musicMetaData]);
+  }, [isPlaying, musicNft]);
   useEffect(() => {
     audioRef.current?.addEventListener("timeupdate", () => {
       const currentTime = audioRef.current?.currentTime ?? 0;
@@ -80,31 +71,11 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
       if (isPlayingAd) setIsPlayingAd(false);
     });
   }, [audioRef, isPlaying, isPlayingAd]);
-  const fetchMetaData = useCallback(async () => {
-    try {
-      if (!musicNft) return;
-      const musicNftMetaData = await fetchIpfs<MusicNftMetaData>(
-        musicNft.metaDataUri
-      );
-      setMusicMetaData(musicNftMetaData);
-
-      if (!musicNft.advNfts) return;
-      const advNftMetaData = await fetchIpfs<AdvNftMetaData>(
-        musicNft.advNfts[0].metaDataHash
-      );
-
-      setAdvMetaData(advNftMetaData);
-      if (advNftMetaData?.ad_audio_url) setIsPlayingAd(true);
-    } catch {
-      //
-    }
-  }, [musicNft]);
 
   useEffect(() => {
     setIsPlayingAd(false);
     setIsPlaying(true);
-    fetchMetaData();
-  }, [fetchMetaData, musicNft]);
+  }, [musicNft]);
 
   return (
     <div
@@ -115,20 +86,20 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
       <a
         target="_blank"
         rel="noreferrer"
-        href={advMetaData?.external_url}
+        href="https://ommore.me"
         className="flex text-white"
         style={{
           pointerEvents: isPlayingAd ? "initial" : "none",
         }}
       >
         <div className="h-11 w-11 relative mr-2">
-          {musicNft && musicMetaData?.body.artwork.info.uri && (
+          {musicNft?.artworkUrl && (
             <Image
               className="h-full w-full"
               src={
-                isPlayingAd && musicNft?.advNfts?.[0].assetHash
-                  ? ipfsToHttps(musicNft?.advNfts?.[0].assetHash ?? "")
-                  : ipfsToHttps(musicMetaData?.body.artwork.info.uri ?? "")
+                isPlayingAd
+                  ? "https://ommore.me/assets/profile_image.jpg"
+                  : musicNft.artworkUrl
               }
               alt="artwork"
               fill
@@ -141,12 +112,12 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         </div>
         <div className="mr-4">
           <p className="text-2xl m-0">
-            {isPlayingAd ? advMetaData?.ad_title : musicMetaData?.body.title}
+            {isPlayingAd ? "I am Om" : musicNft?.title}
           </p>
           <p className="m-0 text-xs">
             {isPlayingAd
-              ? advMetaData?.ad_description
-              : musicMetaData?.body.artist}
+              ? "Visit my site, no ads there, promise"
+              : musicNft?.artist}
           </p>
         </div>
       </a>
@@ -155,9 +126,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         ref={audioRef}
         className="ml-4"
         src={`${
-          isPlayingAd
-            ? ipfsToHttps(advMetaData?.ad_audio_url ?? "")
-            : ipfsToHttps(musicNft?.assetUri ?? "")
+          isPlayingAd ? "https://ommore.me/adv.mp3" : musicNft?.musicUrl
         }`}
       />
 

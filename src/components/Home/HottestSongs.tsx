@@ -6,13 +6,28 @@ import SongList from "../SongList/SongList";
 import AdBanner from "../AdBanner/AdBanner";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import { GetAllMusicQuery } from "@/graph-ql/queries/muzik/__generated__/graphql";
+import { fetchIpfs, ipfsToHttps } from "@/services/ipfs/fetchIpfs";
+import { MusicNftMetaData } from "@/types/MusicNFTData";
+import { MusicNFTAddr } from "@/env";
 
 const HottestSongs: React.FC = () => {
   const [selectedSong, setSelectedSong] =
     useState<GetAllMusicQuery["musicNFTs"][0]>();
 
   const handlePlaySong = async (musicNft: GetAllMusicQuery["musicNFTs"][0]) => {
-    MusicPlayerSub.next(musicNft);
+    const metadata = await fetchIpfs<MusicNftMetaData>(musicNft.metaDataUri);
+    if (!metadata) return;
+    const {
+      body: { artist, artwork, title },
+    } = metadata;
+    MusicPlayerSub.next({
+      artist,
+      artworkUrl: ipfsToHttps(artwork.info.uri),
+      contractAddr: MusicNFTAddr,
+      musicUrl: ipfsToHttps(musicNft.assetUri),
+      title: title,
+      tokenId: musicNft.id,
+    });
     setSelectedSong(musicNft);
   };
 

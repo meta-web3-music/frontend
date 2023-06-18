@@ -1,10 +1,12 @@
 "use client";
-import { AdvNFTAddr } from "../../env";
+import { AdvNFTAddr, MusicNFTAddr } from "../../env";
 import { useQuery } from "@apollo/client";
 import AdvNFT from "../AdvNFT/AdvNFT";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import { GET_UNSOLD } from "@/graph-ql/queries/muzik/GET_UNSOLD/getUnsold";
 import RentSpaceButton from "@/app/ad-marketplace/RentSpaceButton";
+import { fetchIpfs, ipfsToHttps } from "@/services/ipfs/fetchIpfs";
+import { MusicNftMetaData } from "@/types/MusicNFTData";
 
 export const AdList: React.FC = () => {
   const { data: allAsksConnection } = useQuery(GET_UNSOLD, {
@@ -21,8 +23,22 @@ export const AdList: React.FC = () => {
             expirationDuration={e.token.expirationDuration}
             musicMetaDataUri={e.token.musicNFT.metaDataUri}
             price={e.price}
-            onArtWorkClick={() => {
-              MusicPlayerSub.next(e.token.musicNFT);
+            onArtWorkClick={async () => {
+              const metadata = await fetchIpfs<MusicNftMetaData>(
+                e.token.musicNFT.metaDataUri
+              );
+              if (!metadata) return;
+              const {
+                body: { artist, artwork, title },
+              } = metadata;
+              MusicPlayerSub.next({
+                artist,
+                artworkUrl: ipfsToHttps(artwork.info.uri),
+                contractAddr: MusicNFTAddr,
+                musicUrl: e.token.musicNFT.assetUri,
+                title: title,
+                tokenId: e.token.musicNFT.id,
+              });
             }}
             CustomButton={
               <RentSpaceButton

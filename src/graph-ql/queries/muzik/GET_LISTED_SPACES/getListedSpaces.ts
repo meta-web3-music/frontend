@@ -2,7 +2,7 @@ import { gql } from "../__generated__";
 
 
 export const GET_LISTED = gql(`
-  query GetListed($sellerAddr:Bytes) {
+  query GetListed($sellerAddr:Bytes) @api(name: muzik) {
     marketItems(where:{seller:$sellerAddr,deleted:false}){
      itemId
      price

@@ -4,12 +4,19 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Header from "@/components/Header/header";
 import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
 import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { wagmiClient, Chains } from "../../walletConfig";
-import { GraphQLEndpoint } from "@/env";
+import {  MuzikGraphQLEndpoint,SpinampGraphQLEndpoint } from "@/env";
+import { MultiAPILink } from "@habx/apollo-multi-endpoint-link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +26,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const client = new ApolloClient({
-    uri: GraphQLEndpoint,
+    link: ApolloLink.from([
+      new MultiAPILink({
+        endpoints: {
+          muzik: MuzikGraphQLEndpoint,
+          spinamp: SpinampGraphQLEndpoint,
+        },
+        httpSuffix: "",
+        createHttpLink: () => {
+          const res = createHttpLink();
+          return res;
+        },
+      }),
+    ]),
     cache: new InMemoryCache(),
   });
   return (
