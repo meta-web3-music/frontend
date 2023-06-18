@@ -20,7 +20,6 @@ const { chains, publicClient } = configureChains(
 const { connectors } = getDefaultWallets({
     appName: 'Octave Music Streaming',
     chains,
-    //TODO in env
     projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ""
 });
 
