@@ -1,13 +1,14 @@
 "use client";
 import styled from "styled-components";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 type Props = {
   onPlaySong: () => void;
   coverArt: string;
   title: string;
   artist: string;
   isCurrentPlaying: boolean;
+  customBtn?: React.ReactNode;
 };
 
 const SongListItemUIStyled = styled.div`
@@ -40,6 +41,7 @@ const SongListItemUI = ({
   artist,
   title,
   isCurrentPlaying,
+  customBtn,
 }: Props) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -82,6 +84,7 @@ const SongListItemUI = ({
           <p className="m-0 text-xs ">{artist}</p>
         </div>
       </div>
+      {customBtn && customBtn}
     </SongListItemUIStyled>
   );
 };

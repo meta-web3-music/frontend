@@ -11,6 +11,7 @@ query GetMyMusic($owner:String) @api(name: spinamp){
         tokenId
         metadata
         contractAddress
+        tokenUri
       }
     }
   }

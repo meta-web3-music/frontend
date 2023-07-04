@@ -1,14 +1,19 @@
 "use client";
+import OButton from "@/components/OButton/OButton";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
 import { GET_MY_MUSIC } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/getMyMusic";
 import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
 import { GetMyMusicQuery } from "@/graph-ql/queries/spinamp/__generated__/graphql";
 import { arToHttps } from "@/services/ipfs/fetchAr";
+import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
 import { useQuery } from "@apollo/client";
 import React from "react";
+import { usePublicClient, useWalletClient } from "wagmi";
 
 const Account = () => {
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
   const handlePlaySong = async (
     musicNft: NonNullable<GetMyMusicQuery["allNfts"]>["nodes"][0]
   ) => {
@@ -54,6 +59,32 @@ const Account = () => {
               onPlaySong={() => {
                 handlePlaySong(e);
               }}
+              customBtn={
+                <OButton
+                  color="blue"
+                  btnType="fill"
+                  onClick={() => {
+                    //TODO error
+                    if (
+                      !walletClient ||
+                      !publicClient ||
+                      !e.contractAddress ||
+                      !e.tokenId ||
+                      !e.tokenUri
+                    )
+                      return;
+                    monetize(
+                      e.contractAddress,
+                      BigInt(e.tokenId),
+                      e.tokenUri,
+                      publicClient,
+                      walletClient
+                    );
+                  }}
+                >
+                  List
+                </OButton>
+              }
             />
           );
         })}
