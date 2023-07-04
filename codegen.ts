@@ -18,7 +18,16 @@ const config: CodegenConfig = {
                 gqlTagName: 'gql',
             },
             documents: ['src/graph-ql/queries/spinamp/**/*.ts'],
-            schema: "https://spindex-api.spinamp.xyz/v3/graphql"
+            schema: "https://api.spinamp.xyz/v3/graphql"
+        },
+        './src/graph-ql/queries/octav3/__generated__/': {
+            preset: 'client',
+            plugins: [],
+            presetConfig: {
+                gqlTagName: 'gql',
+            },
+            documents: ['src/graph-ql/queries/octav3/**/*.ts'],
+            schema: "https://api.thegraph.com/subgraphs/name/thisisommore/octav3"
         }
     },
     ignoreNoDocuments: true,

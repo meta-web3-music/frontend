@@ -15,7 +15,11 @@ import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { wagmiClient, Chains } from "../../walletConfig";
-import {  MuzikGraphQLEndpoint,SpinampGraphQLEndpoint } from "@/env";
+import {
+  MuzikGraphQLEndpoint,
+  Octav3GraphQLEndpoint,
+  SpinampGraphQLEndpoint,
+} from "@/env";
 import { MultiAPILink } from "@habx/apollo-multi-endpoint-link";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -31,6 +35,7 @@ export default function RootLayout({
         endpoints: {
           muzik: MuzikGraphQLEndpoint,
           spinamp: SpinampGraphQLEndpoint,
+          octav3: Octav3GraphQLEndpoint,
         },
         httpSuffix: "",
         createHttpLink: () => {
