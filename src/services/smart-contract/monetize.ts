@@ -1,4 +1,4 @@
-import { AdvNFTAddr, MarketPlaceAddr, Octav3Addr } from "../../env";
+import { Octav3Addr } from "../../env";
 import { PublicClient, WalletClient, getContract } from "viem";
 import Octave from "@/contracts/abis/Octave";
 
