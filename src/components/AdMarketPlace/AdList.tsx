@@ -29,11 +29,11 @@ export const AdList: React.FC = () => {
               );
               if (!metadata) return;
               const {
-                body: { artist, artwork, title },
+                artist, artwork, title 
               } = metadata;
               MusicPlayerSub.next({
                 artist,
-                artworkUrl: ipfsToHttps(artwork.info.uri),
+                artworkUrl: ipfsToHttps(artwork.uri),
                 contractAddr: MusicNFTAddr,
                 musicUrl: e.token.musicNFT.assetUri,
                 title: title,

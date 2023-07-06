@@ -33,26 +33,29 @@ export const mintMusic = async (formData: MintMusicFormValues, publicClient: Pub
             await asyncStore(artWorkFile);
         storePromises.push(storeArtWorkHash);
 
+        // TODO 
         // create metadata object for music nft
         const metaDataObj: MusicNftMetaData = {
-            body: {
-                artist: formData.artistName,
-                artwork: {
-                    info: {
-                        mimeType: "image/jpeg",
-                        uri: "ipfs://" + artWorkHash,
-                    },
-                    isNft: false,
-                    nft: null,
-                },
-                duration: 100,
-                mimeType: "audio/mp3",
-                project: null,
-                title: formData.songName,
-                trackNumber: "",
-                version: "",
-                visualizer: "",
+            artist: formData.artistName,
+            artwork: {
+                mimeType: "image/jpeg",
+                uri: "ipfs://" + artWorkHash,
+                nft: null,
             },
+            duration: 100,
+            mimeType: "audio/mp3",
+            title: formData.songName,
+            version: "",
+            animation_url: "ipfs://" + musicAssetHash, attributes: [],
+            description: "",
+            external_url: "",
+            genre: "",
+            image: "",
+            license: "",
+            losslessAudio: "ipfs://" + musicAssetHash,
+            name: "",
+            nftSerialNumber: 0,
+            trackNumber: 0
         };
         // store music nft metadata on nft.storage
         const {

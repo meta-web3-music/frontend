@@ -1,34 +1,30 @@
 export interface MusicNftMetaData {
-    body: Body
-    origin?: Origin
+    animation_url: string;
+    artist: string;
+    artwork: Artwork;
+    attributes: Attribute[];
+    description: string;
+    duration: number;
+    external_url: string;
+    genre: string;
+    image: string;
+    license: string;
+    losslessAudio: string;
+    mimeType: string;
+    nftSerialNumber: number;
+    name: string;
+    title: string;
+    trackNumber: number;
+    version: string;
 }
 
-interface Body {
-    artist: string
-    artwork: Artwork
-    duration: number
-    mimeType: string
-    project: null
-    title: string
-    trackNumber: string
-    version: string
-    visualizer: string
+export type Artwork = {
+    mimeType: string;
+    uri: string;
+    nft: null;
 }
 
-interface Artwork {
-    info: Info
-    isNft: boolean
-    nft: null
-}
-
-interface Info {
-    mimeType: string
-    uri: string
-}
-
-interface Origin {
-    algorithm: string
-    encoding: string
-    signature: string
-    publicKey: string
+export type Attribute = {
+    trait_type?: string;
+    value: string;
 }

@@ -1,19 +1,19 @@
 "use client";
-import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
-import { GetAllMusicQuery } from "@/graph-ql/queries/muzik/__generated__/graphql";
+import { GetAllMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
 import { useEffect, useState } from "react";
 import SongListItemUI from "./SongListItemUI";
+import { arToHttps, fetchAr } from "@/services/ipfs/fetchAr";
 type Props = {
-  musicNft: GetAllMusicQuery["musicNFTs"][0];
+  musicNft: GetAllMusicQuery["octaveTokens"][0];
   onPlaySong: () => void;
 };
 
 const SongListItemMusiz = ({ musicNft, onPlaySong }: Props) => {
   const [metaData, setMetaData] = useState<MusicNftMetaData>();
   useEffect(() => {
-    fetchIpfs<MusicNftMetaData>(musicNft.metaDataUri).then(setMetaData);
+    fetchAr<MusicNftMetaData>(musicNft.tokenUri).then(setMetaData);
   }, [musicNft]);
   const [isCurrentPlaying, setIsCurrentPlaying] = useState(false);
   useEffect(() => {
@@ -26,22 +26,22 @@ const SongListItemMusiz = ({ musicNft, onPlaySong }: Props) => {
     });
   }, [musicNft]);
   const getImageSrc = (): string => {
-    const artWorkUri = metaData?.body.artwork.info.uri;
-    if (!artWorkUri?.includes("ipfs://")) {
+    const artWorkUri = metaData?.artwork.uri;
+    if (!artWorkUri?.includes("ar://")) {
       return "";
     }
-    const httpsURL = ipfsToHttps(artWorkUri ?? "");
+    const httpsURL = arToHttps(artWorkUri ?? "");
     return httpsURL;
   };
 
   if (!metaData) return <></>;
   return (
     <SongListItemUI
-      artist={metaData.body.artist}
+      artist={metaData.artist}
       coverArt={getImageSrc()}
       isCurrentPlaying={isCurrentPlaying}
       onPlaySong={onPlaySong}
-      title={metaData.body.title}
+      title={metaData.title}
     />
   );
 };
