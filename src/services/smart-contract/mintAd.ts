@@ -1,6 +1,6 @@
 import { CIDString } from "nft.storage";
 import { AdvNFTAddr } from "../../env";
-import { asyncStore } from "../ipfs/nftstorage";
+import { asyncStore } from "../de-storage/nftstorage";
 import { AdvNftMetaData } from "../../types/AdvNFTData";
 import { PublicClient, WalletClient, getContract, zeroAddress } from "viem";
 import AdvNFT from "@/contracts/abis/AdvNFT";

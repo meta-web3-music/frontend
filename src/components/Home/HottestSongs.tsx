@@ -7,7 +7,7 @@ import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import { GetAllMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
 import { MusicNftMetaData } from "@/types/MusicNFTData";
 import { MusicNFTAddr } from "@/env";
-import { arToHttps, fetchAr } from "@/services/ipfs/fetchAr";
+import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 
 const HottestSongs: React.FC = () => {
   const [selectedSong, setSelectedSong] =
@@ -16,16 +16,16 @@ const HottestSongs: React.FC = () => {
   const handlePlaySong = async (
     musicNft: GetAllMusicQuery["octaveTokens"][0]
   ) => {
-    const metadata = await fetchAr<MusicNftMetaData>(musicNft.tokenUri);
+    const metadata = await fetchDe<MusicNftMetaData>(musicNft.tokenUri);
     if (!metadata) return;
     const { artist, artwork, title } = metadata;
     MusicPlayerSub.next({
       artist,
-      artworkUrl: arToHttps(artwork.uri),
-      contractAddr: MusicNFTAddr,
-      musicUrl: arToHttps(metadata.animation_url),
+      artworkUrl: deToHttps(artwork.uri),
+      contractAddr: musicNft.musicNftAddr,
+      musicUrl: deToHttps(metadata.animation_url),
       title: title,
-      tokenId: musicNft.id,
+      tokenId: musicNft.musicNftTokenId,
     });
     setSelectedSong(musicNft);
   };

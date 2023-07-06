@@ -4,7 +4,7 @@ import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
 import { GET_MY_MUSIC } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/getMyMusic";
 import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
 import { GetMyMusicQuery } from "@/graph-ql/queries/spinamp/__generated__/graphql";
-import { arToHttps } from "@/services/ipfs/fetchAr";
+import { deToHttps } from "@/services/de-storage/fetchDe";
 import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
 import { useQuery } from "@apollo/client";
@@ -26,9 +26,9 @@ const Account = () => {
     ) {
       MusicPlayerSub.next({
         artist: metadata.artist ?? ".....",
-        artworkUrl: arToHttps(metadata.artwork?.uri ?? "TODO"),
+        artworkUrl: deToHttps(metadata.artwork?.uri ?? "TODO"),
         contractAddr: musicNft?.contractAddress ?? "",
-        musicUrl: arToHttps(metadata.animation_url ?? ""),
+        musicUrl: deToHttps(metadata.animation_url ?? ""),
         title: metadata.title ?? ".....",
         tokenId: musicNft?.tokenId ?? ".....",
       });

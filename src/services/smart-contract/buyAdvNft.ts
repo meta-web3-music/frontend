@@ -1,7 +1,7 @@
 import { BuyAdFormValues } from "../../components/BuyAdModal/BuyAdForm.types";
 import { AdvNFTAddr, MarketPlaceAddr } from "../../env";
 import { AdvNftMetaData } from "../../types/AdvNFTData";
-import { asyncStore } from "../ipfs/nftstorage";
+import { asyncStore } from "../de-storage/nftstorage";
 import AdvNFT from '../../contracts/abis/AdvNFT'
 import { PublicClient, WalletClient, getContract } from 'viem'
 import MarketPlace from "@/contracts/abis/MarketPlace";

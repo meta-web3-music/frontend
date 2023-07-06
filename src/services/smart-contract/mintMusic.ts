@@ -2,7 +2,7 @@ import { CIDString } from "nft.storage";
 import { MintMusicFormValues } from "../../components/MintSongButton/MintSongModal/MintForm/MintForm.types";
 import { MusicNFTAddr } from "../../env";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
-import { asyncStore } from "../ipfs/nftstorage";
+import { asyncStore } from "../de-storage/nftstorage";
 import { PublicClient, WalletClient, getContract, zeroAddress } from "viem";
 import MusicNFT from "@/contracts/abis/MusicNFT";
 

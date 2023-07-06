@@ -1,7 +1,7 @@
 "use client";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
-import { fetchIpfs } from "../../services/ipfs/fetchIpfs";
+import { fetchDe } from "../../services/de-storage/fetchDe";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import AdvNFTUI from "./AdvNFTUI";
 import { AdvNftProps } from "./types";
@@ -14,7 +14,7 @@ const AdvNFT: React.FC<AdvNftProps> = ({
 }) => {
   const [musicMetaData, setMusicMetaData] = useState<MusicNftMetaData>();
   useEffect(() => {
-    fetchIpfs<MusicNftMetaData>(musicMetaDataUri).then(setMusicMetaData);
+    fetchDe<MusicNftMetaData>(musicMetaDataUri).then(setMusicMetaData);
   }, [musicMetaDataUri]);
 
   if (!musicMetaData) return <></>;

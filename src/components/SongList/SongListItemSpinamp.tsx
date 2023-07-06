@@ -3,7 +3,7 @@ import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import React, { useEffect, useState } from "react";
 import { GetMyMusicQuery } from "@/graph-ql/queries/spinamp/__generated__/graphql";
 import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
-import { arToHttps } from "@/services/ipfs/fetchAr";
+import { deToHttps } from "@/services/de-storage/fetchDe";
 import SongListItemUI from "./SongListItemUI";
 type Props = {
   musicNft: NonNullable<NonNullable<GetMyMusicQuery["allNfts"]>["nodes"][0]>;
@@ -18,7 +18,7 @@ const SongListItemSpinamp = ({ musicNft, onPlaySong, customBtn }: Props) => {
     MusicPlayerSub.subscribe((e) => {
       if (
         e?.tokenId == musicNft.tokenId &&
-        e?.contractAddr == musicNft.contractAddress
+        e?.contractAddr.toLowerCase() == musicNft.contractAddress?.toLowerCase()
       ) {
         setIsCurrentPlaying(true);
       } else {
@@ -32,7 +32,7 @@ const SongListItemSpinamp = ({ musicNft, onPlaySong, customBtn }: Props) => {
     if (!artWorkUri?.includes("ar://")) {
       return "";
     }
-    const httpsURL = arToHttps(artWorkUri ?? "");
+    const httpsURL = deToHttps(artWorkUri ?? "");
     return httpsURL;
   };
 

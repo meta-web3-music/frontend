@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
-import { ipfsToHttps } from "../../services/ipfs/fetchIpfs";
+import { deToHttps } from "../../services/de-storage/fetchDe";
 import OButton from "../OButton/OButton";
 import { AdvNFTUIProps } from "./types";
 
@@ -33,7 +33,7 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
     if (!artWorkUri?.includes("ipfs://")) {
       return "";
     }
-    const httpsURL = ipfsToHttps(artWorkUri ?? "");
+    const httpsURL = deToHttps(artWorkUri ?? "");
     return httpsURL;
   };
 
@@ -51,7 +51,8 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
               alt={`Artwork for ${title}`}
               objectFit={"cover"}
               fill
-              sizes="100vw" />
+              sizes="100vw"
+            />
           )}
         </div>
         <div className="ml-3 flex flex-col justify-center">

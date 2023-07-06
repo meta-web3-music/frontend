@@ -1,7 +1,7 @@
 tasks:
   - name: "Dev"
-    init: yarn && gp sync-done install
-    command: yarn dev
+    init: yarn
+    command: gp sync-done install && yarn dev
   - name: Watch graphql
     command: gp sync-await install && yarn graphql-watch
 ports:

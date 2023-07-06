@@ -4,23 +4,28 @@ import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import { GetAllMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
 import { useEffect, useState } from "react";
 import SongListItemUI from "./SongListItemUI";
-import { arToHttps, fetchAr } from "@/services/ipfs/fetchAr";
+import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 type Props = {
   musicNft: GetAllMusicQuery["octaveTokens"][0];
   onPlaySong: () => void;
 };
 
-const SongListItemMusiz = ({ musicNft, onPlaySong }: Props) => {
+const SongListItemMuzik = ({ musicNft, onPlaySong }: Props) => {
   const [metaData, setMetaData] = useState<MusicNftMetaData>();
   useEffect(() => {
-    fetchAr<MusicNftMetaData>(musicNft.tokenUri).then(setMetaData);
+    fetchDe<MusicNftMetaData>(musicNft.tokenUri).then(setMetaData);
   }, [musicNft]);
   const [isCurrentPlaying, setIsCurrentPlaying] = useState(false);
   useEffect(() => {
     MusicPlayerSub.subscribe((e) => {
-      if (e?.tokenId == musicNft.id) {
+      if (
+        e?.tokenId == musicNft.musicNftTokenId &&
+        e?.contractAddr.toLowerCase() == musicNft.musicNftAddr.toLowerCase()
+      ) {
         setIsCurrentPlaying(true);
       } else {
+        console.log(`${e?.tokenId} ${e?.contractAddr}`);
+
         setIsCurrentPlaying(false);
       }
     });
@@ -30,7 +35,7 @@ const SongListItemMusiz = ({ musicNft, onPlaySong }: Props) => {
     if (!artWorkUri?.includes("ar://")) {
       return "";
     }
-    const httpsURL = arToHttps(artWorkUri ?? "");
+    const httpsURL = deToHttps(artWorkUri ?? "");
     return httpsURL;
   };
 
@@ -46,4 +51,4 @@ const SongListItemMusiz = ({ musicNft, onPlaySong }: Props) => {
   );
 };
 
-export default SongListItemMusiz;
+export default SongListItemMuzik;
