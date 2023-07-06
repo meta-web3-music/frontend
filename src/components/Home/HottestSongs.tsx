@@ -6,7 +6,6 @@ import SongList from "../SongList/SongList";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import { GetAllMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
 import { MusicNftMetaData } from "@/types/MusicNFTData";
-import { MusicNFTAddr } from "@/env";
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 
 const HottestSongs: React.FC = () => {
