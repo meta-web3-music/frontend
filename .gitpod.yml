@@ -1,9 +1,9 @@
 tasks:
   - name: "Dev"
-    init: yarn
+    init: yarn && gp sync-done install
     command: yarn dev
   - name: Watch graphql
-    command: yarn graphql-watch
+    command: gp sync-await install && yarn graphql-watch
 ports:
   - port: 3000
     visibility: private

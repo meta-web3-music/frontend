@@ -1,5 +1,4 @@
 "use client";
-import { fetchIpfs, ipfsToHttps } from "../../services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import { GetAllMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";

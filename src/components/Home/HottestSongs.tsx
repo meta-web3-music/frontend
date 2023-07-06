@@ -3,10 +3,8 @@ import React, { useState, useMemo } from "react";
 
 // custom-components imports
 import SongList from "../SongList/SongList";
-import AdBanner from "../AdBanner/AdBanner";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import { GetAllMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
-import { fetchIpfs, ipfsToHttps } from "@/services/ipfs/fetchIpfs";
 import { MusicNftMetaData } from "@/types/MusicNFTData";
 import { MusicNFTAddr } from "@/env";
 import { arToHttps, fetchAr } from "@/services/ipfs/fetchAr";
