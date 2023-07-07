@@ -10,6 +10,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   onClosePlayer,
   musicNft,
 }) => {
+  const adv = musicNft?.adDetails;
   const resetStates = () => {
     setIsPlayingAd(false);
     setIsPlaying(true);
@@ -67,14 +68,20 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
     audioRef.current?.addEventListener("play", () => {
       if (!isPlaying) setIsPlaying(true);
     });
-    audioRef.current?.addEventListener("ended", () => {
-      if (isPlayingAd) setIsPlayingAd(false);
-    });
+
+    const endedEventLister = () => {
+      if (isPlayingAd) {
+        audioRef.current?.removeEventListener("ended", endedEventLister);
+        setIsPlayingAd(false);
+      }
+    };
+    audioRef.current?.addEventListener("ended", endedEventLister);
   }, [audioRef, isPlaying, isPlayingAd]);
 
   useEffect(() => {
-    setIsPlayingAd(false);
+    setIsPlayingAd(true);
     setIsPlaying(true);
+    audioRef.current?.play();
   }, [musicNft]);
 
   return (
@@ -86,7 +93,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
       <a
         target="_blank"
         rel="noreferrer"
-        href="https://ommore.me"
+        href={adv && `https://${adv[1]}`}
         className="flex text-white"
         style={{
           pointerEvents: isPlayingAd ? "initial" : "none",
@@ -97,8 +104,8 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
             <Image
               className="h-full w-full"
               src={
-                isPlayingAd
-                  ? "https://ommore.me/assets/profile_image.jpg"
+                isPlayingAd && adv
+                  ? `images/${adv[0]}.png`
                   : musicNft.artworkUrl
               }
               alt="artwork"
@@ -112,12 +119,10 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         </div>
         <div className="mr-4">
           <p className="text-2xl m-0">
-            {isPlayingAd ? "I am Om" : musicNft?.title}
+            {isPlayingAd && adv ? adv[0] : musicNft?.title}
           </p>
           <p className="m-0 text-xs">
-            {isPlayingAd
-              ? "Visit my site, no ads there, promise"
-              : musicNft?.artist}
+            {isPlayingAd && adv ? adv[2] : musicNft?.artist}
           </p>
         </div>
       </a>
@@ -126,7 +131,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         ref={audioRef}
         className="ml-4"
         src={`${
-          isPlayingAd ? "https://ommore.me/adv.mp3" : musicNft?.musicUrl
+          isPlayingAd && adv ? `audio/${adv[0]}.mp3` : musicNft?.musicUrl
         }`}
       />
 

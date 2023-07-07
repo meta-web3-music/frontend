@@ -10,6 +10,7 @@ export type TMusicPlayer_MusicNft = {
   artworkUrl: string;
   contractAddr: string;
   tokenId: string;
+  adDetails?: [string, string, string];
 };
 function MusicPlayer() {
   const [music, setMusicNft] = useState<TMusicPlayer_MusicNft>();

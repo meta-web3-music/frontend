@@ -24,8 +24,6 @@ const SongListItemMuzik = ({ musicNft, onPlaySong }: Props) => {
       ) {
         setIsCurrentPlaying(true);
       } else {
-        console.log(`${e?.tokenId} ${e?.contractAddr}`);
-
         setIsCurrentPlaying(false);
       }
     });
