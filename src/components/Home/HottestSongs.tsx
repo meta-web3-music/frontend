@@ -50,6 +50,7 @@ const HottestSongs: React.FC = () => {
 
   const memoizedSongList = useMemo(
     () => <SongList playSong={handlePlaySong} />,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentAd]
   );
 
