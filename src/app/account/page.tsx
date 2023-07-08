@@ -1,4 +1,5 @@
 "use client";
+import MintSongButton from "@/components/MintSongButton/MintSongButton";
 import OButton from "@/components/OButton/OButton";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
 import { GET_MY_MUSIC } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/getMyMusic";
@@ -88,6 +89,9 @@ const Account = () => {
             />
           );
         })}
+      </div>
+      <div className="w-20">
+        <MintSongButton color="gray" text="Mint" />
       </div>
     </div>
   );
