@@ -4,7 +4,7 @@ import { MusicNFTAddr } from "../../env";
 import { MusicNftMetaData } from "../../types/MusicNFTData";
 import { asyncStore } from "../de-storage/nftstorage";
 import { PublicClient, WalletClient, getContract, zeroAddress } from "viem";
-import MusicNFT from "@/contracts/abis/MusicNFT";
+import MusicNFT from "@/contracts/abis/MusicNFTV2";
 
 export const mintMusic = async (formData: MintMusicFormValues, publicClient: PublicClient, walletClient: WalletClient) => {
     if (!walletClient.account) {
@@ -73,7 +73,7 @@ export const mintMusic = async (formData: MintMusicFormValues, publicClient: Pub
         });
 
         // invoke contract func and mint song nft
-        const createMusicHash = await musicNft.write.createMusic([musicMetaDataHash, musicAssetHash], { account: walletClient.account, chain: walletClient.chain })
+        const createMusicHash = await musicNft.write.safeMint([walletClient.account.address, "ipfs://" + musicMetaDataHash], { account: walletClient.account, chain: walletClient.chain })
         // TODO unwatch
         musicNft.watchEvent.Transfer({ from: zeroAddress, to: walletClient.account.address }, {
             onLogs: (e) => {
