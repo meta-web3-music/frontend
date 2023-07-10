@@ -5165,6 +5165,8 @@ export type Query = Node & {
   /** Reads a single `ReservoirOrder` using its globally unique `ID`. */
   reservoirOrder?: Maybe<ReservoirOrder>;
   reservoirOrderById?: Maybe<ReservoirOrder>;
+  /** Reads and enables pagination through a set of `User`. */
+  searchUsers?: Maybe<UsersConnection>;
   /** Reads a single `Seed` using its globally unique `ID`. */
   seed?: Maybe<Seed>;
   seedById?: Maybe<Seed>;
@@ -5973,6 +5975,18 @@ export type QueryReservoirOrderArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryReservoirOrderByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySearchUsersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<UserFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 

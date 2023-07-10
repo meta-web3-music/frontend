@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\nquery GetAllMusic @api(name: octav3){\n    octaveTokens {\n      id\n      owner\n      musicNftAddr\n      musicNftTokenId\n      tokenUri\n    }\n  }\n": types.GetAllMusicDocument,
+    "\nquery GetMyMusic($owner:Bytes) @api(name: octav3){\n  musicTokens(where:{owner:$owner}) {\n      id\n      tokenUri\n    }\n  }\n": types.GetMyMusicDocument,
 };
 
 /**
@@ -34,6 +35,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\nquery GetAllMusic @api(name: octav3){\n    octaveTokens {\n      id\n      owner\n      musicNftAddr\n      musicNftTokenId\n      tokenUri\n    }\n  }\n"): (typeof documents)["\nquery GetAllMusic @api(name: octav3){\n    octaveTokens {\n      id\n      owner\n      musicNftAddr\n      musicNftTokenId\n      tokenUri\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetMyMusic($owner:Bytes) @api(name: octav3){\n  musicTokens(where:{owner:$owner}) {\n      id\n      tokenUri\n    }\n  }\n"): (typeof documents)["\nquery GetMyMusic($owner:Bytes) @api(name: octav3){\n  musicTokens(where:{owner:$owner}) {\n      id\n      tokenUri\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
