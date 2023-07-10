@@ -30,9 +30,6 @@ const SongListItemMuzik = ({ musicNft, onPlaySong }: Props) => {
   }, [musicNft]);
   const getImageSrc = (): string => {
     const artWorkUri = metaData?.artwork.uri;
-    if (!artWorkUri?.includes("ar://")) {
-      return "";
-    }
     const httpsURL = deToHttps(artWorkUri ?? "");
     return httpsURL;
   };

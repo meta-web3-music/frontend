@@ -1,22 +1,26 @@
 "use client";
 import MintSongButton from "@/components/MintSongButton/MintSongButton";
 import OButton from "@/components/OButton/OButton";
+import SongListItemMusicNFT from "@/components/SongList/SongListItemMusicNFT";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
-import { GET_MY_MUSIC } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/getMyMusic";
+import { MusicNFTAddr } from "@/env";
+import { GET_MY_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_MUSIC/getAllMusic";
+import { GetMyMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
+import { GET_MY_MUSIC as GET_MY_MUSIC_SPINAMP } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/getMyMusic";
 import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
-import { GetMyMusicQuery } from "@/graph-ql/queries/spinamp/__generated__/graphql";
-import { deToHttps } from "@/services/de-storage/fetchDe";
+import { GetMyMusicQuery as GetMyMusicQuerySpinamp } from "@/graph-ql/queries/spinamp/__generated__/graphql";
+import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
 import { useQuery } from "@apollo/client";
-import React from "react";
+import React, { useEffect } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
 
 const Account = () => {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
-  const handlePlaySong = async (
-    musicNft: NonNullable<GetMyMusicQuery["allNfts"]>["nodes"][0]
+  const handlePlaySongSpinamp = async (
+    musicNft: NonNullable<GetMyMusicQuerySpinamp["allNfts"]>["nodes"][0]
   ) => {
     const metadata = musicNft?.metadata as Metadata;
     if (!metadata) return;
@@ -35,12 +39,42 @@ const Account = () => {
       });
     }
   };
-  const { data: myMusic } = useQuery(GET_MY_MUSIC, {
+
+  const handlePlaySong = async (
+    musicNft: NonNullable<NonNullable<GetMyMusicQuery["musicTokens"]>[0]>
+  ) => {
+    const metadata = await fetchDe<Metadata>(musicNft.tokenUri);
+    if (!metadata) return;
+    if (musicNft?.id && metadata.animation_url) {
+      MusicPlayerSub.next({
+        artist: metadata.artist ?? ".....",
+        artworkUrl: deToHttps(metadata.artwork?.uri ?? "TODO"),
+        contractAddr: MusicNFTAddr,
+        musicUrl: deToHttps(metadata.animation_url ?? ""),
+        title: metadata.title ?? ".....",
+        tokenId: musicNft?.id ?? ".....",
+      });
+    }
+  };
+
+  const { data: myMusicSpinamp, refetch: refetchSpinamp } = useQuery(
+    GET_MY_MUSIC_SPINAMP,
+    {
+      variables: {
+        owner: "0x324A77ffee86A7ec082f8395f060bc4E94E60198",
+      },
+    }
+  );
+
+  const { data: myMusic, refetch } = useQuery(GET_MY_MUSIC, {
     variables: {
-      owner: "0x324A77ffee86A7ec082f8395f060bc4E94E60198",
+      owner: walletClient?.account.address.toLowerCase(),
     },
   });
-
+  useEffect(() => {
+    refetch();
+    refetchSpinamp();
+  }, [walletClient, refetchSpinamp, refetch]);
   return (
     <div className="p-4 pt-20 pl-8 font-figtree">
       <p className="font-bold text-2xl">Balance</p>
@@ -51,14 +85,14 @@ const Account = () => {
         <p className="text-2xl ml-auto">See all</p>
       </div>
       <div className="flex flex-wrap justify-center pt-4 mb-4 items-start h-[60vh] overflow-y-scroll">
-        {myMusic?.allNfts?.nodes.map((e) => {
+        {myMusicSpinamp?.allNfts?.nodes.map((e) => {
           if (!e) return <></>;
           return (
             <SongListItemSpinamp
               key={e.id}
               musicNft={e}
               onPlaySong={() => {
-                handlePlaySong(e);
+                handlePlaySongSpinamp(e);
               }}
               customBtn={
                 <OButton
@@ -77,6 +111,38 @@ const Account = () => {
                     monetize(
                       e.contractAddress,
                       BigInt(e.tokenId),
+                      e.tokenUri,
+                      publicClient,
+                      walletClient
+                    );
+                  }}
+                >
+                  List
+                </OButton>
+              }
+            />
+          );
+        })}
+        {myMusic?.musicTokens?.map((e) => {
+          if (!e) return <></>;
+          return (
+            <SongListItemMusicNFT
+              key={e.id}
+              musicNft={e}
+              onPlaySong={() => {
+                handlePlaySong(e);
+              }}
+              customBtn={
+                <OButton
+                  color="blue"
+                  btnType="fill"
+                  onClick={() => {
+                    //TODO error
+                    if (!walletClient || !publicClient || !e.id || !e.tokenUri)
+                      return;
+                    monetize(
+                      MusicNFTAddr,
+                      BigInt(e.id),
                       e.tokenUri,
                       publicClient,
                       walletClient
