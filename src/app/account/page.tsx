@@ -12,8 +12,9 @@ import { GetMyMusicQuery as GetMyMusicQuerySpinamp } from "@/graph-ql/queries/sp
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
+import { usdcxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
 
 const Account = () => {
@@ -71,14 +72,20 @@ const Account = () => {
       owner: walletClient?.account.address.toLowerCase(),
     },
   });
+
   useEffect(() => {
     refetch();
     refetchSpinamp();
   }, [walletClient, refetchSpinamp, refetch]);
+
+  const [balance, setBalance] = useState<string>();
+  useEffect(() => {
+    usdcxWalletBalanceSub.subscribe(setBalance);
+  }, []);
   return (
     <div className="p-4 pt-20 pl-8 font-figtree">
       <p className="font-bold text-2xl">Balance</p>
-      <p className="text-xl">$10</p>
+      <p className="text-xl">${balance}</p>
 
       <div className="flex">
         <p className="font-bold text-2xl">Music NFTs</p>
