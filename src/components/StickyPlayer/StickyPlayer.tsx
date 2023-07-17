@@ -1,15 +1,17 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // type imports
 import { StickyPlayerProps } from "./StickyPlayer.types";
 import Image from "next/image";
+import { AppWalletContext } from "@/context/AppWallet";
 
 // COMPONENT
 const StickyPlayer: React.FC<StickyPlayerProps> = ({
   onClosePlayer,
   musicNft,
 }) => {
+  const appContext = useContext(AppWalletContext);
   const adv = musicNft?.adDetails;
   const resetStates = () => {
     setIsPlayingAd(false);
@@ -22,6 +24,53 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   const [isPlayingAd, setIsPlayingAd] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
 
+  const [sender, setSender] = useState("");
+
+  const stop_stream = async () => {
+    const fusdcx = await appContext.superfluid?.loadSuperToken("fUSDCx");
+    if (!appContext.wallet) return;
+    const op = fusdcx?.deleteFlow({
+      receiver: sender,
+      sender: appContext.wallet.address,
+    });
+    await op?.exec(appContext.wallet);
+    setSender("");
+  };
+  const update_stream = async () => {
+    if (musicNft && appContext.wallet && appContext.superfluid) {
+      const fusdcx = await appContext.superfluid?.loadSuperToken("fUSDCx");
+
+      if (isPlaying) {
+        if (musicNft.owner.toLowerCase() == sender.toLowerCase()) return;
+        if (sender != "") {
+          await stop_stream();
+        }
+
+        try {
+          const op = fusdcx?.createFlow({
+            flowRate: "10000000",
+            receiver: musicNft.owner,
+            sender: appContext.wallet.address,
+          });
+
+          const superSigner = appContext.superfluid.createSigner({
+            signer: appContext.wallet,
+          });
+          setSender(musicNft.owner);
+          await op?.exec(superSigner);
+        } catch (error: any) {
+          console.log(error.reason);
+        }
+      } else {
+        if (sender != "") {
+          await stop_stream();
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    update_stream();
+  }, [isPlaying, musicNft]);
   const [audioTime, setAudioTime] = useState({
     currentTime: 0,
     duration: 0,
@@ -79,7 +128,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   }, [audioRef, isPlaying, isPlayingAd]);
 
   useEffect(() => {
-    setIsPlayingAd(true);
+    // setIsPlayingAd(true);
     setIsPlaying(true);
     audioRef.current?.play();
   }, [musicNft]);

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 
 // rainbowkit imports
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -6,16 +6,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import DarkModeToggle from "./DarkModeToggle";
 import { SmartLink } from "../SmartLink/SmartLink";
 import Link from "next/link";
-import { usdcxWalletBalanceSub } from "@/subs/WalletBalanceSub";
-import { AppWalletContext } from "@/context/AppWallet";
 
 function Header() {
-  const [balance, setBalance] = useState<string>();
-  const ctx = useContext(AppWalletContext);
-  useEffect(() => {
-    usdcxWalletBalanceSub.subscribe(setBalance);
-  }, []);
-
   return (
     <>
       <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2 bg-slate-50 dark:bg-[rgb(26,26,26)] duration-300">
@@ -23,13 +15,10 @@ function Header() {
         <div>
           <Link href="/home">
             <p className="text-3xl font-bold m-3 hover:cursor-pointer">
-              OCTAV3 {balance}
+              OCTAV3
             </p>
           </Link>
         </div>
-        <p className="text-3xl font-bold m-3 hover:cursor-pointer">
-          {ctx.wallet?.address}
-        </p>
 
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">

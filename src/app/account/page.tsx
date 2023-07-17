@@ -3,6 +3,7 @@ import MintSongButton from "@/components/MintSongButton/MintSongButton";
 import OButton from "@/components/OButton/OButton";
 import SongListItemMusicNFT from "@/components/SongList/SongListItemMusicNFT";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
+import { AppWalletContext } from "@/context/AppWallet";
 import { MusicNFTAddr } from "@/env";
 import { GET_MY_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_MUSIC/getAllMusic";
 import { GetMyMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
@@ -14,11 +15,12 @@ import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
 import { usdcxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
 
 const Account = () => {
   const { data: walletClient } = useWalletClient();
+  const appWallet = useContext(AppWalletContext);
   const publicClient = usePublicClient();
   const handlePlaySongSpinamp = async (
     musicNft: NonNullable<GetMyMusicQuerySpinamp["allNfts"]>["nodes"][0]
@@ -28,7 +30,8 @@ const Account = () => {
     if (
       musicNft?.contractAddress &&
       musicNft?.tokenId &&
-      metadata.animation_url
+      metadata.animation_url &&
+      walletClient
     ) {
       MusicPlayerSub.next({
         artist: metadata.artist ?? ".....",
@@ -37,16 +40,20 @@ const Account = () => {
         musicUrl: deToHttps(metadata.animation_url ?? ""),
         title: metadata.title ?? ".....",
         tokenId: musicNft?.tokenId ?? ".....",
+        owner: walletClient.account.address,
       });
     }
   };
-
+  const copy = () => {
+    if (appWallet.wallet)
+      navigator.clipboard.writeText(appWallet.wallet.address);
+  };
   const handlePlaySong = async (
     musicNft: NonNullable<NonNullable<GetMyMusicQuery["musicTokens"]>[0]>
   ) => {
     const metadata = await fetchDe<Metadata>(musicNft.tokenUri);
     if (!metadata) return;
-    if (musicNft?.id && metadata.animation_url) {
+    if (musicNft?.id && metadata.animation_url && walletClient) {
       MusicPlayerSub.next({
         artist: metadata.artist ?? ".....",
         artworkUrl: deToHttps(metadata.artwork?.uri ?? "TODO"),
@@ -54,6 +61,7 @@ const Account = () => {
         musicUrl: deToHttps(metadata.animation_url ?? ""),
         title: metadata.title ?? ".....",
         tokenId: musicNft?.id ?? ".....",
+        owner: walletClient.account.address,
       });
     }
   };
@@ -86,7 +94,9 @@ const Account = () => {
     <div className="p-4 pt-20 pl-8 font-figtree">
       <p className="font-bold text-2xl">Balance</p>
       <p className="text-xl">${balance}</p>
-
+      <OButton btnType="fill" color="blue" onClick={copy}>
+        Copy
+      </OButton>
       <div className="flex">
         <p className="font-bold text-2xl">Music NFTs</p>
         <p className="text-2xl ml-auto">See all</p>

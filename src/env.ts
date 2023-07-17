@@ -5,3 +5,4 @@ export const Octav3Addr = "0x68C53273a4eF179905607752297992B0221F60E3";
 export const MuzikGraphQLEndpoint = "https://api.thegraph.com/subgraphs/name/thisisommore/muzik"
 export const Octav3GraphQLEndpoint = "https://api.thegraph.com/subgraphs/name/thisisommore/octav3"
 export const SpinampGraphQLEndpoint = "https://api.spinamp.xyz/v3/graphql"
+export const SuperFluidGraphQLEndpoint = "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai"

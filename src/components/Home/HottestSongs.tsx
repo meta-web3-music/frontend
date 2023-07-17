@@ -44,6 +44,7 @@ const HottestSongs: React.FC = () => {
       title: title,
       tokenId: musicNft.musicNftTokenId,
       adDetails: advs[nextAd],
+      owner: musicNft.owner,
     });
     setSelectedSong(musicNft);
   };
