@@ -36,6 +36,7 @@ export const AdList: React.FC = () => {
                 musicUrl: e.token.musicNFT.assetUri,
                 title: title,
                 tokenId: e.token.musicNFT.id,
+                owner: "TODO",
               });
             }}
             CustomButton={
