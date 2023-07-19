@@ -37,7 +37,7 @@ export function AppWallet(props: React.PropsWithChildren) {
       localStorage.setItem(LOCAL_PRIVATE_KEY, w.privateKey);
       setWallet(w.connect(provider));
     }
-  }, []);
+  }, [provider]);
 
   const [superfluid, setSuperfluid] = useState<Framework>();
   const initSuperfluid = async () => {
@@ -52,6 +52,7 @@ export function AppWallet(props: React.PropsWithChildren) {
   const { data: browserW } = useWalletClient();
   useEffect(() => {
     initSuperfluid();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const update_balance = async () => {
@@ -98,12 +99,14 @@ export function AppWallet(props: React.PropsWithChildren) {
   };
   useEffect(() => {
     update_balance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [superfluid]);
   const [wallet, setWallet] = useState<Wallet>();
   useEffect(() => {
     if (wallet) {
       refetchStreams({ owner: wallet.address.toLowerCase() });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet]);
 
   const handleStreamReceived = async () => {
@@ -124,6 +127,7 @@ export function AppWallet(props: React.PropsWithChildren) {
   };
   useEffect(() => {
     handleStreamReceived();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myStreams, wallet, superfluid]);
   const value: AppWalletContextType = useMemo(
     () => ({
@@ -131,7 +135,7 @@ export function AppWallet(props: React.PropsWithChildren) {
       provider,
       superfluid,
     }),
-    [wallet, superfluid]
+    [wallet, superfluid, provider]
   );
 
   AppWalletContext = React.createContext(value);

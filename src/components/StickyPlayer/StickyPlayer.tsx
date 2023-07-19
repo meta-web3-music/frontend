@@ -66,8 +66,8 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
           });
           setSender(musicNft.owner);
           await op?.exec(superSigner);
-        } catch (error: any) {
-          console.log(error.reason);
+        } catch (error) {
+          console.log((error as { reason: string }).reason);
         }
       } else {
         await stop_stream();
@@ -76,6 +76,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   };
   useEffect(() => {
     update_stream();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlaying, musicNft]);
   const [audioTime, setAudioTime] = useState({
     currentTime: 0,
@@ -142,6 +143,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
     else setIsPlayingAd(true);
     setIsPlaying(true);
     audioRef.current?.play();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [musicNft]);
 
   return (
