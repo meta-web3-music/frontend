@@ -1,3 +1,3 @@
 import { BehaviorSubject } from "rxjs"
 
-export const usdcxWalletBalanceSub = new BehaviorSubject<[string,string] | undefined>(undefined)
+export const USDCxWalletBalanceSub = new BehaviorSubject<[string, string] | undefined>(undefined)

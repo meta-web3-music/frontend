@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { StickyPlayerProps } from "./StickyPlayer.types";
 import Image from "next/image";
 import { AppWalletContext } from "@/context/AppWallet";
+import { PremToggleSub } from "@/subs/PremiumToggleSub";
 
 // COMPONENT
 const StickyPlayer: React.FC<StickyPlayerProps> = ({
@@ -22,6 +23,14 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
     });
     await stop_stream();
   };
+
+  const [isPremium, setIsPremium] = useState(false);
+
+  useEffect(() => {
+    PremToggleSub.subscribe((e) => {
+      setIsPremium(e);
+    });
+  }, []);
   const [isPlayingAd, setIsPlayingAd] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -123,9 +132,14 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
     };
     audioRef.current?.addEventListener("ended", endedEventLister);
   }, [audioRef, isPlaying, isPlayingAd]);
-
   useEffect(() => {
-    // setIsPlayingAd(true);
+    if (isPremium) {
+      setIsPlayingAd(false);
+    }
+  }, [isPremium]);
+  useEffect(() => {
+    if (isPremium) setIsPlayingAd(false);
+    else setIsPlayingAd(true);
     setIsPlaying(true);
     audioRef.current?.play();
   }, [musicNft]);

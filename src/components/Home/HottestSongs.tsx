@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 // custom-components imports
 import SongList from "../SongList/SongList";
@@ -8,6 +8,7 @@ import { GetAllMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphq
 import { MusicNftMetaData } from "@/types/MusicNFTData";
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import AdBanner from "../AdBanner/AdBanner";
+import { PremToggleSub } from "@/subs/PremiumToggleSub";
 const advs: [string, string, string][] = [
   [
     "Polygon",
@@ -54,11 +55,17 @@ const HottestSongs: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentAd]
   );
+  const [isPremium, setIsPremium] = useState(false);
 
+  useEffect(() => {
+    PremToggleSub.subscribe((e) => {
+      setIsPremium(e);
+    });
+  }, []);
   return (
     <div className="flex flex-col align-center justify-center w-full md:w-5/6 m-2 md:m-auto px-2 text-left pt-14">
       <p className="text-4xl font-bold mb-10">Songs</p>
-      {selectedSong && (
+      {selectedSong && !isPremium && (
         <AdBanner
           image={`images/${advs[currentAd][0]}.png`}
           website={`https://${advs[currentAd][1]}`}

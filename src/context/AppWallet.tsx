@@ -2,7 +2,7 @@ import { Wallet, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { polygonMumbai } from "viem/chains";
 import { Framework } from "@superfluid-finance/sdk-core";
-import { usdcxWalletBalanceSub } from "@/subs/WalletBalanceSub";
+import { USDCxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { GET_MY_STREAMS } from "@/graph-ql/queries/superfluid/GET_MY_STREAMS/getMyStreams";
 import { useQuery } from "@apollo/client";
 import { useWalletClient } from "wagmi";
@@ -68,7 +68,7 @@ export function AppWallet(props: React.PropsWithChildren) {
           providerOrSigner: provider,
         });
 
-      usdcxWalletBalanceSub.next([
+      USDCxWalletBalanceSub.next([
         (+b / 10 ** 18).toString(),
         (+browserWBal / 10 ** 18).toString(),
       ]);
@@ -85,7 +85,7 @@ export function AppWallet(props: React.PropsWithChildren) {
               account: browserW.account.address,
               providerOrSigner: provider,
             });
-          usdcxWalletBalanceSub.next([
+          USDCxWalletBalanceSub.next([
             (+b / 10 ** 18).toString(),
             (+_browserWBal / 10 ** 18).toString(),
           ]);
