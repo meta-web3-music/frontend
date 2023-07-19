@@ -56,7 +56,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         await stop_stream();
         try {
           const op = fusdcx?.createFlow({
-            flowRate: "10000000",
+            flowRate: "100000000000000",
             receiver: musicNft.owner,
             sender: appContext.wallet.address,
           });
