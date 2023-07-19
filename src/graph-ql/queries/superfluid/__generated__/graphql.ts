@@ -4696,7 +4696,6 @@ export enum IndexCreatedEvent_OrderBy {
   GasUsed = 'gasUsed',
   Id = 'id',
   Index = 'index',
-  IndexId = 'indexId',
   IndexCreatedAtBlockNumber = 'index__createdAtBlockNumber',
   IndexCreatedAtTimestamp = 'index__createdAtTimestamp',
   IndexId = 'index__id',
@@ -4936,7 +4935,6 @@ export enum IndexDistributionClaimedEvent_OrderBy {
   IndexId = 'indexId',
   IndexCreatedAtBlockNumber = 'index__createdAtBlockNumber',
   IndexCreatedAtTimestamp = 'index__createdAtTimestamp',
-  IndexId = 'index__id',
   IndexIndexId = 'index__indexId',
   IndexIndexValue = 'index__indexValue',
   IndexTotalAmountDistributedUntilUpdatedAt = 'index__totalAmountDistributedUntilUpdatedAt',
@@ -5174,7 +5172,6 @@ export enum IndexSubscribedEvent_OrderBy {
   IndexId = 'indexId',
   IndexCreatedAtBlockNumber = 'index__createdAtBlockNumber',
   IndexCreatedAtTimestamp = 'index__createdAtTimestamp',
-  IndexId = 'index__id',
   IndexIndexId = 'index__indexId',
   IndexIndexValue = 'index__indexValue',
   IndexTotalAmountDistributedUntilUpdatedAt = 'index__totalAmountDistributedUntilUpdatedAt',
@@ -5691,7 +5688,6 @@ export enum IndexUnitsUpdatedEvent_OrderBy {
   IndexId = 'indexId',
   IndexCreatedAtBlockNumber = 'index__createdAtBlockNumber',
   IndexCreatedAtTimestamp = 'index__createdAtTimestamp',
-  IndexId = 'index__id',
   IndexIndexId = 'index__indexId',
   IndexIndexValue = 'index__indexValue',
   IndexTotalAmountDistributedUntilUpdatedAt = 'index__totalAmountDistributedUntilUpdatedAt',
@@ -5932,7 +5928,6 @@ export enum IndexUnsubscribedEvent_OrderBy {
   IndexId = 'indexId',
   IndexCreatedAtBlockNumber = 'index__createdAtBlockNumber',
   IndexCreatedAtTimestamp = 'index__createdAtTimestamp',
-  IndexId = 'index__id',
   IndexIndexId = 'index__indexId',
   IndexIndexValue = 'index__indexValue',
   IndexTotalAmountDistributedUntilUpdatedAt = 'index__totalAmountDistributedUntilUpdatedAt',
@@ -6190,7 +6185,6 @@ export enum IndexUpdatedEvent_OrderBy {
   IndexId = 'indexId',
   IndexCreatedAtBlockNumber = 'index__createdAtBlockNumber',
   IndexCreatedAtTimestamp = 'index__createdAtTimestamp',
-  IndexId = 'index__id',
   IndexIndexId = 'index__indexId',
   IndexIndexValue = 'index__indexValue',
   IndexTotalAmountDistributedUntilUpdatedAt = 'index__totalAmountDistributedUntilUpdatedAt',
@@ -15078,4 +15072,4 @@ export type GetMyStreamsQueryVariables = Exact<{
 export type GetMyStreamsQuery = { __typename?: 'Query', account?: { __typename?: 'Account', outflows: Array<{ __typename?: 'Stream', currentFlowRate: any, receiver: { __typename?: 'Account', id: string } }> } | null };
 
 
-export const GetMyStreamsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyStreams"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"superfluid"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"account"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"outflows"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"currentFlowRate_gt"},"value":{"kind":"IntValue","value":"0"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"receiver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currentFlowRate"}}]}}]}}]}}]} as unknown as DocumentNode<GetMyStreamsQuery, GetMyStreamsQueryVariables>;
+export const GetMyStreamsDocument = { "kind": "Document", "definitions": [{ "kind": "OperationDefinition", "operation": "query", "name": { "kind": "Name", "value": "GetMyStreams" }, "variableDefinitions": [{ "kind": "VariableDefinition", "variable": { "kind": "Variable", "name": { "kind": "Name", "value": "owner" } }, "type": { "kind": "NonNullType", "type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ID" } } } }], "directives": [{ "kind": "Directive", "name": { "kind": "Name", "value": "api" }, "arguments": [{ "kind": "Argument", "name": { "kind": "Name", "value": "name" }, "value": { "kind": "EnumValue", "value": "superfluid" } }] }], "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "account" }, "arguments": [{ "kind": "Argument", "name": { "kind": "Name", "value": "id" }, "value": { "kind": "Variable", "name": { "kind": "Name", "value": "owner" } } }], "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "outflows" }, "arguments": [{ "kind": "Argument", "name": { "kind": "Name", "value": "where" }, "value": { "kind": "ObjectValue", "fields": [{ "kind": "ObjectField", "name": { "kind": "Name", "value": "currentFlowRate_gt" }, "value": { "kind": "IntValue", "value": "0" } }] } }], "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "receiver" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "id" } }] } }, { "kind": "Field", "name": { "kind": "Name", "value": "currentFlowRate" } }] } }] } }] } }] } as unknown as DocumentNode<GetMyStreamsQuery, GetMyStreamsQueryVariables>;
