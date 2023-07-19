@@ -13,13 +13,14 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
 }) => {
   const appContext = useContext(AppWalletContext);
   const adv = musicNft?.adDetails;
-  const resetStates = () => {
+  const resetStates = async () => {
     setIsPlayingAd(false);
     setIsPlaying(true);
     setAudioTime({
       currentTime: 0,
       duration: 0,
     });
+    await stop_stream();
   };
   const [isPlayingAd, setIsPlayingAd] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -27,6 +28,8 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
   const [sender, setSender] = useState("");
 
   const stop_stream = async () => {
+    if (sender == "") return;
+    setSender("");
     const fusdcx = await appContext.superfluid?.loadSuperToken("fUSDCx");
     if (!appContext.wallet) return;
     const op = fusdcx?.deleteFlow({
@@ -34,7 +37,6 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
       sender: appContext.wallet.address,
     });
     await op?.exec(appContext.wallet);
-    setSender("");
   };
   const update_stream = async () => {
     if (musicNft && appContext.wallet && appContext.superfluid) {
@@ -42,10 +44,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
 
       if (isPlaying) {
         if (musicNft.owner.toLowerCase() == sender.toLowerCase()) return;
-        if (sender != "") {
-          await stop_stream();
-        }
-
+        await stop_stream();
         try {
           const op = fusdcx?.createFlow({
             flowRate: "10000000",
@@ -62,9 +61,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
           console.log(error.reason);
         }
       } else {
-        if (sender != "") {
-          await stop_stream();
-        }
+        await stop_stream();
       }
     }
   };

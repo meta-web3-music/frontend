@@ -5,6 +5,7 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import { usdcxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { GET_MY_STREAMS } from "@/graph-ql/queries/superfluid/GET_MY_STREAMS/getMyStreams";
 import { useQuery } from "@apollo/client";
+import { useWalletClient } from "wagmi";
 
 type AppWalletContextType = {
   wallet: Wallet | undefined;
@@ -47,6 +48,8 @@ export function AppWallet(props: React.PropsWithChildren) {
 
     setSuperfluid(sf);
   };
+
+  const { data: browserW } = useWalletClient();
   useEffect(() => {
     initSuperfluid();
   }, []);
@@ -58,16 +61,34 @@ export function AppWallet(props: React.PropsWithChildren) {
         account: wallet.address,
         providerOrSigner: provider,
       });
+      let browserWBal = "";
+      if (browserW)
+        browserWBal = await usdcx.balanceOf({
+          account: browserW.account.address,
+          providerOrSigner: provider,
+        });
 
-      usdcxWalletBalanceSub.next((+b / 10 ** 18).toString());
+      usdcxWalletBalanceSub.next([
+        (+b / 10 ** 18).toString(),
+        (+browserWBal / 10 ** 18).toString(),
+      ]);
       setInterval(async () => {
         try {
           const b = await usdcx.balanceOf({
             account: wallet.address,
             providerOrSigner: provider,
           });
+          let _browserWBal = "";
 
-          usdcxWalletBalanceSub.next((+b / 10 ** 18).toString());
+          if (browserW)
+            _browserWBal = await usdcx.balanceOf({
+              account: browserW.account.address,
+              providerOrSigner: provider,
+            });
+          usdcxWalletBalanceSub.next([
+            (+b / 10 ** 18).toString(),
+            (+_browserWBal / 10 ** 18).toString(),
+          ]);
         } catch (error) {
           console.log("failed to update balance");
           console.log(error);

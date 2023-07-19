@@ -86,14 +86,16 @@ const Account = () => {
     refetchSpinamp();
   }, [walletClient, refetchSpinamp, refetch]);
 
-  const [balance, setBalance] = useState<string>();
+  const [balance, setBalance] = useState<[string, string]>();
   useEffect(() => {
     usdcxWalletBalanceSub.subscribe(setBalance);
   }, []);
   return (
     <div className="p-4 pt-20 pl-8 font-figtree">
       <p className="font-bold text-2xl">Balance</p>
-      <p className="text-xl">${balance}</p>
+      <p className="text-xl">
+        ${balance?.[0]}|${balance?.[1]}
+      </p>
       <OButton btnType="fill" color="blue" onClick={copy}>
         Copy
       </OButton>
