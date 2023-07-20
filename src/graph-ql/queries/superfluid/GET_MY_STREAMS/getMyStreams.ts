@@ -1,4 +1,4 @@
-import { gql } from "../../superfluid/__generated__";
+import { gql } from "../___generated__";
 
 export const GET_MY_STREAMS = gql(`
 query GetMyStreams($owner:ID!) @api(name: superfluid){

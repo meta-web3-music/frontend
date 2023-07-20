@@ -29,16 +29,6 @@ const config: CodegenConfig = {
             documents: ['src/graph-ql/queries/octav3/**/*.ts'],
             schema: "https://api.thegraph.com/subgraphs/name/thisisommore/octav3"
         },
-        './src/graph-ql/queries/superfluid/__generated__/': {
-            preset: 'client',
-            plugins: [],
-            presetConfig: {
-                gqlTagName: 'gql',
-            },
-            documents: ['src/graph-ql/queries/superfluid/**/*.ts'],
-            schema: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai"
-        }
-
     },
     ignoreNoDocuments: true,
 };
