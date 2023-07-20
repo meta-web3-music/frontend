@@ -19,6 +19,7 @@ function Header() {
             </p>
           </Link>
         </div>
+
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">
           <div className="flex">
@@ -41,10 +42,7 @@ function Header() {
                 Dashboard
               </button>
             </SmartLink>
-            <SmartLink
-              href="/account"
-              activeClass="text-[#A49E1E]"
-            >
+            <SmartLink href="/account" activeClass="text-[#A49E1E]">
               <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
                 Account
               </button>

@@ -1,27 +1,83 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // type imports
 import { StickyPlayerProps } from "./StickyPlayer.types";
 import Image from "next/image";
+import { AppWalletContext } from "@/context/AppWallet";
+import { PremToggleSub } from "@/subs/PremiumToggleSub";
 
 // COMPONENT
 const StickyPlayer: React.FC<StickyPlayerProps> = ({
   onClosePlayer,
   musicNft,
 }) => {
+  const appContext = useContext(AppWalletContext);
   const adv = musicNft?.adDetails;
-  const resetStates = () => {
+  const resetStates = async () => {
     setIsPlayingAd(false);
     setIsPlaying(true);
     setAudioTime({
       currentTime: 0,
       duration: 0,
     });
+    await stop_stream();
   };
+
+  const [isPremium, setIsPremium] = useState(false);
+
+  useEffect(() => {
+    PremToggleSub.subscribe((e) => {
+      setIsPremium(e);
+    });
+  }, []);
   const [isPlayingAd, setIsPlayingAd] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
 
+  const [sender, setSender] = useState("");
+
+  const stop_stream = async () => {
+    if (sender == "") return;
+    setSender("");
+    const fusdcx = await appContext.superfluid?.loadSuperToken("fUSDCx");
+    if (!appContext.wallet) return;
+    const op = fusdcx?.deleteFlow({
+      receiver: sender,
+      sender: appContext.wallet.address,
+    });
+    await op?.exec(appContext.wallet);
+  };
+  const update_stream = async () => {
+    if (musicNft && appContext.wallet && appContext.superfluid) {
+      const fusdcx = await appContext.superfluid?.loadSuperToken("fUSDCx");
+
+      if (isPlaying) {
+        if (musicNft.owner.toLowerCase() == sender.toLowerCase()) return;
+        await stop_stream();
+        try {
+          const op = fusdcx?.createFlow({
+            flowRate: "100000000000000",
+            receiver: musicNft.owner,
+            sender: appContext.wallet.address,
+          });
+
+          const superSigner = appContext.superfluid.createSigner({
+            signer: appContext.wallet,
+          });
+          setSender(musicNft.owner);
+          await op?.exec(superSigner);
+        } catch (error) {
+          console.log((error as { reason: string }).reason);
+        }
+      } else {
+        await stop_stream();
+      }
+    }
+  };
+  useEffect(() => {
+    update_stream();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying, musicNft]);
   const [audioTime, setAudioTime] = useState({
     currentTime: 0,
     duration: 0,
@@ -77,11 +133,17 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
     };
     audioRef.current?.addEventListener("ended", endedEventLister);
   }, [audioRef, isPlaying, isPlayingAd]);
-
   useEffect(() => {
-    setIsPlayingAd(true);
+    if (isPremium) {
+      setIsPlayingAd(false);
+    }
+  }, [isPremium]);
+  useEffect(() => {
+    if (isPremium) setIsPlayingAd(false);
+    else setIsPlayingAd(true);
     setIsPlaying(true);
     audioRef.current?.play();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [musicNft]);
 
   return (

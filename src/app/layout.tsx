@@ -19,8 +19,10 @@ import {
   MuzikGraphQLEndpoint,
   Octav3GraphQLEndpoint,
   SpinampGraphQLEndpoint,
+  SuperFluidGraphQLEndpoint,
 } from "@/env";
 import { MultiAPILink } from "@habx/apollo-multi-endpoint-link";
+import { AppWallet } from "@/context/AppWallet";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +38,7 @@ export default function RootLayout({
           muzik: MuzikGraphQLEndpoint,
           spinamp: SpinampGraphQLEndpoint,
           octav3: Octav3GraphQLEndpoint,
+          superfluid: SuperFluidGraphQLEndpoint,
         },
         httpSuffix: "",
         createHttpLink: () => {
@@ -62,9 +65,11 @@ export default function RootLayout({
               >
                 <ApolloProvider client={client}>
                   <ThemeProvider attribute="class">
-                    <MusicPlayer />
-                    <Header />
-                    {children}
+                    <AppWallet>
+                      <MusicPlayer />
+                      <Header />
+                      {children}
+                    </AppWallet>
                   </ThemeProvider>
                 </ApolloProvider>
               </RainbowKitProvider>

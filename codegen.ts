@@ -28,7 +28,7 @@ const config: CodegenConfig = {
             },
             documents: ['src/graph-ql/queries/octav3/**/*.ts'],
             schema: "https://api.thegraph.com/subgraphs/name/thisisommore/octav3"
-        }
+        },
     },
     ignoreNoDocuments: true,
 };

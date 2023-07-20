@@ -3,6 +3,7 @@ import MintSongButton from "@/components/MintSongButton/MintSongButton";
 import OButton from "@/components/OButton/OButton";
 import SongListItemMusicNFT from "@/components/SongList/SongListItemMusicNFT";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
+import { AppWalletContext } from "@/context/AppWallet";
 import { MusicNFTAddr } from "@/env";
 import { GET_MY_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_MUSIC/getAllMusic";
 import { GetMyMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
@@ -12,12 +13,20 @@ import { GetMyMusicQuery as GetMyMusicQuerySpinamp } from "@/graph-ql/queries/sp
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
+import { PremToggleSub } from "@/subs/PremiumToggleSub";
+import { USDCxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
 
 const Account = () => {
+  const [isPrem, setIsPrem] = useState(false);
+
+  useEffect(() => {
+    PremToggleSub.subscribe(setIsPrem);
+  }, []);
   const { data: walletClient } = useWalletClient();
+  const appWallet = useContext(AppWalletContext);
   const publicClient = usePublicClient();
   const handlePlaySongSpinamp = async (
     musicNft: NonNullable<GetMyMusicQuerySpinamp["allNfts"]>["nodes"][0]
@@ -27,7 +36,8 @@ const Account = () => {
     if (
       musicNft?.contractAddress &&
       musicNft?.tokenId &&
-      metadata.animation_url
+      metadata.animation_url &&
+      walletClient
     ) {
       MusicPlayerSub.next({
         artist: metadata.artist ?? ".....",
@@ -36,16 +46,20 @@ const Account = () => {
         musicUrl: deToHttps(metadata.animation_url ?? ""),
         title: metadata.title ?? ".....",
         tokenId: musicNft?.tokenId ?? ".....",
+        owner: walletClient.account.address,
       });
     }
   };
-
+  const copy = () => {
+    if (appWallet.wallet)
+      navigator.clipboard.writeText(appWallet.wallet.address);
+  };
   const handlePlaySong = async (
     musicNft: NonNullable<NonNullable<GetMyMusicQuery["musicTokens"]>[0]>
   ) => {
     const metadata = await fetchDe<Metadata>(musicNft.tokenUri);
     if (!metadata) return;
-    if (musicNft?.id && metadata.animation_url) {
+    if (musicNft?.id && metadata.animation_url && walletClient) {
       MusicPlayerSub.next({
         artist: metadata.artist ?? ".....",
         artworkUrl: deToHttps(metadata.artwork?.uri ?? "TODO"),
@@ -53,6 +67,7 @@ const Account = () => {
         musicUrl: deToHttps(metadata.animation_url ?? ""),
         title: metadata.title ?? ".....",
         tokenId: musicNft?.id ?? ".....",
+        owner: walletClient.account.address,
       });
     }
   };
@@ -71,15 +86,33 @@ const Account = () => {
       owner: walletClient?.account.address.toLowerCase(),
     },
   });
+
   useEffect(() => {
     refetch();
     refetchSpinamp();
   }, [walletClient, refetchSpinamp, refetch]);
+
+  const [balance, setBalance] = useState<[string, string]>();
+  useEffect(() => {
+    USDCxWalletBalanceSub.subscribe(setBalance);
+  }, []);
   return (
     <div className="p-4 pt-20 pl-8 font-figtree">
       <p className="font-bold text-2xl">Balance</p>
-      <p className="text-xl">$10</p>
-
+      <p className="text-xl">
+        ${balance?.[0]}|${balance?.[1]}
+      </p>
+      <label className="switch">
+        <input
+          type="checkbox"
+          checked={isPrem}
+          onChange={(e) => PremToggleSub.next(e.target.checked)}
+        ></input>
+        <span className="slider round"></span>
+      </label>
+      <OButton btnType="fill" color="blue" onClick={copy}>
+        Copy
+      </OButton>
       <div className="flex">
         <p className="font-bold text-2xl">Music NFTs</p>
         <p className="text-2xl ml-auto">See all</p>
@@ -156,7 +189,7 @@ const Account = () => {
           );
         })}
       </div>
-      <div className="w-20">
+      <div className="w-20 fixed bottom-5 left-5">
         <MintSongButton color="gray" text="Mint" />
       </div>
     </div>
