@@ -29,7 +29,7 @@ const SongListItemMuzik = ({ musicNft, onPlaySong }: Props) => {
     });
   }, [musicNft]);
   const getImageSrc = (): string => {
-    const artWorkUri = metaData?.artwork.uri;
+    const artWorkUri = metaData?.artwork?.uri;
     const httpsURL = deToHttps(artWorkUri ?? "");
     return httpsURL;
   };

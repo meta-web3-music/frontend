@@ -38,20 +38,16 @@ export type Address = Node & {
   ensAvatarChecked?: Maybe<Scalars['Datetime']['output']>;
   ensName?: Maybe<Scalars['String']['output']>;
   ensNameChecked?: Maybe<Scalars['Datetime']['output']>;
-  /** Reads and enables pagination through a set of `Erc721Transfer`. */
-  erc721TransfersByFrom: Erc721TransfersConnection;
-  /** Reads and enables pagination through a set of `Erc721Transfer`. */
-  erc721TransfersByTo: Erc721TransfersConnection;
-  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
-  erc1155TransfersByFrom: Erc1155TransfersConnection;
-  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
-  erc1155TransfersByTo: Erc1155TransfersConnection;
   id: Scalars['String']['output'];
+  isPublic?: Maybe<Scalars['Boolean']['output']>;
+  isSession?: Maybe<Scalars['Boolean']['output']>;
   /** Reads and enables pagination through a set of `LensProfile`. */
   lensProfilesByAddress: LensProfilesConnection;
   name?: Maybe<Scalars['String']['output']>;
-  /** Reads and enables pagination through a set of `Nft`. */
-  nftsByOwner: NftsConnection;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  nftTransfersByFrom: NftTransfersConnection;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  nftTransfersByTo: NftTransfersConnection;
   /** Reads and enables pagination through a set of `NftsCollector`. */
   nftsCollectorsByAddressId: NftsCollectorsConnection;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -70,54 +66,6 @@ export type Address = Node & {
 };
 
 
-export type AddressErc721TransfersByFromArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc721TransferCondition>;
-  filter?: InputMaybe<Erc721TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc721TransfersOrderBy>>;
-};
-
-
-export type AddressErc721TransfersByToArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc721TransferCondition>;
-  filter?: InputMaybe<Erc721TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc721TransfersOrderBy>>;
-};
-
-
-export type AddressErc1155TransfersByFromArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc1155TransferCondition>;
-  filter?: InputMaybe<Erc1155TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
-};
-
-
-export type AddressErc1155TransfersByToArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc1155TransferCondition>;
-  filter?: InputMaybe<Erc1155TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
-};
-
-
 export type AddressLensProfilesByAddressArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -130,15 +78,27 @@ export type AddressLensProfilesByAddressArgs = {
 };
 
 
-export type AddressNftsByOwnerArgs = {
+export type AddressNftTransfersByFromArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<NftCondition>;
-  filter?: InputMaybe<NftFilter>;
+  condition?: InputMaybe<NftTransferCondition>;
+  filter?: InputMaybe<NftTransferFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<NftsOrderBy>>;
+  orderBy?: InputMaybe<Array<NftTransfersOrderBy>>;
+};
+
+
+export type AddressNftTransfersByToArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NftTransferCondition>;
+  filter?: InputMaybe<NftTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NftTransfersOrderBy>>;
 };
 
 
@@ -215,6 +175,10 @@ export type AddressCondition = {
   ensNameChecked?: InputMaybe<Scalars['Datetime']['input']>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `isPublic` field. */
+  isPublic?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Checks for equality with the object’s `isSession` field. */
+  isSession?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `userId` field. */
@@ -235,34 +199,26 @@ export type AddressFilter = {
   ensName?: InputMaybe<StringFilter>;
   /** Filter by the object’s `ensNameChecked` field. */
   ensNameChecked?: InputMaybe<DatetimeFilter>;
-  /** Filter by the object’s `erc721TransfersByFrom` relation. */
-  erc721TransfersByFrom?: InputMaybe<AddressToManyErc721TransferFilter>;
-  /** Some related `erc721TransfersByFrom` exist. */
-  erc721TransfersByFromExist?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `erc721TransfersByTo` relation. */
-  erc721TransfersByTo?: InputMaybe<AddressToManyErc721TransferFilter>;
-  /** Some related `erc721TransfersByTo` exist. */
-  erc721TransfersByToExist?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `erc1155TransfersByFrom` relation. */
-  erc1155TransfersByFrom?: InputMaybe<AddressToManyErc1155TransferFilter>;
-  /** Some related `erc1155TransfersByFrom` exist. */
-  erc1155TransfersByFromExist?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `erc1155TransfersByTo` relation. */
-  erc1155TransfersByTo?: InputMaybe<AddressToManyErc1155TransferFilter>;
-  /** Some related `erc1155TransfersByTo` exist. */
-  erc1155TransfersByToExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `isPublic` field. */
+  isPublic?: InputMaybe<BooleanFilter>;
+  /** Filter by the object’s `isSession` field. */
+  isSession?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `lensProfilesByAddress` relation. */
   lensProfilesByAddress?: InputMaybe<AddressToManyLensProfileFilter>;
   /** Some related `lensProfilesByAddress` exist. */
   lensProfilesByAddressExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `name` field. */
   name?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `nftsByOwner` relation. */
-  nftsByOwner?: InputMaybe<AddressToManyNftFilter>;
-  /** Some related `nftsByOwner` exist. */
-  nftsByOwnerExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `nftTransfersByFrom` relation. */
+  nftTransfersByFrom?: InputMaybe<AddressToManyNftTransferFilter>;
+  /** Some related `nftTransfersByFrom` exist. */
+  nftTransfersByFromExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `nftTransfersByTo` relation. */
+  nftTransfersByTo?: InputMaybe<AddressToManyNftTransferFilter>;
+  /** Some related `nftTransfersByTo` exist. */
+  nftTransfersByToExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `nftsCollectorsByAddressId` relation. */
   nftsCollectorsByAddressId?: InputMaybe<AddressToManyNftsCollectorFilter>;
   /** Some related `nftsCollectorsByAddressId` exist. */
@@ -295,26 +251,6 @@ export type AddressFilter = {
   userId?: InputMaybe<StringFilter>;
 };
 
-/** A filter to be used against many `Erc721Transfer` object types. All fields are combined with a logical ‘and.’ */
-export type AddressToManyErc721TransferFilter = {
-  /** Every related `Erc721Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: InputMaybe<Erc721TransferFilter>;
-  /** No related `Erc721Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: InputMaybe<Erc721TransferFilter>;
-  /** Some related `Erc721Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: InputMaybe<Erc721TransferFilter>;
-};
-
-/** A filter to be used against many `Erc1155Transfer` object types. All fields are combined with a logical ‘and.’ */
-export type AddressToManyErc1155TransferFilter = {
-  /** Every related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: InputMaybe<Erc1155TransferFilter>;
-  /** No related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: InputMaybe<Erc1155TransferFilter>;
-  /** Some related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: InputMaybe<Erc1155TransferFilter>;
-};
-
 /** A filter to be used against many `LensProfile` object types. All fields are combined with a logical ‘and.’ */
 export type AddressToManyLensProfileFilter = {
   /** Every related `LensProfile` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -325,14 +261,14 @@ export type AddressToManyLensProfileFilter = {
   some?: InputMaybe<LensProfileFilter>;
 };
 
-/** A filter to be used against many `Nft` object types. All fields are combined with a logical ‘and.’ */
-export type AddressToManyNftFilter = {
-  /** Every related `Nft` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: InputMaybe<NftFilter>;
-  /** No related `Nft` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: InputMaybe<NftFilter>;
-  /** Some related `Nft` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: InputMaybe<NftFilter>;
+/** A filter to be used against many `NftTransfer` object types. All fields are combined with a logical ‘and.’ */
+export type AddressToManyNftTransferFilter = {
+  /** Every related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<NftTransferFilter>;
+  /** No related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<NftTransferFilter>;
+  /** Some related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<NftTransferFilter>;
 };
 
 /** A filter to be used against many `NftsCollector` object types. All fields are combined with a logical ‘and.’ */
@@ -399,25 +335,23 @@ export enum AddressesOrderBy {
   EnsNameCheckedAsc = 'ENS_NAME_CHECKED_ASC',
   EnsNameCheckedDesc = 'ENS_NAME_CHECKED_DESC',
   EnsNameDesc = 'ENS_NAME_DESC',
-  Erc721TransfersByFromCountAsc = 'ERC721_TRANSFERS_BY_FROM__COUNT_ASC',
-  Erc721TransfersByFromCountDesc = 'ERC721_TRANSFERS_BY_FROM__COUNT_DESC',
-  Erc721TransfersByToCountAsc = 'ERC721_TRANSFERS_BY_TO__COUNT_ASC',
-  Erc721TransfersByToCountDesc = 'ERC721_TRANSFERS_BY_TO__COUNT_DESC',
-  Erc1155TransfersByFromCountAsc = 'ERC1155_TRANSFERS_BY_FROM__COUNT_ASC',
-  Erc1155TransfersByFromCountDesc = 'ERC1155_TRANSFERS_BY_FROM__COUNT_DESC',
-  Erc1155TransfersByToCountAsc = 'ERC1155_TRANSFERS_BY_TO__COUNT_ASC',
-  Erc1155TransfersByToCountDesc = 'ERC1155_TRANSFERS_BY_TO__COUNT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  IsPublicAsc = 'IS_PUBLIC_ASC',
+  IsPublicDesc = 'IS_PUBLIC_DESC',
+  IsSessionAsc = 'IS_SESSION_ASC',
+  IsSessionDesc = 'IS_SESSION_DESC',
   LensProfilesByAddressCountAsc = 'LENS_PROFILES_BY_ADDRESS__COUNT_ASC',
   LensProfilesByAddressCountDesc = 'LENS_PROFILES_BY_ADDRESS__COUNT_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
-  NftsByOwnerCountAsc = 'NFTS_BY_OWNER__COUNT_ASC',
-  NftsByOwnerCountDesc = 'NFTS_BY_OWNER__COUNT_DESC',
   NftsCollectorsByAddressIdCountAsc = 'NFTS_COLLECTORS_BY_ADDRESS_ID__COUNT_ASC',
   NftsCollectorsByAddressIdCountDesc = 'NFTS_COLLECTORS_BY_ADDRESS_ID__COUNT_DESC',
+  NftTransfersByFromCountAsc = 'NFT_TRANSFERS_BY_FROM__COUNT_ASC',
+  NftTransfersByFromCountDesc = 'NFT_TRANSFERS_BY_FROM__COUNT_DESC',
+  NftTransfersByToCountAsc = 'NFT_TRANSFERS_BY_TO__COUNT_ASC',
+  NftTransfersByToCountDesc = 'NFT_TRANSFERS_BY_TO__COUNT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   ReservoirEventsByFromAddressCountAsc = 'RESERVOIR_EVENTS_BY_FROM_ADDRESS__COUNT_ASC',
@@ -1075,8 +1009,6 @@ export enum ArtistsNftsOrderBy {
   NftByNftIdMimeTypeDesc = 'NFT_BY_NFT_ID__MIME_TYPE_DESC',
   NftByNftIdNftFactoryIdAsc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_ASC',
   NftByNftIdNftFactoryIdDesc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_DESC',
-  NftByNftIdOwnerAsc = 'NFT_BY_NFT_ID__OWNER_ASC',
-  NftByNftIdOwnerDesc = 'NFT_BY_NFT_ID__OWNER_DESC',
   NftByNftIdPlatformIdAsc = 'NFT_BY_NFT_ID__PLATFORM_ID_ASC',
   NftByNftIdPlatformIdDesc = 'NFT_BY_NFT_ID__PLATFORM_ID_DESC',
   NftByNftIdPublicReleaseTimeAsc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_ASC',
@@ -1362,92 +1294,6 @@ export enum CollectionSetsOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-export type Collector = Node & {
-  __typename?: 'Collector';
-  id: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output'];
-  /** Reads a single `User` that is related to this `Collector`. */
-  userByUserId?: Maybe<User>;
-  userId?: Maybe<Scalars['String']['output']>;
-};
-
-/**
- * A condition to be used against `Collector` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type CollectorCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A filter to be used against `Collector` object types. All fields are combined with a logical ‘and.’ */
-export type CollectorFilter = {
-  /** Checks for all expressions in this list. */
-  and?: InputMaybe<Array<CollectorFilter>>;
-  /** Filter by the object’s `id` field. */
-  id?: InputMaybe<StringFilter>;
-  /** Negates the expression. */
-  not?: InputMaybe<CollectorFilter>;
-  /** Checks for any expressions in this list. */
-  or?: InputMaybe<Array<CollectorFilter>>;
-  /** Filter by the object’s `userByUserId` relation. */
-  userByUserId?: InputMaybe<UserFilter>;
-  /** A related `userByUserId` exists. */
-  userByUserIdExists?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `userId` field. */
-  userId?: InputMaybe<StringFilter>;
-};
-
-/** A connection to a list of `Collector` values. */
-export type CollectorsConnection = {
-  __typename?: 'CollectorsConnection';
-  /** A list of edges which contains the `Collector` and cursor to aid in pagination. */
-  edges: Array<CollectorsEdge>;
-  /** A list of `Collector` objects. */
-  nodes: Array<Maybe<Collector>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Collector` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Collector` edge in the connection. */
-export type CollectorsEdge = {
-  __typename?: 'CollectorsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Collector` at the end of the edge. */
-  node?: Maybe<Collector>;
-};
-
-/** Methods to use when ordering `Collector`. */
-export enum CollectorsOrderBy {
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  UserByUserIdAvatarIpfshashAsc = 'USER_BY_USER_ID__AVATAR_IPFSHASH_ASC',
-  UserByUserIdAvatarIpfshashDesc = 'USER_BY_USER_ID__AVATAR_IPFSHASH_DESC',
-  UserByUserIdAvatarUrlAsc = 'USER_BY_USER_ID__AVATAR_URL_ASC',
-  UserByUserIdAvatarUrlDesc = 'USER_BY_USER_ID__AVATAR_URL_DESC',
-  UserByUserIdCustomThemeAsc = 'USER_BY_USER_ID__CUSTOM_THEME_ASC',
-  UserByUserIdCustomThemeDesc = 'USER_BY_USER_ID__CUSTOM_THEME_DESC',
-  UserByUserIdDescriptionAsc = 'USER_BY_USER_ID__DESCRIPTION_ASC',
-  UserByUserIdDescriptionDesc = 'USER_BY_USER_ID__DESCRIPTION_DESC',
-  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
-  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
-  UserByUserIdNameAsc = 'USER_BY_USER_ID__NAME_ASC',
-  UserByUserIdNameDesc = 'USER_BY_USER_ID__NAME_DESC',
-  UserByUserIdPredefinedThemeNameAsc = 'USER_BY_USER_ID__PREDEFINED_THEME_NAME_ASC',
-  UserByUserIdPredefinedThemeNameDesc = 'USER_BY_USER_ID__PREDEFINED_THEME_NAME_DESC',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC'
-}
-
 export type CrdtState = Node & {
   __typename?: 'CrdtState';
   column: Scalars['String']['output'];
@@ -1568,417 +1414,263 @@ export type DatetimeFilter = {
   notIn?: InputMaybe<Array<Scalars['Datetime']['input']>>;
 };
 
-export type Erc721Transfer = Node & {
-  __typename?: 'Erc721Transfer';
-  /** Reads a single `Address` that is related to this `Erc721Transfer`. */
-  addressByFrom?: Maybe<Address>;
-  /** Reads a single `Address` that is related to this `Erc721Transfer`. */
-  addressByTo?: Maybe<Address>;
-  chainId?: Maybe<Scalars['String']['output']>;
-  contractAddress?: Maybe<Scalars['String']['output']>;
-  createdAtBlockNumber?: Maybe<Scalars['BigInt']['output']>;
-  createdAtTime?: Maybe<Scalars['Datetime']['output']>;
-  from?: Maybe<Scalars['String']['output']>;
+export type ExternalLinksUser = Node & {
+  __typename?: 'ExternalLinksUser';
   id: Scalars['String']['output'];
-  /** Reads a single `Nft` that is related to this `Erc721Transfer`. */
-  nftByNftId?: Maybe<Nft>;
-  nftId?: Maybe<Scalars['String']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output'];
-  to?: Maybe<Scalars['String']['output']>;
-  tokenId?: Maybe<Scalars['String']['output']>;
-  transactionHash?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  /** Reads a single `User` that is related to this `ExternalLinksUser`. */
+  userByUserId?: Maybe<User>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 /**
- * A condition to be used against `Erc721Transfer` object types. All fields are
+ * A condition to be used against `ExternalLinksUser` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
  */
-export type Erc721TransferCondition = {
-  /** Checks for equality with the object’s `chainId` field. */
-  chainId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `contractAddress` field. */
-  contractAddress?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `createdAtBlockNumber` field. */
-  createdAtBlockNumber?: InputMaybe<Scalars['BigInt']['input']>;
-  /** Checks for equality with the object’s `createdAtTime` field. */
-  createdAtTime?: InputMaybe<Scalars['Datetime']['input']>;
-  /** Checks for equality with the object’s `from` field. */
-  from?: InputMaybe<Scalars['String']['input']>;
+export type ExternalLinksUserCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `nftId` field. */
-  nftId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `to` field. */
-  to?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `tokenId` field. */
-  tokenId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `transactionHash` field. */
-  transactionHash?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `type` field. */
+  type?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `url` field. */
+  url?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A filter to be used against `Erc721Transfer` object types. All fields are combined with a logical ‘and.’ */
-export type Erc721TransferFilter = {
-  /** Filter by the object’s `addressByFrom` relation. */
-  addressByFrom?: InputMaybe<AddressFilter>;
-  /** A related `addressByFrom` exists. */
-  addressByFromExists?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `addressByTo` relation. */
-  addressByTo?: InputMaybe<AddressFilter>;
-  /** A related `addressByTo` exists. */
-  addressByToExists?: InputMaybe<Scalars['Boolean']['input']>;
+/** A filter to be used against `ExternalLinksUser` object types. All fields are combined with a logical ‘and.’ */
+export type ExternalLinksUserFilter = {
   /** Checks for all expressions in this list. */
-  and?: InputMaybe<Array<Erc721TransferFilter>>;
-  /** Filter by the object’s `chainId` field. */
-  chainId?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `contractAddress` field. */
-  contractAddress?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `createdAtBlockNumber` field. */
-  createdAtBlockNumber?: InputMaybe<BigIntFilter>;
-  /** Filter by the object’s `createdAtTime` field. */
-  createdAtTime?: InputMaybe<DatetimeFilter>;
-  /** Filter by the object’s `from` field. */
-  from?: InputMaybe<StringFilter>;
+  and?: InputMaybe<Array<ExternalLinksUserFilter>>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `nftByNftId` relation. */
-  nftByNftId?: InputMaybe<NftFilter>;
-  /** A related `nftByNftId` exists. */
-  nftByNftIdExists?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `nftId` field. */
-  nftId?: InputMaybe<StringFilter>;
   /** Negates the expression. */
-  not?: InputMaybe<Erc721TransferFilter>;
+  not?: InputMaybe<ExternalLinksUserFilter>;
   /** Checks for any expressions in this list. */
-  or?: InputMaybe<Array<Erc721TransferFilter>>;
-  /** Filter by the object’s `to` field. */
-  to?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `tokenId` field. */
-  tokenId?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `transactionHash` field. */
-  transactionHash?: InputMaybe<StringFilter>;
+  or?: InputMaybe<Array<ExternalLinksUserFilter>>;
+  /** Filter by the object’s `type` field. */
+  type?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `url` field. */
+  url?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `userByUserId` relation. */
+  userByUserId?: InputMaybe<UserFilter>;
+  /** A related `userByUserId` exists. */
+  userByUserIdExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `userId` field. */
+  userId?: InputMaybe<StringFilter>;
 };
 
-/** A connection to a list of `Erc721Transfer` values. */
-export type Erc721TransfersConnection = {
-  __typename?: 'Erc721TransfersConnection';
-  /** A list of edges which contains the `Erc721Transfer` and cursor to aid in pagination. */
-  edges: Array<Erc721TransfersEdge>;
-  /** A list of `Erc721Transfer` objects. */
-  nodes: Array<Maybe<Erc721Transfer>>;
+/** A connection to a list of `ExternalLinksUser` values. */
+export type ExternalLinksUsersConnection = {
+  __typename?: 'ExternalLinksUsersConnection';
+  /** A list of edges which contains the `ExternalLinksUser` and cursor to aid in pagination. */
+  edges: Array<ExternalLinksUsersEdge>;
+  /** A list of `ExternalLinksUser` objects. */
+  nodes: Array<Maybe<ExternalLinksUser>>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Erc721Transfer` you could get from the connection. */
+  /** The count of *all* `ExternalLinksUser` you could get from the connection. */
   totalCount: Scalars['Int']['output'];
 };
 
-/** A `Erc721Transfer` edge in the connection. */
-export type Erc721TransfersEdge = {
-  __typename?: 'Erc721TransfersEdge';
+/** A `ExternalLinksUser` edge in the connection. */
+export type ExternalLinksUsersEdge = {
+  __typename?: 'ExternalLinksUsersEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Erc721Transfer` at the end of the edge. */
-  node?: Maybe<Erc721Transfer>;
+  /** The `ExternalLinksUser` at the end of the edge. */
+  node?: Maybe<ExternalLinksUser>;
 };
 
-/** Methods to use when ordering `Erc721Transfer`. */
-export enum Erc721TransfersOrderBy {
-  AddressByFromAvatarUrlAsc = 'ADDRESS_BY_FROM__AVATAR_URL_ASC',
-  AddressByFromAvatarUrlDesc = 'ADDRESS_BY_FROM__AVATAR_URL_DESC',
-  AddressByFromEnsAvatarAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_ASC',
-  AddressByFromEnsAvatarCheckedAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_ASC',
-  AddressByFromEnsAvatarCheckedDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_DESC',
-  AddressByFromEnsAvatarDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_DESC',
-  AddressByFromEnsNameAsc = 'ADDRESS_BY_FROM__ENS_NAME_ASC',
-  AddressByFromEnsNameCheckedAsc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_ASC',
-  AddressByFromEnsNameCheckedDesc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_DESC',
-  AddressByFromEnsNameDesc = 'ADDRESS_BY_FROM__ENS_NAME_DESC',
-  AddressByFromIdAsc = 'ADDRESS_BY_FROM__ID_ASC',
-  AddressByFromIdDesc = 'ADDRESS_BY_FROM__ID_DESC',
-  AddressByFromNameAsc = 'ADDRESS_BY_FROM__NAME_ASC',
-  AddressByFromNameDesc = 'ADDRESS_BY_FROM__NAME_DESC',
-  AddressByFromUserIdAsc = 'ADDRESS_BY_FROM__USER_ID_ASC',
-  AddressByFromUserIdDesc = 'ADDRESS_BY_FROM__USER_ID_DESC',
-  AddressByToAvatarUrlAsc = 'ADDRESS_BY_TO__AVATAR_URL_ASC',
-  AddressByToAvatarUrlDesc = 'ADDRESS_BY_TO__AVATAR_URL_DESC',
-  AddressByToEnsAvatarAsc = 'ADDRESS_BY_TO__ENS_AVATAR_ASC',
-  AddressByToEnsAvatarCheckedAsc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_ASC',
-  AddressByToEnsAvatarCheckedDesc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_DESC',
-  AddressByToEnsAvatarDesc = 'ADDRESS_BY_TO__ENS_AVATAR_DESC',
-  AddressByToEnsNameAsc = 'ADDRESS_BY_TO__ENS_NAME_ASC',
-  AddressByToEnsNameCheckedAsc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_ASC',
-  AddressByToEnsNameCheckedDesc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_DESC',
-  AddressByToEnsNameDesc = 'ADDRESS_BY_TO__ENS_NAME_DESC',
-  AddressByToIdAsc = 'ADDRESS_BY_TO__ID_ASC',
-  AddressByToIdDesc = 'ADDRESS_BY_TO__ID_DESC',
-  AddressByToNameAsc = 'ADDRESS_BY_TO__NAME_ASC',
-  AddressByToNameDesc = 'ADDRESS_BY_TO__NAME_DESC',
-  AddressByToUserIdAsc = 'ADDRESS_BY_TO__USER_ID_ASC',
-  AddressByToUserIdDesc = 'ADDRESS_BY_TO__USER_ID_DESC',
-  ChainIdAsc = 'CHAIN_ID_ASC',
-  ChainIdDesc = 'CHAIN_ID_DESC',
-  ContractAddressAsc = 'CONTRACT_ADDRESS_ASC',
-  ContractAddressDesc = 'CONTRACT_ADDRESS_DESC',
-  CreatedAtBlockNumberAsc = 'CREATED_AT_BLOCK_NUMBER_ASC',
-  CreatedAtBlockNumberDesc = 'CREATED_AT_BLOCK_NUMBER_DESC',
-  CreatedAtTimeAsc = 'CREATED_AT_TIME_ASC',
-  CreatedAtTimeDesc = 'CREATED_AT_TIME_DESC',
-  FromAsc = 'FROM_ASC',
-  FromDesc = 'FROM_DESC',
+/** Methods to use when ordering `ExternalLinksUser`. */
+export enum ExternalLinksUsersOrderBy {
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   Natural = 'NATURAL',
-  NftByNftIdApprovedAsc = 'NFT_BY_NFT_ID__APPROVED_ASC',
-  NftByNftIdApprovedDesc = 'NFT_BY_NFT_ID__APPROVED_DESC',
-  NftByNftIdBurnedAsc = 'NFT_BY_NFT_ID__BURNED_ASC',
-  NftByNftIdBurnedDesc = 'NFT_BY_NFT_ID__BURNED_DESC',
-  NftByNftIdChainIdAsc = 'NFT_BY_NFT_ID__CHAIN_ID_ASC',
-  NftByNftIdChainIdDesc = 'NFT_BY_NFT_ID__CHAIN_ID_DESC',
-  NftByNftIdContractAddressAsc = 'NFT_BY_NFT_ID__CONTRACT_ADDRESS_ASC',
-  NftByNftIdContractAddressDesc = 'NFT_BY_NFT_ID__CONTRACT_ADDRESS_DESC',
-  NftByNftIdCreatedAtBlockNumberAsc = 'NFT_BY_NFT_ID__CREATED_AT_BLOCK_NUMBER_ASC',
-  NftByNftIdCreatedAtBlockNumberDesc = 'NFT_BY_NFT_ID__CREATED_AT_BLOCK_NUMBER_DESC',
-  NftByNftIdCreatedAtTimeAsc = 'NFT_BY_NFT_ID__CREATED_AT_TIME_ASC',
-  NftByNftIdCreatedAtTimeDesc = 'NFT_BY_NFT_ID__CREATED_AT_TIME_DESC',
-  NftByNftIdIdAsc = 'NFT_BY_NFT_ID__ID_ASC',
-  NftByNftIdIdDesc = 'NFT_BY_NFT_ID__ID_DESC',
-  NftByNftIdMetadataAsc = 'NFT_BY_NFT_ID__METADATA_ASC',
-  NftByNftIdMetadataDesc = 'NFT_BY_NFT_ID__METADATA_DESC',
-  NftByNftIdMetadataIpfshashAsc = 'NFT_BY_NFT_ID__METADATA_IPFSHASH_ASC',
-  NftByNftIdMetadataIpfshashDesc = 'NFT_BY_NFT_ID__METADATA_IPFSHASH_DESC',
-  NftByNftIdMimeTypeAsc = 'NFT_BY_NFT_ID__MIME_TYPE_ASC',
-  NftByNftIdMimeTypeDesc = 'NFT_BY_NFT_ID__MIME_TYPE_DESC',
-  NftByNftIdNftFactoryIdAsc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_ASC',
-  NftByNftIdNftFactoryIdDesc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_DESC',
-  NftByNftIdOwnerAsc = 'NFT_BY_NFT_ID__OWNER_ASC',
-  NftByNftIdOwnerDesc = 'NFT_BY_NFT_ID__OWNER_DESC',
-  NftByNftIdPlatformIdAsc = 'NFT_BY_NFT_ID__PLATFORM_ID_ASC',
-  NftByNftIdPlatformIdDesc = 'NFT_BY_NFT_ID__PLATFORM_ID_DESC',
-  NftByNftIdPublicReleaseTimeAsc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_ASC',
-  NftByNftIdPublicReleaseTimeDesc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_DESC',
-  NftByNftIdTokenIdAsc = 'NFT_BY_NFT_ID__TOKEN_ID_ASC',
-  NftByNftIdTokenIdDesc = 'NFT_BY_NFT_ID__TOKEN_ID_DESC',
-  NftByNftIdTokenMetadataUriAsc = 'NFT_BY_NFT_ID__TOKEN_METADATA_URI_ASC',
-  NftByNftIdTokenMetadataUriDesc = 'NFT_BY_NFT_ID__TOKEN_METADATA_URI_DESC',
-  NftByNftIdTokenUriAsc = 'NFT_BY_NFT_ID__TOKEN_URI_ASC',
-  NftByNftIdTokenUriDesc = 'NFT_BY_NFT_ID__TOKEN_URI_DESC',
-  NftIdAsc = 'NFT_ID_ASC',
-  NftIdDesc = 'NFT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  TokenIdAsc = 'TOKEN_ID_ASC',
-  TokenIdDesc = 'TOKEN_ID_DESC',
-  ToAsc = 'TO_ASC',
-  ToDesc = 'TO_DESC',
-  TransactionHashAsc = 'TRANSACTION_HASH_ASC',
-  TransactionHashDesc = 'TRANSACTION_HASH_DESC'
+  TypeAsc = 'TYPE_ASC',
+  TypeDesc = 'TYPE_DESC',
+  UrlAsc = 'URL_ASC',
+  UrlDesc = 'URL_DESC',
+  UserByUserIdAvatarIpfshashAsc = 'USER_BY_USER_ID__AVATAR_IPFSHASH_ASC',
+  UserByUserIdAvatarIpfshashDesc = 'USER_BY_USER_ID__AVATAR_IPFSHASH_DESC',
+  UserByUserIdAvatarUrlAsc = 'USER_BY_USER_ID__AVATAR_URL_ASC',
+  UserByUserIdAvatarUrlDesc = 'USER_BY_USER_ID__AVATAR_URL_DESC',
+  UserByUserIdCustomThemeAsc = 'USER_BY_USER_ID__CUSTOM_THEME_ASC',
+  UserByUserIdCustomThemeDesc = 'USER_BY_USER_ID__CUSTOM_THEME_DESC',
+  UserByUserIdDescriptionAsc = 'USER_BY_USER_ID__DESCRIPTION_ASC',
+  UserByUserIdDescriptionDesc = 'USER_BY_USER_ID__DESCRIPTION_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdNameAsc = 'USER_BY_USER_ID__NAME_ASC',
+  UserByUserIdNameDesc = 'USER_BY_USER_ID__NAME_DESC',
+  UserByUserIdPredefinedThemeNameAsc = 'USER_BY_USER_ID__PREDEFINED_THEME_NAME_ASC',
+  UserByUserIdPredefinedThemeNameDesc = 'USER_BY_USER_ID__PREDEFINED_THEME_NAME_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC'
 }
 
-export type Erc1155Transfer = Node & {
-  __typename?: 'Erc1155Transfer';
-  /** Reads a single `Address` that is related to this `Erc1155Transfer`. */
-  addressByFrom?: Maybe<Address>;
-  /** Reads a single `Address` that is related to this `Erc1155Transfer`. */
-  addressByTo?: Maybe<Address>;
-  chainId?: Maybe<Scalars['String']['output']>;
-  contractAddress?: Maybe<Scalars['String']['output']>;
-  createdAtBlockNumber?: Maybe<Scalars['BigInt']['output']>;
-  createdAtTime?: Maybe<Scalars['Datetime']['output']>;
-  from?: Maybe<Scalars['String']['output']>;
+export type FeedItem = Node & {
+  __typename?: 'FeedItem';
+  entityId?: Maybe<Scalars['String']['output']>;
+  entityType?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
-  /** Reads a single `Nft` that is related to this `Erc1155Transfer`. */
-  nftByNftId?: Maybe<Nft>;
-  nftId?: Maybe<Scalars['String']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output'];
-  to?: Maybe<Scalars['String']['output']>;
-  tokenId: Scalars['String']['output'];
-  transactionHash?: Maybe<Scalars['String']['output']>;
+  userAction?: Maybe<Scalars['String']['output']>;
+  /** Reads a single `User` that is related to this `FeedItem`. */
+  userByUserId?: Maybe<User>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 /**
- * A condition to be used against `Erc1155Transfer` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
+ * A condition to be used against `FeedItem` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
  */
-export type Erc1155TransferCondition = {
-  /** Checks for equality with the object’s `chainId` field. */
-  chainId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `contractAddress` field. */
-  contractAddress?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `createdAtBlockNumber` field. */
-  createdAtBlockNumber?: InputMaybe<Scalars['BigInt']['input']>;
-  /** Checks for equality with the object’s `createdAtTime` field. */
-  createdAtTime?: InputMaybe<Scalars['Datetime']['input']>;
-  /** Checks for equality with the object’s `from` field. */
-  from?: InputMaybe<Scalars['String']['input']>;
+export type FeedItemCondition = {
+  /** Checks for equality with the object’s `entityId` field. */
+  entityId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `entityType` field. */
+  entityType?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `nftId` field. */
-  nftId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `to` field. */
-  to?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `tokenId` field. */
-  tokenId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `transactionHash` field. */
-  transactionHash?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `userAction` field. */
+  userAction?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A filter to be used against `Erc1155Transfer` object types. All fields are combined with a logical ‘and.’ */
-export type Erc1155TransferFilter = {
-  /** Filter by the object’s `addressByFrom` relation. */
-  addressByFrom?: InputMaybe<AddressFilter>;
-  /** A related `addressByFrom` exists. */
-  addressByFromExists?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `addressByTo` relation. */
-  addressByTo?: InputMaybe<AddressFilter>;
-  /** A related `addressByTo` exists. */
-  addressByToExists?: InputMaybe<Scalars['Boolean']['input']>;
+/** A filter to be used against `FeedItem` object types. All fields are combined with a logical ‘and.’ */
+export type FeedItemFilter = {
   /** Checks for all expressions in this list. */
-  and?: InputMaybe<Array<Erc1155TransferFilter>>;
-  /** Filter by the object’s `chainId` field. */
-  chainId?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `contractAddress` field. */
-  contractAddress?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `createdAtBlockNumber` field. */
-  createdAtBlockNumber?: InputMaybe<BigIntFilter>;
-  /** Filter by the object’s `createdAtTime` field. */
-  createdAtTime?: InputMaybe<DatetimeFilter>;
-  /** Filter by the object’s `from` field. */
-  from?: InputMaybe<StringFilter>;
+  and?: InputMaybe<Array<FeedItemFilter>>;
+  /** Filter by the object’s `entityId` field. */
+  entityId?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `entityType` field. */
+  entityType?: InputMaybe<StringFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `nftByNftId` relation. */
-  nftByNftId?: InputMaybe<NftFilter>;
-  /** A related `nftByNftId` exists. */
-  nftByNftIdExists?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `nftId` field. */
-  nftId?: InputMaybe<StringFilter>;
   /** Negates the expression. */
-  not?: InputMaybe<Erc1155TransferFilter>;
+  not?: InputMaybe<FeedItemFilter>;
   /** Checks for any expressions in this list. */
-  or?: InputMaybe<Array<Erc1155TransferFilter>>;
-  /** Filter by the object’s `to` field. */
-  to?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `tokenId` field. */
-  tokenId?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `transactionHash` field. */
-  transactionHash?: InputMaybe<StringFilter>;
+  or?: InputMaybe<Array<FeedItemFilter>>;
+  /** Filter by the object’s `userAction` field. */
+  userAction?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `userByUserId` relation. */
+  userByUserId?: InputMaybe<UserFilter>;
+  /** A related `userByUserId` exists. */
+  userByUserIdExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `userId` field. */
+  userId?: InputMaybe<StringFilter>;
 };
 
-/** A connection to a list of `Erc1155Transfer` values. */
-export type Erc1155TransfersConnection = {
-  __typename?: 'Erc1155TransfersConnection';
-  /** A list of edges which contains the `Erc1155Transfer` and cursor to aid in pagination. */
-  edges: Array<Erc1155TransfersEdge>;
-  /** A list of `Erc1155Transfer` objects. */
-  nodes: Array<Maybe<Erc1155Transfer>>;
+/** A connection to a list of `FeedItem` values. */
+export type FeedItemsConnection = {
+  __typename?: 'FeedItemsConnection';
+  /** A list of edges which contains the `FeedItem` and cursor to aid in pagination. */
+  edges: Array<FeedItemsEdge>;
+  /** A list of `FeedItem` objects. */
+  nodes: Array<Maybe<FeedItem>>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Erc1155Transfer` you could get from the connection. */
+  /** The count of *all* `FeedItem` you could get from the connection. */
   totalCount: Scalars['Int']['output'];
 };
 
-/** A `Erc1155Transfer` edge in the connection. */
-export type Erc1155TransfersEdge = {
-  __typename?: 'Erc1155TransfersEdge';
+/** A `FeedItem` edge in the connection. */
+export type FeedItemsEdge = {
+  __typename?: 'FeedItemsEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Erc1155Transfer` at the end of the edge. */
-  node?: Maybe<Erc1155Transfer>;
+  /** The `FeedItem` at the end of the edge. */
+  node?: Maybe<FeedItem>;
 };
 
-/** Methods to use when ordering `Erc1155Transfer`. */
-export enum Erc1155TransfersOrderBy {
-  AddressByFromAvatarUrlAsc = 'ADDRESS_BY_FROM__AVATAR_URL_ASC',
-  AddressByFromAvatarUrlDesc = 'ADDRESS_BY_FROM__AVATAR_URL_DESC',
-  AddressByFromEnsAvatarAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_ASC',
-  AddressByFromEnsAvatarCheckedAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_ASC',
-  AddressByFromEnsAvatarCheckedDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_DESC',
-  AddressByFromEnsAvatarDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_DESC',
-  AddressByFromEnsNameAsc = 'ADDRESS_BY_FROM__ENS_NAME_ASC',
-  AddressByFromEnsNameCheckedAsc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_ASC',
-  AddressByFromEnsNameCheckedDesc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_DESC',
-  AddressByFromEnsNameDesc = 'ADDRESS_BY_FROM__ENS_NAME_DESC',
-  AddressByFromIdAsc = 'ADDRESS_BY_FROM__ID_ASC',
-  AddressByFromIdDesc = 'ADDRESS_BY_FROM__ID_DESC',
-  AddressByFromNameAsc = 'ADDRESS_BY_FROM__NAME_ASC',
-  AddressByFromNameDesc = 'ADDRESS_BY_FROM__NAME_DESC',
-  AddressByFromUserIdAsc = 'ADDRESS_BY_FROM__USER_ID_ASC',
-  AddressByFromUserIdDesc = 'ADDRESS_BY_FROM__USER_ID_DESC',
-  AddressByToAvatarUrlAsc = 'ADDRESS_BY_TO__AVATAR_URL_ASC',
-  AddressByToAvatarUrlDesc = 'ADDRESS_BY_TO__AVATAR_URL_DESC',
-  AddressByToEnsAvatarAsc = 'ADDRESS_BY_TO__ENS_AVATAR_ASC',
-  AddressByToEnsAvatarCheckedAsc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_ASC',
-  AddressByToEnsAvatarCheckedDesc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_DESC',
-  AddressByToEnsAvatarDesc = 'ADDRESS_BY_TO__ENS_AVATAR_DESC',
-  AddressByToEnsNameAsc = 'ADDRESS_BY_TO__ENS_NAME_ASC',
-  AddressByToEnsNameCheckedAsc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_ASC',
-  AddressByToEnsNameCheckedDesc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_DESC',
-  AddressByToEnsNameDesc = 'ADDRESS_BY_TO__ENS_NAME_DESC',
-  AddressByToIdAsc = 'ADDRESS_BY_TO__ID_ASC',
-  AddressByToIdDesc = 'ADDRESS_BY_TO__ID_DESC',
-  AddressByToNameAsc = 'ADDRESS_BY_TO__NAME_ASC',
-  AddressByToNameDesc = 'ADDRESS_BY_TO__NAME_DESC',
-  AddressByToUserIdAsc = 'ADDRESS_BY_TO__USER_ID_ASC',
-  AddressByToUserIdDesc = 'ADDRESS_BY_TO__USER_ID_DESC',
-  ChainIdAsc = 'CHAIN_ID_ASC',
-  ChainIdDesc = 'CHAIN_ID_DESC',
-  ContractAddressAsc = 'CONTRACT_ADDRESS_ASC',
-  ContractAddressDesc = 'CONTRACT_ADDRESS_DESC',
-  CreatedAtBlockNumberAsc = 'CREATED_AT_BLOCK_NUMBER_ASC',
-  CreatedAtBlockNumberDesc = 'CREATED_AT_BLOCK_NUMBER_DESC',
-  CreatedAtTimeAsc = 'CREATED_AT_TIME_ASC',
-  CreatedAtTimeDesc = 'CREATED_AT_TIME_DESC',
-  FromAsc = 'FROM_ASC',
-  FromDesc = 'FROM_DESC',
+/** Methods to use when ordering `FeedItem`. */
+export enum FeedItemsOrderBy {
+  EntityIdAsc = 'ENTITY_ID_ASC',
+  EntityIdDesc = 'ENTITY_ID_DESC',
+  EntityTypeAsc = 'ENTITY_TYPE_ASC',
+  EntityTypeDesc = 'ENTITY_TYPE_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   Natural = 'NATURAL',
-  NftByNftIdApprovedAsc = 'NFT_BY_NFT_ID__APPROVED_ASC',
-  NftByNftIdApprovedDesc = 'NFT_BY_NFT_ID__APPROVED_DESC',
-  NftByNftIdBurnedAsc = 'NFT_BY_NFT_ID__BURNED_ASC',
-  NftByNftIdBurnedDesc = 'NFT_BY_NFT_ID__BURNED_DESC',
-  NftByNftIdChainIdAsc = 'NFT_BY_NFT_ID__CHAIN_ID_ASC',
-  NftByNftIdChainIdDesc = 'NFT_BY_NFT_ID__CHAIN_ID_DESC',
-  NftByNftIdContractAddressAsc = 'NFT_BY_NFT_ID__CONTRACT_ADDRESS_ASC',
-  NftByNftIdContractAddressDesc = 'NFT_BY_NFT_ID__CONTRACT_ADDRESS_DESC',
-  NftByNftIdCreatedAtBlockNumberAsc = 'NFT_BY_NFT_ID__CREATED_AT_BLOCK_NUMBER_ASC',
-  NftByNftIdCreatedAtBlockNumberDesc = 'NFT_BY_NFT_ID__CREATED_AT_BLOCK_NUMBER_DESC',
-  NftByNftIdCreatedAtTimeAsc = 'NFT_BY_NFT_ID__CREATED_AT_TIME_ASC',
-  NftByNftIdCreatedAtTimeDesc = 'NFT_BY_NFT_ID__CREATED_AT_TIME_DESC',
-  NftByNftIdIdAsc = 'NFT_BY_NFT_ID__ID_ASC',
-  NftByNftIdIdDesc = 'NFT_BY_NFT_ID__ID_DESC',
-  NftByNftIdMetadataAsc = 'NFT_BY_NFT_ID__METADATA_ASC',
-  NftByNftIdMetadataDesc = 'NFT_BY_NFT_ID__METADATA_DESC',
-  NftByNftIdMetadataIpfshashAsc = 'NFT_BY_NFT_ID__METADATA_IPFSHASH_ASC',
-  NftByNftIdMetadataIpfshashDesc = 'NFT_BY_NFT_ID__METADATA_IPFSHASH_DESC',
-  NftByNftIdMimeTypeAsc = 'NFT_BY_NFT_ID__MIME_TYPE_ASC',
-  NftByNftIdMimeTypeDesc = 'NFT_BY_NFT_ID__MIME_TYPE_DESC',
-  NftByNftIdNftFactoryIdAsc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_ASC',
-  NftByNftIdNftFactoryIdDesc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_DESC',
-  NftByNftIdOwnerAsc = 'NFT_BY_NFT_ID__OWNER_ASC',
-  NftByNftIdOwnerDesc = 'NFT_BY_NFT_ID__OWNER_DESC',
-  NftByNftIdPlatformIdAsc = 'NFT_BY_NFT_ID__PLATFORM_ID_ASC',
-  NftByNftIdPlatformIdDesc = 'NFT_BY_NFT_ID__PLATFORM_ID_DESC',
-  NftByNftIdPublicReleaseTimeAsc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_ASC',
-  NftByNftIdPublicReleaseTimeDesc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_DESC',
-  NftByNftIdTokenIdAsc = 'NFT_BY_NFT_ID__TOKEN_ID_ASC',
-  NftByNftIdTokenIdDesc = 'NFT_BY_NFT_ID__TOKEN_ID_DESC',
-  NftByNftIdTokenMetadataUriAsc = 'NFT_BY_NFT_ID__TOKEN_METADATA_URI_ASC',
-  NftByNftIdTokenMetadataUriDesc = 'NFT_BY_NFT_ID__TOKEN_METADATA_URI_DESC',
-  NftByNftIdTokenUriAsc = 'NFT_BY_NFT_ID__TOKEN_URI_ASC',
-  NftByNftIdTokenUriDesc = 'NFT_BY_NFT_ID__TOKEN_URI_DESC',
-  NftIdAsc = 'NFT_ID_ASC',
-  NftIdDesc = 'NFT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  TokenIdAsc = 'TOKEN_ID_ASC',
-  TokenIdDesc = 'TOKEN_ID_DESC',
-  ToAsc = 'TO_ASC',
-  ToDesc = 'TO_DESC',
-  TransactionHashAsc = 'TRANSACTION_HASH_ASC',
-  TransactionHashDesc = 'TRANSACTION_HASH_DESC'
+  UserActionAsc = 'USER_ACTION_ASC',
+  UserActionDesc = 'USER_ACTION_DESC',
+  UserByUserIdAvatarIpfshashAsc = 'USER_BY_USER_ID__AVATAR_IPFSHASH_ASC',
+  UserByUserIdAvatarIpfshashDesc = 'USER_BY_USER_ID__AVATAR_IPFSHASH_DESC',
+  UserByUserIdAvatarUrlAsc = 'USER_BY_USER_ID__AVATAR_URL_ASC',
+  UserByUserIdAvatarUrlDesc = 'USER_BY_USER_ID__AVATAR_URL_DESC',
+  UserByUserIdCustomThemeAsc = 'USER_BY_USER_ID__CUSTOM_THEME_ASC',
+  UserByUserIdCustomThemeDesc = 'USER_BY_USER_ID__CUSTOM_THEME_DESC',
+  UserByUserIdDescriptionAsc = 'USER_BY_USER_ID__DESCRIPTION_ASC',
+  UserByUserIdDescriptionDesc = 'USER_BY_USER_ID__DESCRIPTION_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdNameAsc = 'USER_BY_USER_ID__NAME_ASC',
+  UserByUserIdNameDesc = 'USER_BY_USER_ID__NAME_DESC',
+  UserByUserIdPredefinedThemeNameAsc = 'USER_BY_USER_ID__PREDEFINED_THEME_NAME_ASC',
+  UserByUserIdPredefinedThemeNameDesc = 'USER_BY_USER_ID__PREDEFINED_THEME_NAME_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC'
 }
+
+export type GetUserCollectionType = {
+  __typename?: 'GetUserCollectionType';
+  count?: Maybe<Scalars['Int']['output']>;
+  maxPurchaseTime?: Maybe<Scalars['Datetime']['output']>;
+  /** Reads a single `ProcessedTrack` that is related to this `GetUserCollectionType`. */
+  processedTrackByProcessedTrackId?: Maybe<ProcessedTrack>;
+  processedTrackId?: Maybe<Scalars['String']['output']>;
+};
+
+/** A filter to be used against `GetUserCollectionType` object types. All fields are combined with a logical ‘and.’ */
+export type GetUserCollectionTypeFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<GetUserCollectionTypeFilter>>;
+  /** Filter by the object’s `count` field. */
+  count?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `maxPurchaseTime` field. */
+  maxPurchaseTime?: InputMaybe<DatetimeFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<GetUserCollectionTypeFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<GetUserCollectionTypeFilter>>;
+  /** Filter by the object’s `processedTrackByProcessedTrackId` relation. */
+  processedTrackByProcessedTrackId?: InputMaybe<ProcessedTrackFilter>;
+  /** A related `processedTrackByProcessedTrackId` exists. */
+  processedTrackByProcessedTrackIdExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `processedTrackId` field. */
+  processedTrackId?: InputMaybe<StringFilter>;
+};
+
+/** A connection to a list of `GetUserCollectionType` values. */
+export type GetUserCollectionTypesConnection = {
+  __typename?: 'GetUserCollectionTypesConnection';
+  /** A list of edges which contains the `GetUserCollectionType` and cursor to aid in pagination. */
+  edges: Array<GetUserCollectionTypesEdge>;
+  /** A list of `GetUserCollectionType` objects. */
+  nodes: Array<Maybe<GetUserCollectionType>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `GetUserCollectionType` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `GetUserCollectionType` edge in the connection. */
+export type GetUserCollectionTypesEdge = {
+  __typename?: 'GetUserCollectionTypesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `GetUserCollectionType` at the end of the edge. */
+  node?: Maybe<GetUserCollectionType>;
+};
 
 /** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
 export type IntFilter = {
@@ -2386,6 +2078,10 @@ export enum LensProfilesOrderBy {
   AddressByAddressEnsNameDesc = 'ADDRESS_BY_ADDRESS__ENS_NAME_DESC',
   AddressByAddressIdAsc = 'ADDRESS_BY_ADDRESS__ID_ASC',
   AddressByAddressIdDesc = 'ADDRESS_BY_ADDRESS__ID_DESC',
+  AddressByAddressIsPublicAsc = 'ADDRESS_BY_ADDRESS__IS_PUBLIC_ASC',
+  AddressByAddressIsPublicDesc = 'ADDRESS_BY_ADDRESS__IS_PUBLIC_DESC',
+  AddressByAddressIsSessionAsc = 'ADDRESS_BY_ADDRESS__IS_SESSION_ASC',
+  AddressByAddressIsSessionDesc = 'ADDRESS_BY_ADDRESS__IS_SESSION_DESC',
   AddressByAddressNameAsc = 'ADDRESS_BY_ADDRESS__NAME_ASC',
   AddressByAddressNameDesc = 'ADDRESS_BY_ADDRESS__NAME_DESC',
   AddressByAddressUserIdAsc = 'ADDRESS_BY_ADDRESS__USER_ID_ASC',
@@ -2701,8 +2397,6 @@ export type MetaFactoryToManyNftFactoryFilter = {
 
 export type Nft = Node & {
   __typename?: 'Nft';
-  /** Reads a single `Address` that is related to this `Nft`. */
-  addressByOwner?: Maybe<Address>;
   approved?: Maybe<Scalars['Boolean']['output']>;
   /** Reads and enables pagination through a set of `ArtistsNft`. */
   artistsNftsByNftId: ArtistsNftsConnection;
@@ -2711,10 +2405,6 @@ export type Nft = Node & {
   contractAddress?: Maybe<Scalars['String']['output']>;
   createdAtBlockNumber?: Maybe<Scalars['BigInt']['output']>;
   createdAtTime?: Maybe<Scalars['Datetime']['output']>;
-  /** Reads and enables pagination through a set of `Erc721Transfer`. */
-  erc721TransfersByNftId: Erc721TransfersConnection;
-  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
-  erc1155TransfersByNftId: Erc1155TransfersConnection;
   id: Scalars['String']['output'];
   metadata?: Maybe<Scalars['JSON']['output']>;
   metadataIpfsHash?: Maybe<Scalars['String']['output']>;
@@ -2724,13 +2414,14 @@ export type Nft = Node & {
   /** Reads a single `NftFactory` that is related to this `Nft`. */
   nftFactoryByNftFactoryId?: Maybe<NftFactory>;
   nftFactoryId?: Maybe<Scalars['String']['output']>;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  nftTransfersByNftId: NftTransfersConnection;
   /** Reads and enables pagination through a set of `NftsCollector`. */
   nftsCollectorsByNftId: NftsCollectorsConnection;
   /** Reads and enables pagination through a set of `NftsProcessedTrack`. */
   nftsProcessedTracksByNftId: NftsProcessedTracksConnection;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output'];
-  owner?: Maybe<Scalars['String']['output']>;
   /** Reads a single `Platform` that is related to this `Nft`. */
   platformByPlatformId?: Maybe<Platform>;
   platformId?: Maybe<Scalars['String']['output']>;
@@ -2753,30 +2444,6 @@ export type NftArtistsNftsByNftIdArgs = {
 };
 
 
-export type NftErc721TransfersByNftIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc721TransferCondition>;
-  filter?: InputMaybe<Erc721TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc721TransfersOrderBy>>;
-};
-
-
-export type NftErc1155TransfersByNftIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc1155TransferCondition>;
-  filter?: InputMaybe<Erc1155TransferFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
-};
-
-
 export type NftNftEventsByNftIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2786,6 +2453,18 @@ export type NftNftEventsByNftIdArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<NftEventsOrderBy>>;
+};
+
+
+export type NftNftTransfersByNftIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NftTransferCondition>;
+  filter?: InputMaybe<NftTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NftTransfersOrderBy>>;
 };
 
 
@@ -2836,8 +2515,6 @@ export type NftCondition = {
   mimeType?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `nftFactoryId` field. */
   nftFactoryId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `owner` field. */
-  owner?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `platformId` field. */
   platformId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `publicReleaseTime` field. */
@@ -2944,8 +2621,6 @@ export enum NftEventsOrderBy {
   NftByNftIdMimeTypeDesc = 'NFT_BY_NFT_ID__MIME_TYPE_DESC',
   NftByNftIdNftFactoryIdAsc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_ASC',
   NftByNftIdNftFactoryIdDesc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_DESC',
-  NftByNftIdOwnerAsc = 'NFT_BY_NFT_ID__OWNER_ASC',
-  NftByNftIdOwnerDesc = 'NFT_BY_NFT_ID__OWNER_DESC',
   NftByNftIdPlatformIdAsc = 'NFT_BY_NFT_ID__PLATFORM_ID_ASC',
   NftByNftIdPlatformIdDesc = 'NFT_BY_NFT_ID__PLATFORM_ID_DESC',
   NftByNftIdPublicReleaseTimeAsc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_ASC',
@@ -3076,6 +2751,10 @@ export enum NftFactoriesCollectionSetsOrderBy {
   Natural = 'NATURAL',
   NftFactoryByNftFactoryIdAddressAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_ASC',
   NftFactoryByNftFactoryIdAddressDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_DESC',
   NftFactoryByNftFactoryIdApprovedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_ASC',
   NftFactoryByNftFactoryIdApprovedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_DESC',
   NftFactoryByNftFactoryIdAutoApproveAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__AUTO_APPROVE_ASC',
@@ -3138,6 +2817,10 @@ export type NftFactoriesEdge = {
 export enum NftFactoriesOrderBy {
   AddressAsc = 'ADDRESS_ASC',
   AddressDesc = 'ADDRESS_DESC',
+  ApprovalCheckAlgorithmAsc = 'APPROVAL_CHECK_ALGORITHM_ASC',
+  ApprovalCheckAlgorithmDesc = 'APPROVAL_CHECK_ALGORITHM_DESC',
+  ApprovalCheckCompletedAsc = 'APPROVAL_CHECK_COMPLETED_ASC',
+  ApprovalCheckCompletedDesc = 'APPROVAL_CHECK_COMPLETED_DESC',
   ApprovedAsc = 'APPROVED_ASC',
   ApprovedDesc = 'APPROVED_DESC',
   AutoApproveAsc = 'AUTO_APPROVE_ASC',
@@ -3187,6 +2870,8 @@ export enum NftFactoriesOrderBy {
   NftFactoriesCollectionSetsByNftFactoryIdCountDesc = 'NFT_FACTORIES_COLLECTION_SETS_BY_NFT_FACTORY_ID__COUNT_DESC',
   NftFactoriesProcessedTracksByNftFactoryIdCountAsc = 'NFT_FACTORIES_PROCESSED_TRACKS_BY_NFT_FACTORY_ID__COUNT_ASC',
   NftFactoriesProcessedTracksByNftFactoryIdCountDesc = 'NFT_FACTORIES_PROCESSED_TRACKS_BY_NFT_FACTORY_ID__COUNT_DESC',
+  NftTransfersByNftFactoryIdCountAsc = 'NFT_TRANSFERS_BY_NFT_FACTORY_ID__COUNT_ASC',
+  NftTransfersByNftFactoryIdCountDesc = 'NFT_TRANSFERS_BY_NFT_FACTORY_ID__COUNT_DESC',
   PlatformByPlatformIdIdAsc = 'PLATFORM_BY_PLATFORM_ID__ID_ASC',
   PlatformByPlatformIdIdDesc = 'PLATFORM_BY_PLATFORM_ID__ID_DESC',
   PlatformByPlatformIdNameAsc = 'PLATFORM_BY_PLATFORM_ID__NAME_ASC',
@@ -3285,6 +2970,10 @@ export enum NftFactoriesProcessedTracksOrderBy {
   Natural = 'NATURAL',
   NftFactoryByNftFactoryIdAddressAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_ASC',
   NftFactoryByNftFactoryIdAddressDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_DESC',
   NftFactoryByNftFactoryIdApprovedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_ASC',
   NftFactoryByNftFactoryIdApprovedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_DESC',
   NftFactoryByNftFactoryIdAutoApproveAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__AUTO_APPROVE_ASC',
@@ -3360,6 +3049,8 @@ export enum NftFactoriesProcessedTracksOrderBy {
 export type NftFactory = Node & {
   __typename?: 'NftFactory';
   address?: Maybe<Scalars['String']['output']>;
+  approvalCheckAlgorithm?: Maybe<Scalars['String']['output']>;
+  approvalCheckCompleted?: Maybe<Scalars['Boolean']['output']>;
   approved?: Maybe<Scalars['Boolean']['output']>;
   autoApprove?: Maybe<Scalars['Boolean']['output']>;
   chainId?: Maybe<Scalars['String']['output']>;
@@ -3374,6 +3065,8 @@ export type NftFactory = Node & {
   nftFactoriesCollectionSetsByNftFactoryId: NftFactoriesCollectionSetsConnection;
   /** Reads and enables pagination through a set of `NftFactoriesProcessedTrack`. */
   nftFactoriesProcessedTracksByNftFactoryId: NftFactoriesProcessedTracksConnection;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  nftTransfersByNftFactoryId: NftTransfersConnection;
   /** Reads and enables pagination through a set of `Nft`. */
   nftsByNftFactoryId: NftsConnection;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -3416,6 +3109,18 @@ export type NftFactoryNftFactoriesProcessedTracksByNftFactoryIdArgs = {
 };
 
 
+export type NftFactoryNftTransfersByNftFactoryIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NftTransferCondition>;
+  filter?: InputMaybe<NftTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NftTransfersOrderBy>>;
+};
+
+
 export type NftFactoryNftsByNftFactoryIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3446,6 +3151,10 @@ export type NftFactoryReservoirEventsByNftFactoryIdArgs = {
 export type NftFactoryCondition = {
   /** Checks for equality with the object’s `address` field. */
   address?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `approvalCheckAlgorithm` field. */
+  approvalCheckAlgorithm?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `approvalCheckCompleted` field. */
+  approvalCheckCompleted?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for equality with the object’s `approved` field. */
   approved?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for equality with the object’s `autoApprove` field. */
@@ -3484,6 +3193,10 @@ export type NftFactoryFilter = {
   address?: InputMaybe<StringFilter>;
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<NftFactoryFilter>>;
+  /** Filter by the object’s `approvalCheckAlgorithm` field. */
+  approvalCheckAlgorithm?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `approvalCheckCompleted` field. */
+  approvalCheckCompleted?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `approved` field. */
   approved?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `autoApprove` field. */
@@ -3512,6 +3225,10 @@ export type NftFactoryFilter = {
   nftFactoriesProcessedTracksByNftFactoryId?: InputMaybe<NftFactoryToManyNftFactoriesProcessedTrackFilter>;
   /** Some related `nftFactoriesProcessedTracksByNftFactoryId` exist. */
   nftFactoriesProcessedTracksByNftFactoryIdExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `nftTransfersByNftFactoryId` relation. */
+  nftTransfersByNftFactoryId?: InputMaybe<NftFactoryToManyNftTransferFilter>;
+  /** Some related `nftTransfersByNftFactoryId` exist. */
+  nftTransfersByNftFactoryIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `nftsByNftFactoryId` relation. */
   nftsByNftFactoryId?: InputMaybe<NftFactoryToManyNftFilter>;
   /** Some related `nftsByNftFactoryId` exist. */
@@ -3574,6 +3291,16 @@ export type NftFactoryToManyNftFilter = {
   some?: InputMaybe<NftFilter>;
 };
 
+/** A filter to be used against many `NftTransfer` object types. All fields are combined with a logical ‘and.’ */
+export type NftFactoryToManyNftTransferFilter = {
+  /** Every related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<NftTransferFilter>;
+  /** No related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<NftTransferFilter>;
+  /** Some related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<NftTransferFilter>;
+};
+
 /** A filter to be used against many `ReservoirEvent` object types. All fields are combined with a logical ‘and.’ */
 export type NftFactoryToManyReservoirEventFilter = {
   /** Every related `ReservoirEvent` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -3586,10 +3313,6 @@ export type NftFactoryToManyReservoirEventFilter = {
 
 /** A filter to be used against `Nft` object types. All fields are combined with a logical ‘and.’ */
 export type NftFilter = {
-  /** Filter by the object’s `addressByOwner` relation. */
-  addressByOwner?: InputMaybe<AddressFilter>;
-  /** A related `addressByOwner` exists. */
-  addressByOwnerExists?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<NftFilter>>;
   /** Filter by the object’s `approved` field. */
@@ -3608,14 +3331,6 @@ export type NftFilter = {
   createdAtBlockNumber?: InputMaybe<BigIntFilter>;
   /** Filter by the object’s `createdAtTime` field. */
   createdAtTime?: InputMaybe<DatetimeFilter>;
-  /** Filter by the object’s `erc721TransfersByNftId` relation. */
-  erc721TransfersByNftId?: InputMaybe<NftToManyErc721TransferFilter>;
-  /** Some related `erc721TransfersByNftId` exist. */
-  erc721TransfersByNftIdExist?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Filter by the object’s `erc1155TransfersByNftId` relation. */
-  erc1155TransfersByNftId?: InputMaybe<NftToManyErc1155TransferFilter>;
-  /** Some related `erc1155TransfersByNftId` exist. */
-  erc1155TransfersByNftIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
   /** Filter by the object’s `metadata` field. */
@@ -3634,6 +3349,10 @@ export type NftFilter = {
   nftFactoryByNftFactoryIdExists?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `nftFactoryId` field. */
   nftFactoryId?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `nftTransfersByNftId` relation. */
+  nftTransfersByNftId?: InputMaybe<NftToManyNftTransferFilter>;
+  /** Some related `nftTransfersByNftId` exist. */
+  nftTransfersByNftIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `nftsCollectorsByNftId` relation. */
   nftsCollectorsByNftId?: InputMaybe<NftToManyNftsCollectorFilter>;
   /** Some related `nftsCollectorsByNftId` exist. */
@@ -3646,8 +3365,6 @@ export type NftFilter = {
   not?: InputMaybe<NftFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<NftFilter>>;
-  /** Filter by the object’s `owner` field. */
-  owner?: InputMaybe<StringFilter>;
   /** Filter by the object’s `platformByPlatformId` relation. */
   platformByPlatformId?: InputMaybe<PlatformFilter>;
   /** A related `platformByPlatformId` exists. */
@@ -3674,26 +3391,6 @@ export type NftToManyArtistsNftFilter = {
   some?: InputMaybe<ArtistsNftFilter>;
 };
 
-/** A filter to be used against many `Erc721Transfer` object types. All fields are combined with a logical ‘and.’ */
-export type NftToManyErc721TransferFilter = {
-  /** Every related `Erc721Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: InputMaybe<Erc721TransferFilter>;
-  /** No related `Erc721Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: InputMaybe<Erc721TransferFilter>;
-  /** Some related `Erc721Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: InputMaybe<Erc721TransferFilter>;
-};
-
-/** A filter to be used against many `Erc1155Transfer` object types. All fields are combined with a logical ‘and.’ */
-export type NftToManyErc1155TransferFilter = {
-  /** Every related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: InputMaybe<Erc1155TransferFilter>;
-  /** No related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: InputMaybe<Erc1155TransferFilter>;
-  /** Some related `Erc1155Transfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: InputMaybe<Erc1155TransferFilter>;
-};
-
 /** A filter to be used against many `NftEvent` object types. All fields are combined with a logical ‘and.’ */
 export type NftToManyNftEventFilter = {
   /** Every related `NftEvent` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -3702,6 +3399,16 @@ export type NftToManyNftEventFilter = {
   none?: InputMaybe<NftEventFilter>;
   /** Some related `NftEvent` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   some?: InputMaybe<NftEventFilter>;
+};
+
+/** A filter to be used against many `NftTransfer` object types. All fields are combined with a logical ‘and.’ */
+export type NftToManyNftTransferFilter = {
+  /** Every related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<NftTransferFilter>;
+  /** No related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<NftTransferFilter>;
+  /** Some related `NftTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<NftTransferFilter>;
 };
 
 /** A filter to be used against many `NftsCollector` object types. All fields are combined with a logical ‘and.’ */
@@ -3723,6 +3430,267 @@ export type NftToManyNftsProcessedTrackFilter = {
   /** Some related `NftsProcessedTrack` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   some?: InputMaybe<NftsProcessedTrackFilter>;
 };
+
+export type NftTransfer = Node & {
+  __typename?: 'NftTransfer';
+  /** Reads a single `Address` that is related to this `NftTransfer`. */
+  addressByFrom?: Maybe<Address>;
+  /** Reads a single `Address` that is related to this `NftTransfer`. */
+  addressByTo?: Maybe<Address>;
+  chainId?: Maybe<Scalars['String']['output']>;
+  contractAddress?: Maybe<Scalars['String']['output']>;
+  createdAtBlockNumber?: Maybe<Scalars['BigInt']['output']>;
+  createdAtTime?: Maybe<Scalars['Datetime']['output']>;
+  from?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  /** Reads a single `Nft` that is related to this `NftTransfer`. */
+  nftByNftId?: Maybe<Nft>;
+  /** Reads a single `NftFactory` that is related to this `NftTransfer`. */
+  nftFactoryByNftFactoryId?: Maybe<NftFactory>;
+  nftFactoryId?: Maybe<Scalars['String']['output']>;
+  nftId?: Maybe<Scalars['String']['output']>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output'];
+  to?: Maybe<Scalars['String']['output']>;
+  tokenId: Scalars['String']['output'];
+  transactionHash?: Maybe<Scalars['String']['output']>;
+};
+
+/**
+ * A condition to be used against `NftTransfer` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type NftTransferCondition = {
+  /** Checks for equality with the object’s `chainId` field. */
+  chainId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `contractAddress` field. */
+  contractAddress?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `createdAtBlockNumber` field. */
+  createdAtBlockNumber?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Checks for equality with the object’s `createdAtTime` field. */
+  createdAtTime?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Checks for equality with the object’s `from` field. */
+  from?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `nftFactoryId` field. */
+  nftFactoryId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `nftId` field. */
+  nftId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `to` field. */
+  to?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `tokenId` field. */
+  tokenId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `transactionHash` field. */
+  transactionHash?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A filter to be used against `NftTransfer` object types. All fields are combined with a logical ‘and.’ */
+export type NftTransferFilter = {
+  /** Filter by the object’s `addressByFrom` relation. */
+  addressByFrom?: InputMaybe<AddressFilter>;
+  /** A related `addressByFrom` exists. */
+  addressByFromExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `addressByTo` relation. */
+  addressByTo?: InputMaybe<AddressFilter>;
+  /** A related `addressByTo` exists. */
+  addressByToExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<NftTransferFilter>>;
+  /** Filter by the object’s `chainId` field. */
+  chainId?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `contractAddress` field. */
+  contractAddress?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `createdAtBlockNumber` field. */
+  createdAtBlockNumber?: InputMaybe<BigIntFilter>;
+  /** Filter by the object’s `createdAtTime` field. */
+  createdAtTime?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `from` field. */
+  from?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `nftByNftId` relation. */
+  nftByNftId?: InputMaybe<NftFilter>;
+  /** A related `nftByNftId` exists. */
+  nftByNftIdExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `nftFactoryByNftFactoryId` relation. */
+  nftFactoryByNftFactoryId?: InputMaybe<NftFactoryFilter>;
+  /** A related `nftFactoryByNftFactoryId` exists. */
+  nftFactoryByNftFactoryIdExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `nftFactoryId` field. */
+  nftFactoryId?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `nftId` field. */
+  nftId?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<NftTransferFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<NftTransferFilter>>;
+  /** Filter by the object’s `to` field. */
+  to?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `tokenId` field. */
+  tokenId?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `transactionHash` field. */
+  transactionHash?: InputMaybe<StringFilter>;
+};
+
+/** A connection to a list of `NftTransfer` values. */
+export type NftTransfersConnection = {
+  __typename?: 'NftTransfersConnection';
+  /** A list of edges which contains the `NftTransfer` and cursor to aid in pagination. */
+  edges: Array<NftTransfersEdge>;
+  /** A list of `NftTransfer` objects. */
+  nodes: Array<Maybe<NftTransfer>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `NftTransfer` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `NftTransfer` edge in the connection. */
+export type NftTransfersEdge = {
+  __typename?: 'NftTransfersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `NftTransfer` at the end of the edge. */
+  node?: Maybe<NftTransfer>;
+};
+
+/** Methods to use when ordering `NftTransfer`. */
+export enum NftTransfersOrderBy {
+  AddressByFromAvatarUrlAsc = 'ADDRESS_BY_FROM__AVATAR_URL_ASC',
+  AddressByFromAvatarUrlDesc = 'ADDRESS_BY_FROM__AVATAR_URL_DESC',
+  AddressByFromEnsAvatarAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_ASC',
+  AddressByFromEnsAvatarCheckedAsc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_ASC',
+  AddressByFromEnsAvatarCheckedDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_CHECKED_DESC',
+  AddressByFromEnsAvatarDesc = 'ADDRESS_BY_FROM__ENS_AVATAR_DESC',
+  AddressByFromEnsNameAsc = 'ADDRESS_BY_FROM__ENS_NAME_ASC',
+  AddressByFromEnsNameCheckedAsc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_ASC',
+  AddressByFromEnsNameCheckedDesc = 'ADDRESS_BY_FROM__ENS_NAME_CHECKED_DESC',
+  AddressByFromEnsNameDesc = 'ADDRESS_BY_FROM__ENS_NAME_DESC',
+  AddressByFromIdAsc = 'ADDRESS_BY_FROM__ID_ASC',
+  AddressByFromIdDesc = 'ADDRESS_BY_FROM__ID_DESC',
+  AddressByFromIsPublicAsc = 'ADDRESS_BY_FROM__IS_PUBLIC_ASC',
+  AddressByFromIsPublicDesc = 'ADDRESS_BY_FROM__IS_PUBLIC_DESC',
+  AddressByFromIsSessionAsc = 'ADDRESS_BY_FROM__IS_SESSION_ASC',
+  AddressByFromIsSessionDesc = 'ADDRESS_BY_FROM__IS_SESSION_DESC',
+  AddressByFromNameAsc = 'ADDRESS_BY_FROM__NAME_ASC',
+  AddressByFromNameDesc = 'ADDRESS_BY_FROM__NAME_DESC',
+  AddressByFromUserIdAsc = 'ADDRESS_BY_FROM__USER_ID_ASC',
+  AddressByFromUserIdDesc = 'ADDRESS_BY_FROM__USER_ID_DESC',
+  AddressByToAvatarUrlAsc = 'ADDRESS_BY_TO__AVATAR_URL_ASC',
+  AddressByToAvatarUrlDesc = 'ADDRESS_BY_TO__AVATAR_URL_DESC',
+  AddressByToEnsAvatarAsc = 'ADDRESS_BY_TO__ENS_AVATAR_ASC',
+  AddressByToEnsAvatarCheckedAsc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_ASC',
+  AddressByToEnsAvatarCheckedDesc = 'ADDRESS_BY_TO__ENS_AVATAR_CHECKED_DESC',
+  AddressByToEnsAvatarDesc = 'ADDRESS_BY_TO__ENS_AVATAR_DESC',
+  AddressByToEnsNameAsc = 'ADDRESS_BY_TO__ENS_NAME_ASC',
+  AddressByToEnsNameCheckedAsc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_ASC',
+  AddressByToEnsNameCheckedDesc = 'ADDRESS_BY_TO__ENS_NAME_CHECKED_DESC',
+  AddressByToEnsNameDesc = 'ADDRESS_BY_TO__ENS_NAME_DESC',
+  AddressByToIdAsc = 'ADDRESS_BY_TO__ID_ASC',
+  AddressByToIdDesc = 'ADDRESS_BY_TO__ID_DESC',
+  AddressByToIsPublicAsc = 'ADDRESS_BY_TO__IS_PUBLIC_ASC',
+  AddressByToIsPublicDesc = 'ADDRESS_BY_TO__IS_PUBLIC_DESC',
+  AddressByToIsSessionAsc = 'ADDRESS_BY_TO__IS_SESSION_ASC',
+  AddressByToIsSessionDesc = 'ADDRESS_BY_TO__IS_SESSION_DESC',
+  AddressByToNameAsc = 'ADDRESS_BY_TO__NAME_ASC',
+  AddressByToNameDesc = 'ADDRESS_BY_TO__NAME_DESC',
+  AddressByToUserIdAsc = 'ADDRESS_BY_TO__USER_ID_ASC',
+  AddressByToUserIdDesc = 'ADDRESS_BY_TO__USER_ID_DESC',
+  ChainIdAsc = 'CHAIN_ID_ASC',
+  ChainIdDesc = 'CHAIN_ID_DESC',
+  ContractAddressAsc = 'CONTRACT_ADDRESS_ASC',
+  ContractAddressDesc = 'CONTRACT_ADDRESS_DESC',
+  CreatedAtBlockNumberAsc = 'CREATED_AT_BLOCK_NUMBER_ASC',
+  CreatedAtBlockNumberDesc = 'CREATED_AT_BLOCK_NUMBER_DESC',
+  CreatedAtTimeAsc = 'CREATED_AT_TIME_ASC',
+  CreatedAtTimeDesc = 'CREATED_AT_TIME_DESC',
+  FromAsc = 'FROM_ASC',
+  FromDesc = 'FROM_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  NftByNftIdApprovedAsc = 'NFT_BY_NFT_ID__APPROVED_ASC',
+  NftByNftIdApprovedDesc = 'NFT_BY_NFT_ID__APPROVED_DESC',
+  NftByNftIdBurnedAsc = 'NFT_BY_NFT_ID__BURNED_ASC',
+  NftByNftIdBurnedDesc = 'NFT_BY_NFT_ID__BURNED_DESC',
+  NftByNftIdChainIdAsc = 'NFT_BY_NFT_ID__CHAIN_ID_ASC',
+  NftByNftIdChainIdDesc = 'NFT_BY_NFT_ID__CHAIN_ID_DESC',
+  NftByNftIdContractAddressAsc = 'NFT_BY_NFT_ID__CONTRACT_ADDRESS_ASC',
+  NftByNftIdContractAddressDesc = 'NFT_BY_NFT_ID__CONTRACT_ADDRESS_DESC',
+  NftByNftIdCreatedAtBlockNumberAsc = 'NFT_BY_NFT_ID__CREATED_AT_BLOCK_NUMBER_ASC',
+  NftByNftIdCreatedAtBlockNumberDesc = 'NFT_BY_NFT_ID__CREATED_AT_BLOCK_NUMBER_DESC',
+  NftByNftIdCreatedAtTimeAsc = 'NFT_BY_NFT_ID__CREATED_AT_TIME_ASC',
+  NftByNftIdCreatedAtTimeDesc = 'NFT_BY_NFT_ID__CREATED_AT_TIME_DESC',
+  NftByNftIdIdAsc = 'NFT_BY_NFT_ID__ID_ASC',
+  NftByNftIdIdDesc = 'NFT_BY_NFT_ID__ID_DESC',
+  NftByNftIdMetadataAsc = 'NFT_BY_NFT_ID__METADATA_ASC',
+  NftByNftIdMetadataDesc = 'NFT_BY_NFT_ID__METADATA_DESC',
+  NftByNftIdMetadataIpfshashAsc = 'NFT_BY_NFT_ID__METADATA_IPFSHASH_ASC',
+  NftByNftIdMetadataIpfshashDesc = 'NFT_BY_NFT_ID__METADATA_IPFSHASH_DESC',
+  NftByNftIdMimeTypeAsc = 'NFT_BY_NFT_ID__MIME_TYPE_ASC',
+  NftByNftIdMimeTypeDesc = 'NFT_BY_NFT_ID__MIME_TYPE_DESC',
+  NftByNftIdNftFactoryIdAsc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_ASC',
+  NftByNftIdNftFactoryIdDesc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_DESC',
+  NftByNftIdPlatformIdAsc = 'NFT_BY_NFT_ID__PLATFORM_ID_ASC',
+  NftByNftIdPlatformIdDesc = 'NFT_BY_NFT_ID__PLATFORM_ID_DESC',
+  NftByNftIdPublicReleaseTimeAsc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_ASC',
+  NftByNftIdPublicReleaseTimeDesc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_DESC',
+  NftByNftIdTokenIdAsc = 'NFT_BY_NFT_ID__TOKEN_ID_ASC',
+  NftByNftIdTokenIdDesc = 'NFT_BY_NFT_ID__TOKEN_ID_DESC',
+  NftByNftIdTokenMetadataUriAsc = 'NFT_BY_NFT_ID__TOKEN_METADATA_URI_ASC',
+  NftByNftIdTokenMetadataUriDesc = 'NFT_BY_NFT_ID__TOKEN_METADATA_URI_DESC',
+  NftByNftIdTokenUriAsc = 'NFT_BY_NFT_ID__TOKEN_URI_ASC',
+  NftByNftIdTokenUriDesc = 'NFT_BY_NFT_ID__TOKEN_URI_DESC',
+  NftFactoryByNftFactoryIdAddressAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_ASC',
+  NftFactoryByNftFactoryIdAddressDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_DESC',
+  NftFactoryByNftFactoryIdApprovedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_ASC',
+  NftFactoryByNftFactoryIdApprovedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_DESC',
+  NftFactoryByNftFactoryIdAutoApproveAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__AUTO_APPROVE_ASC',
+  NftFactoryByNftFactoryIdAutoApproveDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__AUTO_APPROVE_DESC',
+  NftFactoryByNftFactoryIdChainIdAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__CHAIN_ID_ASC',
+  NftFactoryByNftFactoryIdChainIdDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__CHAIN_ID_DESC',
+  NftFactoryByNftFactoryIdContractTypeAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__CONTRACT_TYPE_ASC',
+  NftFactoryByNftFactoryIdContractTypeDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__CONTRACT_TYPE_DESC',
+  NftFactoryByNftFactoryIdIdAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ID_ASC',
+  NftFactoryByNftFactoryIdIdDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ID_DESC',
+  NftFactoryByNftFactoryIdMetaFactoryIdAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__META_FACTORY_ID_ASC',
+  NftFactoryByNftFactoryIdMetaFactoryIdDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__META_FACTORY_ID_DESC',
+  NftFactoryByNftFactoryIdMintingProtocolAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__MINTING_PROTOCOL_ASC',
+  NftFactoryByNftFactoryIdMintingProtocolDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__MINTING_PROTOCOL_DESC',
+  NftFactoryByNftFactoryIdNameAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__NAME_ASC',
+  NftFactoryByNftFactoryIdNameDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__NAME_DESC',
+  NftFactoryByNftFactoryIdPlatformIdAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__PLATFORM_ID_ASC',
+  NftFactoryByNftFactoryIdPlatformIdDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__PLATFORM_ID_DESC',
+  NftFactoryByNftFactoryIdPreviewCapableAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__PREVIEW_CAPABLE_ASC',
+  NftFactoryByNftFactoryIdPreviewCapableDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__PREVIEW_CAPABLE_DESC',
+  NftFactoryByNftFactoryIdPreviewEnabledAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__PREVIEW_ENABLED_ASC',
+  NftFactoryByNftFactoryIdPreviewEnabledDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__PREVIEW_ENABLED_DESC',
+  NftFactoryByNftFactoryIdStandardAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__STANDARD_ASC',
+  NftFactoryByNftFactoryIdStandardDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__STANDARD_DESC',
+  NftFactoryByNftFactoryIdStartingBlockAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__STARTING_BLOCK_ASC',
+  NftFactoryByNftFactoryIdStartingBlockDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__STARTING_BLOCK_DESC',
+  NftFactoryByNftFactoryIdSymbolAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__SYMBOL_ASC',
+  NftFactoryByNftFactoryIdSymbolDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__SYMBOL_DESC',
+  NftFactoryByNftFactoryIdTypeMetadataAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__TYPE_METADATA_ASC',
+  NftFactoryByNftFactoryIdTypeMetadataDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__TYPE_METADATA_DESC',
+  NftFactoryIdAsc = 'NFT_FACTORY_ID_ASC',
+  NftFactoryIdDesc = 'NFT_FACTORY_ID_DESC',
+  NftIdAsc = 'NFT_ID_ASC',
+  NftIdDesc = 'NFT_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  TokenIdAsc = 'TOKEN_ID_ASC',
+  TokenIdDesc = 'TOKEN_ID_DESC',
+  ToAsc = 'TO_ASC',
+  ToDesc = 'TO_DESC',
+  TransactionHashAsc = 'TRANSACTION_HASH_ASC',
+  TransactionHashDesc = 'TRANSACTION_HASH_DESC'
+}
 
 export type NftsCollector = Node & {
   __typename?: 'NftsCollector';
@@ -3810,6 +3778,10 @@ export enum NftsCollectorsOrderBy {
   AddressByAddressIdEnsNameDesc = 'ADDRESS_BY_ADDRESS_ID__ENS_NAME_DESC',
   AddressByAddressIdIdAsc = 'ADDRESS_BY_ADDRESS_ID__ID_ASC',
   AddressByAddressIdIdDesc = 'ADDRESS_BY_ADDRESS_ID__ID_DESC',
+  AddressByAddressIdIsPublicAsc = 'ADDRESS_BY_ADDRESS_ID__IS_PUBLIC_ASC',
+  AddressByAddressIdIsPublicDesc = 'ADDRESS_BY_ADDRESS_ID__IS_PUBLIC_DESC',
+  AddressByAddressIdIsSessionAsc = 'ADDRESS_BY_ADDRESS_ID__IS_SESSION_ASC',
+  AddressByAddressIdIsSessionDesc = 'ADDRESS_BY_ADDRESS_ID__IS_SESSION_DESC',
   AddressByAddressIdNameAsc = 'ADDRESS_BY_ADDRESS_ID__NAME_ASC',
   AddressByAddressIdNameDesc = 'ADDRESS_BY_ADDRESS_ID__NAME_DESC',
   AddressByAddressIdUserIdAsc = 'ADDRESS_BY_ADDRESS_ID__USER_ID_ASC',
@@ -3841,8 +3813,6 @@ export enum NftsCollectorsOrderBy {
   NftByNftIdMimeTypeDesc = 'NFT_BY_NFT_ID__MIME_TYPE_DESC',
   NftByNftIdNftFactoryIdAsc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_ASC',
   NftByNftIdNftFactoryIdDesc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_DESC',
-  NftByNftIdOwnerAsc = 'NFT_BY_NFT_ID__OWNER_ASC',
-  NftByNftIdOwnerDesc = 'NFT_BY_NFT_ID__OWNER_DESC',
   NftByNftIdPlatformIdAsc = 'NFT_BY_NFT_ID__PLATFORM_ID_ASC',
   NftByNftIdPlatformIdDesc = 'NFT_BY_NFT_ID__PLATFORM_ID_DESC',
   NftByNftIdPublicReleaseTimeAsc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_ASC',
@@ -3883,22 +3853,6 @@ export type NftsEdge = {
 
 /** Methods to use when ordering `Nft`. */
 export enum NftsOrderBy {
-  AddressByOwnerAvatarUrlAsc = 'ADDRESS_BY_OWNER__AVATAR_URL_ASC',
-  AddressByOwnerAvatarUrlDesc = 'ADDRESS_BY_OWNER__AVATAR_URL_DESC',
-  AddressByOwnerEnsAvatarAsc = 'ADDRESS_BY_OWNER__ENS_AVATAR_ASC',
-  AddressByOwnerEnsAvatarCheckedAsc = 'ADDRESS_BY_OWNER__ENS_AVATAR_CHECKED_ASC',
-  AddressByOwnerEnsAvatarCheckedDesc = 'ADDRESS_BY_OWNER__ENS_AVATAR_CHECKED_DESC',
-  AddressByOwnerEnsAvatarDesc = 'ADDRESS_BY_OWNER__ENS_AVATAR_DESC',
-  AddressByOwnerEnsNameAsc = 'ADDRESS_BY_OWNER__ENS_NAME_ASC',
-  AddressByOwnerEnsNameCheckedAsc = 'ADDRESS_BY_OWNER__ENS_NAME_CHECKED_ASC',
-  AddressByOwnerEnsNameCheckedDesc = 'ADDRESS_BY_OWNER__ENS_NAME_CHECKED_DESC',
-  AddressByOwnerEnsNameDesc = 'ADDRESS_BY_OWNER__ENS_NAME_DESC',
-  AddressByOwnerIdAsc = 'ADDRESS_BY_OWNER__ID_ASC',
-  AddressByOwnerIdDesc = 'ADDRESS_BY_OWNER__ID_DESC',
-  AddressByOwnerNameAsc = 'ADDRESS_BY_OWNER__NAME_ASC',
-  AddressByOwnerNameDesc = 'ADDRESS_BY_OWNER__NAME_DESC',
-  AddressByOwnerUserIdAsc = 'ADDRESS_BY_OWNER__USER_ID_ASC',
-  AddressByOwnerUserIdDesc = 'ADDRESS_BY_OWNER__USER_ID_DESC',
   ApprovedAsc = 'APPROVED_ASC',
   ApprovedDesc = 'APPROVED_DESC',
   ArtistsNftsByNftIdCountAsc = 'ARTISTS_NFTS_BY_NFT_ID__COUNT_ASC',
@@ -3913,10 +3867,6 @@ export enum NftsOrderBy {
   CreatedAtBlockNumberDesc = 'CREATED_AT_BLOCK_NUMBER_DESC',
   CreatedAtTimeAsc = 'CREATED_AT_TIME_ASC',
   CreatedAtTimeDesc = 'CREATED_AT_TIME_DESC',
-  Erc721TransfersByNftIdCountAsc = 'ERC721_TRANSFERS_BY_NFT_ID__COUNT_ASC',
-  Erc721TransfersByNftIdCountDesc = 'ERC721_TRANSFERS_BY_NFT_ID__COUNT_DESC',
-  Erc1155TransfersByNftIdCountAsc = 'ERC1155_TRANSFERS_BY_NFT_ID__COUNT_ASC',
-  Erc1155TransfersByNftIdCountDesc = 'ERC1155_TRANSFERS_BY_NFT_ID__COUNT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   MetadataAsc = 'METADATA_ASC',
@@ -3934,6 +3884,10 @@ export enum NftsOrderBy {
   NftEventsByNftIdCountDesc = 'NFT_EVENTS_BY_NFT_ID__COUNT_DESC',
   NftFactoryByNftFactoryIdAddressAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_ASC',
   NftFactoryByNftFactoryIdAddressDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_DESC',
   NftFactoryByNftFactoryIdApprovedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_ASC',
   NftFactoryByNftFactoryIdApprovedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_DESC',
   NftFactoryByNftFactoryIdAutoApproveAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__AUTO_APPROVE_ASC',
@@ -3966,8 +3920,8 @@ export enum NftsOrderBy {
   NftFactoryByNftFactoryIdTypeMetadataDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__TYPE_METADATA_DESC',
   NftFactoryIdAsc = 'NFT_FACTORY_ID_ASC',
   NftFactoryIdDesc = 'NFT_FACTORY_ID_DESC',
-  OwnerAsc = 'OWNER_ASC',
-  OwnerDesc = 'OWNER_DESC',
+  NftTransfersByNftIdCountAsc = 'NFT_TRANSFERS_BY_NFT_ID__COUNT_ASC',
+  NftTransfersByNftIdCountDesc = 'NFT_TRANSFERS_BY_NFT_ID__COUNT_DESC',
   PlatformByPlatformIdIdAsc = 'PLATFORM_BY_PLATFORM_ID__ID_ASC',
   PlatformByPlatformIdIdDesc = 'PLATFORM_BY_PLATFORM_ID__ID_DESC',
   PlatformByPlatformIdNameAsc = 'PLATFORM_BY_PLATFORM_ID__NAME_ASC',
@@ -4187,8 +4141,6 @@ export enum NftsProcessedTracksOrderBy {
   NftByNftIdMimeTypeDesc = 'NFT_BY_NFT_ID__MIME_TYPE_DESC',
   NftByNftIdNftFactoryIdAsc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_ASC',
   NftByNftIdNftFactoryIdDesc = 'NFT_BY_NFT_ID__NFT_FACTORY_ID_DESC',
-  NftByNftIdOwnerAsc = 'NFT_BY_NFT_ID__OWNER_ASC',
-  NftByNftIdOwnerDesc = 'NFT_BY_NFT_ID__OWNER_DESC',
   NftByNftIdPlatformIdAsc = 'NFT_BY_NFT_ID__PLATFORM_ID_ASC',
   NftByNftIdPlatformIdDesc = 'NFT_BY_NFT_ID__PLATFORM_ID_DESC',
   NftByNftIdPublicReleaseTimeAsc = 'NFT_BY_NFT_ID__PUBLIC_RELEASE_TIME_ASC',
@@ -4791,6 +4743,10 @@ export type ProcessedTrackFilter = {
   createdAtTime?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `description` field. */
   description?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `getUserCollectionTypesByProcessedTrackId` relation. */
+  getUserCollectionTypesByProcessedTrackId?: InputMaybe<ProcessedTrackToManyGetUserCollectionTypeFilter>;
+  /** Some related `getUserCollectionTypesByProcessedTrackId` exist. */
+  getUserCollectionTypesByProcessedTrackIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
   /** Filter by the object’s `lossyArtworkIpfsHash` field. */
@@ -4841,6 +4797,16 @@ export type ProcessedTrackFilter = {
   trackPhasesByProcessedTrackIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `websiteUrl` field. */
   websiteUrl?: InputMaybe<StringFilter>;
+};
+
+/** A filter to be used against many `GetUserCollectionType` object types. All fields are combined with a logical ‘and.’ */
+export type ProcessedTrackToManyGetUserCollectionTypeFilter = {
+  /** Every related `GetUserCollectionType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<GetUserCollectionTypeFilter>;
+  /** No related `GetUserCollectionType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<GetUserCollectionTypeFilter>;
+  /** Some related `GetUserCollectionType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<GetUserCollectionTypeFilter>;
 };
 
 /** A filter to be used against many `NftFactoriesProcessedTrack` object types. All fields are combined with a logical ‘and.’ */
@@ -4955,6 +4921,8 @@ export enum ProcessedTracksOrderBy {
   CreatedAtTimeDesc = 'CREATED_AT_TIME_DESC',
   DescriptionAsc = 'DESCRIPTION_ASC',
   DescriptionDesc = 'DESCRIPTION_DESC',
+  GetUserCollectionTypesByProcessedTrackIdCountAsc = 'GET_USER_COLLECTION_TYPES_BY_PROCESSED_TRACK_ID__COUNT_ASC',
+  GetUserCollectionTypesByProcessedTrackIdCountDesc = 'GET_USER_COLLECTION_TYPES_BY_PROCESSED_TRACK_ID__COUNT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   LossyArtworkIpfshashAsc = 'LOSSY_ARTWORK_IPFSHASH_ASC',
@@ -5020,14 +4988,12 @@ export type Query = Node & {
   allBlocks?: Maybe<BlocksConnection>;
   /** Reads and enables pagination through a set of `CollectionSet`. */
   allCollectionSets?: Maybe<CollectionSetsConnection>;
-  /** Reads and enables pagination through a set of `Collector`. */
-  allCollectors?: Maybe<CollectorsConnection>;
   /** Reads and enables pagination through a set of `CrdtState`. */
   allCrdtStates?: Maybe<CrdtStatesConnection>;
-  /** Reads and enables pagination through a set of `Erc721Transfer`. */
-  allErc721Transfers?: Maybe<Erc721TransfersConnection>;
-  /** Reads and enables pagination through a set of `Erc1155Transfer`. */
-  allErc1155Transfers?: Maybe<Erc1155TransfersConnection>;
+  /** Reads and enables pagination through a set of `ExternalLinksUser`. */
+  allExternalLinksUsers?: Maybe<ExternalLinksUsersConnection>;
+  /** Reads and enables pagination through a set of `FeedItem`. */
+  allFeedItems?: Maybe<FeedItemsConnection>;
   /** Reads and enables pagination through a set of `IpfsFile`. */
   allIpfsFiles?: Maybe<IpfsFilesConnection>;
   /** Reads and enables pagination through a set of `IpfsFilesUrl`. */
@@ -5048,6 +5014,8 @@ export type Query = Node & {
   allNftFactoriesCollectionSets?: Maybe<NftFactoriesCollectionSetsConnection>;
   /** Reads and enables pagination through a set of `NftFactoriesProcessedTrack`. */
   allNftFactoriesProcessedTracks?: Maybe<NftFactoriesProcessedTracksConnection>;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  allNftTransfers?: Maybe<NftTransfersConnection>;
   /** Reads and enables pagination through a set of `Nft`. */
   allNfts?: Maybe<NftsConnection>;
   /** Reads and enables pagination through a set of `NftsCollector`. */
@@ -5081,6 +5049,8 @@ export type Query = Node & {
   /** Reads a single `ArtistProfile` using its globally unique `ID`. */
   artistProfile?: Maybe<ArtistProfile>;
   artistProfileByArtistIdAndPlatformId?: Maybe<ArtistProfile>;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  artistTransfers?: Maybe<NftTransfersConnection>;
   /** Reads a single `ArtistsNft` using its globally unique `ID`. */
   artistsNft?: Maybe<ArtistsNft>;
   artistsNftByArtistIdAndNftId?: Maybe<ArtistsNft>;
@@ -5090,18 +5060,17 @@ export type Query = Node & {
   /** Reads a single `CollectionSet` using its globally unique `ID`. */
   collectionSet?: Maybe<CollectionSet>;
   collectionSetById?: Maybe<CollectionSet>;
-  /** Reads a single `Collector` using its globally unique `ID`. */
-  collector?: Maybe<Collector>;
-  collectorById?: Maybe<Collector>;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  collectorTransfers?: Maybe<NftTransfersConnection>;
   /** Reads a single `CrdtState` using its globally unique `ID`. */
   crdtState?: Maybe<CrdtState>;
   crdtStateByTableAndColumnAndEntityId?: Maybe<CrdtState>;
-  /** Reads a single `Erc721Transfer` using its globally unique `ID`. */
-  erc721Transfer?: Maybe<Erc721Transfer>;
-  erc721TransferById?: Maybe<Erc721Transfer>;
-  /** Reads a single `Erc1155Transfer` using its globally unique `ID`. */
-  erc1155Transfer?: Maybe<Erc1155Transfer>;
-  erc1155TransferByIdAndTokenId?: Maybe<Erc1155Transfer>;
+  /** Reads a single `ExternalLinksUser` using its globally unique `ID`. */
+  externalLinksUser?: Maybe<ExternalLinksUser>;
+  externalLinksUserById?: Maybe<ExternalLinksUser>;
+  /** Reads a single `FeedItem` using its globally unique `ID`. */
+  feedItem?: Maybe<FeedItem>;
+  feedItemById?: Maybe<FeedItem>;
   /** Reads a single `IpfsFile` using its globally unique `ID`. */
   ipfsFile?: Maybe<IpfsFile>;
   ipfsFileByCid?: Maybe<IpfsFile>;
@@ -5135,6 +5104,9 @@ export type Query = Node & {
   /** Reads a single `NftFactory` using its globally unique `ID`. */
   nftFactory?: Maybe<NftFactory>;
   nftFactoryById?: Maybe<NftFactory>;
+  /** Reads a single `NftTransfer` using its globally unique `ID`. */
+  nftTransfer?: Maybe<NftTransfer>;
+  nftTransferByIdAndTokenId?: Maybe<NftTransfer>;
   /** Reads a single `NftsCollector` using its globally unique `ID`. */
   nftsCollector?: Maybe<NftsCollector>;
   nftsCollectorByAddressIdAndNftId?: Maybe<NftsCollector>;
@@ -5176,9 +5148,13 @@ export type Query = Node & {
   /** Reads a single `TrackPhase` using its globally unique `ID`. */
   trackPhase?: Maybe<TrackPhase>;
   trackPhaseById?: Maybe<TrackPhase>;
+  /** Reads and enables pagination through a set of `NftTransfer`. */
+  trackTransfers?: Maybe<NftTransfersConnection>;
   /** Reads a single `User` using its globally unique `ID`. */
   user?: Maybe<User>;
   userById?: Maybe<User>;
+  /** Reads and enables pagination through a set of `GetUserCollectionType`. */
+  userCollection?: Maybe<GetUserCollectionTypesConnection>;
 };
 
 
@@ -5286,19 +5262,6 @@ export type QueryAllCollectionSetsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAllCollectorsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<CollectorCondition>;
-  filter?: InputMaybe<CollectorFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<CollectorsOrderBy>>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAllCrdtStatesArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -5312,28 +5275,28 @@ export type QueryAllCrdtStatesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAllErc721TransfersArgs = {
+export type QueryAllExternalLinksUsersArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc721TransferCondition>;
-  filter?: InputMaybe<Erc721TransferFilter>;
+  condition?: InputMaybe<ExternalLinksUserCondition>;
+  filter?: InputMaybe<ExternalLinksUserFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc721TransfersOrderBy>>;
+  orderBy?: InputMaybe<Array<ExternalLinksUsersOrderBy>>;
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAllErc1155TransfersArgs = {
+export type QueryAllFeedItemsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<Erc1155TransferCondition>;
-  filter?: InputMaybe<Erc1155TransferFilter>;
+  condition?: InputMaybe<FeedItemCondition>;
+  filter?: InputMaybe<FeedItemFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Erc1155TransfersOrderBy>>;
+  orderBy?: InputMaybe<Array<FeedItemsOrderBy>>;
 };
 
 
@@ -5464,6 +5427,19 @@ export type QueryAllNftFactoriesProcessedTracksArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<NftFactoriesProcessedTracksOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllNftTransfersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NftTransferCondition>;
+  filter?: InputMaybe<NftTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NftTransfersOrderBy>>;
 };
 
 
@@ -5662,6 +5638,18 @@ export type QueryArtistProfileByArtistIdAndPlatformIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryArtistTransfersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  artistid?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NftTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryArtistsNftArgs = {
   nodeId: Scalars['ID']['input'];
 };
@@ -5700,14 +5688,14 @@ export type QueryCollectionSetByIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryCollectorArgs = {
-  nodeId: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryCollectorByIdArgs = {
-  id: Scalars['String']['input'];
+export type QueryCollectorTransfersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NftTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  userid?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -5726,27 +5714,26 @@ export type QueryCrdtStateByTableAndColumnAndEntityIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryErc721TransferArgs = {
+export type QueryExternalLinksUserArgs = {
   nodeId: Scalars['ID']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryErc721TransferByIdArgs = {
+export type QueryExternalLinksUserByIdArgs = {
   id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryErc1155TransferArgs = {
+export type QueryFeedItemArgs = {
   nodeId: Scalars['ID']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryErc1155TransferByIdAndTokenIdArgs = {
+export type QueryFeedItemByIdArgs = {
   id: Scalars['String']['input'];
-  tokenId: Scalars['String']['input'];
 };
 
 
@@ -5882,6 +5869,19 @@ export type QueryNftFactoryArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryNftFactoryByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryNftTransferArgs = {
+  nodeId: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryNftTransferByIdAndTokenIdArgs = {
+  id: Scalars['String']['input'];
+  tokenId: Scalars['String']['input'];
 };
 
 
@@ -6028,6 +6028,18 @@ export type QueryTrackPhaseByIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryTrackTransfersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NftTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  trackid?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryUserArgs = {
   nodeId: Scalars['ID']['input'];
 };
@@ -6036,6 +6048,18 @@ export type QueryUserArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryUserByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserCollectionArgs = {
+  _userid?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<GetUserCollectionTypeFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /**     @primaryKey "id" */
@@ -6328,6 +6352,10 @@ export enum ReservoirEventsOrderBy {
   AddressByFromAddressEnsNameDesc = 'ADDRESS_BY_FROM_ADDRESS__ENS_NAME_DESC',
   AddressByFromAddressIdAsc = 'ADDRESS_BY_FROM_ADDRESS__ID_ASC',
   AddressByFromAddressIdDesc = 'ADDRESS_BY_FROM_ADDRESS__ID_DESC',
+  AddressByFromAddressIsPublicAsc = 'ADDRESS_BY_FROM_ADDRESS__IS_PUBLIC_ASC',
+  AddressByFromAddressIsPublicDesc = 'ADDRESS_BY_FROM_ADDRESS__IS_PUBLIC_DESC',
+  AddressByFromAddressIsSessionAsc = 'ADDRESS_BY_FROM_ADDRESS__IS_SESSION_ASC',
+  AddressByFromAddressIsSessionDesc = 'ADDRESS_BY_FROM_ADDRESS__IS_SESSION_DESC',
   AddressByFromAddressNameAsc = 'ADDRESS_BY_FROM_ADDRESS__NAME_ASC',
   AddressByFromAddressNameDesc = 'ADDRESS_BY_FROM_ADDRESS__NAME_DESC',
   AddressByFromAddressUserIdAsc = 'ADDRESS_BY_FROM_ADDRESS__USER_ID_ASC',
@@ -6344,6 +6372,10 @@ export enum ReservoirEventsOrderBy {
   AddressByToAddressEnsNameDesc = 'ADDRESS_BY_TO_ADDRESS__ENS_NAME_DESC',
   AddressByToAddressIdAsc = 'ADDRESS_BY_TO_ADDRESS__ID_ASC',
   AddressByToAddressIdDesc = 'ADDRESS_BY_TO_ADDRESS__ID_DESC',
+  AddressByToAddressIsPublicAsc = 'ADDRESS_BY_TO_ADDRESS__IS_PUBLIC_ASC',
+  AddressByToAddressIsPublicDesc = 'ADDRESS_BY_TO_ADDRESS__IS_PUBLIC_DESC',
+  AddressByToAddressIsSessionAsc = 'ADDRESS_BY_TO_ADDRESS__IS_SESSION_ASC',
+  AddressByToAddressIsSessionDesc = 'ADDRESS_BY_TO_ADDRESS__IS_SESSION_DESC',
   AddressByToAddressNameAsc = 'ADDRESS_BY_TO_ADDRESS__NAME_ASC',
   AddressByToAddressNameDesc = 'ADDRESS_BY_TO_ADDRESS__NAME_DESC',
   AddressByToAddressUserIdAsc = 'ADDRESS_BY_TO_ADDRESS__USER_ID_ASC',
@@ -6375,6 +6407,10 @@ export enum ReservoirEventsOrderBy {
   NftEventsByEventIdCountDesc = 'NFT_EVENTS_BY_EVENT_ID__COUNT_DESC',
   NftFactoryByNftFactoryIdAddressAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_ASC',
   NftFactoryByNftFactoryIdAddressDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__ADDRESS_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckAlgorithmDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_ALGORITHM_DESC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_ASC',
+  NftFactoryByNftFactoryIdApprovalCheckCompletedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVAL_CHECK_COMPLETED_DESC',
   NftFactoryByNftFactoryIdApprovedAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_ASC',
   NftFactoryByNftFactoryIdApprovedDesc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__APPROVED_DESC',
   NftFactoryByNftFactoryIdAutoApproveAsc = 'NFT_FACTORY_BY_NFT_FACTORY_ID__AUTO_APPROVE_ASC',
@@ -6654,6 +6690,10 @@ export enum ReservoirOrdersOrderBy {
   AddressByMakerEnsNameDesc = 'ADDRESS_BY_MAKER__ENS_NAME_DESC',
   AddressByMakerIdAsc = 'ADDRESS_BY_MAKER__ID_ASC',
   AddressByMakerIdDesc = 'ADDRESS_BY_MAKER__ID_DESC',
+  AddressByMakerIsPublicAsc = 'ADDRESS_BY_MAKER__IS_PUBLIC_ASC',
+  AddressByMakerIsPublicDesc = 'ADDRESS_BY_MAKER__IS_PUBLIC_DESC',
+  AddressByMakerIsSessionAsc = 'ADDRESS_BY_MAKER__IS_SESSION_ASC',
+  AddressByMakerIsSessionDesc = 'ADDRESS_BY_MAKER__IS_SESSION_DESC',
   AddressByMakerNameAsc = 'ADDRESS_BY_MAKER__NAME_ASC',
   AddressByMakerNameDesc = 'ADDRESS_BY_MAKER__NAME_DESC',
   AddressByMakerUserIdAsc = 'ADDRESS_BY_MAKER__USER_ID_ASC',
@@ -6670,6 +6710,10 @@ export enum ReservoirOrdersOrderBy {
   AddressByTakerEnsNameDesc = 'ADDRESS_BY_TAKER__ENS_NAME_DESC',
   AddressByTakerIdAsc = 'ADDRESS_BY_TAKER__ID_ASC',
   AddressByTakerIdDesc = 'ADDRESS_BY_TAKER__ID_DESC',
+  AddressByTakerIsPublicAsc = 'ADDRESS_BY_TAKER__IS_PUBLIC_ASC',
+  AddressByTakerIsPublicDesc = 'ADDRESS_BY_TAKER__IS_PUBLIC_DESC',
+  AddressByTakerIsSessionAsc = 'ADDRESS_BY_TAKER__IS_SESSION_ASC',
+  AddressByTakerIsSessionDesc = 'ADDRESS_BY_TAKER__IS_SESSION_DESC',
   AddressByTakerNameAsc = 'ADDRESS_BY_TAKER__NAME_ASC',
   AddressByTakerNameDesc = 'ADDRESS_BY_TAKER__NAME_DESC',
   AddressByTakerUserIdAsc = 'ADDRESS_BY_TAKER__USER_ID_ASC',
@@ -7239,10 +7283,12 @@ export type User = Node & {
   artistsByUserId: ArtistsConnection;
   avatarIpfsHash?: Maybe<Scalars['String']['output']>;
   avatarUrl?: Maybe<Scalars['String']['output']>;
-  /** Reads and enables pagination through a set of `Collector`. */
-  collectorsByUserId: CollectorsConnection;
   customTheme?: Maybe<Scalars['JSON']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  /** Reads and enables pagination through a set of `ExternalLinksUser`. */
+  externalLinksUsersByUserId: ExternalLinksUsersConnection;
+  /** Reads and enables pagination through a set of `FeedItem`. */
+  feedItemsByUserId: FeedItemsConnection;
   id: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -7275,15 +7321,27 @@ export type UserArtistsByUserIdArgs = {
 };
 
 
-export type UserCollectorsByUserIdArgs = {
+export type UserExternalLinksUsersByUserIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<CollectorCondition>;
-  filter?: InputMaybe<CollectorFilter>;
+  condition?: InputMaybe<ExternalLinksUserCondition>;
+  filter?: InputMaybe<ExternalLinksUserFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<CollectorsOrderBy>>;
+  orderBy?: InputMaybe<Array<ExternalLinksUsersOrderBy>>;
+};
+
+
+export type UserFeedItemsByUserIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<FeedItemCondition>;
+  filter?: InputMaybe<FeedItemFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<FeedItemsOrderBy>>;
 };
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -7320,14 +7378,18 @@ export type UserFilter = {
   avatarIpfsHash?: InputMaybe<StringFilter>;
   /** Filter by the object’s `avatarUrl` field. */
   avatarUrl?: InputMaybe<StringFilter>;
-  /** Filter by the object’s `collectorsByUserId` relation. */
-  collectorsByUserId?: InputMaybe<UserToManyCollectorFilter>;
-  /** Some related `collectorsByUserId` exist. */
-  collectorsByUserIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `customTheme` field. */
   customTheme?: InputMaybe<JsonFilter>;
   /** Filter by the object’s `description` field. */
   description?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `externalLinksUsersByUserId` relation. */
+  externalLinksUsersByUserId?: InputMaybe<UserToManyExternalLinksUserFilter>;
+  /** Some related `externalLinksUsersByUserId` exist. */
+  externalLinksUsersByUserIdExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `feedItemsByUserId` relation. */
+  feedItemsByUserId?: InputMaybe<UserToManyFeedItemFilter>;
+  /** Some related `feedItemsByUserId` exist. */
+  feedItemsByUserIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<StringFilter>;
   /** Filter by the object’s `name` field. */
@@ -7360,14 +7422,24 @@ export type UserToManyArtistFilter = {
   some?: InputMaybe<ArtistFilter>;
 };
 
-/** A filter to be used against many `Collector` object types. All fields are combined with a logical ‘and.’ */
-export type UserToManyCollectorFilter = {
-  /** Every related `Collector` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: InputMaybe<CollectorFilter>;
-  /** No related `Collector` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: InputMaybe<CollectorFilter>;
-  /** Some related `Collector` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: InputMaybe<CollectorFilter>;
+/** A filter to be used against many `ExternalLinksUser` object types. All fields are combined with a logical ‘and.’ */
+export type UserToManyExternalLinksUserFilter = {
+  /** Every related `ExternalLinksUser` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<ExternalLinksUserFilter>;
+  /** No related `ExternalLinksUser` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<ExternalLinksUserFilter>;
+  /** Some related `ExternalLinksUser` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<ExternalLinksUserFilter>;
+};
+
+/** A filter to be used against many `FeedItem` object types. All fields are combined with a logical ‘and.’ */
+export type UserToManyFeedItemFilter = {
+  /** Every related `FeedItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<FeedItemFilter>;
+  /** No related `FeedItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<FeedItemFilter>;
+  /** Some related `FeedItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<FeedItemFilter>;
 };
 
 /** A connection to a list of `User` values. */
@@ -7402,12 +7474,14 @@ export enum UsersOrderBy {
   AvatarIpfshashDesc = 'AVATAR_IPFSHASH_DESC',
   AvatarUrlAsc = 'AVATAR_URL_ASC',
   AvatarUrlDesc = 'AVATAR_URL_DESC',
-  CollectorsByUserIdCountAsc = 'COLLECTORS_BY_USER_ID__COUNT_ASC',
-  CollectorsByUserIdCountDesc = 'COLLECTORS_BY_USER_ID__COUNT_DESC',
   CustomThemeAsc = 'CUSTOM_THEME_ASC',
   CustomThemeDesc = 'CUSTOM_THEME_DESC',
   DescriptionAsc = 'DESCRIPTION_ASC',
   DescriptionDesc = 'DESCRIPTION_DESC',
+  ExternalLinksUsersByUserIdCountAsc = 'EXTERNAL_LINKS_USERS_BY_USER_ID__COUNT_ASC',
+  ExternalLinksUsersByUserIdCountDesc = 'EXTERNAL_LINKS_USERS_BY_USER_ID__COUNT_DESC',
+  FeedItemsByUserIdCountAsc = 'FEED_ITEMS_BY_USER_ID__COUNT_ASC',
+  FeedItemsByUserIdCountDesc = 'FEED_ITEMS_BY_USER_ID__COUNT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
@@ -7424,7 +7498,7 @@ export type GetMyMusicQueryVariables = Exact<{
 }>;
 
 
-export type GetMyMusicQuery = { __typename?: 'Query', allNfts?: { __typename?: 'NftsConnection', nodes: Array<{ __typename?: 'Nft', id: string, tokenId?: string | null, metadata?: any | null, contractAddress?: string | null, tokenUri?: string | null } | null> } | null };
+export type GetMyMusicQuery = { __typename?: 'Query', allNfts?: { __typename?: 'NftsConnection', nodes: Array<{ __typename?: 'Nft', id: string, tokenId?: string | null, contractAddress?: string | null, tokenMetadataUri?: string | null, tokenUri?: string | null, metadata?: any | null } | null> } | null };
 
 
-export const GetMyMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyMusic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"spinamp"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allNfts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"5"}},{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"IntValue","value":"3"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}},{"kind":"Field","name":{"kind":"Name","value":"tokenUri"}}]}}]}}]}}]} as unknown as DocumentNode<GetMyMusicQuery, GetMyMusicQueryVariables>;
+export const GetMyMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyMusic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"spinamp"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allNfts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"nftsCollectorsByNftId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"some"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"addressId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalToInsensitive"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}},{"kind":"Field","name":{"kind":"Name","value":"tokenMetadataUri"}},{"kind":"Field","name":{"kind":"Name","value":"tokenUri"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}}]}}]}}]} as unknown as DocumentNode<GetMyMusicQuery, GetMyMusicQueryVariables>;

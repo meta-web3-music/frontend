@@ -29,7 +29,9 @@ const Account = () => {
   const appWallet = useContext(AppWalletContext);
   const publicClient = usePublicClient();
   const handlePlaySongSpinamp = async (
-    musicNft: NonNullable<GetMyMusicQuerySpinamp["allNfts"]>["nodes"][0]
+    musicNft: NonNullable<
+      NonNullable<GetMyMusicQuerySpinamp["allNfts"]>["nodes"][0]
+    >
   ) => {
     const metadata = musicNft?.metadata as Metadata;
     if (!metadata) return;
