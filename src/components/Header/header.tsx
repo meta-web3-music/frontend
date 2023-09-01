@@ -19,8 +19,8 @@ function Header() {
               <Image
                 src="/images/OCTAV3_logo.png"
                 alt="octav3 logo"
-                height={50}
-                width={50}
+                height={36}
+                width={36}
                 style={{ objectFit: "contain" }}
               />
               <p className="text-3xl font-bold m-3 hover:cursor-pointer ">
