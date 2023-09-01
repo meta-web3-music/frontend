@@ -11,7 +11,7 @@ import Image from "next/image";
 function Header() {
   return (
     <>
-      <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2 bg-slate-50 dark:bg-[rgb(26,26,26)] duration-300">
+      <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2  text-[#0000008e] dark:text-white bg-slate-50 dark:bg-[rgb(26,26,26)] duration-300">
         {/* headline */}
         <div>
           <Link href="/home">
@@ -23,7 +23,7 @@ function Header() {
                 width={50}
                 style={{ objectFit: "contain" }}
               />
-              <p className="text-3xl font-bold m-3 hover:cursor-pointer">
+              <p className="text-3xl font-bold m-3 hover:cursor-pointer ">
                 OCTAV3
               </p>
             </div>
@@ -33,7 +33,10 @@ function Header() {
         {/* Ad marketplace */}
         <div className="flex flex-col justify-center">
           <div className="flex">
-            <SmartLink href="/home" activeClass="text-[#A49E1E]">
+            <SmartLink
+              href="/home"
+              activeClass="text-[#a49e1e8e] dark:text-[#A49E1E]"
+            >
               <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
                 Home
               </button>
@@ -53,7 +56,10 @@ function Header() {
                 Dashboard
               </button>
             </SmartLink> */}
-            <SmartLink href="/account" activeClass="text-[#A49E1E]">
+            <SmartLink
+              href="/account"
+              activeClass="text-[#a49e1e8e] dark:text-[#A49E1E]"
+            >
               <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
                 Account
               </button>

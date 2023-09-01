@@ -10,11 +10,11 @@ function DarkModeToggle() {
   }, [resolvedTheme]);
   return (
     <div className="ml-auto flex items-center relative">
-      <div className="opacity-0 text-gray-700 text-3xl mr-5 pointer-events-none">
+      <div className="opacity-0 text-[#000000a8] text-3xl mr-5 pointer-events-none">
         <span className="iconify" data-icon="bi:sun-fill" />
       </div>
       <div
-        className={`text-gray-700 text-3xl mr-5 duration-300 absolute left-0 spring-light cursor-pointer ${
+        className={`text-[#000000a8] text-3xl mr-5 duration-300 absolute left-0 spring-light cursor-pointer ${
           _theme == "dark" ? "opacity-0 pointer-events-none rotate-180" : ""
         }`}
         onClick={() => setTheme("dark")}
