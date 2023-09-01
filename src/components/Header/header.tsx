@@ -38,7 +38,8 @@ function Header() {
                 Home
               </button>
             </SmartLink>
-            <SmartLink href="/ad-marketplace" activeClass="text-[#A49E1E]">
+            {/* remove below code along with the component source */}
+            {/* <SmartLink href="/ad-marketplace" activeClass="text-[#A49E1E]">
               <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
                 Ad marketplace
               </button>
@@ -51,7 +52,7 @@ function Header() {
               <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
                 Dashboard
               </button>
-            </SmartLink>
+            </SmartLink> */}
             <SmartLink href="/account" activeClass="text-[#A49E1E]">
               <button className="inline-block px-4 py-1 border font-medium text-base leading-tight rounded-full my-2 border-none">
                 Account
