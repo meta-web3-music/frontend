@@ -131,8 +131,9 @@ const Account = () => {
               }}
               customBtn={
                 <OButton
-                  color="blue"
+                  color="yellow"
                   btnType="fill"
+                  className="w-full mt-2"
                   onClick={() => {
                     //TODO error
                     if (

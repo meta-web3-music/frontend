@@ -63,15 +63,19 @@ const HottestSongs: React.FC = () => {
     });
   }, []);
   return (
-    <div className="flex flex-col align-center justify-center w-full md:w-5/6 m-2 md:m-auto px-2 text-left pt-14">
-      <p className="text-4xl font-bold mb-10">Songs</p>
-      {selectedSong && !isPremium && (
-        <AdBanner
-          image={`images/${advs[currentAd][0]}.png`}
-          website={`https://${advs[currentAd][1]}`}
-        />
-      )}
-      {memoizedSongList}
+    <div className="w-full bg-[#F7F7F7]">
+      <div className="flex flex-col align-center justify-center w-full md:w-5/6 m-2 md:m-auto px-2 text-left pt-14">
+        <p className="text-4xl font-bold mb-10 text-[#000000cc] dark:text-white">
+          Songs
+        </p>
+        {selectedSong && !isPremium && (
+          <AdBanner
+            image={`images/${advs[currentAd][0]}.png`}
+            website={`https://${advs[currentAd][1]}`}
+          />
+        )}
+        {memoizedSongList}
+      </div>
     </div>
   );
 };

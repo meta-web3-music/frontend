@@ -11,7 +11,7 @@ import Image from "next/image";
 function Header() {
   return (
     <>
-      <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2  text-[#0000008e] dark:text-white bg-slate-50 dark:bg-[rgb(26,26,26)] duration-300">
+      <header className="flex flex-row items-center justify-between font-figtree md:px-10 py-2  text-[#0000008e] dark:text-white bg-slate-50 dark:bg-[rgb(26,26,26)] duration-300 border-b-[1px] border-[#E5E5E5]">
         {/* headline */}
         <div>
           <Link href="/home">
@@ -23,7 +23,7 @@ function Header() {
                 width={36}
                 style={{ objectFit: "contain" }}
               />
-              <p className="text-3xl font-bold m-3 hover:cursor-pointer ">
+              <p className="text-3xl font-bold m-3 hover:cursor-pointer text-black dark:text-white">
                 OCTAV3
               </p>
             </div>

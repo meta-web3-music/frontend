@@ -9,6 +9,7 @@ type Props = {
   artist: string;
   isCurrentPlaying: boolean;
   customBtn?: React.ReactNode;
+  viewOn?: { url: string; name: string };
 };
 
 const SongListItemUIStyled = styled.div`
@@ -42,50 +43,63 @@ const SongListItemUI = ({
   title,
   isCurrentPlaying,
   customBtn,
+  viewOn,
 }: Props) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <SongListItemUIStyled
-      className={`m-2 shadow-2xl hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white ${
-        isCurrentPlaying ? "playing" : ""
-      }`}
-      onClick={onPlaySong}
-    >
-      <div className="relative h-60 w-40 md:w-48 lg:w-56">
-        <div
-          className={`image-placeholder duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800 ${
-            imageLoaded ? "hidden" : "block"
-          }`}
-        >
-          <span className="iconify" data-icon="bi:music-note-beamed"></span>
-        </div>
+    <div className="m-2 w-60 md:w-48 lg:w-60 ">
+      <SongListItemUIStyled
+        className={`hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white border-2 ${
+          isCurrentPlaying ? "playing" : ""
+        }`}
+        onClick={onPlaySong}
+      >
+        <div className="relative h-40 w-full rounded-lg overflow-hidden">
+          <div
+            className={`image-placeholder duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800 ${
+              imageLoaded ? "hidden" : "block"
+            }`}
+          >
+            <span className="iconify" data-icon="bi:music-note-beamed"></span>
+          </div>
 
-        <Image
-          className="object-cover artwork duration-200"
-          src={coverArt}
-          alt={`Artwork for ${title}`}
-          onLoad={() => setImageLoaded(true)}
-          onError={() => setImageLoaded(false)}
-          hidden={!imageLoaded}
-          fill
-        />
-        <div
-          className={`play-button duration-300 scale-50 opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl ml-auto  flex align-center ${
-            imageLoaded ? "text-white" : "text-blue-800"
-          }`}
-        >
-          <span className="iconify" data-icon="bi:play-fill"></span>
+          <Image
+            className="object-cover artwork duration-200"
+            src={coverArt}
+            alt={`Artwork for ${title}`}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(false)}
+            hidden={!imageLoaded}
+            fill
+          />
+          <div
+            className={`play-button duration-300 scale-50 opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl ml-auto  flex align-center ${
+              imageLoaded ? "text-white" : "text-blue-800"
+            }`}
+          >
+            <span className="iconify" data-icon="bi:play-fill"></span>
+          </div>
         </div>
-      </div>
-      <div className="flex pl-2 items-stretch">
-        <div className="w-1/2 leading-3 flex justify-center flex-col data my-1 ">
-          <p className="m-0 font-bold mb-1 ">{title}</p>
-          <p className="m-0 text-xs ">{artist}</p>
+        <div className="flex px-4 items-stretch w-full">
+          <div className="leading-4 flex justify-center flex-col data my-3">
+            <p className="m-0 font-bold mb-1 ">{title}</p>
+            <p className="m-0 text-xs text-[#00000099]">{artist}</p>
+            {viewOn && (
+              <a href={viewOn.url}>
+                <p className="text-[#2D5F8A] mt-3 mb-1">
+                  View on {viewOn.name}
+                </p>
+              </a>
+            )}
+            <a href="https://www.sound.xyz/harrywashere/started-with">
+              <p className="text-[#2D5F8A] mt-3 mb-1">View on Sound</p>
+            </a>
+          </div>
         </div>
-      </div>
+      </SongListItemUIStyled>
       {customBtn && customBtn}
-    </SongListItemUIStyled>
+    </div>
   );
 };
 
