@@ -388,6 +388,7 @@ export type Artist = Node & {
   artistProfilesByArtistId: ArtistProfilesConnection;
   /** Reads and enables pagination through a set of `ArtistsNft`. */
   artistsNftsByArtistId: ArtistsNftsConnection;
+  avatarIpfsHash?: Maybe<Scalars['String']['output']>;
   avatarUrl?: Maybe<Scalars['String']['output']>;
   createdAtBlockNumber?: Maybe<Scalars['BigInt']['output']>;
   createdAtTime?: Maybe<Scalars['Datetime']['output']>;
@@ -470,6 +471,8 @@ export type ArtistProcessedTracksBySupportingArtistArgs = {
 
 /** A condition to be used against `Artist` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type ArtistCondition = {
+  /** Checks for equality with the object’s `avatarIpfsHash` field. */
+  avatarIpfsHash?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `avatarUrl` field. */
   avatarUrl?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `createdAtBlockNumber` field. */
@@ -561,6 +564,8 @@ export type ArtistEventsEdge = {
 
 /** Methods to use when ordering `ArtistEvent`. */
 export enum ArtistEventsOrderBy {
+  ArtistByArtistIdAvatarIpfshashAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_ASC',
+  ArtistByArtistIdAvatarIpfshashDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_DESC',
   ArtistByArtistIdAvatarUrlAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_ASC',
   ArtistByArtistIdAvatarUrlDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_DESC',
   ArtistByArtistIdCreatedAtBlockNumberAsc = 'ARTIST_BY_ARTIST_ID__CREATED_AT_BLOCK_NUMBER_ASC',
@@ -642,6 +647,8 @@ export type ArtistFilter = {
   artistsNftsByArtistId?: InputMaybe<ArtistToManyArtistsNftFilter>;
   /** Some related `artistsNftsByArtistId` exist. */
   artistsNftsByArtistIdExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `avatarIpfsHash` field. */
+  avatarIpfsHash?: InputMaybe<StringFilter>;
   /** Filter by the object’s `avatarUrl` field. */
   avatarUrl?: InputMaybe<StringFilter>;
   /** Filter by the object’s `createdAtBlockNumber` field. */
@@ -784,6 +791,8 @@ export type ArtistProfilesEdge = {
 
 /** Methods to use when ordering `ArtistProfile`. */
 export enum ArtistProfilesOrderBy {
+  ArtistByArtistIdAvatarIpfshashAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_ASC',
+  ArtistByArtistIdAvatarIpfshashDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_DESC',
   ArtistByArtistIdAvatarUrlAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_ASC',
   ArtistByArtistIdAvatarUrlDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_DESC',
   ArtistByArtistIdCreatedAtBlockNumberAsc = 'ARTIST_BY_ARTIST_ID__CREATED_AT_BLOCK_NUMBER_ASC',
@@ -964,6 +973,8 @@ export type ArtistsNftsEdge = {
 
 /** Methods to use when ordering `ArtistsNft`. */
 export enum ArtistsNftsOrderBy {
+  ArtistByArtistIdAvatarIpfshashAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_ASC',
+  ArtistByArtistIdAvatarIpfshashDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_DESC',
   ArtistByArtistIdAvatarUrlAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_ASC',
   ArtistByArtistIdAvatarUrlDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_DESC',
   ArtistByArtistIdCreatedAtBlockNumberAsc = 'ARTIST_BY_ARTIST_ID__CREATED_AT_BLOCK_NUMBER_ASC',
@@ -1033,6 +1044,8 @@ export enum ArtistsOrderBy {
   ArtistEventsByArtistIdCountDesc = 'ARTIST_EVENTS_BY_ARTIST_ID__COUNT_DESC',
   ArtistProfilesByArtistIdCountAsc = 'ARTIST_PROFILES_BY_ARTIST_ID__COUNT_ASC',
   ArtistProfilesByArtistIdCountDesc = 'ARTIST_PROFILES_BY_ARTIST_ID__COUNT_DESC',
+  AvatarIpfshashAsc = 'AVATAR_IPFSHASH_ASC',
+  AvatarIpfshashDesc = 'AVATAR_IPFSHASH_DESC',
   AvatarUrlAsc = 'AVATAR_URL_ASC',
   AvatarUrlDesc = 'AVATAR_URL_DESC',
   CreatedAtBlockNumberAsc = 'CREATED_AT_BLOCK_NUMBER_ASC',
@@ -4873,6 +4886,8 @@ export type ProcessedTracksEdge = {
 
 /** Methods to use when ordering `ProcessedTrack`. */
 export enum ProcessedTracksOrderBy {
+  ArtistByArtistIdAvatarIpfshashAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_ASC',
+  ArtistByArtistIdAvatarIpfshashDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_IPFSHASH_DESC',
   ArtistByArtistIdAvatarUrlAsc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_ASC',
   ArtistByArtistIdAvatarUrlDesc = 'ARTIST_BY_ARTIST_ID__AVATAR_URL_DESC',
   ArtistByArtistIdCreatedAtBlockNumberAsc = 'ARTIST_BY_ARTIST_ID__CREATED_AT_BLOCK_NUMBER_ASC',
@@ -4893,6 +4908,8 @@ export enum ProcessedTracksOrderBy {
   ArtistByArtistIdSlugDesc = 'ARTIST_BY_ARTIST_ID__SLUG_DESC',
   ArtistByArtistIdUserIdAsc = 'ARTIST_BY_ARTIST_ID__USER_ID_ASC',
   ArtistByArtistIdUserIdDesc = 'ARTIST_BY_ARTIST_ID__USER_ID_DESC',
+  ArtistBySupportingArtistAvatarIpfshashAsc = 'ARTIST_BY_SUPPORTING_ARTIST__AVATAR_IPFSHASH_ASC',
+  ArtistBySupportingArtistAvatarIpfshashDesc = 'ARTIST_BY_SUPPORTING_ARTIST__AVATAR_IPFSHASH_DESC',
   ArtistBySupportingArtistAvatarUrlAsc = 'ARTIST_BY_SUPPORTING_ARTIST__AVATAR_URL_ASC',
   ArtistBySupportingArtistAvatarUrlDesc = 'ARTIST_BY_SUPPORTING_ARTIST__AVATAR_URL_DESC',
   ArtistBySupportingArtistCreatedAtBlockNumberAsc = 'ARTIST_BY_SUPPORTING_ARTIST__CREATED_AT_BLOCK_NUMBER_ASC',

@@ -6,6 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import DarkModeToggle from "./DarkModeToggle";
 import { SmartLink } from "../SmartLink/SmartLink";
 import Link from "next/link";
+import Image from "next/image";
 
 function Header() {
   return (
@@ -14,9 +15,18 @@ function Header() {
         {/* headline */}
         <div>
           <Link href="/home">
-            <p className="text-3xl font-bold m-3 hover:cursor-pointer">
-              OCTAV3
-            </p>
+            <div className="flex">
+              <Image
+                src="/images/OCTAV3_logo.png"
+                alt="octav3 logo"
+                height={50}
+                width={50}
+                style={{ objectFit: "contain" }}
+              />
+              <p className="text-3xl font-bold m-3 hover:cursor-pointer">
+                OCTAV3
+              </p>
+            </div>
           </Link>
         </div>
 
