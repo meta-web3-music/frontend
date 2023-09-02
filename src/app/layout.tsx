@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-page-custom-font */
 "use client";
 import { WagmiConfig } from "wagmi";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import Header from "@/components/Header/header";
 import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 import {
@@ -23,8 +23,6 @@ import {
 } from "@/env";
 import { MultiAPILink } from "@habx/apollo-multi-endpoint-link";
 import { AppWallet } from "@/context/AppWallet";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -51,8 +49,28 @@ export default function RootLayout({
   });
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <html lang="en">
+          <head>
+            <link rel="icon" type="image/png" href="/favicon.png" />
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" />
+            <link
+              href="https://fonts.googleapis.com/css2?family=Farro&display=swap"
+              rel="stylesheet"
+            />
+            {/* testtest */}
+
+            <link
+              href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+              rel="stylesheet"
+            />
+
+            <link
+              href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap"
+              rel="stylesheet"
+            />
+          </head>
           <body>
             <Script src="https://code.iconify.design/3/3.0.0/iconify.min.js" />
             <WagmiConfig config={wagmiClient}>
