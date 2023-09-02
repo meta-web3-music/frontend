@@ -81,6 +81,7 @@ const RentSpaceButton: React.FC<Props> = (p) => {
               required
               placeholder="A nice app"
               className="mb-2 w-4/6"
+              displayType="outline"
               {...registerAd("advTitle")}
             />
 
@@ -90,6 +91,7 @@ const RentSpaceButton: React.FC<Props> = (p) => {
               placeholder="www.myapp.com"
               className="mb-2 w-4/6"
               type="url"
+              displayType="outline"
               {...registerAd("adUrl")}
             />
             <OTextArea

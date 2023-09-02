@@ -88,7 +88,7 @@ const MintSongButton: React.FC<Props> = (p) => {
               <OModalTitle>Mint</OModalTitle>
 
               <OInput
-                type="outline"
+                displayType="outline"
                 label="Artist Name"
                 required
                 placeholder="ABC"
@@ -96,7 +96,7 @@ const MintSongButton: React.FC<Props> = (p) => {
                 {...registerMusic("artistName")}
               />
               <OInput
-                type="outline"
+                displayType="outline"
                 label="Title"
                 required
                 placeholder="Man in the sea"
@@ -115,7 +115,7 @@ const MintSongButton: React.FC<Props> = (p) => {
               />
               <OUpload
                 info="Upload image up to 3MB, Supported formats .jpeg, .png"
-                label="Cover art upload"
+                label="Music cover image"
                 required
                 buttonText="Upload cover"
                 className="w-1/3"

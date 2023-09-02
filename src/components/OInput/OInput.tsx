@@ -2,12 +2,12 @@ import React from "react";
 
 type Props = {
   label: string;
-  type: "outline" | "fill";
+  displayType: "outline" | "fill";
 };
 const OInput = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement> & Props
->(({ label, type, ...p }, ref) => (
+>(({ label, displayType: type, ...p }, ref) => (
   <>
     <label
       className="text-[#000000c9] dark:text-white text-lg mt-3"
