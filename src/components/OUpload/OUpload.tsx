@@ -27,22 +27,15 @@ const OUpload = React.forwardRef<
       >
         {label}
       </label>
-      <OButton
-        color="yellow"
-        btnType="fill"
+      <div
+        className="w-full h-28 border-2 border-dashed flex justify-center items-center rounded-lg text-[#BFB00D] z-10 mt-1"
         onClick={() => {
           fileRef.current?.click();
         }}
-        className={`mt-1 z-10 relative w-full ${className}`}
       >
-        {fileName ? (
-          <p className="m-0 text-ellipsis whitespace-nowrap overflow-hidden">
-            {fileName}
-          </p>
-        ) : (
-          <p className="m-0">{buttonText}</p>
-        )}
-      </OButton>
+        <p>{fileName ? fileName : buttonText}</p>
+      </div>
+
       {info && <p className="text-[#0000007c] dark:text-white mt-2">{info}</p>}
       <input
         ref={(node) => {
