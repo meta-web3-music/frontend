@@ -73,16 +73,14 @@ const MintSongButton: React.FC<Props> = (p) => {
 
   return (
     <>
-      <OButton
+      <div
         onClick={() =>
           isConnected ? setShowModal(true) : openConnectModal?.()
         }
-        color={p.color}
-        btnType="fill"
-        className="w-full mt-auto"
+        className="flex justify-center items-center m-2 w-60 md:w-48 lg:w-60 h-80 border-[1px] border-solid border-[#00000026] text-[#00000026] text-[10rem] font-light rounded-md"
       >
-        {p.text ?? "Create Space"}
-      </OButton>
+        <span className="iconify" data-icon="ph:plus-thin"></span>
+      </div>
       <OModal isVisible={showModal} onCloseModal={() => setShowModal(false)}>
         <OModalForm onSubmit={handleSubmitMusicMint(handleMusicMintForm)}>
           <OModalTitle>Create Space</OModalTitle>

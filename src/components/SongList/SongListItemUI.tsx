@@ -48,7 +48,7 @@ const SongListItemUI = ({
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <div className="m-2 w-60 md:w-48 lg:w-60 ">
+    <div className="m-2 w-60 md:w-48 lg:w-60">
       <SongListItemUIStyled
         className={`hover:scale-105 duration-200 rounded-md overflow-hidden dark:bg-white border-2 ${
           isCurrentPlaying ? "playing" : ""

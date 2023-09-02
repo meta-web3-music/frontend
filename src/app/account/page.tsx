@@ -166,8 +166,9 @@ const Account = () => {
               }}
               customBtn={
                 <OButton
-                  color="blue"
+                  color="yellow"
                   btnType="fill"
+                  className="w-full mt-2"
                   onClick={() => {
                     //TODO error
                     if (!walletClient || !publicClient || !e.id || !e.tokenUri)
@@ -187,8 +188,6 @@ const Account = () => {
             />
           );
         })}
-      </div>
-      <div className="w-20 fixed bottom-5 left-5">
         <MintSongButton color="gray" text="Mint" />
       </div>
     </div>
