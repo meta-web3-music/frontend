@@ -148,7 +148,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
 
   return (
     <div
-      className={`fixed flex left-0 bottom-0 backdrop-blur-2xl dark:bg-gray-800/60 bg-gray-800/75 text-white p-2 z-10 w-full items-center duration-300 spring-heavy pb-10 ${
+      className={`fixed flex left-0 bottom-0 dark:bg-gray-800 bg-white p-2 z-10 w-full items-center duration-300 spring-heavy pb-8 ${
         !musicNft ? "translate-y-full" : "translate-y-8"
       }`}
     >
@@ -156,15 +156,15 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
         target="_blank"
         rel="noreferrer"
         href={adv && `https://${adv[1]}`}
-        className="flex text-white"
+        className="flex"
         style={{
           pointerEvents: isPlayingAd ? "initial" : "none",
         }}
       >
-        <div className="h-11 w-11 relative mr-2">
+        <div className="h-20 w-24 relative justify-self-center mx-5">
           {musicNft?.artworkUrl && (
             <Image
-              className="h-full w-full"
+              className="!h-[82%] w-full m-auto rounded-md"
               src={
                 isPlayingAd && adv
                   ? `images/${adv[0]}.png`
@@ -174,13 +174,13 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
               fill
               sizes="100vw"
               style={{
-                objectFit: "contain",
+                objectFit: "cover",
               }}
             />
           )}
         </div>
-        <div className="mr-4">
-          <p className="text-2xl m-0">
+        <div className="mr-4 my-auto">
+          <p className="text-xl m-0">
             {isPlayingAd && adv ? adv[0] : musicNft?.title}
           </p>
           <p className="m-0 text-xs">
@@ -226,12 +226,12 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
           <div className="relative  w-36">
             <div className="w-36 h-1 absolute opacity-0" />
             <div
-              className="bg-[#0E77FC] h-1 rounded-lg absolute z-10"
+              className="bg-[#F3EA01] h-1 rounded-lg absolute z-10"
               style={{
                 width: (audioTime.currentTime / audioTime.duration) * 100 + "%",
               }}
             />
-            <div className="bg-[#363636] w-full h-1 rounded-lg absolute" />
+            <div className="bg-[#D9D9D9] w-full h-1 rounded-lg absolute" />
           </div>
 
           <p className="my-0 mx-2">{getTime(audioTime.duration)}</p>

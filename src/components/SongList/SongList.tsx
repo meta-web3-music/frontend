@@ -12,7 +12,7 @@ const SongList: React.FC<SongListProps> = ({ playSong }) => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center pt-4 mb-4 items-start h-[70vh] overflow-y-scroll">
+      <div className="flex flex-wrap pt-4 mb-4 items-start h-[70vh] overflow-y-scroll">
         {allMusicConnection?.octaveTokens.map((e) => (
           <SongListItemMuzik
             key={e.id}

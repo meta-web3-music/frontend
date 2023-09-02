@@ -63,7 +63,7 @@ const HottestSongs: React.FC = () => {
     });
   }, []);
   return (
-    <div className="w-full bg-[#F7F7F7]">
+    <div className="w-full bg-[#F7F7F7] dark:bg-slate-900">
       <div className="flex flex-col align-center justify-center w-full md:w-5/6 m-2 md:m-auto px-2 text-left pt-14">
         <p className="text-4xl font-bold mb-10 text-[#000000cc] dark:text-white">
           Songs

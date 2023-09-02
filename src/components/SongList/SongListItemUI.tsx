@@ -30,7 +30,7 @@ const SongListItemUIStyled = styled.div`
   }
 
   &.playing {
-    box-shadow: 0px 0px 14px 4px #f3ea01;
+    box-shadow: 0px 0px 4px 4px #f3eb0186;
   }
   .data {
     color: #042440;
@@ -50,19 +50,17 @@ const SongListItemUI = ({
   return (
     <div className="m-2 w-60 md:w-48 lg:w-60 ">
       <SongListItemUIStyled
-        className={`hover:scale-105 duration-200 rounded-lg overflow-hidden dark:bg-white border-2 ${
+        className={`hover:scale-105 duration-200 rounded-md overflow-hidden dark:bg-white border-2 ${
           isCurrentPlaying ? "playing" : ""
         }`}
         onClick={onPlaySong}
       >
         <div className="relative h-40 w-full rounded-lg overflow-hidden">
           <div
-            className={`image-placeholder duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800 ${
+            className={`image-placeholder bg-[#F6F6F6] duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800 ${
               imageLoaded ? "hidden" : "block"
             }`}
-          >
-            <span className="iconify" data-icon="bi:music-note-beamed"></span>
-          </div>
+          ></div>
 
           <Image
             className="object-cover artwork duration-200"
@@ -82,8 +80,10 @@ const SongListItemUI = ({
           </div>
         </div>
         <div className="flex px-4 items-stretch w-full">
-          <div className="leading-4 flex justify-center flex-col data my-3">
-            <p className="m-0 font-bold mb-1 ">{title}</p>
+          <div className="leading-4 flex justify-center flex-col data my-3 w-full">
+            <p className="m-0 font-bold mb-1 text-ellipsis whitespace-nowrap overflow-hidden">
+              {title}
+            </p>
             <p className="m-0 text-xs text-[#00000099]">{artist}</p>
             {viewOn && (
               <a href={viewOn.url}>

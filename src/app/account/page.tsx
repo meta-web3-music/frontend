@@ -99,27 +99,23 @@ const Account = () => {
     USDCxWalletBalanceSub.subscribe(setBalance);
   }, []);
   return (
-    <div className="p-4 pt-20 pl-8 font-figtree">
-      <p className="font-bold text-2xl">Balance</p>
-      <p className="text-xl">
-        ${balance?.[0]}|${balance?.[1]}
-      </p>
-      <label className="switch">
-        <input
-          type="checkbox"
-          checked={isPrem}
-          onChange={(e) => PremToggleSub.next(e.target.checked)}
-        ></input>
-        <span className="slider round"></span>
-      </label>
-      <OButton btnType="fill" color="blue" onClick={copy}>
-        Copy
-      </OButton>
-      <div className="flex">
-        <p className="font-bold text-2xl">Music NFTs</p>
-        <p className="text-2xl ml-auto">See all</p>
+    <div className="pb-4 pt-20 px-32 font-figtree">
+      <div className="ml-2">
+        <p className="font-bold text-2xl">Balance</p>
+        <p className="text-xl">
+          ${balance?.[0]} + ${balance?.[1]}
+        </p>
+        {/* TODO remove this copy btn and its related code if not required */}
+        {/* <OButton btnType="fill" color="blue" onClick={copy}>
+          Copy
+        </OButton> */}
+        <div className="flex mt-6">
+          <p className="font-bold text-2xl">Your Music</p>
+          <p className="text-2xl ml-auto">See all</p>
+        </div>
       </div>
-      <div className="flex flex-wrap justify-center pt-4 mb-4 items-start h-[60vh] overflow-y-scroll">
+
+      <div className="flex flex-wrap pt-1 mb-4 items-start h-[60vh] overflow-y-scroll">
         {myMusicSpinamp?.allNfts?.nodes.map((e) => {
           if (!e) return <></>;
           return (
