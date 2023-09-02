@@ -57,14 +57,14 @@ export function AppWallet(props: React.PropsWithChildren) {
 
   const update_balance = async () => {
     if (superfluid && wallet) {
-      const usdcx = await superfluid.loadSuperToken("fUSDCx");
-      const b = await usdcx.balanceOf({
+      const fusdcx = await superfluid.loadSuperToken("fUSDCx");
+      const b = await fusdcx.balanceOf({
         account: wallet.address,
         providerOrSigner: provider,
       });
       let browserWBal = "";
       if (browserW)
-        browserWBal = await usdcx.balanceOf({
+        browserWBal = await fusdcx.balanceOf({
           account: browserW.account.address,
           providerOrSigner: provider,
         });
@@ -75,14 +75,14 @@ export function AppWallet(props: React.PropsWithChildren) {
       ]);
       setInterval(async () => {
         try {
-          const b = await usdcx.balanceOf({
+          const b = await fusdcx.balanceOf({
             account: wallet.address,
             providerOrSigner: provider,
           });
           let _browserWBal = "";
 
           if (browserW)
-            _browserWBal = await usdcx.balanceOf({
+            _browserWBal = await fusdcx.balanceOf({
               account: browserW.account.address,
               providerOrSigner: provider,
             });
@@ -113,11 +113,11 @@ export function AppWallet(props: React.PropsWithChildren) {
     const outflows = myStreams?.account?.outflows;
 
     if (wallet && outflows && superfluid && outflows.length > 0) {
-      const usdcx = await superfluid.loadSuperToken("fUSDCx");
+      const fusdcx = await superfluid.loadSuperToken("fUSDCx");
       for (const s of outflows) {
         console.log("delete flow");
 
-        const op = await usdcx.deleteFlow({
+        const op = await fusdcx.deleteFlow({
           receiver: s.receiver.id,
           sender: wallet?.address,
         });
