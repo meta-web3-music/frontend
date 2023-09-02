@@ -29,18 +29,6 @@ html.dark .ant-typography {
   color: white !important;
 }
 
-.font-farro {
-  font-family: "Farro", sans-serif;
-}
-
-.font-inter {
-  font-family: "Inter", sans-serif;
-}
-
-.font-figtree {
-  font-family: "Figtree", sans-serif;
-}
-
 .spring-light {
   transition-timing-function: cubic-bezier(0, 0, 0.125, 1.65);
 }
