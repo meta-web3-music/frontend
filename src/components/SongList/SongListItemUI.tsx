@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 type Props = {
   onPlaySong: () => void;
-  coverArt: string;
+  coverArt?: string;
   title: string;
   artist: string;
   isCurrentPlaying: boolean;
@@ -61,16 +61,18 @@ const SongListItemUI = ({
               imageLoaded ? "hidden" : "block"
             }`}
           ></div>
+          {coverArt && (
+            <Image
+              className="object-cover artwork duration-200"
+              src={coverArt}
+              alt={`Artwork for ${title}`}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageLoaded(false)}
+              hidden={!imageLoaded}
+              fill
+            />
+          )}
 
-          <Image
-            className="object-cover artwork duration-200"
-            src={coverArt}
-            alt={`Artwork for ${title}`}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageLoaded(false)}
-            hidden={!imageLoaded}
-            fill
-          />
           <div
             className={`play-button duration-300 scale-50 opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl ml-auto  flex align-center ${
               imageLoaded ? "text-white" : "text-blue-800"

@@ -83,14 +83,12 @@ const MintSongButton: React.FC<Props> = (p) => {
       </div>
       <OModal isVisible={showModal} onCloseModal={() => setShowModal(false)}>
         <OModalForm onSubmit={handleSubmitMusicMint(handleMusicMintForm)}>
-          <OModalTitle>Create Space</OModalTitle>
           <div className="flex flex-col w-5/12 self-center">
-            <div className="flex">
-              <OModalTopNav>Upload and mint song</OModalTopNav>
-            </div>
-
             <>
+              <OModalTitle>Mint</OModalTitle>
+
               <OInput
+                type="outline"
                 label="Artist Name"
                 required
                 placeholder="ABC"
@@ -98,6 +96,7 @@ const MintSongButton: React.FC<Props> = (p) => {
                 {...registerMusic("artistName")}
               />
               <OInput
+                type="outline"
                 label="Title"
                 required
                 placeholder="Man in the sea"
