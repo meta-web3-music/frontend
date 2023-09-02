@@ -13,18 +13,12 @@ import { GetMyMusicQuery as GetMyMusicQuerySpinamp } from "@/graph-ql/queries/sp
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
-import { PremToggleSub } from "@/subs/PremiumToggleSub";
 import { USDCxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { useQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
 
 const Account = () => {
-  const [isPrem, setIsPrem] = useState(false);
-
-  useEffect(() => {
-    PremToggleSub.subscribe(setIsPrem);
-  }, []);
   const { data: walletClient } = useWalletClient();
   const appWallet = useContext(AppWalletContext);
   const publicClient = usePublicClient();

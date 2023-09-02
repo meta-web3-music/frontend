@@ -20,12 +20,7 @@ function MusicPlayer() {
   }, []);
   return (
     <>
-      <StickyPlayer
-        musicNft={music}
-        onClosePlayer={() => {
-          MusicPlayerSub.next(undefined);
-        }}
-      />
+      <StickyPlayer musicNft={music} />
     </>
   );
 }

@@ -8,21 +8,9 @@ import { AppWalletContext } from "@/context/AppWallet";
 import { PremToggleSub } from "@/subs/PremiumToggleSub";
 
 // COMPONENT
-const StickyPlayer: React.FC<StickyPlayerProps> = ({
-  onClosePlayer,
-  musicNft,
-}) => {
+const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
   const appContext = useContext(AppWalletContext);
   const adv = musicNft?.adDetails;
-  const resetStates = async () => {
-    setIsPlayingAd(false);
-    setIsPlaying(true);
-    setAudioTime({
-      currentTime: 0,
-      duration: 0,
-    });
-    await stop_stream();
-  };
 
   const [isPremium, setIsPremium] = useState(false);
 
@@ -109,6 +97,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
       document.removeEventListener("keydown", eventListnerCallBack);
     };
   }, [isPlaying, musicNft]);
+
   useEffect(() => {
     audioRef.current?.addEventListener("timeupdate", () => {
       const currentTime = audioRef.current?.currentTime ?? 0;
@@ -237,14 +226,17 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({
           <p className="my-0 mx-2">{getTime(audioTime.duration)}</p>
         </div>
       </div>
-      <div
-        className="text-2xl mr-2 duration-150 hover:-rotate-90 ml-auto"
-        onClick={() => {
-          resetStates();
-          onClosePlayer();
-        }}
-      >
-        <span className="iconify" data-icon="akar-icons:cross"></span>
+      <div className="flex ml-auto justify-center">
+        <p className="mr-2">$0.0015/sec</p>
+        <label className="switch mr-2">
+          <input
+            type="checkbox"
+            checked={isPremium}
+            onChange={(e) => PremToggleSub.next(e.target.checked)}
+          ></input>
+          <span className="slider round"></span>
+        </label>
+        <p className="mr-2 text-[#00000066;]">paying per second</p>
       </div>
     </div>
   );
