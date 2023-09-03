@@ -5,7 +5,8 @@ import SongListItemMusicNFT from "@/components/SongList/SongListItemMusicNFT";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
 import { AppWalletContext } from "@/context/AppWallet";
 import { MusicNFTAddr } from "@/env";
-import { GET_MY_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_MUSIC/getAllMusic";
+import { GET_MY_LISTED_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_LISTED_MUSIC/getMyListedMusic";
+import { GET_MY_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_MUSIC/getMyMusic";
 import { GetMyMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
 import { GET_MY_MUSIC as GET_MY_MUSIC_SPINAMP } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/getMyMusic";
 import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
@@ -82,7 +83,14 @@ const Account = () => {
       owner: walletClient?.account.address.toLowerCase(),
     },
   });
-
+  const { data: myListedMusic, refetch: refetchMyListedMusic } = useQuery(
+    GET_MY_LISTED_MUSIC,
+    {
+      variables: {
+        owner: walletClient?.account.address.toLowerCase(),
+      },
+    }
+  );
   useEffect(() => {
     refetch();
     refetchSpinamp();
@@ -129,7 +137,19 @@ const Account = () => {
               }}
               customBtn={
                 <OButton
-                  color="yellow"
+                  color={
+                    (myListedMusic?.octaveTokens.findIndex((ele) => {
+                      if (!e.contractAddress || !e.tokenId) return false;
+                      return (
+                        (ele.musicNftAddr as string).toLowerCase() ==
+                          e.contractAddress.toLowerCase() &&
+                        (ele.musicNftTokenId as string).toLowerCase() ==
+                          e.tokenId.toLowerCase()
+                      );
+                    }) ?? -1) > -1
+                      ? "gray"
+                      : "yellow"
+                  }
                   btnType="fill"
                   className="w-full mt-2"
                   onClick={() => {
@@ -151,7 +171,18 @@ const Account = () => {
                     );
                   }}
                 >
-                  List
+                  {myListedMusic &&
+                  myListedMusic?.octaveTokens.findIndex((ele) => {
+                    if (!e.contractAddress || !e.tokenId) return false;
+                    return (
+                      (ele.musicNftAddr as string).toLowerCase() ==
+                        e.contractAddress.toLowerCase() &&
+                      (ele.musicNftTokenId as string).toLowerCase() ==
+                        e.tokenId.toLowerCase()
+                    );
+                  }) > -1
+                    ? "Unlist"
+                    : "List"}
                 </OButton>
               }
             />

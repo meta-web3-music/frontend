@@ -45,7 +45,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
         //TODO precheck the balances
         try {
           const op = fusdcx?.createFlow({
-            flowRate: "100000000000000",
+            flowRate: "1500000000000000",
             receiver: musicNft.owner,
             sender: appContext.wallet.address,
           });
