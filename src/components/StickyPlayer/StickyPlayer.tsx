@@ -57,6 +57,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
           await op?.exec(superSigner);
         } catch (error) {
           setIsPremium(false);
+          PremToggleSub.next(false);
           console.log((error as { reason: string }).reason);
         }
       } else {
