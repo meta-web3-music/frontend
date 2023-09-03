@@ -106,6 +106,7 @@ export enum MusicToken_OrderBy {
 
 export type OctaveToken = {
   __typename?: 'OctaveToken';
+  closed: Scalars['Boolean']['output'];
   id: Scalars['String']['output'];
   musicNftAddr: Scalars['Bytes']['output'];
   musicNftTokenId: Scalars['BigInt']['output'];
@@ -117,6 +118,10 @@ export type OctaveToken_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   and?: InputMaybe<Array<InputMaybe<OctaveToken_Filter>>>;
+  closed?: InputMaybe<Scalars['Boolean']['input']>;
+  closed_in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  closed_not?: InputMaybe<Scalars['Boolean']['input']>;
+  closed_not_in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
   id?: InputMaybe<Scalars['String']['input']>;
   id_contains?: InputMaybe<Scalars['String']['input']>;
   id_contains_nocase?: InputMaybe<Scalars['String']['input']>;
@@ -189,6 +194,7 @@ export type OctaveToken_Filter = {
 };
 
 export enum OctaveToken_OrderBy {
+  Closed = 'closed',
   Id = 'id',
   MusicNftAddr = 'musicNftAddr',
   MusicNftTokenId = 'musicNftTokenId',
@@ -348,7 +354,7 @@ export type GetMyListedMusicQueryVariables = Exact<{
 }>;
 
 
-export type GetMyListedMusicQuery = { __typename?: 'Query', octaveTokens: Array<{ __typename?: 'OctaveToken', musicNftAddr: any, musicNftTokenId: any }> };
+export type GetMyListedMusicQuery = { __typename?: 'Query', octaveTokens: Array<{ __typename?: 'OctaveToken', id: string, musicNftAddr: any, musicNftTokenId: any }> };
 
 export type GetMyMusicQueryVariables = Exact<{
   owner?: InputMaybe<Scalars['Bytes']['input']>;
@@ -358,6 +364,6 @@ export type GetMyMusicQueryVariables = Exact<{
 export type GetMyMusicQuery = { __typename?: 'Query', musicTokens: Array<{ __typename?: 'MusicToken', id: string, tokenUri: string }> };
 
 
-export const GetAllMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllMusic"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"octav3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"octaveTokens"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"musicNftAddr"}},{"kind":"Field","name":{"kind":"Name","value":"musicNftTokenId"}},{"kind":"Field","name":{"kind":"Name","value":"tokenUri"}}]}}]}}]} as unknown as DocumentNode<GetAllMusicQuery, GetAllMusicQueryVariables>;
-export const GetMyListedMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyListedMusic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Bytes"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"octav3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"octaveTokens"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"musicNftAddr"}},{"kind":"Field","name":{"kind":"Name","value":"musicNftTokenId"}}]}}]}}]} as unknown as DocumentNode<GetMyListedMusicQuery, GetMyListedMusicQueryVariables>;
+export const GetAllMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllMusic"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"octav3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"octaveTokens"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"closed"},"value":{"kind":"BooleanValue","value":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"musicNftAddr"}},{"kind":"Field","name":{"kind":"Name","value":"musicNftTokenId"}},{"kind":"Field","name":{"kind":"Name","value":"tokenUri"}}]}}]}}]} as unknown as DocumentNode<GetAllMusicQuery, GetAllMusicQueryVariables>;
+export const GetMyListedMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyListedMusic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Bytes"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"octav3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"octaveTokens"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"closed"},"value":{"kind":"BooleanValue","value":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"musicNftAddr"}},{"kind":"Field","name":{"kind":"Name","value":"musicNftTokenId"}}]}}]}}]} as unknown as DocumentNode<GetMyListedMusicQuery, GetMyListedMusicQueryVariables>;
 export const GetMyMusicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMyMusic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Bytes"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"octav3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"musicTokens"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tokenUri"}}]}}]}}]} as unknown as DocumentNode<GetMyMusicQuery, GetMyMusicQueryVariables>;

@@ -18,6 +18,8 @@ import { USDCxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { useQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
+import AccountListBtn from "./AccountListBtn";
+import { unmonetize } from "@/services/smart-contract/unmonetize";
 
 const Account = () => {
   const { data: walletClient } = useWalletClient();
@@ -136,9 +138,9 @@ const Account = () => {
                 handlePlaySongSpinamp(e);
               }}
               customBtn={
-                <OButton
-                  color={
-                    (myListedMusic?.octaveTokens.findIndex((ele) => {
+                <AccountListBtn
+                  monetizeId={BigInt(
+                    myListedMusic?.octaveTokens.find((ele) => {
                       if (!e.contractAddress || !e.tokenId) return false;
                       return (
                         (ele.musicNftAddr as string).toLowerCase() ==
@@ -146,13 +148,9 @@ const Account = () => {
                         (ele.musicNftTokenId as string).toLowerCase() ==
                           e.tokenId.toLowerCase()
                       );
-                    }) ?? -1) > -1
-                      ? "gray"
-                      : "yellow"
-                  }
-                  btnType="fill"
-                  className="w-full mt-2"
-                  onClick={() => {
+                    })?.id ?? "-1"
+                  )}
+                  onList={() => {
                     //TODO error
                     if (
                       !walletClient ||
@@ -170,20 +168,18 @@ const Account = () => {
                       walletClient
                     );
                   }}
-                >
-                  {myListedMusic &&
-                  myListedMusic?.octaveTokens.findIndex((ele) => {
-                    if (!e.contractAddress || !e.tokenId) return false;
-                    return (
-                      (ele.musicNftAddr as string).toLowerCase() ==
-                        e.contractAddress.toLowerCase() &&
-                      (ele.musicNftTokenId as string).toLowerCase() ==
-                        e.tokenId.toLowerCase()
-                    );
-                  }) > -1
-                    ? "Unlist"
-                    : "List"}
-                </OButton>
+                  onUnlist={() => {
+                    if (
+                      !walletClient ||
+                      !publicClient ||
+                      !e.contractAddress ||
+                      !e.tokenId ||
+                      !e.tokenUri
+                    )
+                      return;
+                    unmonetize(BigInt(e.tokenId), publicClient, walletClient);
+                  }}
+                />
               }
             />
           );
@@ -198,11 +194,19 @@ const Account = () => {
                 handlePlaySong(e);
               }}
               customBtn={
-                <OButton
-                  color="yellow"
-                  btnType="fill"
-                  className="w-full mt-2"
-                  onClick={() => {
+                <AccountListBtn
+                  monetizeId={BigInt(
+                    myListedMusic?.octaveTokens.find((ele) => {
+                      if (!e.id) return false;
+                      return (
+                        (ele.musicNftAddr as string).toLowerCase() ==
+                          MusicNFTAddr.toLowerCase() &&
+                        (ele.musicNftTokenId as string).toLowerCase() ==
+                          e.id.toLowerCase()
+                      );
+                    })?.id ?? "-1"
+                  )}
+                  onList={() => {
                     //TODO error
                     if (!walletClient || !publicClient || !e.id || !e.tokenUri)
                       return;
@@ -214,9 +218,11 @@ const Account = () => {
                       walletClient
                     );
                   }}
-                >
-                  List
-                </OButton>
+                  onUnlist={() => {
+                    if (!walletClient || !publicClient || !e.id) return;
+                    unmonetize(BigInt(e.id), publicClient, walletClient);
+                  }}
+                />
               }
             />
           );
