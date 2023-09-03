@@ -7,6 +7,19 @@ export default [
                 "internalType": "uint256",
                 "name": "monetizeId",
                 "type": "uint256"
+            }
+        ],
+        "name": "TokenClosedForMonetize",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "monetizeId",
+                "type": "uint256"
             },
             {
                 "indexed": false,
@@ -35,6 +48,19 @@ export default [
         ],
         "name": "TokenOpenForMonetize",
         "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "closedForMonetize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
         "inputs": [
