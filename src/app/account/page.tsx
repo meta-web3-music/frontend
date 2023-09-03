@@ -92,12 +92,20 @@ const Account = () => {
   useEffect(() => {
     USDCxWalletBalanceSub.subscribe(setBalance);
   }, []);
+
+  const truncate = (bal: string, upto: number) => {
+    const [num, dec] = bal.split(".");
+    if (!dec) return bal;
+    const truncated_dec = dec.substring(0, upto);
+    return num + "." + truncated_dec;
+  };
   return (
     <div className="pb-4 pt-20 px-32 font-figtree">
       <div className="ml-2">
         <p className="font-bold text-2xl">Balance</p>
         <p className="text-xl">
-          ${balance?.[0]} + ${balance?.[1]}
+          <span onClick={copy}>${truncate(balance?.[0] ?? "0", 2)}</span> + $
+          {truncate(balance?.[1] ?? "0", 2)}
         </p>
         {/* TODO remove this copy btn and its related code if not required */}
         {/* <OButton btnType="fill" color="blue" onClick={copy}>

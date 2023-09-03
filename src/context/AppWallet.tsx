@@ -17,6 +17,7 @@ export let AppWalletContext: React.Context<AppWalletContextType>;
 const LOCAL_PRIVATE_KEY = "PRIVATE_KEY";
 export function AppWallet(props: React.PropsWithChildren) {
   const { data: myStreams, refetch: refetchStreams } = useQuery(GET_MY_STREAMS);
+  const [inbuiltWallet, setInbuildWallet] = useState<Wallet>();
 
   const provider = useMemo(
     () =>
@@ -30,12 +31,12 @@ export function AppWallet(props: React.PropsWithChildren) {
 
     const privKey = localStorage.getItem(LOCAL_PRIVATE_KEY);
     if (privKey) {
-      setWallet(new Wallet(privKey).connect(provider));
+      setInbuildWallet(new Wallet(privKey).connect(provider));
     } else {
       const w = Wallet.createRandom();
       // TODO: encrypt?
       localStorage.setItem(LOCAL_PRIVATE_KEY, w.privateKey);
-      setWallet(w.connect(provider));
+      setInbuildWallet(w.connect(provider));
     }
   }, [provider]);
 
@@ -56,10 +57,10 @@ export function AppWallet(props: React.PropsWithChildren) {
   }, []);
 
   const update_balance = async () => {
-    if (superfluid && wallet) {
+    if (superfluid && inbuiltWallet) {
       const fusdcx = await superfluid.loadSuperToken("fUSDCx");
-      const b = await fusdcx.balanceOf({
-        account: wallet.address,
+      const inbuiltWBalance = await fusdcx.balanceOf({
+        account: inbuiltWallet.address,
         providerOrSigner: provider,
       });
       let browserWBal = "";
@@ -70,13 +71,13 @@ export function AppWallet(props: React.PropsWithChildren) {
         });
 
       USDCxWalletBalanceSub.next([
-        (+b / 10 ** 18).toString(),
+        (+inbuiltWBalance / 10 ** 18).toString(),
         (+browserWBal / 10 ** 18).toString(),
       ]);
       setInterval(async () => {
         try {
           const b = await fusdcx.balanceOf({
-            account: wallet.address,
+            account: inbuiltWallet.address,
             providerOrSigner: provider,
           });
           let _browserWBal = "";
@@ -101,41 +102,40 @@ export function AppWallet(props: React.PropsWithChildren) {
     update_balance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [superfluid]);
-  const [wallet, setWallet] = useState<Wallet>();
   useEffect(() => {
-    if (wallet) {
-      refetchStreams({ owner: wallet.address.toLowerCase() });
+    if (inbuiltWallet) {
+      refetchStreams({ owner: inbuiltWallet.address.toLowerCase() });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wallet]);
+  }, [inbuiltWallet]);
 
   const handleStreamReceived = async () => {
     const outflows = myStreams?.account?.outflows;
 
-    if (wallet && outflows && superfluid && outflows.length > 0) {
+    if (inbuiltWallet && outflows && superfluid && outflows.length > 0) {
       const fusdcx = await superfluid.loadSuperToken("fUSDCx");
       for (const s of outflows) {
         console.log("delete flow");
 
         const op = await fusdcx.deleteFlow({
           receiver: s.receiver.id,
-          sender: wallet?.address,
+          sender: inbuiltWallet?.address,
         });
-        await op.exec(wallet);
+        await op.exec(inbuiltWallet);
       }
     }
   };
   useEffect(() => {
     handleStreamReceived();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [myStreams, wallet, superfluid]);
+  }, [myStreams, inbuiltWallet, superfluid]);
   const value: AppWalletContextType = useMemo(
     () => ({
-      wallet,
+      wallet: inbuiltWallet,
       provider,
       superfluid,
     }),
-    [wallet, superfluid, provider]
+    [inbuiltWallet, superfluid, provider]
   );
 
   AppWalletContext = React.createContext(value);

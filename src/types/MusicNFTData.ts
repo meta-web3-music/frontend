@@ -13,7 +13,7 @@ export interface MusicNftMetaData {
     mimeType: string;
     nftSerialNumber: number;
     name: string;
-    title: string;
+    title?: string;
     trackNumber: number;
     version: string;
 }

@@ -1,5 +1,11 @@
-export async function fetchDe<T>(arUrl: string): Promise<T | undefined> {
-    const url = deToHttps(arUrl)
+export async function fetchDe<T>(resourceUrl: string): Promise<T | undefined> {
+
+    if (resourceUrl.startsWith("data:application/json;base64,")) {
+        const json_str = atob(resourceUrl.substring(29))
+
+        return JSON.parse(json_str)
+    }
+    const url = deToHttps(resourceUrl)
     const fetchRes = await fetch(url);
     try {
         const fetchJson = await fetchRes.json();

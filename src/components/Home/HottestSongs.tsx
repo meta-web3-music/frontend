@@ -42,7 +42,7 @@ const HottestSongs: React.FC = () => {
       artworkUrl: deToHttps(artwork.uri),
       contractAddr: musicNft.musicNftAddr,
       musicUrl: deToHttps(metadata.animation_url),
-      title: title,
+      title: title ?? "",
       tokenId: musicNft.musicNftTokenId,
       adDetails: advs[nextAd],
       owner: musicNft.owner,

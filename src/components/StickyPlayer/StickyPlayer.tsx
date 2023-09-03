@@ -42,6 +42,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
       if (isPlaying) {
         if (musicNft.owner.toLowerCase() == sender.toLowerCase()) return;
         await stop_stream();
+        //TODO precheck the balances
         try {
           const op = fusdcx?.createFlow({
             flowRate: "100000000000000",
@@ -55,6 +56,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
           setSender(musicNft.owner);
           await op?.exec(superSigner);
         } catch (error) {
+          setIsPremium(false);
           console.log((error as { reason: string }).reason);
         }
       } else {
