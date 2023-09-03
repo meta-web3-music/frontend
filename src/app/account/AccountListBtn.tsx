@@ -9,7 +9,7 @@ const AccountListBtn = ({
   // monetizeId should be -1 when it is non existence
   monetizeId: bigint;
   onList: () => void;
-  onUnlist: () => void;
+  onUnlist: (monetizeId: bigint) => void;
 }) => {
   return (
     <OButton
@@ -17,7 +17,7 @@ const AccountListBtn = ({
       btnType="fill"
       className="w-full mt-2"
       onClick={() => {
-        (monetizeId ?? -1) > -1 ? onUnlist() : onList();
+        (monetizeId ?? -1) > -1 ? onUnlist(monetizeId) : onList();
       }}
     >
       {(monetizeId ?? -1) > -1 ? "Unlist" : "List"}

@@ -1,6 +1,5 @@
 "use client";
 import MintSongButton from "@/components/MintSongButton/MintSongButton";
-import OButton from "@/components/OButton/OButton";
 import SongListItemMusicNFT from "@/components/SongList/SongListItemMusicNFT";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
 import { AppWalletContext } from "@/context/AppWallet";
@@ -168,7 +167,7 @@ const Account = () => {
                       walletClient
                     );
                   }}
-                  onUnlist={() => {
+                  onUnlist={(monetizeId) => {
                     if (
                       !walletClient ||
                       !publicClient ||
@@ -177,7 +176,7 @@ const Account = () => {
                       !e.tokenUri
                     )
                       return;
-                    unmonetize(BigInt(e.tokenId), publicClient, walletClient);
+                    unmonetize(monetizeId, publicClient, walletClient);
                   }}
                 />
               }
@@ -218,9 +217,9 @@ const Account = () => {
                       walletClient
                     );
                   }}
-                  onUnlist={() => {
+                  onUnlist={(monetizeId) => {
                     if (!walletClient || !publicClient || !e.id) return;
-                    unmonetize(BigInt(e.id), publicClient, walletClient);
+                    unmonetize(monetizeId, publicClient, walletClient);
                   }}
                 />
               }
