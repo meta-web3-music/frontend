@@ -55,9 +55,11 @@ const SongListItemUI = ({
         className={`hover:scale-105 duration-200 rounded-md overflow-hidden dark:bg-white border-2 ${
           isCurrentPlaying ? "playing" : ""
         }`}
-        onClick={onPlaySong}
       >
-        <div className="relative h-40 w-full rounded-lg overflow-hidden">
+        <div
+          className="relative h-40 w-full rounded-lg overflow-hidden"
+          onClick={onPlaySong}
+        >
           <div
             className={`image-placeholder bg-[#F6F6F6] duration-200 h-full w-full flex justify-center items-center text-8xl text-blue-800 ${
               imageLoaded ? "hidden" : "block"

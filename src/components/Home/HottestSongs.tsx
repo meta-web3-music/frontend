@@ -33,13 +33,13 @@ const HottestSongs: React.FC = () => {
   ) => {
     const metadata = await fetchDe<MusicNftMetaData>(musicNft.tokenUri);
     if (!metadata) return;
-    const { artist, artwork, title } = metadata;
+    const { artist, artwork, title, image } = metadata;
     const nextAd = (currentAd + 1) % 4;
     setCurrentAd(nextAd);
 
     MusicPlayerSub.next({
       artist,
-      artworkUrl: deToHttps(artwork.uri),
+      artworkUrl: deToHttps(artwork?.uri ?? image),
       contractAddr: musicNft.musicNftAddr,
       musicUrl: deToHttps(metadata.animation_url),
       title: title ?? "",
