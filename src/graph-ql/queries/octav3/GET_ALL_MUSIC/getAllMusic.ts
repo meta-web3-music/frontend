@@ -8,6 +8,9 @@ query GetAllMusic @api(name: octav3){
       musicNftAddr
       musicNftTokenId
       tokenUri
+      platform
+      chainId
+      platformTokenId
     }
   }
 `)

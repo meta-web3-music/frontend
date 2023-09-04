@@ -61,12 +61,7 @@ const SongListItemSpinamp = ({ musicNft, onPlaySong, customBtn }: Props) => {
   return (
     <SongListItemUI
       platform={
-        musicNft.platformId &&
-        (metadata.artist ||
-          musicNft.artistsNftsByNftId.nodes[0]?.artistByArtistId?.name) &&
-        musicNft.nftsProcessedTracksByNftId.nodes[0]?.platformInternalId &&
-        platformUrl &&
-        (metadata.title || metadata.name)
+        platformUrl
           ? {
               name: musicNft.platformId as Platform,
               url: platformUrl,

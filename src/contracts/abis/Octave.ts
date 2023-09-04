@@ -44,6 +44,24 @@ export default [
                 "internalType": "string",
                 "name": "metaDataUri",
                 "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "platform",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "chainId",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "platformTokenId",
+                "type": "string"
             }
         ],
         "name": "TokenOpenForMonetize",
@@ -78,6 +96,21 @@ export default [
                 "internalType": "string",
                 "name": "metaDataUri",
                 "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "platform",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "chainId",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "platformTokenId",
+                "type": "string"
             }
         ],
         "name": "openForMonetize",
@@ -101,6 +134,11 @@ export default [
                 "type": "address"
             },
             {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            },
+            {
                 "internalType": "uint256",
                 "name": "tokenId",
                 "type": "uint256"
@@ -108,6 +146,21 @@ export default [
             {
                 "internalType": "string",
                 "name": "metaDataUri",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "platform",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "chainId",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "platformTokenId",
                 "type": "string"
             }
         ],

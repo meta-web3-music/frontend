@@ -141,6 +141,10 @@ const Account = () => {
                         e.contractAddress,
                         BigInt(e.tokenId),
                         e.tokenUri,
+                        e.platformId ?? "",
+                        e.chainId ?? "",
+                        e.nftsProcessedTracksByNftId.nodes[0]
+                          ?.platformInternalId ?? "",
                         publicClient,
                         walletClient
                       );
@@ -191,6 +195,9 @@ const Account = () => {
                       MusicNFTAddr,
                       BigInt(e.id),
                       e.tokenUri,
+                      "octav3",
+                      "mumbai",
+                      "",
                       publicClient,
                       walletClient
                     );
