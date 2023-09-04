@@ -2,7 +2,7 @@
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import React, { useEffect, useState } from "react";
 import { GetMyMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
-import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
+import { Metadata } from "@/graph-ql/queries/spinamp/types";
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import SongListItemUI from "./SongListItemUI";
 import { MusicNFTAddr } from "@/env";

@@ -2,28 +2,24 @@
 import MintSongButton from "@/components/MintSongButton/MintSongButton";
 import SongListItemMusicNFT from "@/components/SongList/SongListItemMusicNFT";
 import SongListItemSpinamp from "@/components/SongList/SongListItemSpinamp";
-import { AppWalletContext } from "@/context/AppWallet";
 import { MusicNFTAddr } from "@/env";
 import { GET_MY_LISTED_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_LISTED_MUSIC/getMyListedMusic";
-import { GET_MY_MUSIC } from "@/graph-ql/queries/octav3/GET_MY_MUSIC/getMyMusic";
+import { GET_MY_MUSIC_LIMIT } from "@/graph-ql/queries/octav3/GET_MY_MUSIC_LIMIT/getMyMusicLimit";
 import { GetMyMusicQuery } from "@/graph-ql/queries/octav3/__generated__/graphql";
-import { GET_MY_MUSIC_LIMIT as GET_MY_MUSIC_SPINAMP } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC_LIMIT/getMyMusicLimit";
+import { GET_MY_MUSIC as GET_MY_MUSIC_SPINAMP } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/getMyMusic";
 import { Metadata } from "@/graph-ql/queries/spinamp/types";
 import { GetMyMusicQuery as GetMyMusicQuerySpinamp } from "@/graph-ql/queries/spinamp/__generated__/graphql";
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
 import { useQuery } from "@apollo/client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
-import AccountListBtn from "./AccountListBtn";
+import AccountListBtn from "../AccountListBtn";
 import { unmonetize } from "@/services/smart-contract/unmonetize";
-import { getBalance } from "@/services/backend/axios";
-import Link from "next/link";
 
 const Account = () => {
   const { data: walletClient } = useWalletClient();
-  const appWallet = useContext(AppWalletContext);
   const publicClient = usePublicClient();
   const handlePlaySongSpinamp = async (
     musicNft: NonNullable<
@@ -81,7 +77,7 @@ const Account = () => {
     }
   );
 
-  const { data: myMusic, refetch } = useQuery(GET_MY_MUSIC, {
+  const { data: myMusic, refetch } = useQuery(GET_MY_MUSIC_LIMIT, {
     variables: {
       owner: walletClient?.account.address.toLowerCase(),
     },
@@ -96,47 +92,11 @@ const Account = () => {
     refetchSpinamp();
   }, [walletClient, refetchSpinamp, refetch]);
 
-  const [inbuildBalance, setInbuildBalance] = useState<string>();
-  const [browserBalance, setBrowserBalance] = useState<string>();
-  useEffect(() => {
-    // USDCxWalletBalanceSub.subscribe(setBalance);
-  }, []);
-
-  useEffect(() => {
-    setInterval(() => {
-      if (appWallet.wallet) {
-        getBalance(appWallet.wallet.address)
-          .then((e) => e.data.payload.toString())
-          .then(setInbuildBalance);
-      }
-
-      if (walletClient) {
-        getBalance(walletClient.account.address)
-          .then((e) => e.data.payload.toString())
-          .then(setBrowserBalance);
-      }
-    }, 2000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const truncate = (bal: string, upto: number) => {
-    const [num, dec] = bal.split(".");
-    if (!dec) return bal;
-    const truncated_dec = dec.substring(0, upto);
-    return num + "." + truncated_dec;
-  };
   return (
     <div className="pb-4 pt-20 px-32 font-figtree">
       <div className="ml-2">
-        <p className="font-bold text-2xl">Balance</p>
-        <p className="text-xl">
-          <span>${truncate(inbuildBalance ?? "0", 2)}</span> |
-          <span> ${truncate(browserBalance ?? "0", 2)}</span>
-        </p>
         <div className="flex mt-6">
-          <p className="font-bold text-2xl">Your Music</p>
-          <Link className="text-2xl ml-auto" href="/account/all-songs">
-            <p>See all</p>
-          </Link>
+          <p className="font-bold text-2xl">Music NFTs</p>
         </div>
       </div>
 

@@ -1,9 +1,10 @@
 import { gql } from "../__generated__";
 
 // TODO use pagination
-export const GET_MY_MUSIC = gql(`
-query GetMyMusic($owner:String) @api(name: spinamp){
+export const GET_MY_MUSIC_LIMIT = gql(`
+query GetMyMusicLimit($owner:String) @api(name: spinamp){
   allProcessedTracks(
+    first:5
     orderBy: CREATED_AT_TIME_DESC
     filter: {
       artistByArtistId: {

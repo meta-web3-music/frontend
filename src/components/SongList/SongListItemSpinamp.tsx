@@ -1,7 +1,7 @@
 "use client";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import React, { useEffect, useState } from "react";
-import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
+import { Metadata } from "@/graph-ql/queries/spinamp/types";
 import { deToHttps } from "@/services/de-storage/fetchDe";
 import SongListItemUI from "./SongListItemUI";
 import { getPlatformUrl } from "@/services/platform/geturl";
