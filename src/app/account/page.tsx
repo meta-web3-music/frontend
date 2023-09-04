@@ -43,7 +43,7 @@ const Account = () => {
     ) {
       MusicPlayerSub.next({
         artist: metadata.artist ?? ".....",
-        artworkUrl: deToHttps(metadata.artwork?.uri ?? "TODO"),
+        artworkUrl: deToHttps(metadata.artwork?.uri ?? metadata.image ?? "..."),
         contractAddr: musicNft?.contractAddress ?? "",
         musicUrl: deToHttps(metadata.animation_url ?? ""),
         title: metadata.title ?? ".....",
