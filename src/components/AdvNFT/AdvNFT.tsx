@@ -22,7 +22,7 @@ const AdvNFT: React.FC<AdvNftProps> = ({
     <AdvNFTUI
       artist={musicMetaData.artist}
       artWorkUri={musicMetaData.artwork.uri}
-      title={musicMetaData.title}
+      title={musicMetaData.title ?? "...."}
       views="20M"
       expirationDuration={expirationDuration / 60 / 60 / 24}
       price={price ? `${ethers.utils.formatUnits(price)} MATIC` : undefined}

@@ -13,12 +13,12 @@ import { GetMyMusicQuery as GetMyMusicQuerySpinamp } from "@/graph-ql/queries/sp
 import { deToHttps, fetchDe } from "@/services/de-storage/fetchDe";
 import { monetize } from "@/services/smart-contract/monetize";
 import { MusicPlayerSub } from "@/subs/MusicPlayerSub";
-import { USDCxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { useQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
 import AccountListBtn from "./AccountListBtn";
 import { unmonetize } from "@/services/smart-contract/unmonetize";
+import { getBalance } from "@/services/backend/axios";
 
 const Account = () => {
   const { data: walletClient } = useWalletClient();
@@ -48,10 +48,7 @@ const Account = () => {
       });
     }
   };
-  const copy = () => {
-    if (appWallet.wallet)
-      navigator.clipboard.writeText(appWallet.wallet.address);
-  };
+
   const handlePlaySong = async (
     musicNft: NonNullable<NonNullable<GetMyMusicQuery["musicTokens"]>[0]>
   ) => {
@@ -84,24 +81,38 @@ const Account = () => {
       owner: walletClient?.account.address.toLowerCase(),
     },
   });
-  const { data: myListedMusic, refetch: refetchMyListedMusic } = useQuery(
-    GET_MY_LISTED_MUSIC,
-    {
-      variables: {
-        owner: walletClient?.account.address.toLowerCase(),
-      },
-    }
-  );
+  const { data: myListedMusic } = useQuery(GET_MY_LISTED_MUSIC, {
+    variables: {
+      owner: walletClient?.account.address.toLowerCase(),
+    },
+  });
   useEffect(() => {
     refetch();
     refetchSpinamp();
   }, [walletClient, refetchSpinamp, refetch]);
 
-  const [balance, setBalance] = useState<[string, string]>();
+  const [inbuildBalance, setInbuildBalance] = useState<string>();
+  const [browserBalance, setBrowserBalance] = useState<string>();
   useEffect(() => {
-    USDCxWalletBalanceSub.subscribe(setBalance);
+    // USDCxWalletBalanceSub.subscribe(setBalance);
   }, []);
 
+  useEffect(() => {
+    setInterval(() => {
+      if (appWallet.wallet) {
+        getBalance(appWallet.wallet.address)
+          .then((e) => e.data.payload.toString())
+          .then(setInbuildBalance);
+      }
+
+      if (walletClient) {
+        getBalance(walletClient.account.address)
+          .then((e) => e.data.payload.toString())
+          .then(setBrowserBalance);
+      }
+    }, 2000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const truncate = (bal: string, upto: number) => {
     const [num, dec] = bal.split(".");
     if (!dec) return bal;
@@ -113,13 +124,9 @@ const Account = () => {
       <div className="ml-2">
         <p className="font-bold text-2xl">Balance</p>
         <p className="text-xl">
-          <span onClick={copy}>${truncate(balance?.[0] ?? "0", 2)}</span> + $
-          {truncate(balance?.[1] ?? "0", 2)}
+          <span>${truncate(inbuildBalance ?? "0", 2)}</span> |
+          <span> ${truncate(browserBalance ?? "0", 2)}</span>
         </p>
-        {/* TODO remove this copy btn and its related code if not required */}
-        {/* <OButton btnType="fill" color="blue" onClick={copy}>
-          Copy
-        </OButton> */}
         <div className="flex mt-6">
           <p className="font-bold text-2xl">Your Music</p>
           <p className="text-2xl ml-auto">See all</p>
@@ -226,7 +233,7 @@ const Account = () => {
             />
           );
         })}
-        <MintSongButton color="gray" text="Mint" />
+        <MintSongButton />
       </div>
     </div>
   );

@@ -13,14 +13,9 @@ import OUpload from "../OUpload/OUpload";
 import { useForm } from "react-hook-form";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import OModalTitle from "../OModal/OModalTitle";
-import OModalTopNav from "../OModal/OModalTopNav";
 import OModalForm from "../OModal/OModalForm";
-type Props = {
-  musicTokenId?: bigint;
-  color: "blue" | "yellow" | "gray";
-  text?: string;
-};
-const MintSongButton: React.FC<Props> = (p) => {
+
+const MintSongButton: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const { data: walletClient } = useWalletClient();

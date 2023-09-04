@@ -34,7 +34,7 @@ export const AdList: React.FC = () => {
                 artworkUrl: deToHttps(artwork.uri),
                 contractAddr: MusicNFTAddr,
                 musicUrl: e.token.musicNFT.assetUri,
-                title: title,
+                title: title ?? "....",
                 tokenId: e.token.musicNFT.id,
                 owner: "TODO",
               });

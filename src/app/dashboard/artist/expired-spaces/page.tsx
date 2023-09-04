@@ -57,13 +57,7 @@ const ExpiredSpaces = () => {
               onBtnClick={() => {
                 // unList(itemId);
               }}
-              CustomButton={
-                <MintSongButton
-                  color="yellow"
-                  text="Renew Space"
-                  musicTokenId={BigInt(advNfts[0].musicNFT.id)}
-                />
-              }
+              CustomButton={<MintSongButton />}
               // isLoading={currentUnListings.includes(itemId)}
               price={advNfts[0].marketItems[0].price}
               key={advNfts[0].musicNFT.id}

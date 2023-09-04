@@ -74,6 +74,7 @@ const ListButton: React.FC<{ adTokenId: bigint }> = (p) => {
             <OModalTopNav>List Adspace</OModalTopNav>
 
             <OInput
+              displayType="fill"
               label="Adspace price"
               required
               placeholder="0.0001 MATIC"

@@ -37,7 +37,7 @@ const DashboardLayout: React.FC<React.PropsWithChildren> = (p) => {
               <p className="my-3">Active spaces</p>
             </SmartLink>
           </div>
-          <MintSongButton color="gray" />
+          <MintSongButton />
         </div>
         <div className="bg-gray-100 dark:bg-[#121212] pl-10 h-full overflow-scroll w-full">
           {p.children}

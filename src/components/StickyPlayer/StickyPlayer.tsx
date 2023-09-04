@@ -6,6 +6,7 @@ import { StickyPlayerProps } from "./StickyPlayer.types";
 import Image from "next/image";
 import { AppWalletContext } from "@/context/AppWallet";
 import { PremToggleSub } from "@/subs/PremiumToggleSub";
+import { transferAmount } from "@/services/backend/axios";
 
 // COMPONENT
 const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
@@ -37,24 +38,23 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
   };
   const update_stream = async () => {
     if (musicNft && appContext.wallet && appContext.superfluid) {
-      const fusdcx = await appContext.superfluid?.loadSuperToken("fUSDCx");
+      // const fusdcx = await appContext.superfluid?.loadSuperToken("fUSDCx");
 
       if (isPlaying) {
         if (musicNft.owner.toLowerCase() == sender.toLowerCase()) return;
         await stop_stream();
         //TODO precheck the balances
         try {
-          const op = fusdcx?.createFlow({
-            flowRate: "1500000000000000",
-            receiver: musicNft.owner,
-            sender: appContext.wallet.address,
-          });
-
-          const superSigner = appContext.superfluid.createSigner({
-            signer: appContext.wallet,
-          });
-          setSender(musicNft.owner);
-          await op?.exec(superSigner);
+          // const op = fusdcx?.createFlow({
+          //   flowRate: "1500000000000000",
+          //   receiver: musicNft.owner,
+          //   sender: appContext.wallet.address,
+          // });
+          // const superSigner = appContext.superfluid.createSigner({
+          //   signer: appContext.wallet,
+          // });
+          // setSender(musicNft.owner);
+          // await op?.exec(superSigner);
         } catch (error) {
           setIsPremium(false);
           PremToggleSub.next(false);
@@ -138,6 +138,12 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [musicNft]);
 
+  useEffect(() => {
+    if (isPremium && appContext.wallet && musicNft) {
+      transferAmount(appContext.wallet.address, musicNft.owner, 0.0015);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [audioTime.currentTime]);
   return (
     <div
       className={`fixed flex left-0 bottom-0 dark:bg-gray-800 bg-white p-2 z-10 w-full items-center duration-300 spring-heavy pb-8 ${
