@@ -2,11 +2,13 @@
 import styled from "styled-components";
 import Image from "next/image";
 import React, { useState } from "react";
+import { Platform } from "@/types/Platform";
 type Props = {
   onPlaySong: () => void;
   coverArt?: string;
   title: string;
   artist: string;
+  platform?: { url: string; name: Platform };
   isCurrentPlaying: boolean;
   customBtn?: React.ReactNode;
   viewOn?: { url: string; name: string };
@@ -41,12 +43,12 @@ const SongListItemUI = ({
   coverArt,
   artist,
   title,
+  platform,
   isCurrentPlaying,
   customBtn,
   viewOn,
 }: Props) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-
   return (
     <div className="m-2 w-60 md:w-48 lg:w-60">
       <SongListItemUIStyled
@@ -94,9 +96,13 @@ const SongListItemUI = ({
                 </p>
               </a>
             )}
-            <a href="https://www.sound.xyz/harrywashere/started-with">
-              <p className="text-[#2D5F8A] mt-3 mb-1">View on Sound</p>
-            </a>
+            {platform && (
+              <a href={platform.url}>
+                <p className="text-[#2D5F8A] mt-3 mb-1">
+                  View on {platform.name}
+                </p>
+              </a>
+            )}
           </div>
         </div>
       </SongListItemUIStyled>

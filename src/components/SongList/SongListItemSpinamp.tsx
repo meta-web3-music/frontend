@@ -1,12 +1,14 @@
 "use client";
 import { MusicPlayerSub } from "../../subs/MusicPlayerSub";
 import React, { useEffect, useState } from "react";
-import { GetMyMusicQuery } from "@/graph-ql/queries/spinamp/__generated__/graphql";
 import { Metadata } from "@/graph-ql/queries/spinamp/GET_MY_MUSIC/types";
 import { deToHttps } from "@/services/de-storage/fetchDe";
 import SongListItemUI from "./SongListItemUI";
+import { getPlatformUrl } from "@/services/platform/geturl";
+import { Network, Platform } from "@/types/Platform";
+import { SpinampMusicNft } from "@/types/spinamp";
 type Props = {
-  musicNft: NonNullable<NonNullable<GetMyMusicQuery["allNfts"]>["nodes"][0]>;
+  musicNft: SpinampMusicNft;
   onPlaySong: () => void;
   customBtn?: React.ReactNode;
 };
@@ -27,15 +29,55 @@ const SongListItemSpinamp = ({ musicNft, onPlaySong, customBtn }: Props) => {
     });
   }, [musicNft]);
   const getImageSrc = (): string => {
-    if (!metadata.artwork) return "";
-    const artWorkUri = metadata.artwork.uri;
+    const artWorkUri = metadata?.artwork?.uri ?? metadata.image;
+    if (!artWorkUri) return "";
     const httpsURL = deToHttps(artWorkUri ?? "");
     return httpsURL;
   };
 
+  const [platformUrl, setPlatformUrl] = useState("");
+
+  useEffect(() => {
+    if (
+      musicNft.platformId &&
+      musicNft.chainId &&
+      (metadata.artist ||
+        musicNft.artistsNftsByNftId.nodes[0]?.artistByArtistId?.name) &&
+      musicNft.nftsProcessedTracksByNftId.nodes[0]?.platformInternalId &&
+      (metadata.title || metadata.name)
+    ) {
+      const _platformUrl = getPlatformUrl(
+        musicNft.platformId as Platform,
+        metadata.artist ??
+          musicNft.artistsNftsByNftId.nodes[0]?.artistByArtistId?.name ??
+          "....",
+        (metadata.title ?? metadata.name) as string,
+        musicNft.chainId as Network,
+        musicNft.nftsProcessedTracksByNftId.nodes[0]?.platformInternalId
+      );
+      if (_platformUrl) setPlatformUrl(_platformUrl);
+    }
+  }, [metadata, musicNft]);
   return (
     <SongListItemUI
-      artist={metadata.artist ?? "...."}
+      platform={
+        musicNft.platformId &&
+        (metadata.artist ||
+          musicNft.artistsNftsByNftId.nodes[0]?.artistByArtistId?.name) &&
+        musicNft.nftsProcessedTracksByNftId.nodes[0]?.platformInternalId &&
+        platformUrl &&
+        (metadata.title || metadata.name)
+          ? {
+              name: musicNft.platformId as Platform,
+              url: platformUrl,
+            }
+          : undefined
+      }
+      artist={
+        metadata.artist ??
+        musicNft.artistsNftsByNftId.nodes[0]?.artistByArtistId?.name ??
+        "...."
+      }
       title={metadata.title ?? metadata.name ?? "...."}
       coverArt={getImageSrc()}
       onPlaySong={onPlaySong}
