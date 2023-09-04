@@ -7,6 +7,7 @@ export const getPlatformUrl = (platform: Platform, artist: string, title: string
             .join("-")}/${title
                 .replace("(", "")
                 .replace(")", "")
+                .replace("!", "-")
                 .split(" ")
                 .join("-")}`
     } else if (platform == "zora") {
@@ -24,6 +25,7 @@ export const getPlatformUrl = (platform: Platform, artist: string, title: string
                 .replace(" [", "-")
                 .replace("] ", "-")
                 .replace("]", "-")
+                .replace("!", "-")
                 .split(" ")
                 .join("-")}`
     }
