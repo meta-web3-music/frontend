@@ -146,7 +146,12 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
   }, [musicNft]);
 
   useEffect(() => {
-    if (isPremium && appContext.wallet && musicNft) {
+    if (
+      isPremium &&
+      appContext.wallet &&
+      musicNft &&
+      !musicNft.disableStreaming
+    ) {
       transferAmount(appContext.wallet.address, musicNft.owner, 0.0015);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
