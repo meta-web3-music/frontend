@@ -136,6 +136,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
     }
   }, [isPremium]);
   useEffect(() => {
+    if (!musicNft) return;
     if (isPremium || plays != 0) {
       setIsPlayingAd(false);
     } else setIsPlayingAd(true);

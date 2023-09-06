@@ -72,14 +72,8 @@ const Account = () => {
     }
   };
 
-  const { data: myMusicSpinamp, refetch: refetchSpinamp } = useQuery(
-    GET_MY_MUSIC_SPINAMP,
-    {
-      variables: {
-        owner: "0x26ef03a20aaeda8aafcee4e146dc6b328195947c",
-      },
-    }
-  );
+  const { data: myMusicSpinamp, refetch: refetchSpinamp } =
+    useQuery(GET_MY_MUSIC_SPINAMP);
 
   const { data: myMusic, refetch } = useQuery(GET_MY_MUSIC, {
     variables: {
@@ -93,14 +87,11 @@ const Account = () => {
   });
   useEffect(() => {
     refetch();
-    refetchSpinamp();
+    refetchSpinamp({ owner: "0x26ef03a20aaeda8aafcee4e146dc6b328195947c" });
   }, [walletClient, refetchSpinamp, refetch]);
 
   const [inbuildBalance, setInbuildBalance] = useState<string>();
   const [browserBalance, setBrowserBalance] = useState<string>();
-  useEffect(() => {
-    // USDCxWalletBalanceSub.subscribe(setBalance);
-  }, []);
 
   useEffect(() => {
     setInterval(() => {
@@ -141,29 +132,93 @@ const Account = () => {
       </div>
 
       <div className="flex flex-wrap pt-1 mb-4 items-start h-[60vh] overflow-y-scroll">
-        {myMusicSpinamp?.allProcessedTracks?.nodes
-          .map(
-            (e) => e?.nftsProcessedTracksByProcessedTrackId.nodes[0]?.nftByNftId
-          )
-          .map((e) => {
+        {!walletClient && <p className="ml-2 mt-4">Connect Wallet</p>}
+        {walletClient &&
+          myMusicSpinamp?.allProcessedTracks?.nodes
+            .map(
+              (e) =>
+                e?.nftsProcessedTracksByProcessedTrackId.nodes[0]?.nftByNftId
+            )
+            .map((e) => {
+              if (!e) return <></>;
+              return (
+                <SongListItemSpinamp
+                  key={e.id}
+                  musicNft={e}
+                  onPlaySong={() => {
+                    handlePlaySongSpinamp(e);
+                  }}
+                  customBtn={
+                    <AccountListBtn
+                      monetizeId={BigInt(
+                        myListedMusic?.octaveTokens.find((ele) => {
+                          if (!e.contractAddress || !e.tokenId) return false;
+                          return (
+                            (ele.musicNftAddr as string).toLowerCase() ==
+                              e.contractAddress.toLowerCase() &&
+                            (ele.musicNftTokenId as string).toLowerCase() ==
+                              e.tokenId.toLowerCase()
+                          );
+                        })?.id ?? "-1"
+                      )}
+                      onList={() => {
+                        //TODO error
+                        if (
+                          !walletClient ||
+                          !publicClient ||
+                          !e.contractAddress ||
+                          !e.tokenId ||
+                          !e.tokenUri
+                        )
+                          return;
+                        monetize(
+                          e.contractAddress,
+                          BigInt(e.tokenId),
+                          e.tokenUri,
+                          e.platformId ?? "",
+                          e.chainId ?? "",
+                          e.nftsProcessedTracksByNftId.nodes[0]
+                            ?.platformInternalId ?? "",
+                          publicClient,
+                          walletClient
+                        );
+                      }}
+                      onUnlist={(monetizeId) => {
+                        if (
+                          !walletClient ||
+                          !publicClient ||
+                          !e.contractAddress ||
+                          !e.tokenId ||
+                          !e.tokenUri
+                        )
+                          return;
+                        unmonetize(monetizeId, publicClient, walletClient);
+                      }}
+                    />
+                  }
+                />
+              );
+            })}
+        {walletClient &&
+          myMusic?.musicTokens?.map((e) => {
             if (!e) return <></>;
             return (
-              <SongListItemSpinamp
+              <SongListItemMusicNFT
                 key={e.id}
                 musicNft={e}
                 onPlaySong={() => {
-                  handlePlaySongSpinamp(e);
+                  handlePlaySong(e);
                 }}
                 customBtn={
                   <AccountListBtn
                     monetizeId={BigInt(
                       myListedMusic?.octaveTokens.find((ele) => {
-                        if (!e.contractAddress || !e.tokenId) return false;
+                        if (!e.id) return false;
                         return (
                           (ele.musicNftAddr as string).toLowerCase() ==
-                            e.contractAddress.toLowerCase() &&
+                            MusicNFTAddr.toLowerCase() &&
                           (ele.musicNftTokenId as string).toLowerCase() ==
-                            e.tokenId.toLowerCase()
+                            e.id.toLowerCase()
                         );
                       })?.id ?? "-1"
                     )}
@@ -172,32 +227,23 @@ const Account = () => {
                       if (
                         !walletClient ||
                         !publicClient ||
-                        !e.contractAddress ||
-                        !e.tokenId ||
+                        !e.id ||
                         !e.tokenUri
                       )
                         return;
                       monetize(
-                        e.contractAddress,
-                        BigInt(e.tokenId),
+                        MusicNFTAddr,
+                        BigInt(e.id),
                         e.tokenUri,
-                        e.platformId ?? "",
-                        e.chainId ?? "",
-                        e.nftsProcessedTracksByNftId.nodes[0]
-                          ?.platformInternalId ?? "",
+                        "octav3",
+                        "mumbai",
+                        "",
                         publicClient,
                         walletClient
                       );
                     }}
                     onUnlist={(monetizeId) => {
-                      if (
-                        !walletClient ||
-                        !publicClient ||
-                        !e.contractAddress ||
-                        !e.tokenId ||
-                        !e.tokenUri
-                      )
-                        return;
+                      if (!walletClient || !publicClient || !e.id) return;
                       unmonetize(monetizeId, publicClient, walletClient);
                     }}
                   />
@@ -205,53 +251,7 @@ const Account = () => {
               />
             );
           })}
-        {myMusic?.musicTokens?.map((e) => {
-          if (!e) return <></>;
-          return (
-            <SongListItemMusicNFT
-              key={e.id}
-              musicNft={e}
-              onPlaySong={() => {
-                handlePlaySong(e);
-              }}
-              customBtn={
-                <AccountListBtn
-                  monetizeId={BigInt(
-                    myListedMusic?.octaveTokens.find((ele) => {
-                      if (!e.id) return false;
-                      return (
-                        (ele.musicNftAddr as string).toLowerCase() ==
-                          MusicNFTAddr.toLowerCase() &&
-                        (ele.musicNftTokenId as string).toLowerCase() ==
-                          e.id.toLowerCase()
-                      );
-                    })?.id ?? "-1"
-                  )}
-                  onList={() => {
-                    //TODO error
-                    if (!walletClient || !publicClient || !e.id || !e.tokenUri)
-                      return;
-                    monetize(
-                      MusicNFTAddr,
-                      BigInt(e.id),
-                      e.tokenUri,
-                      "octav3",
-                      "mumbai",
-                      "",
-                      publicClient,
-                      walletClient
-                    );
-                  }}
-                  onUnlist={(monetizeId) => {
-                    if (!walletClient || !publicClient || !e.id) return;
-                    unmonetize(monetizeId, publicClient, walletClient);
-                  }}
-                />
-              }
-            />
-          );
-        })}
-        <MintSongButton />
+        {walletClient && <MintSongButton />}
       </div>
     </div>
   );

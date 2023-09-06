@@ -6,7 +6,7 @@ import Spinner from "../Spinner/Spinner";
 
 type Props = {
   isLoading?: boolean;
-  color: "blue" | "yellow" | "gray";
+  $color: "blue" | "yellow" | "gray";
   btnType: "outline" | "fill";
 };
 
@@ -27,21 +27,21 @@ const textColors = {
   gray: ["black", "black"],
 };
 const StyledButton = styled.button<{
-  color: string;
-  borderColor?: string;
-  textColor: string;
+  $color: string;
+  $borderColor?: string;
+  $textColor: string;
 }>`
-  border: 2px solid ${(p) => (p.borderColor ? p.borderColor : "transparent")};
-  color: ${(p) => p.textColor};
+  border: 2px solid ${(p) => (p.$borderColor ? p.$borderColor : "transparent")};
+  color: ${(p) => p.$textColor};
   &.bg {
-    background-color: ${(p) => (p.borderColor ? "transparent" : p.color)};
+    background-color: ${(p) => (p.$borderColor ? "transparent" : p.$color)};
   }
   &:hover {
-    box-shadow: 0px 0px 14px -2px ${(p) => (p.borderColor ? p.borderColor : p.color)};
+    box-shadow: 0px 0px 14px -2px ${(p) => (p.$borderColor ? p.$borderColor : p.color)};
   }
 
   &:focus-visible {
-    box-shadow: 0px 0px 14px -2px ${(p) => (p.borderColor ? p.borderColor : p.color)};
+    box-shadow: 0px 0px 14px -2px ${(p) => (p.$borderColor ? p.$borderColor : p.color)};
   }
 
   &:disabled {
@@ -58,16 +58,16 @@ const StyledButton = styled.button<{
 `;
 const OButton: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement> & Props
-> = ({ isLoading, color, btnType, disabled, ...p }) => {
+> = ({ isLoading, $color: color, btnType, disabled, ...p }) => {
   const { resolvedTheme } = useTheme();
 
   return (
     <StyledButton
-      borderColor={btnType == "outline" ? borderColors[color][0] : ""}
-      color={resolvedTheme == "dark" ? colors[color][1] : colors[color][0]}
+      $borderColor={btnType == "outline" ? borderColors[color][0] : ""}
+      $color={resolvedTheme == "dark" ? colors[color][1] : colors[color][0]}
       type="button"
       {...p}
-      textColor={
+      $textColor={
         resolvedTheme == "dark" ? textColors[color][1] : textColors[color][0]
       }
       className={`rounded-md px-4 py-1 text-md flex items-center justify-center 

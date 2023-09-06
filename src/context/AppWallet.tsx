@@ -2,10 +2,8 @@ import { Wallet, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { polygonMumbai } from "viem/chains";
 import { Framework } from "@superfluid-finance/sdk-core";
-import { USDCxWalletBalanceSub } from "@/subs/WalletBalanceSub";
 import { GET_MY_STREAMS } from "@/graph-ql/queries/superfluid/GET_MY_STREAMS/getMyStreams";
 import { useQuery } from "@apollo/client";
-import { useWalletClient } from "wagmi";
 
 type AppWalletContextType = {
   wallet: Wallet | undefined;
@@ -50,58 +48,11 @@ export function AppWallet(props: React.PropsWithChildren) {
     setSuperfluid(sf);
   };
 
-  const { data: browserW } = useWalletClient();
   useEffect(() => {
     initSuperfluid();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const update_balance = async () => {
-    if (superfluid && inbuiltWallet) {
-      const fusdcx = await superfluid.loadSuperToken("fUSDCx");
-      const inbuiltWBalance = await fusdcx.balanceOf({
-        account: inbuiltWallet.address,
-        providerOrSigner: provider,
-      });
-      let browserWBal = "";
-      if (browserW)
-        browserWBal = await fusdcx.balanceOf({
-          account: browserW.account.address,
-          providerOrSigner: provider,
-        });
-
-      USDCxWalletBalanceSub.next([
-        (+inbuiltWBalance / 10 ** 18).toString(),
-        (+browserWBal / 10 ** 18).toString(),
-      ]);
-      setInterval(async () => {
-        try {
-          const b = await fusdcx.balanceOf({
-            account: inbuiltWallet.address,
-            providerOrSigner: provider,
-          });
-          let _browserWBal = "";
-
-          if (browserW)
-            _browserWBal = await fusdcx.balanceOf({
-              account: browserW.account.address,
-              providerOrSigner: provider,
-            });
-          USDCxWalletBalanceSub.next([
-            (+b / 10 ** 18).toString(),
-            (+_browserWBal / 10 ** 18).toString(),
-          ]);
-        } catch (error) {
-          console.log("failed to update balance");
-          console.log(error);
-        }
-      }, 2000);
-    }
-  };
-  useEffect(() => {
-    update_balance();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [superfluid]);
   useEffect(() => {
     if (inbuiltWallet) {
       refetchStreams({ owner: inbuiltWallet.address.toLowerCase() });

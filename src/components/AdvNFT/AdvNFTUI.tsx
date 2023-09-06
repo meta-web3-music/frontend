@@ -80,7 +80,7 @@ const AdvNFTUI: React.FC<AdvNFTUIProps> = ({
         {buttonText && btnType && (
           <OButton
             disabled={disabled}
-            color="yellow"
+            $color="yellow"
             isLoading={isLoading}
             className="self-stretch"
             btnType={btnType}

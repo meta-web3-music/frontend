@@ -138,7 +138,7 @@ const MintSongButton: React.FC = () => {
               <div className="flex">
                 <OButton
                   btnType="fill"
-                  color="gray"
+                  $color="gray"
                   isLoading={false}
                   className="mt-1 inline-flex w-1/2 py-3 mb-4 mr-4"
                   onClick={handleOnCancel}
@@ -147,7 +147,7 @@ const MintSongButton: React.FC = () => {
                 </OButton>
                 <OButton
                   btnType="fill"
-                  color="yellow"
+                  $color="yellow"
                   isLoading={isMinting}
                   className="mt-1 inline-flex w-1/2 py-3 mb-4"
                   type="submit"

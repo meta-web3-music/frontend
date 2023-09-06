@@ -64,7 +64,7 @@ const RentSpaceButton: React.FC<Props> = (p) => {
         onClick={() =>
           isConnected ? setShowModal(true) : openConnectModal?.()
         }
-        color="yellow"
+        $color="yellow"
         btnType="outline"
         className="w-full"
       >
@@ -127,7 +127,7 @@ const RentSpaceButton: React.FC<Props> = (p) => {
               <div className="flex">
                 <OButton
                   btnType="fill"
-                  color="gray"
+                  $color="gray"
                   isLoading={false}
                   className="mt-1 inline-flex w-1/2 py-3 mb-4 mr-4"
                   onClick={handleOnCancel}
@@ -136,7 +136,7 @@ const RentSpaceButton: React.FC<Props> = (p) => {
                 </OButton>
                 <OButton
                   btnType="fill"
-                  color="yellow"
+                  $color="yellow"
                   isLoading={isMinting}
                   className="mt-1 inline-flex w-1/2 py-3 mb-4"
                   type="submit"

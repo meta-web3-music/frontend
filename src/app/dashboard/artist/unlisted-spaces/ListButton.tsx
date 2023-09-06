@@ -61,7 +61,7 @@ const ListButton: React.FC<{ adTokenId: bigint }> = (p) => {
         onClick={() =>
           isConnected ? setShowModal(true) : openConnectModal?.()
         }
-        color="yellow"
+        $color="yellow"
         btnType="fill"
         className="w-full"
       >
@@ -90,7 +90,7 @@ const ListButton: React.FC<{ adTokenId: bigint }> = (p) => {
               <div className="flex">
                 <OButton
                   btnType="fill"
-                  color="gray"
+                  $color="gray"
                   isLoading={false}
                   className="mt-1 inline-flex w-1/2 py-3 mb-4 mr-4"
                   onClick={handleOnCancel}
@@ -99,7 +99,7 @@ const ListButton: React.FC<{ adTokenId: bigint }> = (p) => {
                 </OButton>
                 <OButton
                   btnType="fill"
-                  color="yellow"
+                  $color="yellow"
                   isLoading={isMinting}
                   className="mt-1 inline-flex w-1/2 py-3 mb-4"
                   type="submit"

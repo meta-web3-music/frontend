@@ -13,7 +13,7 @@ const AccountListBtn = ({
 }) => {
   return (
     <OButton
-      color={(monetizeId ?? -1) > -1 ? "gray" : "yellow"}
+      $color={(monetizeId ?? -1) > -1 ? "gray" : "yellow"}
       btnType="fill"
       className="w-full mt-2"
       onClick={() => {
