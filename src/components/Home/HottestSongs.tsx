@@ -27,15 +27,19 @@ const HottestSongs: React.FC = () => {
   const [selectedSong, setSelectedSong] =
     useState<GetAllMusicQuery["octaveTokens"][0]>();
   const [currentAd, setCurrentAd] = useState(0);
-
+  const [plays, setPlays] = useState(0);
   const handlePlaySong = async (
     musicNft: GetAllMusicQuery["octaveTokens"][0]
   ) => {
     const metadata = await fetchDe<MusicNftMetaData>(musicNft.tokenUri);
     if (!metadata) return;
     const { artist, artwork, title, image } = metadata;
-    const nextAd = (currentAd + 1) % 4;
-    setCurrentAd(nextAd);
+    let adindex: number = currentAd;
+    if (plays == 0) {
+      adindex = (currentAd + 1) % 4;
+      setCurrentAd(adindex);
+    }
+    setPlays((plays + 1) % 4);
 
     MusicPlayerSub.next({
       artist,
@@ -44,7 +48,7 @@ const HottestSongs: React.FC = () => {
       musicUrl: deToHttps(metadata.animation_url),
       title: title ?? "",
       tokenId: musicNft.musicNftTokenId,
-      adDetails: advs[nextAd],
+      adDetails: advs[adindex],
       owner: musicNft.owner,
     });
     setSelectedSong(musicNft);
@@ -53,7 +57,7 @@ const HottestSongs: React.FC = () => {
   const memoizedSongList = useMemo(
     () => <SongList playSong={handlePlaySong} />,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentAd]
+    [currentAd, plays]
   );
   const [isPremium, setIsPremium] = useState(false);
 
@@ -68,7 +72,7 @@ const HottestSongs: React.FC = () => {
         <p className="text-4xl font-bold mb-10 text-[#000000cc] dark:text-white">
           Songs
         </p>
-        {selectedSong && !isPremium && (
+        {selectedSong && !isPremium && plays == 1 && (
           <AdBanner
             image={`images/${advs[currentAd][0]}.png`}
             website={`https://${advs[currentAd][1]}`}

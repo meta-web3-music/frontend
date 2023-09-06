@@ -12,9 +12,14 @@ import { transferAmount } from "@/services/backend/axios";
 const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
   const appContext = useContext(AppWalletContext);
   const adv = musicNft?.adDetails;
-
+  const [plays, setPlays] = useState(0);
   const [isPremium, setIsPremium] = useState(false);
 
+  useEffect(() => {
+    if (musicNft) {
+      setPlays((e) => (e + 1) % 4);
+    }
+  }, [musicNft]);
   useEffect(() => {
     PremToggleSub.subscribe((e) => {
       setIsPremium(e);
@@ -131,8 +136,9 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
     }
   }, [isPremium]);
   useEffect(() => {
-    if (isPremium) setIsPlayingAd(false);
-    else setIsPlayingAd(true);
+    if (isPremium || plays != 0) {
+      setIsPlayingAd(false);
+    } else setIsPlayingAd(true);
     setIsPlaying(true);
     audioRef.current?.play();
     // eslint-disable-next-line react-hooks/exhaustive-deps
