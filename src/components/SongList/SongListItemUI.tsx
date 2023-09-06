@@ -67,6 +67,7 @@ const SongListItemUI = ({
           ></div>
           {coverArt && (
             <Image
+              loading="eager"
               className="object-cover artwork duration-200"
               src={coverArt}
               alt={`Artwork for ${title}`}

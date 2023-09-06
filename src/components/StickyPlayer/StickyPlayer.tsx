@@ -169,6 +169,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
         <div className="h-20 w-24 relative justify-self-center mx-5">
           {musicNft?.artworkUrl && (
             <Image
+              loading="eager"
               className="!h-[82%] w-full m-auto rounded-md"
               src={
                 isPlayingAd && adv
