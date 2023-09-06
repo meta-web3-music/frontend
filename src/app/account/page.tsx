@@ -50,6 +50,7 @@ const Account = () => {
         title: metadata.title ?? ".....",
         tokenId: musicNft?.tokenId ?? ".....",
         owner: walletClient.account.address,
+        disableStreaming: true,
       });
     }
   };
@@ -68,6 +69,7 @@ const Account = () => {
         title: metadata.title ?? ".....",
         tokenId: musicNft?.id ?? ".....",
         owner: walletClient.account.address,
+        disableStreaming: true,
       });
     }
   };

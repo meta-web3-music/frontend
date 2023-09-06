@@ -243,18 +243,20 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
           <p className="my-0 mx-2">{getTime(audioTime.duration)}</p>
         </div>
       </div>
-      <div className="flex ml-auto justify-center">
-        <p className="mr-2">$0.0015/sec</p>
-        <label className="switch mr-2">
-          <input
-            type="checkbox"
-            checked={isPremium}
-            onChange={(e) => PremToggleSub.next(e.target.checked)}
-          ></input>
-          <span className="slider round"></span>
-        </label>
-        <p className="mr-2 text-[#00000066;]">paying per second</p>
-      </div>
+      {!musicNft?.disableStreaming && (
+        <div className="flex ml-auto justify-center">
+          <p className="mr-2">$0.0015/sec</p>
+          <label className="switch mr-2">
+            <input
+              type="checkbox"
+              checked={isPremium}
+              onChange={(e) => PremToggleSub.next(e.target.checked)}
+            ></input>
+            <span className="slider round"></span>
+          </label>
+          <p className="mr-2 text-[#00000066;]">paying per second</p>
+        </div>
+      )}
     </div>
   );
 };

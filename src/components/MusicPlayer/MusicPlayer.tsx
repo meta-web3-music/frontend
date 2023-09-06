@@ -12,6 +12,7 @@ export type TMusicPlayer_MusicNft = {
   tokenId: string;
   adDetails?: [string, string, string];
   owner: string;
+  disableStreaming?: boolean;
 };
 function MusicPlayer() {
   const [music, setMusicNft] = useState<TMusicPlayer_MusicNft>();
