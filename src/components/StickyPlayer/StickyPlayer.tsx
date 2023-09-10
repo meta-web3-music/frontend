@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, ChangeEvent } from "react";
 
 // type imports
 import { StickyPlayerProps } from "./StickyPlayer.types";
@@ -14,6 +14,8 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
   const adv = musicNft?.adDetails;
   const [plays, setPlays] = useState(0);
   const [isPremium, setIsPremium] = useState(false);
+  const [volume, setVolume] = useState(50);
+  const [seekValue, setSeekValue] = useState(0);
 
   useEffect(() => {
     if (musicNft) {
@@ -88,6 +90,21 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
     audioRef.current?.pause();
   };
 
+  const adjustVolume = (e: ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseInt(e.target.value);
+    setVolume(newVolume);
+    audioRef.current!.volume = newVolume / 100;
+  };
+
+  const handleSeek = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value);
+    setSeekValue(newValue);
+  };
+
+  const handleSeekEnd = () => {
+    const seekTime = (seekValue / 100) * audioTime.duration;
+    audioRef.current!.currentTime = seekTime;
+  };
   const getTime = (s: number): string => {
     if (!s) return "0:00";
 
@@ -234,18 +251,35 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
         <div className="flex items-center">
           <p className="my-0 mx-2">{getTime(audioTime.currentTime)}</p>
 
-          <div className="relative  w-36">
-            <div className="w-36 h-1 absolute opacity-0" />
-            <div
-              className="bg-[#F3EA01] h-1 rounded-lg absolute z-10"
+          <div className="relative w-36">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={seekValue}
+              onChange={handleSeek}
+              onMouseUp={handleSeekEnd}
+              className="w-full h-1 appearance-none rounded-lg thumb-black"
               style={{
-                width: (audioTime.currentTime / audioTime.duration) * 100 + "%",
+                background: `linear-gradient(to right, #F3EA01 ${seekValue}%, #D9D9D9 ${seekValue}%)`,
               }}
             />
-            <div className="bg-[#D9D9D9] w-full h-1 rounded-lg absolute" />
           </div>
 
           <p className="my-0 mx-2">{getTime(audioTime.duration)}</p>
+          <div className="ml-4">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={adjustVolume}
+              className="w-16 h-1 appearance-none rounded-lg"
+              style={{
+                background: `linear-gradient(to right, #F3EA01 ${volume}%, #D9D9D9 ${volume}%)`,
+              }}
+            />
+          </div>
         </div>
       </div>
       {!musicNft?.disableStreaming && (
