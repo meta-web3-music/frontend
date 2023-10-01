@@ -17,6 +17,7 @@ import React, { useEffect } from "react";
 import { usePublicClient, useWalletClient } from "wagmi";
 import AccountListBtn from "../AccountListBtn";
 import { unmonetize } from "@/services/smart-contract/unmonetize";
+import Link from "next/link";
 
 const Account = () => {
   const { data: walletClient } = useWalletClient();
@@ -97,6 +98,9 @@ const Account = () => {
       <div className="ml-2">
         <div className="flex mt-6">
           <p className="font-bold text-2xl">Music NFTs</p>
+          <Link className="text-2xl ml-auto" href="/account/">
+            <p>See less</p>
+          </Link>
         </div>
       </div>
 
