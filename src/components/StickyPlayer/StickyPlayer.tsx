@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, ChangeEvent } from "react";
 
 // type imports
 import { StickyPlayerProps } from "./StickyPlayer.types";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import { AppWalletContext } from "@/context/AppWallet";
 import { PremToggleSub } from "@/subs/PremiumToggleSub";
 import { transferAmount } from "@/services/backend/axios";
+import { StickyPlayerStyled } from "./StickyPlayerStyled";
 
 // COMPONENT
 const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
@@ -14,6 +15,8 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
   const adv = musicNft?.adDetails;
   const [plays, setPlays] = useState(0);
   const [isPremium, setIsPremium] = useState(false);
+  const [volume, setVolume] = useState(50);
+  const [seekValue, setSeekValue] = useState(0);
 
   useEffect(() => {
     if (musicNft) {
@@ -88,6 +91,28 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
     audioRef.current?.pause();
   };
 
+  const adjustVolume = (e: ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseInt(e.target.value);
+    setVolume(newVolume);
+    audioRef.current!.volume = newVolume / 100;
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseFloat(e.target.value);
+    setSeekValue(newValue);
+  };
+
+  const handleSeekEnd = () => {
+    const seekTime = (seekValue / 100) * audioTime.duration;
+    if (audioRef.current) {
+      audioRef.current.currentTime = seekTime;
+    }
+  };
+
+  useEffect(() => {
+    setSeekValue((audioTime.currentTime / audioTime.duration) * 100 || 0);
+  }, [musicNft, audioTime]);
+
   const getTime = (s: number): string => {
     if (!s) return "0:00";
 
@@ -157,7 +182,7 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioTime.currentTime]);
   return (
-    <div
+    <StickyPlayerStyled
       className={`fixed flex left-0 bottom-0 dark:bg-gray-800 bg-white p-2 z-10 w-full items-center duration-300 spring-heavy pb-8 ${
         !musicNft ? "translate-y-full" : "translate-y-8"
       }`}
@@ -234,20 +259,81 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
         <div className="flex items-center">
           <p className="my-0 mx-2">{getTime(audioTime.currentTime)}</p>
 
-          <div className="relative  w-36">
-            <div className="w-36 h-1 absolute opacity-0" />
-            <div
-              className="bg-[#F3EA01] h-1 rounded-lg absolute z-10"
-              style={{
-                width: (audioTime.currentTime / audioTime.duration) * 100 + "%",
-              }}
-            />
-            <div className="bg-[#D9D9D9] w-full h-1 rounded-lg absolute" />
+          {/*song bar*/}
+          <div className="relative w-36">
+            {!isPlayingAd ? (
+              <>
+                <div className="w-36 h-1 absolute opacity-100">
+                  <div
+                    className="bg-[#F3EA01] h-1 rounded-lg absolute z-10"
+                    style={{
+                      width:
+                        (audioTime.currentTime / audioTime.duration) * 100 +
+                        "%",
+                    }}
+                  />
+                  <div className="bg-[#D9D9D9] w-full h-1 rounded-lg absolute" />
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={seekValue}
+                  onChange={handleSeek}
+                  onMouseUp={handleSeekEnd}
+                  className="absolute z-20 w-36 h-1 rounded-lg cursor-pointer slider songbar"
+                  style={{
+                    top: "0",
+                    left: "0",
+                    appearance: "none",
+                    background: `linear-gradient(to right, #F3EA01 ${seekValue}%, #D9D9D9 ${seekValue}%)`,
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <div className="w-36 h-1 absolute opacity-0" />
+                <div
+                  className="bg-[#F3EA01] h-1 rounded-lg absolute z-10"
+                  style={{
+                    width:
+                      (audioTime.currentTime / audioTime.duration) * 100 + "%",
+                  }}
+                />
+                <div className="bg-[#D9D9D9] w-full h-1 rounded-lg absolute" />
+              </>
+            )}
           </div>
 
           <p className="my-0 mx-2">{getTime(audioTime.duration)}</p>
+
+          <span
+            className="iconify w-4 h-4 mt-1 ml-4 text-[#B2B2B2]"
+            data-icon="ic:baseline-volume-mute"
+          ></span>
+
+          {/*volume bar*/}
+          <div className="ml-1 relative w-16">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={adjustVolume}
+              className="w-16 h-1 appearance-none rounded-lg absolute slider volumebar"
+              style={{
+                background: `linear-gradient(to right, #777777 ${volume}%, #B2B2B2 ${volume}%)`,
+              }}
+            />
+          </div>
+
+          <span
+            className="iconify w-4 h-4 mt-1 ml-2 text-[#B2B2B2]"
+            data-icon="ic:baseline-volume-up"
+          ></span>
         </div>
       </div>
+
       {!musicNft?.disableStreaming && (
         <div className="flex ml-auto justify-center">
           <p className="mr-2">$0.0015/sec</p>
@@ -257,12 +343,12 @@ const StickyPlayer: React.FC<StickyPlayerProps> = ({ musicNft }) => {
               checked={isPremium}
               onChange={(e) => PremToggleSub.next(e.target.checked)}
             ></input>
-            <span className="slider round"></span>
+            <span className="on-off round"></span>
           </label>
-          <p className="mr-2 text-[#00000066;]">paying per second</p>
+          <p className="mr-2 text-[#00000066]">paying per second</p>
         </div>
       )}
-    </div>
+    </StickyPlayerStyled>
   );
 };
 
