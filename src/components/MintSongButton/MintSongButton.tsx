@@ -72,7 +72,7 @@ const MintSongButton: React.FC = () => {
         onClick={() =>
           isConnected ? setShowModal(true) : openConnectModal?.()
         }
-        className="flex justify-center items-center m-2 w-60 md:w-48 lg:w-60 h-80 border-[1px] border-solid border-[#00000026] text-[#00000026] text-[10rem] font-light rounded-md"
+        className="flex justify-center items-center m-2 w-60 md:w-48 lg:w-60 h-[18.5rem] border-[1px] border-solid border-[#00000026] text-[#00000026] text-[10rem] font-light rounded-md"
       >
         <span className="iconify" data-icon="ph:plus-thin"></span>
       </div>

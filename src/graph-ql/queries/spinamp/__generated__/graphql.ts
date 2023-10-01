@@ -1718,6 +1718,7 @@ export type IpfsFile = Node & {
   isAudio?: Maybe<Scalars['Boolean']['output']>;
   isImage?: Maybe<Scalars['Boolean']['output']>;
   isVideo?: Maybe<Scalars['Boolean']['output']>;
+  lastCacheWarmup?: Maybe<Scalars['Datetime']['output']>;
   lastRetry?: Maybe<Scalars['Datetime']['output']>;
   mimeType?: Maybe<Scalars['String']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -1740,6 +1741,8 @@ export type IpfsFileCondition = {
   isImage?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for equality with the object’s `isVideo` field. */
   isVideo?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Checks for equality with the object’s `lastCacheWarmup` field. */
+  lastCacheWarmup?: InputMaybe<Scalars['Datetime']['input']>;
   /** Checks for equality with the object’s `lastRetry` field. */
   lastRetry?: InputMaybe<Scalars['Datetime']['input']>;
   /** Checks for equality with the object’s `mimeType` field. */
@@ -1762,6 +1765,8 @@ export type IpfsFileFilter = {
   isImage?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `isVideo` field. */
   isVideo?: InputMaybe<BooleanFilter>;
+  /** Filter by the object’s `lastCacheWarmup` field. */
+  lastCacheWarmup?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `lastRetry` field. */
   lastRetry?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `mimeType` field. */
@@ -1808,6 +1813,8 @@ export enum IpfsFilesOrderBy {
   IsImageDesc = 'IS_IMAGE_DESC',
   IsVideoAsc = 'IS_VIDEO_ASC',
   IsVideoDesc = 'IS_VIDEO_DESC',
+  LastCacheWarmupAsc = 'LAST_CACHE_WARMUP_ASC',
+  LastCacheWarmupDesc = 'LAST_CACHE_WARMUP_DESC',
   LastRetryAsc = 'LAST_RETRY_ASC',
   LastRetryDesc = 'LAST_RETRY_DESC',
   MimeTypeAsc = 'MIME_TYPE_ASC',

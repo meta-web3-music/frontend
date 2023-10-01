@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --max-warnings 0",
-    "postinstall": "npm run codegen",
+    "postinstall": "cp -r hooks .git/ && npm run codegen",
     "codegen": "npm run graphql-gen",
     "graphql-gen": "graphql-codegen",
     "graphql-watch": "graphql-codegen -w"

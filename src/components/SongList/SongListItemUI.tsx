@@ -11,7 +11,6 @@ type Props = {
   platform?: { url: string; name: Platform };
   isCurrentPlaying: boolean;
   customBtn?: React.ReactNode;
-  viewOn?: { url: string; name: string };
 };
 
 const SongListItemUIStyled = styled.div`
@@ -46,7 +45,6 @@ const SongListItemUI = ({
   platform,
   isCurrentPlaying,
   customBtn,
-  viewOn,
 }: Props) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   return (
@@ -92,17 +90,18 @@ const SongListItemUI = ({
               {title}
             </p>
             <p className="m-0 text-xs text-[#00000099]">{artist}</p>
-            {viewOn && (
-              <a href={viewOn.url}>
-                <p className="text-[#2D5F8A] mt-3 mb-1">
-                  View on {viewOn.name}
-                </p>
-              </a>
-            )}
+
             {platform && (
               <a href={platform.url}>
                 <p className="text-[#2D5F8A] mt-3 mb-1">
                   View on {platform.name}
+                </p>
+              </a>
+            )}
+            {!platform && (
+              <a>
+                <p className="text-[#2D5F8A] mt-3 mb-1 opacity-0 cursor-none">
+                  View on Octav3
                 </p>
               </a>
             )}
